@@ -35,6 +35,14 @@ class ProjectManager(models.Model):
         return self.project_manager
 
 
+class SeniorManager(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False)
+    name = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.name
+
+
 class TypeOfTask(models.Model):
     id = models.UUIDField(primary_key=True, editable=False)
     task_name = models.CharField(max_length=250)
@@ -62,6 +70,7 @@ class Client(models.Model):
         on_delete=models.PROTECT
         )
     type_of_task = models.ForeignKey('TypeOfTask', on_delete=models.PROTECT)
+    senior_manager = models.ForeignKey('SeniorManager', on_delete=models.PROTECT)
     notes = models.TextField()
 
     def __str__(self):

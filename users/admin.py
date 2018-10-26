@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['first_name', 'last_name', 'email', 'date_of_birth',]
+    list_display = ['username', 'email', 'date_of_birth',]
     UserAdmin.fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'residential_address', 'date_of_birth', 'SSS_number', 'TIN_number', 'pag_ibig_number', 'philhealth', 'position', 'id_number', 'blood_type', 'mother_full_maiden_name', 'father_full_name', 'emergency_contact_name', 'emergency_contact_number', 'relationship_to_the_emergency_contact_person', 'notes', 'status')}),

@@ -4,6 +4,7 @@ from .models import (
     ClientName,
     Lead,
     ProjectManager,
+    SeniorManager,
     TypeOfTask,
     Client
     )
@@ -25,6 +26,7 @@ class ClientProfile(admin.ModelAdmin):
          'clients_count_number',
          'VA_assigned',
          'type_of_task',
+         'senior_manager',
          'notes'
          )
 
@@ -33,5 +35,6 @@ admin.site.register(CompanyCategory)
 admin.site.register(ClientName)
 admin.site.register(Lead)
 admin.site.register(ProjectManager)
+admin.site.register(SeniorManager)
 admin.site.register(TypeOfTask)
 admin.site.register(Client, ClientProfile)
