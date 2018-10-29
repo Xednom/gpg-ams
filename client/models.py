@@ -1,10 +1,10 @@
+import uuid
 from django.conf import settings
 from django.db import models
-from uuid import uuid4
 
 
 class CompanyCategory(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company_name = models.CharField(max_length=250)
 
     def __str__(self):
@@ -12,7 +12,7 @@ class CompanyCategory(models.Model):
 
 
 class ClientName(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     client_name = models.CharField(max_length=250)
 
     def __str__(self):
@@ -20,7 +20,7 @@ class ClientName(models.Model):
 
 
 class Lead(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     lead_source = models.CharField(max_length=250)
 
     def __str__(self):
@@ -28,7 +28,7 @@ class Lead(models.Model):
 
 
 class ProjectManager(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     project_manager = models.CharField(max_length=250)
 
     def __str__(self):
@@ -36,7 +36,7 @@ class ProjectManager(models.Model):
 
 
 class SeniorManager(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=250)
 
     def __str__(self):
@@ -44,7 +44,7 @@ class SeniorManager(models.Model):
 
 
 class TypeOfTask(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     task_name = models.CharField(max_length=250)
 
     def __str__(self):
@@ -52,7 +52,7 @@ class TypeOfTask(models.Model):
 
 
 class Client(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_sign_up = models.DateField()
     company_category_under = models.ForeignKey('CompanyCategory', on_delete=models.PROTECT)
     clients_company_name = models.CharField(max_length=250)

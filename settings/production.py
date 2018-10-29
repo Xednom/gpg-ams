@@ -4,6 +4,7 @@ Production use of settings
 
 import os
 from .base import *
+from .local import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,16 +28,16 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'users',
-    'client'
-]
+# INSTALLED_APPS = [
+    # 'django.contrib.admin',
+    # 'django.contrib.auth',
+    # 'django.contrib.contenttypes',
+    # 'django.contrib.sessions',
+    # 'django.contrib.messages',
+    # 'django.contrib.staticfiles',
+    # 'users',
+    # 'client'
+# ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
