@@ -28,4 +28,4 @@ class CustomUser(AbstractUser):
     status = models.CharField(max_length=100, choices=STATUS)
 
     def __str__(self):
-        return self.first_name
+        return self.first_name + ' ' + self.last_name
