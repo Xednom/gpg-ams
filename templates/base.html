@@ -10,6 +10,8 @@
     {% block title %}
     <title>SB Admin - 404 Error</title>
     {% endblock %}
+    {% load static %}
+    {% load staticfiles %}
     <!-- Bootstrap core CSS-->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -25,9 +27,10 @@
   </head>
 
   <body>
+    {% block nav %}
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-      <a class="navbar-brand mr-1" href="index.html">Start Bootstrap</a>
+      <a class="navbar-brand mr-1" href="#">GPG</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -85,6 +88,8 @@
       </ul>
 
     </nav>
+    {% endblock %}
+
     {% block content %}
     {% endblock %}
     <!-- Bootstrap core JavaScript-->

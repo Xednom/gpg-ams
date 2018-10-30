@@ -17,6 +17,7 @@ def get_secret(setting, secrets=secrets):
         error_msg = 'Set the {0} environment variable'.format(setting)
         raise ImproperlyConfigured(error_msg)
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -32,3 +33,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
