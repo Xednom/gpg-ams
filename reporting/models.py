@@ -1,6 +1,7 @@
 import uuid
 from django.conf import settings
 from django.db import models
+from client.models import ProjectManager
 
 
 class WeekToDate(models.Model):
@@ -64,6 +65,7 @@ class Report(models.Model):
         on_delete=models.PROTECT
     )
     hourly_rate = models.DecimalField(max_digits=5, decimal_places=2)
+    project_manager = models.ForeignKey('client.ProjectManager', on_delete=models.PROTECT)
     approval_from_project_manager = models.CharField(max_length=100, choices=APPROVAL_CHOICES)
     approval_of_admin = models.CharField(max_length=100, choices=APPROVAL_CHOICES)
 
