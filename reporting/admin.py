@@ -8,27 +8,47 @@ from .models import (
 
 
 class ReportingProfile(admin.ModelAdmin):
-    list_display = (
-        'shift_date',
-        'month_to_date',
-        'week_to_date',
-        'clients_full_name',
-        'title_of_job_request',
-        'job_requested_from',
-        'job_request_description',
-        'time_in',
-        'time_out',
-        'duration',
-        'total_items_finished',
-        'additional_comments',
-        'assigned_job_request_to',
-        'hourly_rate',
-        'approval_from_project_manager',
-        'approval_of_admin'
+    fieldsets = (
+        ('Date information', {
+            'fields': ('shift_date', 'month_to_date', 'week_to_date')
+        }),
+        ('Client job information', {
+            'fields': ('clients_full_name', 'title_of_job_request', 'job_requested_from', 'job_request_description',)
+        }),
+        ('Time allocated', {
+            'fields': ('time_in', 'time_out', 'duration', 'hourly_rate')
+        }),
+        ('Other informations', {
+            'fields': ('additional_comments', 'approval_from_project_manager', 'approval_of_admin')
+        })
     )
 
 
-admin.site.register(WeekToDate)
-admin.site.register(ClientName)
-admin.site.register(Job)
+class WeekToDateProfile(admin.ModelAdmin):
+    fieldsets = (
+        ('Work week durations', {
+            'fields': ('weeks',)
+        }),
+    )
+
+
+class JobProfile(admin.ModelAdmin):
+    fieldsets = (
+        ('Job information', {
+            'fields': ('job_name',)
+        }),
+    )
+
+
+class ClientNameProfile(admin.ModelAdmin):
+    fieldsets = (
+        ('Client information', {
+            'fields': ('name',)
+        }),
+    )
+
+
+admin.site.register(WeekToDate, WeekToDateProfile)
+admin.site.register(ClientName, ClientNameProfile)
+admin.site.register(Job, JobProfile)
 admin.site.register(Report, ReportingProfile)
