@@ -19,7 +19,7 @@ class ReportingProfile(admin.ModelAdmin):
             'fields': ('time_in', 'time_out', 'duration', 'hourly_rate')
         }),
         ('Other informations', {
-            'fields': ('additional_comments', 'approval_from_project_manager', 'approval_of_admin')
+            'fields': ('additional_comments', 'project_manager', 'approval_from_project_manager', 'approval_of_admin')
         })
     )
 
