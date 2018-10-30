@@ -13,6 +13,7 @@ class JobRequest(models.Model):
     date = models.DateField()
     due_date = models.DateField()
     client_code = models.CharField(max_length=250)
+    job_request_title = models.CharField(max_length=250, default='Give me a title later')
     job_request_sent_via = models.CharField(max_length=250)
     job_request_instruction = models.TextField()
     total_hours_minutes_allocated = models.DecimalField(max_digits=4, decimal_places=2)
