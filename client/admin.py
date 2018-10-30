@@ -11,24 +11,29 @@ from .models import (
 
 
 class ClientProfile(admin.ModelAdmin):
-    list_display = (
-        'date_sign_up',
-        'company_category_under',
-         'clients_company_name',
-         'agreed_hourly_rate',
-         'client',
-         'client_code',
-         'client_phone_number',
-         'client_email',
-         'lead_source',
-         'referred_by',
-         'clients_project_manager',
-         'clients_count_number',
-         'VA_assigned',
-         'type_of_task',
-         'senior_manager',
-         'notes'
-         )
+    fieldsets = (
+        (None, {
+            'fields': ('date_sign_up',)
+        }),
+        ('Client information', {
+            'fields': (
+                'company_category_under',
+                'clients_company_name',
+                'client',
+                'client_code',
+                'client_phone_number',
+                'client_email',
+                'clients_project_manager',
+                'clients_count_number',
+            )
+        }),
+        ('Hour rate agreed', {
+            'fields': ('agreed_hourly_rate',)
+        }),
+        ('G.P.G consultant informations', {
+            'fields': ('VA_assigned', 'type_of_task', 'senior_manager', 'notes')
+        })
+    )
 
 
 admin.site.register(CompanyCategory)
