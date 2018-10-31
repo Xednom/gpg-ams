@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class LoginView(AuthenticationForm, View):
@@ -37,8 +38,9 @@ class LogoutView(View):
         return redirect(reverse_lazy('users:login'))
 
 
-class HomeView(View):
+class HomeView(LoginRequiredMixin, View):
     template_name = 'index.html'
+    login_url = 'users:login'
 
     def get(self, request):
         return render(request, self.template_name)

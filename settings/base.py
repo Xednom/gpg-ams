@@ -18,6 +18,18 @@ def get_secret(setting, secrets=secrets):
         raise ImproperlyConfigured(error_msg)
 
 
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'gpg_ams.middleware.LoginRequiredMiddleware'
+]
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -37,4 +49,15 @@ TEMPLATES = [
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
+)
+
+
+LOGIN_REDIRECT_URL = 'users:home'
+
+LOGIN_URL = 'users:login'
+
+LOGIN_EXEMPT_URLS = (
+    'admin/',
+    'users:login',
+    'users:logout'
 )
