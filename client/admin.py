@@ -25,6 +25,7 @@ class ClientProfile(admin.ModelAdmin):
                 'client_email',
                 'clients_project_manager',
                 'clients_count_number',
+                'status',
             )
         }),
         ('Hour rate agreed', {

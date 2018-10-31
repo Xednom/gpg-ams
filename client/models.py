@@ -52,6 +52,11 @@ class TypeOfTask(models.Model):
 
 
 class Client(models.Model):
+    STATUS_CHOICES = (
+        ('ACTIVE', 'Active'),
+        ('INACTIVE', 'Inactive'),
+        ('NEW', 'New')
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_sign_up = models.DateField()
     company_category_under = models.ForeignKey('CompanyCategory', on_delete=models.PROTECT)
@@ -65,6 +70,7 @@ class Client(models.Model):
     referred_by = models.CharField(max_length=250)
     clients_project_manager = models.ForeignKey('ProjectManager', on_delete=models.PROTECT)
     clients_count_number = models.IntegerField()
+    status = models.CharField(max_length=250, default="New", choices=STATUS_CHOICES)
     VA_assigned = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT

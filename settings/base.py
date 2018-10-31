@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'users',
     'client',
     'reporting',
-    'jobrequest'
+    'jobrequest',
+    'rest_framework',
 ]
 
 
