@@ -17,27 +17,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = get_secret('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.CustomUser'
-
-
-# Application definition
-
-# INSTALLED_APPS = [
-    # 'django.contrib.admin',
-    # 'django.contrib.auth',
-    # 'django.contrib.contenttypes',
-    # 'django.contrib.sessions',
-    # 'django.contrib.messages',
-    # 'django.contrib.staticfiles',
-    # 'users',
-    # 'client'
-# ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,21 +43,21 @@ WSGI_APPLICATION = 'gpg_ams.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-         'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'gpg',
-         'USER': 'root',
-         'PASSWORD': '22',
-         'HOST': 'localhost',
-         'PORT': '3306',
-         'OPTIONS': {
-             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-         },
-    }
-}
+# DATABASES = {
+#     'default': {
+#         # 'ENGINE': 'django.db.backends.sqlite3',
+#         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#          'ENGINE': 'django.db.backends.mysql',
+#          'NAME': 'gpg',
+#          'USER': 'root',
+#          'PASSWORD': '',
+#          'HOST': 'localhost',
+#          'PORT': '3306',
+#          'OPTIONS': {
+#              'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#          },
+#     }
+# }
 
 
 # Password validation
