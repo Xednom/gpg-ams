@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     {% block title %}
-    <title>SB Admin - 404 Error</title>
+    <title>Base Template</title>
     {% endblock %}
     {% load static %}
     {% load staticfiles %}
@@ -30,7 +30,7 @@
     {% block nav %}
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-      <a class="navbar-brand mr-1" href="#">GPG</a>
+      <a class="navbar-brand mr-1" href="index.html">GPG</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -90,8 +90,89 @@
     </nav>
     {% endblock %}
 
-    {% block content %}
-    {% endblock %}
+    {% block sidebar %}
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="sidebar navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <h6 class="dropdown-header">Login Screens:</h6>
+            <a class="dropdown-item" href="login.html">Login</a>
+            <a class="dropdown-item" href="register.html">Register</a>
+            <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Other Pages:</h6>
+            <a class="dropdown-item" href="404.html">404 Page</a>
+            <a class="dropdown-item active" href="blank.html">Blank Page</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="charts.html">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Charts</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="tables.html">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Tables</span></a>
+        </li>
+      </ul>
+      {% endblock %}
+      <!-- end block for sidebar -->
+      {% block content %}
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="index.html">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Blank Page</li>
+          </ol>
+
+          <!-- Page Content -->
+          <h1>Blank Page</h1>
+          <hr>
+          <p>This is a great starting point for new custom pages.</p>
+
+        </div>
+        <!-- /.container-fluid -->
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+{% endblock %}
+
+{% block footer %}
+<!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2018</span>
+    </div>
+  </div>
+</footer>
+{% endblock %}
+</div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
