@@ -13,6 +13,8 @@ class LoginView(AuthenticationForm, View):
     template_name = 'users/login.html'
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect(reverse_lazy('users:home'))
         return render(request, self.template_name)
 
     def post(self, request):
