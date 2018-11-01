@@ -13,10 +13,10 @@ class CompanyCategory(models.Model):
 
 class ClientName(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    client_name = models.CharField(max_length=250)
+    name = models.CharField(max_length=250)
 
     def __str__(self):
-        return self.client_name
+        return self.name
 
 
 class Lead(models.Model):
@@ -62,7 +62,7 @@ class Client(models.Model):
     company_category_under = models.ForeignKey('CompanyCategory', on_delete=models.PROTECT)
     clients_company_name = models.CharField(max_length=250)
     agreed_hourly_rate = models.DecimalField(max_digits=6, decimal_places=2)
-    client = models.ForeignKey('Client', related_name='Client_name', on_delete=models.PROTECT)
+    client = models.ForeignKey('ClientName', related_name='ClientName', on_delete=models.PROTECT)
     client_code = models.CharField(max_length=150)
     client_phone_number = models.CharField(max_length=150)
     client_email = models.EmailField(max_length=250)
@@ -80,4 +80,4 @@ class Client(models.Model):
     notes = models.TextField()
 
     def __str__(self):
-        return self.client
+        return str(self.client)

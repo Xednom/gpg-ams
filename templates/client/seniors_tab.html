@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block content %}
+<div id="gpg">
 <div id="content-wrapper">
     <div class="container-fluid">
 
@@ -22,13 +23,12 @@
       <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-table"></i>
-          Data Table Example</div>
+          </div>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
-                  <th>Date sign up</th>
                   <th>Client's company name</th>
                   <th>Client's code</th>
                   <th>client's name</th>
@@ -43,11 +43,21 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>
-                    sample shit
-                  </td>
-                  </tr>
+                {% verbatim %}
+                <tr v-for="client in clients">
+                  <td>[[client.clients_company_name]]</td>
+                  <td>[[client.client_code]]</td>
+                  <td>[[client.client]]</td>
+                  <td>[[client.client_phone_number]]</td>
+                  <td>[[client.client_email]]</td>
+                  <td>[[client.clients_project_manager]]</td>
+                  <td>[[client.senior_manager]]</td>
+                  <td>[[client.VA_assigned]]</td>
+                  <td>[[client.type_of_task]]</td>
+                  <td>[[client.status]]</td>
+                  <td>[[client.notes]]</td>
+                </tr>
+                {% endverbatim %}
               </tbody>
             </table>
           </div>
@@ -61,6 +71,7 @@
         <!-- /.container-fluid -->
   </div>
   <!-- /.content-wrapper -->
+  </div>
 
 </div>
 <!-- /#wrapper -->

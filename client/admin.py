@@ -23,6 +23,7 @@ class ClientProfile(admin.ModelAdmin):
                 'client_code',
                 'client_phone_number',
                 'client_email',
+                'lead_source',
                 'clients_project_manager',
                 'clients_count_number',
                 'status',
