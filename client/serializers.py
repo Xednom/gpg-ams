@@ -10,7 +10,7 @@ class ClientSerializer(serializers.ModelSerializer):
     clients_project_manager = serializers.SlugRelatedField(slug_field='project_manager', queryset=ProjectManager.objects.all())
     senior_manager = serializers.SlugRelatedField(slug_field='name', queryset=SeniorManager.objects.all())
     type_of_task = serializers.SlugRelatedField(slug_field='task_name', queryset=TypeOfTask.objects.all())
-    VA_assigned = serializers.SlugRelatedField(slug_field='first_name', queryset=User.objects.all())
+    VA_assigned = serializers.SlugRelatedField(slug_field='full_name', queryset=User.objects.all())
 
     class Meta:
         model = Client

@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
         ('PROBATIONARY', 'Probationary'),
         ('INACTIVE', 'Inactive'),
     )
+    full_name = models.CharField(max_length=250, default="My Name")
     phone_number = models.CharField(max_length=100)
     SSS_number = models.CharField(max_length=250)
     TIN_number = models.CharField(max_length=250)
@@ -28,4 +29,4 @@ class CustomUser(AbstractUser):
     status = models.CharField(max_length=100, choices=STATUS)
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return self.full_name

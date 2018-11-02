@@ -11,6 +11,7 @@ from .models import (
 
 
 class ClientProfile(admin.ModelAdmin):
+    list_display = ['client', 'client_code', 'company_category_under', 'clients_company_name', 'client_email', 'lead_source', 'clients_project_manager', 'status']
     fieldsets = (
         (None, {
             'fields': ('date_sign_up',)
