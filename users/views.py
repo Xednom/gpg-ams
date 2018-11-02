@@ -26,7 +26,10 @@ class LoginView(AuthenticationForm, View):
             login(request, user)
             user.last_login = datetime.datetime.now()
             user.save(update_fields=['last_login'])
-            return redirect(reverse_lazy('users:home'))
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else:
+                return redirect(reverse_lazy('users:home'))
         else:
             messages.warning(request, 'Username or password is incorrect. Or maybe account is inactive')
         return render(request, self.template_name)
