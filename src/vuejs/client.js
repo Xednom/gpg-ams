@@ -4,8 +4,14 @@ new Vue({
   delimiters: ['[[',']]'],
   data: {
     clients: [],
+    clientNames:[],
+    clientProjectManagers: [],
+    clientSeniorManagers: [],
+    clientVA: [],
+    clientStatus: [],
     loading: false,
     currentClient: {},
+    currentClientName: {},
     message: null,
     newClient: {
       'clients_company_name': null,
@@ -24,6 +30,11 @@ new Vue({
   },
   mounted: function() {
     this.getClients();
+    this.getClientNames();
+    this.getClientProjectManagers();
+    this.getClientSeniorManagers();
+    this.getClientVA();
+    this.getClientStatus();
   },
   methods: {
     getClients: function() {
@@ -46,10 +57,70 @@ new Vue({
       this.loading = true;
       this.$http.get(`/api/v1/client/${id}/`)
           .then((response) => {
-            this.currentItem = response.data;
+            this.currentClient = response.data;
             $('#editItemModal').modal('show');
             this.loading = false;
             $("#editItemModal").modal('hide');
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
+    getClientNames: function() {
+      this.loading = true;
+      this.$http.get(`/api/v1/client-name/`)
+          .then((response) => {
+            this.clientNames = response.data;
+            this.loading = false;
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
+    getClientProjectManagers: function() {
+      this.loading = true;
+      this.$http.get(`/api/v1/project-manager/`)
+          .then((response) => {
+            this.clientProjectManagers = response.data;
+            this.loading = false;
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
+    getClientSeniorManagers: function() {
+      this.loading = true;
+      this.$http.get(`/api/v1/senior-manager/`)
+          .then((response) => {
+            this.clientSeniorManagers = response.data;
+            this.loading = false;
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
+    getClientVA: function() {
+      this.loading = true;
+      this.$http.get(`/api/v1/custom-user/`)
+          .then((response) => {
+            this.clientVA = response.data;
+            this.loading = false;
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
+    getClientStatus: function() {
+      this.loading = true;
+      this.$http.get(`/api/v1/status-choice/`)
+          .then((response) => {
+            this.clientStatus = response.data;
+            this.loading = false;
           })
           .catch((err) => {
             this.loading = false;
@@ -79,12 +150,12 @@ new Vue({
     },
     updateClient: function() {
       this.loading = true;
-      this.$http.put(`/api/v1/client/${this.currentItem.item_id}/`, this.currentItem)
+      this.$http.put(`/api/v1/client/${this.currentClient.id}/`, this.currentClient)
           .then((response) => {
             this.loading = false;
             this.currentClient = response.data;
             // after updating hide the modal
-            $("#editItemModal").modal('hide');
+            $("#editModal").modal('hide');
             $(".modal-backdrop").remove();
             swal({
               title: "Inventory system",

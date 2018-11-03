@@ -56,9 +56,112 @@
                   <td>[[client.type_of_task]]</td>
                   <td>[[client.status]]</td>
                   <td>[[client.notes]]</td>
+                  <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal" v-on:click="getClient(client.id)">
+                      Edit
+                    </button></td>
                 </tr>
               </tbody>
             </table>
+              <!-- Modal -->
+              <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Edit information</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <form v-on:submit.prevent="updateClient()">
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="brand_name">Client's Company name</label>
+                        <input
+                          class="form-control"
+                          id="brand_name"
+                          placeholder="Enter client's company name"
+                          v-model="currentClient.clients_company_name"
+                          required="required" >
+                      </div>
+                      <div class="form-group">
+                        <label for="brand_name">Client's code</label>
+                        <input
+                          class="form-control"
+                          id="brand_name"
+                          placeholder="Enter client's code"
+                          v-model="currentClient.client_code"
+                          required="required" >
+                      </div>
+                      <div class="form-group">
+                        <label for="client_name">Client name</label>
+                            <select class="form-control" id="sel1" v-model="currentClient.client" >
+                              <option v-for="client in clientNames">[[client.name]]</option>
+                            </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="brand_name">Client's phone number</label>
+                        <input
+                          class="form-control"
+                          id="brand_name"
+                          placeholder="Enter client's phone number"
+                          v-model="currentClient.client_phone_number"
+                          required="required" >
+                      </div>
+                      <div class="form-group">
+                        <label for="brand_name">Client's email</label>
+                        <input
+                          class="form-control"
+                          id="brand_name"
+                          placeholder="Enter client's email"
+                          v-model="currentClient.client_email"
+                          required="required" >
+                      </div>
+                      <div class="form-group">
+                        <label for="client_name">Client's Project Manager</label>
+                            <select class="form-control" id="sel1" v-model="currentClient.clients_project_manager" >
+                              <option v-for="client in clientProjectManagers">[[client.project_manager]]</option>
+                            </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="client_name">Senior Manager</label>
+                            <select class="form-control" id="sel1" v-model="currentClient.senior_manager" >
+                              <option v-for="client in clientSeniorManagers">[[client.name]]</option>
+                            </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="client_name">VA assigned</label>
+                            <select class="form-control" id="sel1" v-model="currentClient.VA_assigned" >
+                              <option v-for="client in clientVA">[[client.full_name]]</option>
+                            </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="client_name">Status</label>
+                            <select class="form-control" id="sel1" v-model="currentClient.status" >
+                              <option v-for="client in clientStatus">[[client.status]]</option>
+                            </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="brand_name">Notes</label>
+                        <textarea
+                          class="form-control"
+                          id="brand_name"
+                          placeholder="Enter notes"
+                          v-model="currentClient.notes"
+                          required="required" >
+                          </textarea>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </form>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <!-- end of modal -->
           </div>
         </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>

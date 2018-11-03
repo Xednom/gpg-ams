@@ -6,6 +6,7 @@ from .models import (
     ProjectManager,
     SeniorManager,
     TypeOfTask,
+    StatusChoice,
     Client
     )
 
@@ -45,4 +46,5 @@ admin.site.register(Lead)
 admin.site.register(ProjectManager)
 admin.site.register(SeniorManager)
 admin.site.register(TypeOfTask)
+admin.site.register(StatusChoice)
 admin.site.register(Client, ClientProfile)
