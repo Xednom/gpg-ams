@@ -1,4 +1,5 @@
 from rest_framework import viewsets, filters
+from rest_framework.permissions import DjangoModelPermissions
 from .models import (
         Client,
         ClientName,
@@ -50,6 +51,7 @@ class TypeOfTaskViewSet(viewsets.ModelViewSet):
 
 class SeniorManagerViewSet(viewsets.ModelViewSet):
     queryset = SeniorManager.objects.all()
+    permission_classes = [DjangoModelPermissions]
     serializer_class = SeniorManagerSerializer
 
 
