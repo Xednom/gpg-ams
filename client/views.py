@@ -27,8 +27,15 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class ClientView(LoginRequiredMixin, View):
+class SeniorManagerView(LoginRequiredMixin, View):
     template_name = 'client/seniors_tab.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
+class ProjectManagerView(LoginRequiredMixin, View):
+    template_name = 'client/project_manager.html'
 
     def get(self, request):
         return render(request, self.template_name)
@@ -51,7 +58,6 @@ class TypeOfTaskViewSet(viewsets.ModelViewSet):
 
 class SeniorManagerViewSet(viewsets.ModelViewSet):
     queryset = SeniorManager.objects.all()
-    permission_classes = [DjangoModelPermissions]
     serializer_class = SeniorManagerSerializer
 
 
@@ -69,4 +75,4 @@ class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('clients_code')
+    search_fields = ('VA_assigned__full_name', 'client_code')
