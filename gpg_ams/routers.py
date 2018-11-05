@@ -14,7 +14,7 @@ from reporting.views import ReportingViewSet
 
 router = routers.DefaultRouter()
 
-router.register(r'client', ClientViewSet)
+router.register(r'client', ClientViewSet, base_name='Client')
 router.register(r'client-name', ClientNameViewSet)
 router.register(r'project-manager', ProjectManagerViewSet)
 router.register(r'type-of-task', TypeOfTaskViewSet)

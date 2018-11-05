@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Senior Manager's Tab</title>
+{% endblock %}
+
+{% block content %}
+<div id="gpg">
+<div id="content-wrapper">
+    <div class="container-fluid">
+
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'users:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Manager's Tab</li>
+      </ol>
+
+      <!-- Page Content -->
+      <h1>Client task Information</h1>
+      <hr>
+      <!-- DataTables Example -->
+      <div class="card mb-3"> 
+        <div class="card-header">
+          <i class="fas fa-table"></i>
+          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group">
+              <input type="text" class="form-control" v-model="search_term" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button" v-on:click.prevent=getClients()>
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+          </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Client's company name</th>
+                  <th>Client's code</th>
+                  <th>client's name</th>
+                  <th>Client's phone number</th>
+                  <th>Client's email</th>
+                  <th>Client's project manager</th>
+                  <th>Senior Manager</th>
+                  <th>VA Assigned</th>
+                  <th>Type of task</th>
+                  <th>Status</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="client in clients">
+                  <td>[[client.clients_company_name]]</td>
+                  <td>[[client.client_code]]</td>
+                  <td>[[client.client]]</td>
+                  <td>[[client.client_phone_number]]</td>
+                  <td>[[client.client_email]]</td>
+                  <td>[[client.clients_project_manager]]</td>
+                  <td>[[client.senior_manager]]</td>
+                  <td>[[client.VA_assigned]]</td>
+                  <td>[[client.type_of_task]]</td>
+                  <td>[[client.status]]</td>
+                  <td>[[client.notes]]</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+      </div>
+
+    </div>
+
+    </div>
+        <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-wrapper -->
+  </div>
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+{% endblock %}

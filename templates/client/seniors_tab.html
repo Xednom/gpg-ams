@@ -23,6 +23,19 @@
       <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-table"></i>
+          <div class="row float-right">
+            <form class="d-none d-md-inline-block">
+              <div class="input-group">
+                <input type="text" class="form-control" v-model="search_term" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <!--<button class="btn btn-primary" type="button" v-on:click.prevent=getClients()>
+                    <i class="fas fa-search"></i>
+                  </button> -->
+                </div>
+              </div>
+            </form>
+          </div>
+
           </div>
         <div class="card-body">
           <div class="table-responsive">
