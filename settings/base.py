@@ -33,12 +33,15 @@ INSTALLED_APPS = [
     'jobrequest',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_filters'
+    'rest_auth',
+    'django_filters',
+    'corsheaders'
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -48,10 +51,19 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = False
+
+CORS_ORIGIN_WHITELIST = (
+    'http//:localhost:8000',
+    'http//:localhost:8000/api/v1/'
+)
+
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -77,6 +89,8 @@ TEMPLATES = [
         },
     },
 ]
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 STATICFILES_DIRS = (

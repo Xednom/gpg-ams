@@ -22,7 +22,7 @@ class LoginView(AuthenticationForm, View):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
 
-        if user is not None:
+        if user is not None and password is not None:
             login(request, user)
             user.last_login = datetime.datetime.now()
             user.save(update_fields=['last_login'])
