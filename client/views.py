@@ -42,7 +42,7 @@ class ProjectManagerView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Client.objects.filter(VA_assigned__full_name=user)
+        queryset = Client.objects.filter(clients_project_manager__project_manager=user)
         return queryset
 
 
@@ -77,8 +77,13 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 
 class ClientViewSet(viewsets.ModelViewSet):
-    queryset = Client.objects.all()
+    # queryset = Client.objects.all()
     serializer_class = ClientSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('VA_assigned', 'client_code')
     # search_fields = ('VA_assigned__full_name', 'client_code')
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Client.objects.filter(senior_manager__name=user)
+        return queryset
