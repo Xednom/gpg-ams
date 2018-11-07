@@ -32,8 +32,6 @@ INSTALLED_APPS = [
     'reporting',
     'jobrequest',
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
     'django_filters',
     'corsheaders'
 ]
@@ -54,25 +52,28 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = (
-    'http//:localhost:8000',
-    'http//:localhost:8000/api/v1/'
+    'localhost:8000',
+    '127.0.0.1:8000',
+)
+
+CORS_ALLOW_HEADERS = (
+    'x-csrftoken'
 )
 
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     )
 }
-
 
 TEMPLATES = [
     {

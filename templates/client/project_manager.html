@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block content %}
-<div id="gpg">
+<div id="gpg" style="width: 100%;">
 <div id="content-wrapper">
     <div class="container-fluid">
 
@@ -20,20 +20,9 @@
       <h1>Client task Information</h1>
       <hr>
       <!-- DataTables Example -->
-      <div class="card mb-3"> 
+      <div class="card mb-3">
         <div class="card-header">
           <i class="fas fa-table"></i>
-          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-            <div class="input-group">
-              <input type="text" class="form-control" v-model="search_term" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button" v-on:click.prevent=getClients()>
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-          </div>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -53,19 +42,27 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="client in clients">
-                  <td>[[client.clients_company_name]]</td>
-                  <td>[[client.client_code]]</td>
-                  <td>[[client.client]]</td>
-                  <td>[[client.client_phone_number]]</td>
-                  <td>[[client.client_email]]</td>
-                  <td>[[client.clients_project_manager]]</td>
-                  <td>[[client.senior_manager]]</td>
-                  <td>[[client.VA_assigned]]</td>
-                  <td>[[client.type_of_task]]</td>
-                  <td>[[client.status]]</td>
-                  <td>[[client.notes]]</td>
+                {% if all_assigned_job %}
+                {% for job in all_assigned_job %}
+                <tr>
+                  <td>{{ job.clients_company_name }}</td>
+                  <td>{{ job.client_code }}</td>
+                  <td>{{ job.client }}</td>
+                  <td>{{ job.client_phone_number }}</td>
+                  <td>{{ job.client_email }}</td>
+                  <td>{{ job.clients_project_manager }}</td>
+                  <td>{{ job.senior_manager }}</td>
+                  <td>{{ job.VA_assigned }}</td>
+                  <td>{{ job.type_of_task }}</td>
+                  <td>{{ job.status }}</td>
+                  <td>{{ job.notes }}</td>
                 </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                  <td colspan="14" class="text-center bg-warning">No job assigned to you.</td>
+                </tr>
+                {% endif %}
               </tbody>
             </table>
           </div>

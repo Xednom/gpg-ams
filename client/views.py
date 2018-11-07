@@ -20,7 +20,7 @@ from .serializers import (
         )
 
 from django.shortcuts import render, redirect
-from django.views.generic import View
+from django.views.generic import View, ListView
 from django.urls import reverse_lazy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -35,11 +35,15 @@ class SeniorManagerView(LoginRequiredMixin, View):
         return render(request, self.template_name)
 
 
-class ProjectManagerView(LoginRequiredMixin, View):
+class ProjectManagerView(LoginRequiredMixin, ListView):
+    model = Client
     template_name = 'client/project_manager.html'
+    context_object_name = 'all_assigned_job'
 
-    def get(self, request):
-        return render(request, self.template_name)
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Client.objects.filter(VA_assigned__full_name=user)
+        return queryset
 
 
 class ClientNameViewSet(viewsets.ModelViewSet):
@@ -73,12 +77,8 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 
 class ClientViewSet(viewsets.ModelViewSet):
-    #queryset = Client.objects.all()
+    queryset = Client.objects.all()
     serializer_class = ClientSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('VA_assigned', 'client_code')
     # search_fields = ('VA_assigned__full_name', 'client_code')
-
-    def get_queryset(self):
-        user = self.request.user
-        return Client.objects.filter(VA_assigned=user)
