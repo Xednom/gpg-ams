@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
     path('', include('users.urls')),
-    path('client/', include('client.urls'))
+    path('client/', include('client.urls')),
+    path('jobrequest/', include('jobrequest.urls'))
 ]

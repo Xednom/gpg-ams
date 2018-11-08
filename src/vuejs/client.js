@@ -135,7 +135,7 @@ new Vue({
             $("#addItemModal").modal('hide');
             $(".modal-backdrop").remove();
             swal({
-              title: "Inventory System",
+              title: "GPG System",
               text: "Data has been saved successfully",
               icon: "success",
               buttons: false,
@@ -158,7 +158,7 @@ new Vue({
             $("#editModal").modal('hide');
             $(".modal-backdrop").remove();
             swal({
-              title: "Inventory system",
+              title: "GPG system",
               text: "Successfully updated the data!",
               icon: "success",
               button: false,

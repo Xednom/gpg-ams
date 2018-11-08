@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Senior Manager's Tab</title>
+{% endblock %}
+
+{% block content %}
+<div id="gpg-job-request" style="width: 100%;">
+  <div id="content-wrapper">
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'users:home' %}">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Job request tab</li>
+        </ol>
+
+        <!-- Page Content -->
+        <h2>Job Request information</h2>
+        <hr>
+        <form v-on:submit.prevent="addJobRequest()">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label for="inputEmail4">Client Code</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputEmail4"
+                v-model="newJobRequest.client_code"
+                autocomplete="off"
+                required >
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputReqTitle">Job request title</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputJobRequest"
+                v-model="newJobRequest.job_request_title"
+                required >
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputJobReqSent">Job Request sent via</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputJobRequest"
+                v-model="newJobRequest.job_request_sent_via"
+                required >
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputJobReqSent">Total hours and minutes allocated</label>
+              <input
+                type="number"
+                step="00.01"
+                min=0
+                class="form-control"
+                id="inputJobRequest"
+                v-model="newJobRequest.total_hours_minutes_allocated"
+                required >
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputVASupport">VA admin support</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputVASupport"
+                v-model="newJobRequest.VA_admin_support"
+                required >
+            </div>
+          </div>
+          <div class="from-row">
+            <div class="form-group">
+              <label>Status of the job request</label>
+              <select class="form-control col-md-2" v-model="newJobRequest.status_of_the_job_request">
+                <option v-for="status in statusOfTheJobRequests">[[ status.type_of_status ]]</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Project Managers</label>
+              <select class="form-control col-md-2" v-model="newJobRequest.project_managers">
+                <option v-for="pm in projectManagers">[[ pm.project_manager ]]</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inputAddress">Job Request instruction</label>
+              <textarea
+                class="form-control"
+                rows="8"
+                cols="80"
+                v-model="newJobRequest.job_request_instruction"
+                required ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Notes and coaching from Project Manager</label>
+              <textarea
+                class="form-control"
+                rows="8"
+                cols="80"
+                v-model="newJobRequest.notes_and_coaching_from_project_manager"
+                required ></textarea>
+            </div>
+          </div>
+          <div class="form-row">
+          <button type="submit" class="btn btn-success">Add job request</button>
+        </form>
+      </div>
+          <!-- /.container-fluid -->
+  </div>
+    <!-- /.content-wrapper -->
+</div>
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+{% endblock %}

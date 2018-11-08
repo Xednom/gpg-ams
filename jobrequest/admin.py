@@ -1,25 +1,27 @@
 from django.contrib import admin
-from .models import JobRequest
+from .models import JobRequest, StatusOfTheJobRequest
 
 
 class JobRequestProfile(admin.ModelAdmin):
+    list_display = ['job_request_title', 'job_request_sent_via', 'project_managers', 'client_code', 'status_of_the_job_request']
     fieldsets = (
         (None, {
             'fields': ('date', 'due_date', 'total_hours_minutes_allocated')
         }),
         ('Job Request informations', {
             'fields': (
-                'client_code',
-                'job_request_title',
-                'job_request_sent_via',
-                'job_request_instruction',
-                'project_managers',
-                'VA_admin_support',
-                'status_of_the_job_request',
-                'notes_and_coaching_from_project_manager'
-           )
+                    'client_code',
+                    'job_request_title',
+                    'job_request_sent_via',
+                    'job_request_instruction',
+                    'project_managers',
+                    'VA_admin_support',
+                    'status_of_the_job_request',
+                    'notes_and_coaching_from_project_manager'
+                )
         })
     )
 
 
 admin.site.register(JobRequest, JobRequestProfile)
+admin.site.register(StatusOfTheJobRequest)
