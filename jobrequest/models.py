@@ -19,7 +19,7 @@ class JobRequest(models.Model):
     job_request_title = models.CharField(max_length=250, default='Give me a title later')
     job_request_sent_via = models.CharField(max_length=250)
     job_request_instruction = models.TextField()
-    total_hours_minutes_allocated = models.DecimalField(max_digits=4, decimal_places=2)
+    total_hours_minutes_allocated = models.CharField(max_length=100)
     project_managers = models.ForeignKey('client.ProjectManager', default='Gillian', on_delete=models.PROTECT)
     VA_admin_support = models.CharField(max_length=250)
     status_of_the_job_request = models.ForeignKey('StatusOfTheJobRequest', on_delete=models.PROTECT)

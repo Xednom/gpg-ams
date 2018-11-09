@@ -10,6 +10,8 @@ new Vue({
     currentJobRequest: {},
     message: null,
     newJobRequest: {
+      'date': null,
+      'due_date': null,
       'client_code': null,
       'job_request_title': null,
       'job_request_sent_via': null,
@@ -81,7 +83,6 @@ new Vue({
               buttons: false,
               timer: 1500
             })
-
           })
           .catch((err) => {
             this.loading = true;
