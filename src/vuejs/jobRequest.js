@@ -30,6 +30,12 @@ new Vue({
     this.getProjectManagers();
   },
   methods: {
+    reset: function() {
+      this.newJobRequest.date =  this.newJobRequest.due_date = this.newJobRequest.client_code = null;
+      this.newJobRequest.job_request_title = this.newJobRequest.job_request_sent_via = this.newJobRequest.job_request_instruction = null;
+      this.newJobRequest.total_hours_minutes_allocated = this.newJobRequest.project_managers = this.newJobRequest.VA_admin_support = null;
+      this.newJobRequest.status_of_the_job_request = this.newJobRequest.notes_and_coaching_from_project_manager = null;
+    },
     getJobRequests: function() {
           let api_url = '/api/v1/jobrequest/';
           if(this.search_term!==''||this.search_term!==null) {
@@ -83,6 +89,7 @@ new Vue({
               buttons: false,
               timer: 1500
             })
+            this.reset();
           })
           .catch((err) => {
             this.loading = true;

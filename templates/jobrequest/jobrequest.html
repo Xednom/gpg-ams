@@ -16,16 +16,16 @@
         <h2>Job Request information</h2>
         <hr>
         <div class="input-group mb-3">
-          <form v-on:submit.prevent="addJobRequest()">
+          <form v-on:submit.prevent="addJobRequest()" id="jobReqForm">
             {% csrf_token %}
             <div class="form-row">
               <div class="form-group col-md-2">
                 <label>Date</label>
-                <input class="form-control" type="date" v-model="newJobRequest.date">
+                <input class="form-control" type="date" v-model="newJobRequest.date" name="date">
               </div>
               <div class="form-group col-md-2">
                 <label>Due date</label>
-                <input class="form-control" type="date" v-model="newJobRequest.due_date">
+                <input class="form-control" type="date" v-model="newJobRequest.due_date" name="due-date">
               </div>
                 <div class="form-group col-md-2">
                   <label for="inputEmail4">Client Code</label>
@@ -43,7 +43,6 @@
                     type="text"
                     class="form-control"
                     v-model="newJobRequest.job_request_title"
-
                     autocomplete="of" >
                 </div>
                 <div class="form-group col-md-2">
