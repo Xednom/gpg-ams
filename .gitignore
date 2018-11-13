@@ -7,3 +7,4 @@ local.py
 *.vscode
 db.sqlite3
 settings/local.py
+*.log

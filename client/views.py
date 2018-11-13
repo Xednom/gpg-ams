@@ -1,4 +1,6 @@
 from rest_framework import viewsets, filters
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
 from django_filters import rest_framework as filters
 from rest_framework.permissions import DjangoModelPermissions
 from .models import (
@@ -26,6 +28,12 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 User = get_user_model()
+
+
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+
+    def enforce_csrf(self, request):
+        return  # To not perform the csrf check previously happening
 
 
 class SeniorManagerView(LoginRequiredMixin, View):
@@ -77,11 +85,10 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 
 class ClientViewSet(viewsets.ModelViewSet):
-    # queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('VA_assigned', 'client_code')
-    # search_fields = ('VA_assigned__full_name', 'client_code')
 
     def get_queryset(self):
         user = self.request.user

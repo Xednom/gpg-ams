@@ -86,7 +86,7 @@
                       </button>
                     </div>
                     <form v-on:submit.prevent="updateClient()">
-                      
+                      {% csrf_token %}
                     <div class="modal-body">
                       <div class="form-group">
                         <label for="brand_name">Client's Company name</label>
