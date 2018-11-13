@@ -3,128 +3,133 @@
 <title>Job Request</title>
 {% endblock %}
 
+
+
+{% block dashboard_notif %}
+{% endblock %}
+
 {% block content %}
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">Job Request Tab Informations</h1>
+  </div>
+</div>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+<li class="breadcrumb-item">
+<a href="{% url 'users:home' %}">Dashboard</a>
+</li>
+<li class="breadcrumb-item active">Job Request Tab</li>
+</ol>
 <div id="gpg-job-request" style="width: 100%;">
   <div id="content-wrapper">
       <div class="container-fluid">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="{% url 'users:home' %}">Dashboard</a>
-          </li>
-          <li class="breadcrumb-item active">Job request tab</li>
-        </ol>
-        <h2>Job Request information</h2>
-        <hr>
         <div class="input-group mb-3">
-          <form v-on:submit.prevent="addJobRequest()" id="jobReqForm">
-            {% csrf_token %}
-            <div class="form-row">
-              <div class="form-group col-md-2">
-                <label>Date</label>
-                <input class="form-control" type="date" v-model="newJobRequest.date" name="date">
-              </div>
-              <div class="form-group col-md-2">
-                <label>Due date</label>
-                <input class="form-control" type="date" v-model="newJobRequest.due_date" name="due-date">
-              </div>
-                <div class="form-group col-md-2">
-                  <label for="inputEmail4">Client Code</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inputEmail4"
-                    v-model="newJobRequest.client_code"
-                    autocomplete="off"
-                    required >
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="inputReqTitle">Job Request title</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="newJobRequest.job_request_title"
-                    autocomplete="of"
-                    required >
-                </div>
-                <div class="form-group col-md-2">
-                  <label for="inputJobReqSent">Job Requet sent via</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="newJobRequest.job_request_sent_via"
-                    required
-                    autocomplete="off" >
-                </div>
-                <div class="form-group col-md-2">
-                  <label>Status of the job request</label>
-                  <select class="form-control" v-model="newJobRequest.status_of_the_job_request" required >
-                    <option v-for="status in statusOfTheJobRequests">[[status.type_of_status]]</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-2">
-                  <label>Project Managers</label>
-                  <select class="form-control" v-model="newJobRequest.project_managers" required>
-                    <option v-for="pm in projectManagers">[[ pm.project_manager ]]</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="inputJobRequest">Total hours and minutes allocated</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="newJobRequest.total_hours_minutes_allocated"
-                    required
-                    autocomplete="off" >
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="inputVASupport">VA admin support</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="newJobRequest.VA_admin_support"
-                    required
-                    autocomplete="off" >
-                </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Job Request tab
             </div>
-            <!-- form-row -->
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label>Job Request instruction</label>
-                <textarea
-                  class="form-control"
-                  rows="8"
-                  cols="80"
-                  v-model="newJobRequest.job_request_instruction"
-                  autocomplete="off"
-                  required ></textarea>
-                  <div class="form-group" style="margin-top: 10px;">
-                    <div class="alert alert-success" role="alert">
-                      <h5 class="alert-heading">Job instruction <strong>sample</strong></h5>
-                      Can you please call the building department of Los Angeles, CA and ask the following questions for this property APN 3069-015-010:
-
-                        <p>1. Does the property have water? Is it well-required or the property currently has a well? <br>
-                          2. Is septic required for waste or does the property already have a septic system? <br>
-                          3. For electricity, any chance you know the electricity provider in this area? <br>
-                          4. For gas, any chance you know the gas provider in this area? Check with building department <br>
-                          5. Waste?</p>
-                          <hr>
-                      <!--<p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>-->
-                    </div>
+            <div class="panel-body">
+              <form v-on:submit.prevent="addJobRequest()" id="jobReqForm">
+                {% csrf_token %}
+                <div class="form-row">
+                  <div class="form-group col-md-2">
+                    <label>Date</label>
+                    <input class="form-control" type="date" v-model="newJobRequest.date" name="date">
                   </div>
-              </div>
-              <div class="form-group col-md-6">
-                <label>Notes and coaching from Project Manager</label>
-                <textarea
-                  class="form-control"
-                  rows="8"
-                  cols="80"
-                  v-model="newJobRequest.notes_and_coaching_from_project_manager"
-                  required
-                  autocomplete="off" ></textarea>
-              </div>
-              <button type="submit" class="btn btn-success">Add job request</button>
+                  <div class="form-group col-md-2">
+                    <label>Due date</label>
+                    <input class="form-control" type="date" v-model="newJobRequest.due_date" name="due-date">
+                  </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputEmail4">Client Code</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="inputEmail4"
+                        v-model="newJobRequest.client_code"
+                        autocomplete="off"
+                        required >
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputReqTitle">Job Request title</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="newJobRequest.job_request_title"
+                        autocomplete="of"
+                        required >
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="inputJobReqSent">Job Requet sent via</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="newJobRequest.job_request_sent_via"
+                        required
+                        autocomplete="off" >
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label>Status of the job request</label>
+                      <select class="form-control" v-model="newJobRequest.status_of_the_job_request" required >
+                        <option v-for="status in statusOfTheJobRequests">[[status.type_of_status]]</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label>Project Managers</label>
+                      <select class="form-control" v-model="newJobRequest.project_managers" required>
+                        <option v-for="pm in projectManagers">[[ pm.project_manager ]]</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="inputJobRequest">Total hours and minutes allocated</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="newJobRequest.total_hours_minutes_allocated"
+                        required
+                        autocomplete="off" >
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputVASupport">VA admin support</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="newJobRequest.VA_admin_support"
+                        required
+                        autocomplete="off" >
+                    </div>
+                </div>
+                <!-- form-row -->
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Job Request instruction</label>
+                    <textarea
+                      class="form-control"
+                      rows="8"
+                      cols="80"
+                      v-model="newJobRequest.job_request_instruction"
+                      autocomplete="off"
+                      required ></textarea>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label>Notes and coaching from Project Manager</label>
+                    <textarea
+                      class="form-control"
+                      rows="8"
+                      cols="80"
+                      v-model="newJobRequest.notes_and_coaching_from_project_manager"
+                      required
+                      autocomplete="off" ></textarea>
+                  </div>
+
+                  <button type="submit" class="btn btn-success">Add job request</button>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
+
         </div>
 
       </div>
