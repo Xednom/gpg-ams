@@ -35,7 +35,7 @@
                     id="inputEmail4"
                     v-model="newJobRequest.client_code"
                     autocomplete="off"
-                     >
+                    required >
                 </div>
                 <div class="form-group col-md-2">
                   <label for="inputReqTitle">Job Request title</label>
@@ -43,7 +43,8 @@
                     type="text"
                     class="form-control"
                     v-model="newJobRequest.job_request_title"
-                    autocomplete="of" >
+                    autocomplete="of"
+                    required >
                 </div>
                 <div class="form-group col-md-2">
                   <label for="inputJobReqSent">Job Requet sent via</label>
@@ -51,7 +52,7 @@
                     type="text"
                     class="form-control"
                     v-model="newJobRequest.job_request_sent_via"
-
+                    required
                     autocomplete="off" >
                 </div>
                 <div class="form-group col-md-2">
@@ -72,7 +73,7 @@
                     type="text"
                     class="form-control"
                     v-model="newJobRequest.total_hours_minutes_allocated"
-
+                    required
                     autocomplete="off" >
                 </div>
                 <div class="form-group col-md-6">
@@ -81,6 +82,7 @@
                     type="text"
                     class="form-control"
                     v-model="newJobRequest.VA_admin_support"
+                    required
                     autocomplete="off" >
                 </div>
             </div>
@@ -93,7 +95,8 @@
                   rows="8"
                   cols="80"
                   v-model="newJobRequest.job_request_instruction"
-                  autocomplete="off" ></textarea>
+                  autocomplete="off"
+                  required ></textarea>
                   <div class="form-group" style="margin-top: 10px;">
                     <div class="alert alert-success" role="alert">
                       <h5 class="alert-heading">Job instruction <strong>sample</strong></h5>
@@ -116,6 +119,7 @@
                   rows="8"
                   cols="80"
                   v-model="newJobRequest.notes_and_coaching_from_project_manager"
+                  required
                   autocomplete="off" ></textarea>
               </div>
               <button type="submit" class="btn btn-success">Add job request</button>
@@ -129,9 +133,4 @@
 <!-- content-wrapper -->
 </div>
 <!-- gpg app on vue -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-  <i class="fas fa-angle-up"></i>
-</a>
 {% endblock %}
