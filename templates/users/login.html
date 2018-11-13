@@ -2,51 +2,46 @@
 {% block title %}
 <title>Login</title>
 {% endblock %}
-{% block content %}
-{% endblock %}
 {% block sidebar %}
 {% endblock %}
-{% block nav %}
-  <body class="bg-dark">
+{% block dashboard_notif %}
+{% endblock %}
+{% block navbar %}
+{% endblock %}
+{% block content %}
+<body>
 
     <div class="container">
-      <div class="card card-login mx-auto mt-5">
-        <div class="card-header">Login</div>
-        <div class="card-body">
-          {% include 'messages/messages.html' %}
-          <form action="{% url 'users:login' %}" method="post" autocomplete="off">{% csrf_token %}
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="text" id="inputEmail" class="form-control" placeholder="Username" required="required" autofocus="autofocus" name="username">
-                <label for="inputEmail">Username</label>
-              </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please Sign In</h3>
+                    </div>
+                    <div class="panel-body">
+                      {% include 'messages/messages.html' %}
+                        <form action="{% url 'users:login' %}" role="form" method="post" autocomplete="off"> {% csrf_token %}
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Username" name="username" type="text" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                </div>
+                                <!-- Change this to a button or input when using this as a form -->
+                                {% if request.GET.next %}
+                                  <input type="hidden" name="next" value="{{ request.GET.next }}">
+                                  {% endif %}
+                                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-              <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" name="password">
-                <label for="inputPassword">Password</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="checkbox">
-                <!--<label>
-                  <input type="checkbox" value="remember-me">
-                  Remember Password
-                </label>-->
-              </div>
-            </div>
-            {% if request.GET.next %}
-              <input type="hidden" name="next" value="{{ request.GET.next }}">
-              {% endif %}
-            <button type="submit" class="btn btn-primary btn-block">Log in</button>
-          </form>
-          <div class="text-center">
-            <!--<a class="d-block small mt-3" href="register.html">Register an Account</a>
-            <a class="d-block small" href="forgot-password.html">Forgot Password?</a> -->
-          </div>
         </div>
-      </div>
     </div>
+
+</body>
 {% endblock %}
 {% block footer %}
 {% endblock %}
