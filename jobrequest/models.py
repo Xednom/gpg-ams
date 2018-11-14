@@ -25,5 +25,8 @@ class JobRequest(models.Model):
     status_of_the_job_request = models.ForeignKey('StatusOfTheJobRequest', on_delete=models.PROTECT)
     notes_and_coaching_from_project_manager = models.TextField()
 
+    class Meta:
+        ordering = ['-date']
+
     def __str__(self):
         return self.job_request_title

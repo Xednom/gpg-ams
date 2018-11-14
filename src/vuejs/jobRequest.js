@@ -52,6 +52,18 @@ new Vue({
                 console.log(err);
               })
         },
+    getJobRequest: function(id) {
+      this.loading = true;
+      this.$http.get(`/api/v1/jobrequest/${id}/`)
+          .then((response) => {
+            this.currentJobRequest = response.data;
+            this.loading = false;
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
     getStatusOfJobRequest: function() {
       this.loading = true;
       this.$http.get(`/api/v1/status-of-the-job-request/`)
@@ -95,6 +107,26 @@ new Vue({
             this.loading = true;
             console.log(err);
           })
-    }
+    },
+    updateJobRequest: function() {
+      this.loading = true;
+      this.$http.put(`/api/v1/jobrequest/${this.currentJobRequest.id}/`, this.currentJobRequest)
+          .then((response) => {
+            this.loading = false;
+            this.currentJobRequest = response.data;
+            swal({
+              title: "GPG system",
+              text: "Successfully updated the data!",
+              icon: "success",
+              button: false,
+              timer: 1500
+            });
+            this.getClients();
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
   }
 });
