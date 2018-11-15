@@ -14,10 +14,10 @@
 </div>
 <!-- Breadcrumbs-->
 <ol class="breadcrumb">
-<li class="breadcrumb-item">
-<a href="{% url 'users:home' %}">Dashboard</a>
-</li>
-<li class="breadcrumb-item active">Senior Manager's Tab</li>
+  <li class="breadcrumb-item">
+  <a href="{% url 'users:home' %}">Dashboard</a>
+  </li>
+  <li class="breadcrumb-item active">Senior Manager's Tab</li>
 </ol>
 <div id="gpg" style="width: 100%;">
   <div class="row">
@@ -26,6 +26,10 @@
               <div class="panel-heading">
                   Senior Manager Client Information Table
               </div>
+              <div class="form-inline my-2 my-lg-0 pull-right">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" v-model="search_term" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" v-on:click.prevent="getClients()">Search</button>
+              </div>  
               <!-- /.panel-heading -->
               <div class="panel-body">
                   <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -54,7 +58,7 @@
                             <td>[[ client.client_email ]]</td>
                             <td>[[ client.clients_project_manager ]]</td>
                             <td>[[ client.senior_manager ]]</td>
-                            <td>[[ client.VA_assinged ]]</td>
+                            <td>[[ client.VA_assigned ]]</td>
                             <td>[[ client.type_of_task ]]</td>
                             <td>[[ client.status ]]</td>
                             <td>[[ client.notes ]]</td>
@@ -73,108 +77,113 @@
       <!-- /.col-lg-12 -->
   </div>
   <!-- row -->
-              <!-- Modal -->
-              <div class="modal fade bd-example-modal-lg" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle">Edit information</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <form v-on:submit.prevent="updateClient()">
-                      {% csrf_token %}
-                    <div class="modal-body">
-                      <div class="form-group">
-                        <label for="brand_name">Client's Company name</label>
-                        <input
-                          class="form-control"
-                          id="brand_name"
-                          placeholder="Enter client's company name"
-                          v-model="currentClient.clients_company_name"
-                          required="required"
-                          autocomplete="off" >
-                      </div>
-                      <div class="form-group">
-                        <label for="brand_name">Client's code</label>
-                        <input
-                          class="form-control"
-                          id="brand_name"
-                          placeholder="Enter client's code"
-                          v-model="currentClient.client_code"
-                          required="required"
-                          autocomplete="off" >
-                      </div>
-                      <div class="form-group">
-                        <label for="client_name">Client name</label>
-                            <select class="form-control" id="sel1" v-model="currentClient.client" >
-                              <option v-for="client in clientNames">[[client.name]]</option>
-                            </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="brand_name">Client's phone number</label>
-                        <input
-                          class="form-control"
-                          id="brand_name"
-                          placeholder="Enter client's phone number"
-                          v-model="currentClient.client_phone_number"
-                          required="required"
-                          autocomplete="off" >
-                      </div>
-                      <div class="form-group">
-                        <label for="brand_name">Client's email</label>
-                        <input
-                          type="email"
-                          class="form-control"
-                          id="brand_name"
-                          placeholder="Enter client's email"
-                          v-model="currentClient.client_email"
-                          required="required"
-                          autocomplete="off" >
-                      </div>
-                      <div class="form-group">
-                        <label for="client_name">Client's Project Manager</label>
-                            <select class="form-control" id="sel1" v-model="currentClient.clients_project_manager" >
-                              <option v-for="client in clientProjectManagers">[[client.project_manager]]</option>
-                            </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="client_name">Senior Manager</label>
-                            <select class="form-control" id="sel1" v-model="currentClient.senior_manager" >
-                              <option v-for="client in clientSeniorManagers">[[client.name]]</option>
-                            </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="client_name">VA assigned</label>
-                            <select class="form-control" id="sel1" v-model="currentClient.VA_assigned" >
-                              <option v-for="client in clientVA">[[client.full_name]]</option>
-                            </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="client_name">Status</label>
-                            <select class="form-control" id="sel1" v-model="currentClient.status" >
-                              <option v-for="client in clientStatus">[[client.status]]</option>
-                            </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="brand_name">Notes</label>
-                        <textarea
-                          class="form-control"
-                          id="brand_name"
-                          placeholder="Enter notes"
-                          v-model="currentClient.notes"
-                          required="required" >
-                          </textarea>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- end of modal -->
+
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Edit information</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form v-on:submit.prevent="updateClient()">
+            {% csrf_token %}
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="brand_name">Client's Company name</label>
+              <input
+                class="form-control"
+                id="brand_name"
+                placeholder="Enter client's company name"
+                v-model="currentClient.clients_company_name"
+                required="required"
+                autocomplete="off" >
+            </div>
+            <div class="form-group">
+              <label for="brand_name">Client's code</label>
+              <input
+                class="form-control"
+                id="brand_name"
+                placeholder="Enter client's code"
+                v-model="currentClient.client_code"
+                required="required"
+                autocomplete="off" >
+            </div>
+            <div class="form-group">
+              <label for="client_name">Client name</label>
+                  <select class="form-control" id="sel1" v-model="currentClient.client" >
+                    <option v-for="client in clientNames">[[client.name]]</option>
+                  </select>
+            </div>
+            <div class="form-group">
+              <label for="brand_name">Client's phone number</label>
+              <input
+                class="form-control"
+                id="brand_name"
+                placeholder="Enter client's phone number"
+                v-model="currentClient.client_phone_number"
+                required="required"
+                autocomplete="off" >
+            </div>
+            <div class="form-group">
+              <label for="brand_name">Client's email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="brand_name"
+                placeholder="Enter client's email"
+                v-model="currentClient.client_email"
+                required="required"
+                autocomplete="off" >
+            </div>
+            <div class="form-group">
+              <label for="client_name">Client's Project Manager</label>
+                  <select class="form-control" id="sel1" v-model="currentClient.clients_project_manager" >
+                    <option v-for="client in clientProjectManagers">[[client.project_manager]]</option>
+                  </select>
+            </div>
+            <div class="form-group">
+              <label for="client_name">Senior Manager</label>
+                  <select class="form-control" id="sel1" v-model="currentClient.senior_manager" >
+                    <option v-for="client in clientSeniorManagers">[[client.name]]</option>
+                  </select>
+            </div>
+            <div class="form-group">
+              <label for="client_name">VA assigned</label>
+                  <select class="form-control" id="sel1" v-model="currentClient.VA_assigned" >
+                    <option v-for="client in clientVA">[[client.full_name]]</option>
+                  </select>
+            </div>
+            <div class="form-group">
+              <label for="client_name">Status</label>
+                  <select class="form-control" id="sel1" v-model="currentClient.status" >
+                    <option v-for="client in clientStatus">[[client.status]]</option>
+                  </select>
+            </div>
+            <div class="form-group">
+              <label for="brand_name">Notes</label>
+              <textarea
+                class="form-control"
+                id="brand_name"
+                placeholder="Enter notes"
+                v-model="currentClient.notes"
+                required="required" >
+                </textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of modal -->
+
+</div>
+<!-- gpg app -->
+
 {% endblock %}
