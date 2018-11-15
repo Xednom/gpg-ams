@@ -103,7 +103,24 @@
                                 </li>
 
                                 <li>
-                                    <a href="{% url 'jobrequest:add_job_request' %}">Job Request</a>
+                                    <li>
+                                      <a href="#">Job Request <span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+                                            <li>
+                                                <a href="{% url 'jobrequest:add_job_request' %}">Add Job Request</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Update Job Request</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Third Level Item</a>
+                                            </li>
+                                            <li>
+                                                <a href="#">Third Level Item</a>
+                                            </li>
+                                        </ul>
+                                        <!-- /.nav-third-level -->
+                                    </li>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -729,22 +746,7 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
-        $('#jobRequestTable').DataTable({
-            'serverSide': true,
-            'columns': [
-                {'data': 'date'},
-                {'data': 'due_date'},
-                {'data': 'client_code', 'name': 'client_code'},
-                {'data': 'job_request_title'},
-                {'data': 'job_request_sent_via'},
-                {'data': 'job_request_instruction'},
-                {'data': 'total_hours_minutes_allocated'},
-                {'data': 'project_managers'},
-                {'data': 'VA_admin_support'},
-                {'data': 'status_of_the_job_request'},
-                {'data': 'notes_and_coaching_from_project_manager'}
-            ]
-        });
+        $('#jobRequestTable').DataTable();
     });
     </script>
 
