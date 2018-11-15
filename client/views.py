@@ -1,7 +1,6 @@
 from rest_framework import viewsets, filters
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
-from django_filters import rest_framework as filters
 from rest_framework.permissions import DjangoModelPermissions
 from .models import (
         Client,
@@ -87,8 +86,8 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
-    filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ('VA_assigned', 'client_code')
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('VA_assigned__full_name', 'client_code')
 
     def get_queryset(self):
         user = self.request.user
