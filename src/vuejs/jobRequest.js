@@ -121,12 +121,49 @@ new Vue({
               button: false,
               timer: 1500
             });
-            this.getClients();
+            $("#editModal").modal('hide')
+            this.getJobRequests();
           })
           .catch((err) => {
             this.loading = false;
             console.log(err);
           })
     },
+    deleteJobRequest: function(id) {
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this data!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          this.loading = true;
+          this.$http.delete(`/api/v1/jobrequest/${id}/`)
+              .then((response) => {
+                this.loading = false;
+                this.getJobRequests();
+              })
+              .catch((err) => {
+                this.loading = false;
+                console.log(err);
+              })
+          swal("Poof! Your data file has been deleted!", {
+            icon: "success",
+            button: false,
+            timer: 1500
+          });
+        } else {
+          swal({
+            text: "Your data is safe.",
+            icon: "success",
+            button: false,
+            timer: 1500
+          });
+        }
+      });
+
+    }
   }
 });

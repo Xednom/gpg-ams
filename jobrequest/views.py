@@ -24,9 +24,9 @@ class JobRequestView(LoginRequiredMixin, ListView):
     context_object_name = 'jobs'
 
 
-class UpdateJobRequest(LoginRequiredMixin, ListView):
+class UpdateJobRequestView(LoginRequiredMixin, ListView):
     model = JobRequest
-    template_name = 'jobrequest/jobrequest.html'
+    template_name = 'jobrequest/update_job_request.html'
 
 
 class StatusOfTheJobRequestViewSet(viewsets.ModelViewSet):
