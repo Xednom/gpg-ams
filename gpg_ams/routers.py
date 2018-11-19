@@ -8,7 +8,7 @@ from client.views import (
             StatusChoiceViewSet,
             CustomUserViewSet
         )
-from jobrequest.views import JobRequestViewSet, StatusOfTheJobRequestViewSet
+from jobrequest.views import JobRequestViewSet
 from reporting.views import ReportingViewSet
 
 
@@ -22,5 +22,4 @@ router.register(r'senior-manager', SeniorManagerViewSet)
 router.register(r'status-choice', StatusChoiceViewSet)
 router.register(r'custom-user', CustomUserViewSet)
 router.register(r'jobrequest', JobRequestViewSet)
-router.register(r'status-of-the-job-request', StatusOfTheJobRequestViewSet)
 router.register(r'reporting', ReportingViewSet)

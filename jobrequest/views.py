@@ -7,8 +7,8 @@ from rest_framework import viewsets, filters
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.pagination import PageNumberPagination
 
-from .models import JobRequest, StatusOfTheJobRequest
-from .serializers import JobRequestSerializer, StatusOfTheJobRequestSerializer
+from .models import JobRequest
+from .serializers import JobRequestSerializer
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -28,13 +28,6 @@ class JobRequestView(LoginRequiredMixin, ListView):
 class UpdateJobRequestView(LoginRequiredMixin, ListView):
     model = JobRequest
     template_name = 'jobrequest/update_job_request.html'
-
-
-class StatusOfTheJobRequestViewSet(viewsets.ModelViewSet):
-    queryset = StatusOfTheJobRequest.objects.all()
-    serializer_class = StatusOfTheJobRequestSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('type_of_status',)
 
 
 class JobRequestViewSet(viewsets.ModelViewSet):

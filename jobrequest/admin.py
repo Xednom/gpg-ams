@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import JobRequest, StatusOfTheJobRequest
+from .models import JobRequest
 
 
 class JobRequestProfile(admin.ModelAdmin):
@@ -27,4 +27,3 @@ class JobRequestProfile(admin.ModelAdmin):
 
 
 admin.site.register(JobRequest, JobRequestProfile)
-admin.site.register(StatusOfTheJobRequest)
