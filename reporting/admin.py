@@ -8,6 +8,8 @@ from .models import (
 
 
 class ReportingProfile(admin.ModelAdmin):
+    list_filters = ('week_to_date', 'month_to_date')
+    search_fields = ('clients_full_name', 'job_requested_from')
     fieldsets = (
         ('Date information', {
             'fields': ('shift_date', 'month_to_date', 'week_to_date')
