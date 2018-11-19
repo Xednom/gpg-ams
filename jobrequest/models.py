@@ -5,10 +5,10 @@ from client.models import ProjectManager
 
 class JobRequest(models.Model):
     JOB_STATUS = (
-        ('COMPLETE', 'Complete'),
-        ('IN PROGRESS', 'In Progress'),
-        ('FOR FINAL REVIEW', 'For Final Review'),
-        ('JOB REQUEST SENT TO VA', 'Job Request Sent to VA')
+        ('Complete', 'Complete'),
+        ('In Progress', 'In Progress'),
+        ('For Final Review', 'For Final Review'),
+        ('Job Request Sent to VA', 'Job Request Sent to VA')
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date = models.DateField(null=True, blank=True)

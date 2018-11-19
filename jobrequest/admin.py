@@ -6,7 +6,7 @@ class JobRequestProfile(admin.ModelAdmin):
     list_display = ['job_request_title', 'job_request_sent_via', 'project_managers', 'client_code', 'status_of_the_job_request']
     list_filter = ('status_of_the_job_request',)
     list_per_page = 50
-    search_fields = ('client_code', 'project_managers')
+    search_fields = ('client_code', 'project_managers__project_manager', 'job_request_title')
     fieldsets = (
         (None, {
             'fields': ('date', 'due_date', 'total_hours_minutes_allocated')
