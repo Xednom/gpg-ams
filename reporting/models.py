@@ -1,7 +1,7 @@
 import uuid
 from django.conf import settings
 from django.db import models
-from client.models import ProjectManager
+from client.models import ProjectManager, ClientName
 
 
 class WeekToDate(models.Model):
@@ -10,14 +10,6 @@ class WeekToDate(models.Model):
 
     def __str__(self):
         return self.weeks
-
-
-class ClientName(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=250)
-
-    def __str__(self):
-        return self.name
 
 
 class Job(models.Model):
@@ -51,7 +43,7 @@ class Report(models.Model):
     shift_date = models.DateField()
     month_to_date = models.CharField(max_length=10, choices=MONTH_TO_DATE_CHOICES)
     week_to_date = models.ForeignKey('WeekToDate', on_delete=models.PROTECT)
-    clients_full_name = models.ForeignKey('ClientName', on_delete=models.PROTECT)
+    clients_full_name = models.ForeignKey('client.ClientName', on_delete=models.PROTECT)
     title_of_job_request = models.CharField(max_length=250)
     job_requested_from = models.ForeignKey('Job', on_delete=models.PROTECT)
     job_request_description = models.TextField()

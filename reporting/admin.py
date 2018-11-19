@@ -1,14 +1,23 @@
 from django.contrib import admin
 from .models import (
     WeekToDate,
-    ClientName,
     Job,
     Report
 )
 
 
 class ReportingProfile(admin.ModelAdmin):
+    list_display = [
+        'shift_date',
+        'clients_full_name',
+        'title_of_job_request',
+        'title_of_job_request',
+        'time_in',
+        'time_out',
+        'assigned_job_request_to'
+    ]
     list_filters = ('week_to_date', 'month_to_date')
+    list_per_page = 15
     search_fields = ('clients_full_name', 'job_requested_from')
     fieldsets = (
         ('Date information', {
@@ -51,6 +60,5 @@ class ClientNameProfile(admin.ModelAdmin):
 
 
 admin.site.register(WeekToDate, WeekToDateProfile)
-admin.site.register(ClientName, ClientNameProfile)
 admin.site.register(Job, JobProfile)
 admin.site.register(Report, ReportingProfile)

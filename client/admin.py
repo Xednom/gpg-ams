@@ -14,7 +14,7 @@ from .models import (
 class ClientProfile(admin.ModelAdmin):
     list_display = ['client', 'client_code', 'company_category_under', 'clients_company_name', 'client_email', 'lead_source', 'clients_project_manager', 'status']
     list_filter = ('status',)
-    list_per_page = 50
+    list_per_page = 15
     search_fields = ('client_code', 'client', 'clients_company_name')
     fieldsets = (
         (None, {
