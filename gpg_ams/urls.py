@@ -25,3 +25,6 @@ urlpatterns = [
     path('client/', include('client.urls')),
     path('jobrequest/', include('jobrequest.urls'))
 ]
+
+admin.site.site_title = "GPG site admin"
+admin.site.site_header = "GPG Administration"
