@@ -49,7 +49,8 @@ class ProjectManagerView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Client.objects.filter(clients_project_manager__project_manager=user)
+        queryset = Client.objects.filter(
+            clients_project_manager__project_manager=user, status__status="Active")
         return queryset
 
 
@@ -91,5 +92,6 @@ class ClientViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Client.objects.filter(senior_manager__name=user)
+        queryset = Client.objects.filter(
+            senior_manager__name=user, status__status="Active")
         return queryset

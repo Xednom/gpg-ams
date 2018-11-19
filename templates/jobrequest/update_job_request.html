@@ -50,7 +50,7 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td colspan="14" class="text-center bg-warning" v-if="!jobRequests.length">Please search a data to update/delete.</td>
+                          <td colspan="14" class="text-center bg-warning" v-if="!jobRequests.length">You can use "Date", "Client Code" or "VA admin support" to search a data to update/delete.</td>
                         </tr>
                           <tr class="odd gradeX" v-for="job in jobRequests">
                             <td>[[ job.date ]]</td>
@@ -124,6 +124,8 @@
               <select class="form-control" v-model="currentJobRequest.status_of_the_job_request" >
                 <option>Complete</option>
                 <option>In Progress</option>
+                <option>For Final Review</option>
+                <option>Job Request Sent to VA</option>
                 <!--<option v-for="status in statusOfTheJobRequests">[[ status.type_of_status ]]</option>-->
               </select>
             </div>
