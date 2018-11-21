@@ -1,7 +1,6 @@
 from rest_framework import viewsets, filters
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
-from rest_framework.permissions import DjangoModelPermissions
 from .models import (
         Client,
         ClientName,
@@ -20,9 +19,8 @@ from .serializers import (
             CustomUserSerializer
         )
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.views.generic import View, ListView
-from django.urls import reverse_lazy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
@@ -47,10 +45,16 @@ class ProjectManagerView(LoginRequiredMixin, ListView):
     template_name = 'client/project_manager.html'
     context_object_name = 'all_assigned_job'
 
+    def get_context_data(self, **kwargs):
+        context = super(ProjectManagerView, self).get_context_data(**kwargs)
+        context['count'] = self.get_queryset().count()
+        return context
+
     def get_queryset(self):
         user = self.request.user
         queryset = Client.objects.filter(
-            clients_project_manager__project_manager=user, status__status="Active")
+            clients_project_manager__project_manager=user,
+            status__status="Active")
         return queryset
 
 
