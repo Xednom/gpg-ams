@@ -6,8 +6,7 @@ from .models import (
         ClientName,
         ProjectManager,
         TypeOfTask,
-        SeniorManager,
-        StatusChoice
+        SeniorManager
     )
 from .serializers import (
             ClientSerializer,
@@ -15,7 +14,6 @@ from .serializers import (
             ProjectManagerSerializer,
             TypeOfTaskSerializer,
             SeniorManagerSerializer,
-            StatusChoiceSerializer,
             CustomUserSerializer
         )
 
@@ -33,11 +31,21 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
         return  # To not perform the csrf check previously happening
 
 
-class SeniorManagerView(LoginRequiredMixin, View):
+class SeniorManagerView(LoginRequiredMixin, ListView):
+    model = Client
     template_name = 'client/seniors_tab.html'
 
-    def get(self, request):
-        return render(request, self.template_name)
+    def get_context_data(self, **kwargs):
+        context = super(SeniorManagerView, self).get_context_data(**kwargs)
+        context['count'] = self.get_queryset().count()
+        return context
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Client.objects.filter(
+            senior_manager__name=user,
+            status="Active")
+        return queryset
 
 
 class ProjectManagerView(LoginRequiredMixin, ListView):
@@ -53,8 +61,7 @@ class ProjectManagerView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
         queryset = Client.objects.filter(
-            clients_project_manager__project_manager=user,
-            status__status="Active")
+            clients_project_manager__project_manager=user)
         return queryset
 
 
@@ -78,11 +85,6 @@ class SeniorManagerViewSet(viewsets.ModelViewSet):
     serializer_class = SeniorManagerSerializer
 
 
-class StatusChoiceViewSet(viewsets.ModelViewSet):
-    queryset = StatusChoice.objects.all()
-    serializer_class = StatusChoiceSerializer
-
-
 class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
@@ -97,5 +99,5 @@ class ClientViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         queryset = Client.objects.filter(
-            senior_manager__name=user, status__status="Active")
+            senior_manager__name=user, status="Active")
         return queryset

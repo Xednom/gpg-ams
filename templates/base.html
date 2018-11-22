@@ -250,6 +250,8 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div id="morris-area-chart"></div>
+                            <div id="container" data-url="{% url 'users:chart_data' %}"></div>
+
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -473,14 +475,14 @@
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                            <i class="fa fa-bell fa-fw"></i> Panel
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="list-group">
                                 <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small"><em>4 minutes ago</em>
+                                    <i class="fa fa-comment fa-fw"></i> Tasks active
+                                    <span class="pull-right text-muted small"><em>{{ count }}</em>
                                     </span>
                                 </a>
                                 <a href="#" class="list-group-item">
@@ -689,12 +691,18 @@
     <script src="{% static '/vendor/datatables-plugins/dataTables.bootstrap.min.js' %}"></script>
     <script src="{% static '/vendor/datatables-responsive/dataTables.responsive.js' %}"></script>
 
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-    $(document).ready(function() {
-        $('#dataTable').DataTable();
+    <!-- charts -->
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+  <script>
+    $.ajax({
+      url: $("#container").attr("data-url"),
+      dataType: 'json',
+      success: function (data) {
+        Highcharts.chart("container", data);
+      }
     });
-    </script>
+  </script>
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static '/dist/js/sb-admin-2.js' %}"></script>

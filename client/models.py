@@ -51,15 +51,11 @@ class TypeOfTask(models.Model):
         return self.task_name
 
 
-class StatusChoice(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    status = models.CharField(max_length=250, default="Active")
-
-    def __str__(self):
-        return self.status
-
-
 class Client(models.Model):
+    STATUS_CHOICES = (
+        ('Active', 'Active'),
+        ('Inactive', 'Inactive')
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_sign_up = models.DateField(null=True, blank=True)
     company_category_under = models.ForeignKey('CompanyCategory', on_delete=models.PROTECT, null=True, blank=True)
@@ -69,11 +65,13 @@ class Client(models.Model):
     client_code = models.CharField(max_length=150)
     client_phone_number = models.CharField(max_length=150)
     client_email = models.EmailField(max_length=250)
-    lead_source = models.ForeignKey('Lead', on_delete=models.PROTECT, null=True, blank=True)
+    lead_source = models.ForeignKey(
+        'Lead', on_delete=models.PROTECT,
+        null=True, blank=True)
     referred_by = models.CharField(max_length=250, null=True, blank=True)
     clients_project_manager = models.ForeignKey('ProjectManager', on_delete=models.PROTECT)
     clients_count_number = models.IntegerField()
-    status = models.ForeignKey('StatusChoice', on_delete=models.PROTECT)
+    status = models.CharField(max_length=100, choices=STATUS_CHOICES)
     VA_assigned = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT

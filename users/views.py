@@ -1,12 +1,16 @@
 import datetime
 from django.shortcuts import render, redirect
-from django.views.generic import View
+from django.views.generic import ListView, View
 from django.urls import reverse_lazy
+from django.http import JsonResponse
 
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count
+
+from client.models import Client
 
 
 class LoginView(AuthenticationForm, View):
@@ -43,9 +47,39 @@ class LogoutView(View):
         return redirect(reverse_lazy('users:login'))
 
 
-class HomeView(LoginRequiredMixin, View):
-    template_name = 'index.html'
+class HomeView(LoginRequiredMixin, ListView):
+    model = Client
+    template_name = 'base.html'
     login_url = 'users:login'
 
-    def get(self, request):
-        return render(request, self.template_name)
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        context['count'] = self.get_queryset().count()
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Client.objects.filter(
+            senior_manager__name=user, status="Active")
+        return queryset
+
+
+def chart_data(request):
+    dataset = Client.objects \
+        .values('status') \
+        .exclude(status='') \
+        .annotate(total=Count('status'))
+
+    status_name = dict()
+    for status_tuple in Client.STATUS_CHOICES:
+        status_name[status_tuple[0]] = status_tuple[1]
+
+    chart = {
+        'chart': {'type': 'pie'},
+        'title': {'text': 'GPG-admin total count on tasks'},
+        'series': [{
+            'name': 'GPG-admin tasks count',
+            'data': list(map(lambda row: {'name': status_name[row['status']], 'y': row['total']}, dataset))
+        }]
+    }
+
+    return JsonResponse(chart)

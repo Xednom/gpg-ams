@@ -6,13 +6,12 @@ from .models import (
     ProjectManager,
     SeniorManager,
     TypeOfTask,
-    StatusChoice,
     Client
     )
 
 
 class ClientProfile(admin.ModelAdmin):
-    list_display = ['client', 'client_code', 'company_category_under', 'clients_company_name', 'client_email', 'lead_source', 'clients_project_manager', 'status']
+    list_display = ('client', 'client_code', 'company_category_under', 'clients_company_name', 'client_email', 'lead_source', 'clients_project_manager', 'status')
     list_filter = ('status',)
     list_per_page = 15
     search_fields = ('client_code', 'client', 'clients_company_name')
@@ -49,5 +48,4 @@ admin.site.register(Lead)
 admin.site.register(ProjectManager)
 admin.site.register(SeniorManager)
 admin.site.register(TypeOfTask)
-admin.site.register(StatusChoice)
 admin.site.register(Client, ClientProfile)
