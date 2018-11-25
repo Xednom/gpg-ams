@@ -232,7 +232,8 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="container" class="col-sm-12 " data-url="{% url 'users:chart_data' %}"></div>
+                          <div id="container-client" class="col-sm-6 " data-url="{% url 'users:client_status_data' %}"></div>
+                          <div id="container-jobrequest" class="col-sm-6 " data-url="{% url 'users:job_request_status_data' %}"></div>
 
                         </div>
                         <!-- /.panel-body -->
@@ -277,10 +278,20 @@
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
   <script>
     $.ajax({
-      url: $("#container").attr("data-url"),
+      url: $("#container-client").attr("data-url"),
       dataType: 'json',
       success: function (data) {
-        Highcharts.chart("container", data);
+        Highcharts.chart("container-client", data);
+      }
+    });
+  </script>
+
+  <script>
+    $.ajax({
+      url: $("#container-jobrequest").attr("data-url"),
+      dataType: 'json',
+      success: function (data) {
+        Highcharts.chart("container-jobrequest", data);
       }
     });
   </script>

@@ -4,11 +4,11 @@ from client.models import ProjectManager
 
 
 class JobRequest(models.Model):
-    JOB_STATUS = (
-        ('Complete', 'Complete'),
-        ('In Progress', 'In Progress'),
-        ('For Final Review', 'For Final Review'),
-        ('Job Request Sent to VA', 'Job Request Sent to VA')
+    JOB_STATUS_CHOICES = (
+        ('complete', 'Complete'),
+        ('in-progress', 'In Progress'),
+        ('for-final-review', 'For Final Review'),
+        ('job-request-sent-to-va', 'Job Request Sent to VA'),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date = models.DateField(null=True, blank=True)
@@ -20,7 +20,7 @@ class JobRequest(models.Model):
     total_hours_minutes_allocated = models.CharField(max_length=100)
     project_managers = models.ForeignKey('client.ProjectManager', default='Gillian', on_delete=models.PROTECT)
     VA_admin_support = models.CharField(max_length=250)
-    status_of_the_job_request = models.CharField(max_length=100, choices=JOB_STATUS)
+    status = models.CharField(max_length=100, default='----', choices=JOB_STATUS_CHOICES)
     notes_and_coaching_from_project_manager = models.TextField()
 
     class Meta:

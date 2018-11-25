@@ -1,4 +1,5 @@
 import datetime
+import json
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, View
 from django.urls import reverse_lazy
@@ -8,9 +9,10 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
+from django.db.models import Count, Q
 
 from client.models import Client
+from jobrequest.models import JobRequest
 
 
 class LoginView(AuthenticationForm, View):
@@ -63,7 +65,7 @@ class HomeView(LoginRequiredMixin, ListView):
         return queryset
 
 
-def chart_data(request):
+def client_status_data(request):
     dataset = Client.objects \
         .values('status') \
         .exclude(status='') \
@@ -75,11 +77,91 @@ def chart_data(request):
 
     chart = {
         'chart': {'type': 'pie'},
-        'title': {'text': 'GPG-admin total count on tasks'},
+        'title': {'text': 'Client information total count on Active/Inactive tasks'},
         'series': [{
-            'name': 'GPG-admin tasks count',
+            'name': 'Total count',
             'data': list(map(lambda row: {'name': status_name[row['status']], 'y': row['total']}, dataset))
         }]
     }
 
     return JsonResponse(chart)
+
+
+def job_request_status_data(request):
+    dataset = JobRequest.objects \
+        .values('status') \
+        .exclude(status='') \
+        .annotate(total=Count('status'))
+
+    status_name = dict()
+    for status_tuple in JobRequest.JOB_STATUS_CHOICES:
+        status_name[status_tuple[0]] = status_tuple[1]
+
+    chart = {
+        'chart': {'type': 'pie'},
+        'title': {'text': 'Job Request information total count on different status'},
+        'series': [{
+            'name': 'Total count',
+            'data': list(map(lambda row: {'name': status_name[row['status']], 'y': row['total']}, dataset))
+        }]
+    }
+
+    return JsonResponse(chart)
+
+
+# def job_request_status_data(request):
+#     dataset = JobRequest.objects \
+#         .values('status') \
+#         .annotate(complete_count=Count('status', filter=Q(status='Complete')),
+#                   in_progress_count=Count('status', filter=Q(status='In Progress')),
+#                   for_final_review_count=Count('status', filter=Q(status='For Final Review')),
+#                   job_request_sent_to_va_count=Count('status', filter=Q(status='Job Request Sent to VA'))) \
+#         .order_by('status')
+#
+#     categories = list()
+#     complete_series_data = list()
+#     in_progress_series_data = list()
+#     for_final_review_series_data = list()
+#     job_request_sent_to_va_series_data = list()
+#
+#     for entry in dataset:
+#         categories.append('%s Status' % entry['status'])
+#         complete_series_data.append(entry['complete_count'])
+#         in_progress_series_data.append(entry['in_progress_count'])
+#         for_final_review_series_data.append(entry['for_final_review_count'])
+#         job_request_sent_to_va_series_data.append(entry['job_request_sent_to_va_count'])
+#
+#     complete_series = {
+#         'name': 'Complete',
+#         'data': complete_series_data,
+#         'color': 'green'
+#     }
+#
+#     in_progress_series = {
+#         'name': 'In Progress',
+#         'data': in_progress_series_data,
+#         'color': 'blue'
+#     }
+#
+#     for_final_review_series = {
+#         'name': 'For Final Review',
+#         'data': for_final_review_series_data,
+#         'color': 'yellow'
+#     }
+#
+#     job_request_sent_via_series = {
+#         'name': 'Job Request Sent to Va',
+#         'data': job_request_sent_to_va_series_data,
+#         'color': 'red'
+#     }
+#
+#     chart = {
+#         'chart': {'type': 'column'},
+#         'title': {'text': 'Job request status'},
+#         'xAxis': {'categories': categories},
+#         'series': [complete_series, in_progress_series, for_final_review_series, job_request_sent_via_series]
+#     }
+#
+#     dump = json.dumps(chart)
+#
+#     return render(request, 'base.html', {'chart': dump})
