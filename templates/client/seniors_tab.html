@@ -50,6 +50,9 @@
                           </tr>
                       </thead>
                       <tbody>
+                        <tr>
+                          <td colspan="14" class="text-center bg-warning" v-if="!clients.length">No job from the client assigned to you as of now.</td>
+                        </tr>
                           <tr class="odd gradeX" v-for="client in clients">
                             <td>[[ client.clients_company_name ]]</td>
                             <td>[[ client.client_code ]]</td>
