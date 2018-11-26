@@ -10,6 +10,9 @@ class CompanyCategory(models.Model):
     def __str__(self):
         return self.company_name
 
+    class Meta:
+        verbose_name_plural = "Company Categories"
+
 
 class ClientName(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
