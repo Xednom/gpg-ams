@@ -35,18 +35,6 @@ class SeniorManagerView(LoginRequiredMixin, ListView):
     model = Client
     template_name = 'client/seniors_tab.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(SeniorManagerView, self).get_context_data(**kwargs)
-        context['count'] = self.get_queryset().count()
-        return context
-
-    def get_queryset(self):
-        user = self.request.user
-        queryset = Client.objects.filter(
-            senior_manager__name=user,
-            status="Active")
-        return queryset
-
 
 class ProjectManagerView(LoginRequiredMixin, ListView):
     model = Client

@@ -76,7 +76,7 @@
               </div>
               <!-- /.panel-body -->
               <div class="panel panel-footer">
-                <span>Total tasks active are </span><strong>{{ count }}</strong>
+                <span>Total tasks active are </span><strong>[[ clients.length ]]</strong>
               </div>
           </div>
           <!-- /.panel -->
@@ -166,7 +166,8 @@
             <div class="form-group">
               <label for="client_name">Status</label>
                   <select class="form-control" id="sel1" v-model="currentClient.status" >
-                    <option v-for="client in clientStatus">[[client.status]]</option>
+                    <option>Active</option>
+                    <option>Inactive</option>
                   </select>
             </div>
             <div class="form-group">
