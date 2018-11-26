@@ -15,6 +15,7 @@ class ClientProfile(admin.ModelAdmin):
     list_filter = ('status',)
     list_per_page = 15
     search_fields = ('client_code', 'client', 'clients_company_name')
+    change_list_template = 'client/change_list_graph.html'
     fieldsets = (
         (None, {
             'fields': ('date_sign_up',)

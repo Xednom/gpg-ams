@@ -24,7 +24,10 @@
       <div class="col-lg-12">
           <div class="panel panel-default">
               <div class="panel-heading">
-                  Senior Manager Client Information Table
+                  Manage all Client job assigned to you
+              </div>
+              <div class="pull-left" style="margin: 10px 15px;">
+                <span>Total tasks assigned to you are </span><strong>[[ clients.length ]]</strong>
               </div>
               <div class="form-inline my-2 my-lg-0 pull-right" style="margin: 10px;">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" v-model="search_term" aria-label="Search">
@@ -75,9 +78,6 @@
 
               </div>
               <!-- /.panel-body -->
-              <div class="panel panel-footer">
-                <span>Total tasks active are </span><strong>[[ clients.length ]]</strong>
-              </div>
           </div>
           <!-- /.panel -->
       </div>
@@ -90,10 +90,11 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Edit information</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <h3 class="modal-title" id="exampleModalLongTitle">Edit information
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </h3>
           </div>
           <form v-on:submit.prevent="updateClient()">
             {% csrf_token %}
