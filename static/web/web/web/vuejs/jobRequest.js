@@ -19,14 +19,13 @@ new Vue({
       'total_hours_minutes_allocated': null,
       'project_managers': null,
       'VA_admin_support': null,
-      'status_of_the_job_request': null,
+      'status': null,
       'notes_and_coaching_from_project_manager': null,
     },
     search_term: ''
   },
   mounted: function() {
     this.getJobRequests();
-    this.getStatusOfJobRequest();
     this.getProjectManagers();
   },
   methods: {
@@ -34,23 +33,33 @@ new Vue({
       this.newJobRequest.date =  this.newJobRequest.due_date = this.newJobRequest.client_code = null;
       this.newJobRequest.job_request_title = this.newJobRequest.job_request_sent_via = this.newJobRequest.job_request_instruction = null;
       this.newJobRequest.total_hours_minutes_allocated = this.newJobRequest.project_managers = this.newJobRequest.VA_admin_support = null;
-      this.newJobRequest.status_of_the_job_request = this.newJobRequest.notes_and_coaching_from_project_manager = null;
+      this.newJobRequest.status = this.newJobRequest.notes_and_coaching_from_project_manager = null;
     },
     getJobRequests: function() {
           let api_url = '/api/v1/jobrequest/';
-          if(this.search_term!==''||this.search_term!==null) {
-            api_url = `/api/v1/jobrequest/?search=${this.search_term}`
+          if(this.search_term==''||this.search_term==null) {
+            swal({
+              title: "GPG System",
+              text: "Please fill up the search box",
+              icon: "warning",
+              buttons: false,
+              timer: 1500
+            })
+            this.jobRequests = null;
           }
-          this.loading = false;
-          this.$http.get(api_url)
-              .then((response) => {
-                this.jobRequests = response.data;
-                this.loading = false;
-              })
-              .catch((err) => {
-                this.loading = false;
-                console.log(err);
-              })
+          else{
+            api_url = `/api/v1/jobrequest/?search=${this.search_term}`
+            this.loading = false;
+            this.$http.get(api_url)
+                .then((response) => {
+                  this.jobRequests = response.data;
+                  this.loading = false;
+                })
+                .catch((err) => {
+                  this.loading = false;
+                  console.log(err);
+                })
+          }
         },
     getJobRequest: function(id) {
       this.loading = true;
@@ -63,20 +72,7 @@ new Vue({
             this.loading = false;
             console.log(err);
           })
-    },
-    getStatusOfJobRequest: function() {
-      this.loading = true;
-      this.$http.get(`/api/v1/status-of-the-job-request/`)
-          .then((response) => {
-            this.statusOfTheJobRequests = response.data;
-            this.loading = false;
-          })
-          .catch((err) => {
-            this.loading = false;
-            console.log(res);
-            console.log(err);
-          })
-    },
+    }
     getProjectManagers: function() {
       this.loading = true;
       this.$http.get(`/api/v1/project-manager/`)

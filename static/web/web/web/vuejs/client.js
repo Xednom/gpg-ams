@@ -34,7 +34,6 @@ new Vue({
     this.getClientProjectManagers();
     this.getClientSeniorManagers();
     this.getClientVA();
-    this.getClientStatus();
   },
   methods: {
     getClients: function() {
@@ -108,18 +107,6 @@ new Vue({
       this.$http.get(`/api/v1/custom-user/`)
           .then((response) => {
             this.clientVA = response.data;
-            this.loading = false;
-          })
-          .catch((err) => {
-            this.loading = false;
-            console.log(err);
-          })
-    },
-    getClientStatus: function() {
-      this.loading = true;
-      this.$http.get(`/api/v1/status-choice/`)
-          .then((response) => {
-            this.clientStatus = response.data;
             this.loading = false;
           })
           .catch((err) => {

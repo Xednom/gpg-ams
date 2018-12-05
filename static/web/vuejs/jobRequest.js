@@ -25,7 +25,8 @@ new Vue({
     search_term: ''
   },
   mounted: function() {
-    this.getJobRequests();
+    //this.getJobRequests();
+    this.getStatusOfJobRequest();
     this.getProjectManagers();
   },
   methods: {
@@ -72,7 +73,20 @@ new Vue({
             this.loading = false;
             console.log(err);
           })
-    }
+    },
+    getStatusOfJobRequest: function() {
+      this.loading = true;
+      this.$http.get(`/api/v1/status-of-the-job-request/`)
+          .then((response) => {
+            this.statusOfTheJobRequests = response.data;
+            this.loading = false;
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(res);
+            console.log(err);
+          })
+    },
     getProjectManagers: function() {
       this.loading = true;
       this.$http.get(`/api/v1/project-manager/`)
