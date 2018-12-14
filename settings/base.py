@@ -72,11 +72,11 @@ CORS_ALLOW_HEADERS = (
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.BasicAuthentication',
+    #     # 'rest_framework.authentication.TokenAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    # ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
@@ -235,7 +235,7 @@ STATICFILES_DIRS = (
 # for management command;
 # see https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_ROOT = (
-    os.path.join(BASE_DIR, 'static/web')
+    os.path.join(BASE_DIR, 'staticfiles')
 )
 
 LOGIN_REDIRECT_URL = 'users:home'
