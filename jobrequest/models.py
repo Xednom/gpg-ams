@@ -5,6 +5,7 @@ from client.models import ProjectManager
 
 class JobRequest(models.Model):
     JOB_STATUS_CHOICES = (
+        ('----', '------'),
         ('complete', 'Complete'),
         ('in-progress', 'In Progress'),
         ('for-final-review', 'For Final Review'),

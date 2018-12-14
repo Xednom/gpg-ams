@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import View, ListView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 from django.core.paginator import Paginator
 
 from rest_framework import viewsets, filters
@@ -25,8 +25,9 @@ class JobRequestView(LoginRequiredMixin, ListView):
     context_object_name = 'jobs'
 
 
-class UpdateJobRequestView(LoginRequiredMixin, ListView):
+class UpdateJobRequestView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = JobRequest
+    permission_required = ('jobrequest.view_jobrequest',)
     template_name = 'jobrequest/update_job_request.html'
 
 

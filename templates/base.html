@@ -1,4 +1,4 @@
-  {% load static %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,28 +90,33 @@
                                     <a href="{% url 'client:manager_tab' %}">Project Manager tab</a>
                                     {% endif %}
                                 </li>
-                                  <li>
-                                      <li>
-                                        <a href="#">Job Request <span class="fa arrow"></span></a>
-                                          <ul class="nav nav-third-level">
-                                              <li>
-                                                  <a href="{% url 'jobrequest:add_job_request' %}">Add Job Request</a>
-                                              </li>
-                                              {% if perms.jobrequest.has_view_permission %}
+
+                                <li>
+                                    <li>
+                                      <a href="#">Job Request <span class="fa arrow"></span></a>
+                                        <ul class="nav nav-third-level">
+                                          {% if perms.jobrequest.add_jobrequest %}
+                                            <li>
+                                                <a href="{% url 'jobrequest:add_job_request' %}">Add Job Request</a>
+                                            </li>
+                                            {% endif %}
+                                              {% if perms.jobrequest.view_jobrequest %}
                                               <li>
                                                   <a href="{% url 'jobrequest:update_job_request' %}">Update and Delete a Job Request</a>
                                               </li>
                                               {% endif %}
-                                          </ul>
-                                          <!-- /.nav-third-level -->
-                                      </li>
-                                  </li>
+                                        </ul>
+                                        <!-- /.nav-third-level -->
+                                    </li>
+                                </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        {% if perms.reporting.view_reporting %}
                         <li>
                           <a href="{% url 'reporting:view_report' %}"> <i class="fa fa-files-o fa-fw"></i> Reporting</a>
                         </li>
+                        {% endif %}
 
                     </ul>
                 </div>

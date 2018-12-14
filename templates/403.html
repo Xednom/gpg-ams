@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+    {% block dashboard_notif %}
+    {% endblock %}
+
+    {% block content %}
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">GPG Admin</h1>
+      </div>
+    </div>
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+    <a href="{% url 'users:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Job Request Tab</li>
+    </ol>
+
+
+    <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Page Content -->
+        <h1 class="display-1">404</h1>
+        <p class="lead">You don't have any permission to do anything in this page. Please contact your administrator for this issue.
+          <a href="javascript:history.back()">go back</a>
+          to the previous page, or
+          <a href="{% url 'users:home' %}">return to dashboard</a>.</p>
+
+      </div>
+      <!-- /.container-fluid -->
+
+    </div>
+    <!-- /.content-wrapper -->
+
+    {% endblock %}

@@ -64,10 +64,14 @@
                             <td>[[ job.VA_admin_support ]]</td>
                             <td>[[ job.status ]]</td>
                             <td>[[ job.notes_and_coaching_from_project_manager ]]</td>
+                            {% if perms.jobrequest.change_jobrequest %}
                             <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal" v-on:click="getJobRequest(job.id)">
                               Edit
                             </button></td>
+                            {% endif %}
+                            {% if perms.jobrequest.delete_request %}
                             <td><button type="button" class="btn btn-danger" v-on:click="deleteJobRequest(job.id)">Delete</button></td>
+                            {% endif %}
                           </tr>
                       </tbody>
                   </table>
