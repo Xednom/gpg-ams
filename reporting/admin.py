@@ -1,12 +1,12 @@
 from django.contrib import admin
 from .models import (
-    WeekToDate,
-    Job,
-    Report
+    DateInformation,
+    Task,
+    VATimeSheet
 )
 
 
-class ReportingProfile(admin.ModelAdmin):
+class VATimeSheetProfile(admin.ModelAdmin):
     list_display = [
         'shift_date',
         'clients_full_name',
@@ -14,28 +14,28 @@ class ReportingProfile(admin.ModelAdmin):
         'title_of_job_request',
         'time_in',
         'time_out',
-        'assigned_job_request_to'
+        'assigned_job_request_from'
     ]
-    list_filters = ('week_to_date', 'month_to_date')
+    list_filters = ('date_information', 'month_to_date')
     list_per_page = 15
-    search_fields = ('clients_full_name', 'job_requested_from')
+    search_fields = ('clients_full_name', 'list_of_task')
     fieldsets = (
         ('Date information', {
-            'fields': ('shift_date', 'month_to_date', 'week_to_date')
+            'fields': ('shift_date', 'month_to_date', 'date_information')
         }),
         ('Client job information', {
-            'fields': ('clients_full_name', 'title_of_job_request', 'job_requested_from', 'job_request_description',)
+            'fields': ('clients_full_name', 'title_of_job_request', 'list_of_task', 'job_request_description',)
         }),
         ('Time allocated', {
             'fields': ('time_in', 'time_out', 'duration', 'hourly_rate')
         }),
         ('Other informations', {
-            'fields': ('additional_comments', 'assigned_job_request_to', 'project_manager', 'approval_from_project_manager', 'approval_of_admin')
+            'fields': ('additional_comments', 'assigned_job_request_from', 'project_manager', 'approval_from_project_manager', 'approval_of_admin')
         })
     )
 
 
-class WeekToDateProfile(admin.ModelAdmin):
+class DateInformationProfile(admin.ModelAdmin):
     fieldsets = (
         ('Work week durations', {
             'fields': ('weeks',)
@@ -43,7 +43,7 @@ class WeekToDateProfile(admin.ModelAdmin):
     )
 
 
-class JobProfile(admin.ModelAdmin):
+class TaskProfile(admin.ModelAdmin):
     fieldsets = (
         ('Job information', {
             'fields': ('job_name',)
@@ -59,6 +59,6 @@ class ClientNameProfile(admin.ModelAdmin):
     )
 
 
-admin.site.register(WeekToDate, WeekToDateProfile)
-admin.site.register(Job, JobProfile)
-admin.site.register(Report, ReportingProfile)
+admin.site.register(DateInformation, DateInformationProfile)
+admin.site.register(Task, TaskProfile)
+admin.site.register(VATimeSheet, VATimeSheetProfile)

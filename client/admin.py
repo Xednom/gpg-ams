@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import (
-    CompanyCategory,
-    ClientName,
-    Lead,
+    InternalCompanyName,
+    CompanyName,
+    LeadSource,
     ProjectManager,
     SeniorManager,
     TypeOfTask,
@@ -11,10 +11,10 @@ from .models import (
 
 
 class ClientProfile(admin.ModelAdmin):
-    list_display = ('client', 'client_code', 'company_category_under', 'clients_company_name', 'client_email', 'lead_source', 'clients_project_manager', 'status')
+    list_display = ('company_name', 'client_code', 'company_category_under', 'client_company_name', 'client_email', 'lead_source', 'clients_project_manager', 'status')
     list_filter = ('status',)
     list_per_page = 15
-    search_fields = ('client_code', 'client', 'clients_company_name')
+    search_fields = ('client_code', 'company_name', 'client_company_name')
     change_list_template = 'client/change_list_graph.html'
     fieldsets = (
         (None, {
@@ -23,8 +23,8 @@ class ClientProfile(admin.ModelAdmin):
         ('Client information', {
             'fields': (
                 'company_category_under',
-                'clients_company_name',
-                'client',
+                'client_company_name',
+                'company_name',
                 'client_code',
                 'client_phone_number',
                 'client_email',
@@ -43,9 +43,9 @@ class ClientProfile(admin.ModelAdmin):
     )
 
 
-admin.site.register(CompanyCategory)
-admin.site.register(ClientName)
-admin.site.register(Lead)
+admin.site.register(InternalCompanyName)
+admin.site.register(CompanyName)
+admin.site.register(LeadSource)
 admin.site.register(ProjectManager)
 admin.site.register(SeniorManager)
 admin.site.register(TypeOfTask)

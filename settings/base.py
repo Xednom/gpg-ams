@@ -26,6 +26,8 @@ LOCAL_APPS = (
     'client',
     'reporting',
     'jobrequest',
+    'carespecialist',
+    'grappelli',
 )
 
 DJANGO_APPS = (
@@ -69,6 +71,12 @@ CORS_ORIGIN_WHITELIST = (
 CORS_ALLOW_HEADERS = (
     'x-csrftoken'
 )
+
+# Grappelli customization(s)
+GRAPPELLI_ADMIN_TITLE = 'GPG Administration'
+GRAPPELLI_AUTOCOMPLETE_LIMIT = 7
+GRAPPELLI_SWITCH_USER = True
+GRAPPELLI_CLEAN_INPUT_TYPES = True
 
 
 REST_FRAMEWORK = {

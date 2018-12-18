@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import Report
+from .models import VATimeSheet
 
 
-class ReportingSerializer(serializers.ModelSerializer):
+class VATimeSheetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Report
+        model = VATimeSheet
         fields = '__all__'

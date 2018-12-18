@@ -17,23 +17,27 @@ class CustomUser(AbstractUser):
         ('INACTIVE', 'Inactive'),
     )
     full_name = models.CharField(max_length=250, default="My Name")
-    phone_number = models.CharField(max_length=100)
-    SSS_number = models.CharField(max_length=250)
-    TIN_number = models.CharField(max_length=250)
-    pag_ibig_number = models.CharField(max_length=250)
-    philhealth = models.CharField(max_length=250)
-    position = models.CharField(max_length=250)
-    id_number = models.CharField(max_length=250)
+    phone_number = models.CharField(max_length=100, null=True, blank=True)
+    SSS_number = models.CharField(max_length=250, null=True, blank=True)
+    TIN_number = models.CharField(max_length=250, null=True, blank=True)
+    pag_ibig_number = models.CharField(max_length=250, null=True, blank=True)
+    philhealth = models.CharField(max_length=250, null=True, blank=True)
+    position = models.CharField(max_length=250, null=True, blank=True)
+    id_number = models.CharField(max_length=250, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    blood_type = models.CharField(max_length=150)
-    mother_full_maiden_name = models.CharField(max_length=250)
-    father_full_name = models.CharField(max_length=250)
-    emergency_contact_name = models.CharField(max_length=250)
-    emergency_contact_number = models.CharField(max_length=250)
-    relationship_to_the_emergency_contact_person = models.CharField(max_length=200)
-    residential_address = models.TextField()
-    notes = models.TextField()
-    status = models.CharField(max_length=100, choices=STATUS)
+    blood_type = models.CharField(max_length=150, null=True, blank=True)
+    mother_full_maiden_name = models.CharField(max_length=250, null=True, blank=True)
+    father_full_name = models.CharField(max_length=250, null=True, blank=True)
+    emergency_contact_name = models.CharField(max_length=250, null=True, blank=True)
+    emergency_contact_number = models.CharField(max_length=250, null=True, blank=True)
+    relationship_to_the_emergency_contact_person = models.CharField(max_length=200, null=True, blank=True)
+    residential_address = models.TextField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=100, choices=STATUS, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'List of Staff'
+        verbose_name = 'List of Staffs'
 
     def __str__(self):
         return self.full_name

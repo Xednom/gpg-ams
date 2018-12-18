@@ -3,7 +3,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 
 from .models import (
         Client,
-        ClientName,
+        CompanyName,
         ProjectManager,
         TypeOfTask,
         SeniorManager
@@ -54,7 +54,7 @@ class ProjectManagerView(LoginRequiredMixin, ListView):
 
 
 class ClientNameViewSet(viewsets.ModelViewSet):
-    queryset = ClientName.objects.all()
+    queryset = CompanyName.objects.all()
     serializer_class = ClientNameSerializer
 
 

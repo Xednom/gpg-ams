@@ -19,6 +19,7 @@ from django.urls import path, include
 from .routers import router
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')),  # grappelli URLS
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
     path('', include('users.urls')),
