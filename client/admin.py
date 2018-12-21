@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import (
+from .models import Client
+from fillables.models import (
     InternalCompanyName,
     CompanyName,
     LeadSource,
     ProjectManager,
     SeniorManager,
-    TypeOfTask,
-    Client
+    TypeOfTask
     )
 
 

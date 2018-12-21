@@ -21,13 +21,17 @@ def get_secret(setting, secrets=secrets):
 
 # Application definition
 
+ADMIN_APPS = (
+    'grappelli',
+)
+
 LOCAL_APPS = (
+    'fillables',
     'users',
     'client',
     'reporting',
     'jobrequest',
     'carespecialist',
-    'grappelli',
 )
 
 DJANGO_APPS = (
@@ -46,7 +50,7 @@ THIRD_PARTY_APPS = (
     'corsheaders'
 )
 
-INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS
+INSTALLED_APPS = ADMIN_APPS + DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -93,9 +97,6 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework_datatables.filters.DatatablesFilterBackend',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     )
 }
 

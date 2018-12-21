@@ -37,7 +37,6 @@ class CustomUser(AbstractUser):
 
     class Meta:
         verbose_name = 'List of Staff'
-        verbose_name_plural = 'List of Staffs'
 
     def __str__(self):
         return self.full_name

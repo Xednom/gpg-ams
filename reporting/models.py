@@ -1,28 +1,7 @@
 import uuid
 from django.conf import settings
 from django.db import models
-from client.models import ProjectManager, CompanyName
-
-
-class DateInformation(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    weeks = models.CharField(max_length=250)
-
-    def __str__(self):
-        return self.weeks
-
-
-class Task(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    job_name = models.CharField(max_length=250)
-    notes = models.TextField(null=True, blank=True)
-
-    class Meta:
-        verbose_name = 'List of Task'
-        verbose_name_plural = 'List of Tasks'
-
-    def __str__(self):
-        return self.job_name
+from fillables.models import ProjectManager, CompanyName, DateInformation, Task
 
 
 class VATimeSheet(models.Model):
@@ -47,7 +26,7 @@ class VATimeSheet(models.Model):
 
     shift_date = models.DateField()
     month_to_date = models.CharField(max_length=10, choices=MONTH_TO_DATE_CHOICES, null=True, blank=True)
-    date_information = models.ForeignKey('DateInformation', on_delete=models.PROTECT, null=True, blank=True)
+    date_information = models.ForeignKey(DateInformation, on_delete=models.PROTECT, null=True, blank=True)
     clients_full_name = models.ForeignKey(CompanyName, on_delete=models.PROTECT, null=True, blank=True)
     title_of_job_request = models.CharField(max_length=250, null=True, blank=True)
     list_of_task = models.ForeignKey(Task, on_delete=models.PROTECT, null=True, blank=True)
