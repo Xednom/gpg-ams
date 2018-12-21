@@ -14,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_secret('SECRET_KEY')
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -48,11 +48,11 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
          'ENGINE': 'django.db.backends.mysql',
-         'NAME': 'gpg',
-         'USER': 'gpg-admin',
-         'PASSWORD': '',
-         'HOST': 'localhost',
-         'PORT': '3306',
+         'NAME': env('DATABASE_NAME'),
+         'USER': env('DATABASE_USER'),
+         'PASSWORD': env('DATABASE_PASSWORD'),
+         'HOST': env('DATABASE_HOST'),
+         'PORT': env('DATABASE_PORT'),
          'OPTIONS': {
              'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
          },
