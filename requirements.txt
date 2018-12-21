@@ -1,6 +1,7 @@
 Django==2.1.2
 django-cors-headers==2.4.0
 django-filter==2.0.0
+django-grappelli==2.12.1
 django-rest-auth==0.9.3
 django-rest-framework-multi-slug-field==0.2.0
 djangorestframework==3.9.0
