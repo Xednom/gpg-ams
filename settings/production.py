@@ -48,9 +48,9 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
          'ENGINE': 'django.db.backends.mysql',
-         'NAME': env('DATABASE_NAME'),
-         'USER': env('DATABASE_USER'),
-         'PASSWORD': env('DATABASE_PASSWORD'),
+         'NAME': 'gpg$gpg',
+         'USER': 'gpg',
+         'PASSWORD': 'admin12345',
          'HOST': env('DATABASE_HOST'),
          'PORT': env('DATABASE_PORT'),
          'OPTIONS': {
