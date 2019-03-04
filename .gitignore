@@ -1,5 +1,4 @@
 secrets.json
-local.py
 *.pyc
 *.pyo
 .idea

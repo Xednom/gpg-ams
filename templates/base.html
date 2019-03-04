@@ -95,16 +95,12 @@
                                     <li>
                                       <a href="#">Job Request <span class="fa arrow"></span></a>
                                         <ul class="nav nav-third-level">
-                                          {% if perms.jobrequest.add_jobrequest %}
                                             <li>
                                                 <a href="{% url 'jobrequest:add_job_request' %}">Add Job Request</a>
                                             </li>
-                                            {% endif %}
-                                              {% if perms.jobrequest.view_jobrequest %}
-                                              <li>
-                                                  <a href="{% url 'jobrequest:update_job_request' %}">Update and Delete a Job Request</a>
-                                              </li>
-                                              {% endif %}
+                                            <li>
+                                                <a href="{% url 'jobrequest:update_job_request' %}">Update and Delete a Job Request</a>
+                                            </li>
                                         </ul>
                                         <!-- /.nav-third-level -->
                                     </li>
