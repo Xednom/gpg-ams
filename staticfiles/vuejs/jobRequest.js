@@ -6,6 +6,7 @@ new Vue({
     jobRequests: [],
     statusOfTheJobRequests: [],
     projectManagers: [],
+    jobRequestTitles: [],
     loading: false,
     currentJobRequest: {},
     message: null,
@@ -28,6 +29,7 @@ new Vue({
     //this.getJobRequests();
     this.getStatusOfJobRequest();
     this.getProjectManagers();
+    this.getJobRequestTitles();
   },
   methods: {
     reset: function() {
@@ -73,6 +75,18 @@ new Vue({
             this.loading = false;
             console.log(err);
           })
+    },
+    getJobRequestTitles: function () {
+      this.loading = true;
+      this.$http.get(`/api/v1/job-request-title/`)
+        .then((response) => {
+          this.jobRequestTitles = response.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
     },
     getStatusOfJobRequest: function() {
       this.loading = true;

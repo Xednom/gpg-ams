@@ -7,10 +7,10 @@ from fillables.models import ProjectManager, JobTitleRequest
 class JobRequest(models.Model):
     JOB_STATUS_CHOICES = (
         ('----', '------'),
-        ('complete', 'Complete'),
-        ('in-progress', 'In Progress'),
-        ('for-final-review', 'For Final Review'),
-        ('job-request-sent-to-va', 'Job Request Sent to VA'),
+        ('Complete', 'Complete'),
+        ('in Progress', 'In Progress'),
+        ('For Final Review', 'For Final Review'),
+        ('Job Request Sent to VA', 'Job Request Sent to VA'),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date = models.DateField(null=True, blank=True)

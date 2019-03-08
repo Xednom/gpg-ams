@@ -46,7 +46,7 @@ class ClientSerializer(serializers.ModelSerializer):
         model = Client
         fields = (
             'id',
-            'clients_company_name',
+            'client_company_name',
             'client_code',
             'company_name',
             'client_phone_number',

@@ -67,6 +67,14 @@ body {
   right: 0;
   left: auto;
 }
+[v-cloak] {
+  display: none;
+}
+label, th {
+  font-size: 14px;
+  color: #777777;
+  font-weight: 0 !important;
+}
 .sidebar .sidebar-nav.navbar-collapse {
   padding-left: 0;
   padding-right: 0;

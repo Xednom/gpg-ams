@@ -7,7 +7,7 @@ from client.views import (
             SeniorManagerViewSet,
             CustomUserViewSet
         )
-from jobrequest.views import JobRequestViewSet
+from jobrequest.views import JobRequestViewSet, JobRequestTitleViewSet
 from reporting.views import ReportingViewSet
 
 
@@ -20,4 +20,5 @@ router.register(r'type-of-task', TypeOfTaskViewSet)
 router.register(r'senior-manager', SeniorManagerViewSet)
 router.register(r'custom-user', CustomUserViewSet)
 router.register(r'jobrequest', JobRequestViewSet)
+router.register(r'job-request-title', JobRequestTitleViewSet)
 router.register(r'reporting', ReportingViewSet)

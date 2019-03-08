@@ -37,8 +37,8 @@ class Client(models.Model):
     notes = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = 'List of Client'
-        verbose_name_plural = 'List of Clients'
+        verbose_name = 'List of Client Job'
+        verbose_name_plural = 'List of Client Jobs'
         ordering = ['-date_sign_up']
 
     def __str__(self):

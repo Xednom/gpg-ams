@@ -8,7 +8,8 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.pagination import PageNumberPagination
 
 from .models import JobRequest
-from .serializers import JobRequestSerializer
+from fillables.models import JobTitleRequest
+from .serializers import JobRequestSerializer, JobTitleRequestSerializer
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -37,3 +38,11 @@ class JobRequestViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('date', 'client_code', 'VA_admin_support')
+
+
+class JobRequestTitleViewSet(viewsets.ModelViewSet):
+    queryset = JobTitleRequest.objects.all()
+    serializer_class = JobTitleRequestSerializer
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('title',)

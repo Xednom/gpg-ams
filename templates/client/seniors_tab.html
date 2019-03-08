@@ -19,7 +19,7 @@
   </li>
   <li class="breadcrumb-item active">Senior Manager's Tab</li>
 </ol>
-<div id="gpg" style="width: 100%;">
+<div id="gpg" style="width: 100%;" v-cloak>
   <div class="row">
       <div class="col-lg-12">
           <div class="panel panel-default">
@@ -35,7 +35,18 @@
               </div>
               <!-- /.panel-heading -->
               <div class="panel-body">
-                  <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <!-- loading -->
+                <div class="custom-loader" v-if="loading">
+                  <div class="col-md-12 col-sm-12">
+                    <div class="d-flex flex-column align-items-center">
+                      <div class="spinner-border" role="status"></div>
+                      <br />
+                      <strong>Fetching data...</strong>
+                    </div>
+                  </div>
+                </div>
+                <!-- end loading -->
+                  <table width="100%" class="table table-striped table-bordered table-hover" v-if="!loading">
                       <thead>
                           <tr>
                               <th>Client(s) company name</th>
@@ -56,10 +67,10 @@
                         <tr>
                           <td colspan="14" class="text-center bg-warning" v-if="!clients.length">No job from the client assigned to you as of now.</td>
                         </tr>
-                          <tr class="odd gradeX" v-for="client in clients">
-                            <td>[[ client.clients_company_name ]]</td>
+                          <tr class="odd gradeX" v-for="(client, i) in paginatedRecords">
+                            <td>[[ client.client_company_name ]]</td>
                             <td>[[ client.client_code ]]</td>
-                            <td>[[ client.client ]]</td>
+                            <td>[[ client.company_name ]]</td>
                             <td>[[ client.client_phone_number ]]</td>
                             <td>[[ client.client_email ]]</td>
                             <td>[[ client.clients_project_manager ]]</td>
@@ -75,13 +86,33 @@
                       </tbody>
                   </table>
                   <!-- /.table-responsive -->
-
               </div>
               <!-- /.panel-body -->
           </div>
           <!-- /.panel -->
       </div>
       <!-- /.col-lg-12 -->
+      <!-- pagination -->
+      <nav class="pagination-wrapper" v-if="endPage > 1">
+        <ul class="pagination justify-content-end">
+          <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+            <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+              Previous
+            </a>
+          </li>
+          <li v-for="pageNumber in pages" v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+            <a class="page-link" v-on:click="goToPage(pageNumber)">
+              [[ pageNumber ]]
+            </a>
+          </li>
+          <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+            <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+              Next
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- end of pagination -->
   </div>
   <!-- row -->
 
@@ -100,17 +131,17 @@
             {% csrf_token %}
           <div class="modal-body">
             <div class="form-group">
-              <label for="brand_name">Client's Company name</label>
+              <label>Client's Company name</label>
               <input
                 class="form-control"
                 id="brand_name"
                 placeholder="Enter client's company name"
-                v-model="currentClient.clients_company_name"
+                v-model="currentClient.client_company_name"
                 required="required"
                 autocomplete="off" >
             </div>
             <div class="form-group">
-              <label for="brand_name">Client's code</label>
+              <label>Client's code</label>
               <input
                 class="form-control"
                 id="brand_name"
@@ -121,7 +152,7 @@
             </div>
             <div class="form-group">
               <label for="client_name">Client name</label>
-                  <select class="form-control" id="sel1" v-model="currentClient.client" >
+                  <select class="form-control" id="sel1" v-model="currentClient.company_name" >
                     <option v-for="client in clientNames">[[client.name]]</option>
                   </select>
             </div>
@@ -195,5 +226,6 @@
 
 </div>
 <!-- gpg app -->
+</div>
 
 {% endblock %}
