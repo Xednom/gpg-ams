@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 
 from rest_framework import viewsets, filters
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
 from .models import JobRequest
@@ -36,6 +37,7 @@ class JobRequestViewSet(viewsets.ModelViewSet):
     queryset = JobRequest.objects.all()
     serializer_class = JobRequestSerializer
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('date', 'client_code', 'VA_admin_support')
 

@@ -1,5 +1,6 @@
 from rest_framework import viewsets, filters
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from .models import (
         Client,
@@ -81,6 +82,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('VA_assigned__full_name', 'client_code')
 
