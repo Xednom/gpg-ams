@@ -12,7 +12,8 @@ env.read_env(env_file)
 # Application definition
 
 ADMIN_APPS = (
-    'grappelli',
+    'jet.dashboard',
+    'jet',
 )
 
 LOCAL_APPS = (
@@ -66,11 +67,10 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken'
 )
 
-# Grappelli customization(s)
-GRAPPELLI_ADMIN_TITLE = 'GPG Administration'
-GRAPPELLI_AUTOCOMPLETE_LIMIT = 7
-GRAPPELLI_SWITCH_USER = True
-GRAPPELLI_CLEAN_INPUT_TYPES = True
+# Django Jet Customization(s)
+JET_CHANGE_FORM_SIBLING_LINKS = True
+JET_INDEX_DASHBOARD = 'jet.dashboard.dashboard.DefaultIndexDashboard'
+JET_APP_INDEX_DASHBOARD = 'jet.dashboard.dashboard.DefaultAppIndexDashboard'
 
 
 REST_FRAMEWORK = {
@@ -228,7 +228,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'src')
+    os.path.join(BASE_DIR, 'src'),
 )
 
 # for management command;
