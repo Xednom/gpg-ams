@@ -24,7 +24,6 @@ LOCAL_APPS = (
     'jobrequest',
     'carespecialist',
     'config',
-    'dynamic_models',
     'eav',
 )
 
