@@ -23,11 +23,15 @@ LOCAL_APPS = (
     'reporting',
     'jobrequest',
     'carespecialist',
+    'config',
+    'dynamic_models',
+    'eav',
 )
 
 DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -44,6 +48,9 @@ THIRD_PARTY_APPS = (
 INSTALLED_APPS = ADMIN_APPS + DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# To enable the sites framework
+SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
