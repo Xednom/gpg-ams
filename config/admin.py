@@ -14,6 +14,14 @@ class ClientNameAdmin(BaseEntityAdmin):
     form = ClientNameAdminForm
 
 
+class CallDetailsAdminForm(BaseDynamicEntityForm):
+    model = CallDetails
+
+
+class CallDetailsAdmin(BaseEntityAdmin):
+    form = CallDetailsAdminForm
+
+
 class CallDetailsInline(admin.StackedInline):
     """
     Inline form for Client call informations
@@ -65,4 +73,5 @@ class CallDetailsProfile(admin.ModelAdmin):
 
 
 admin.site.register(ClientName, ClientNameAdmin)
-admin.site.register(CallDetails, CallDetailsProfile)
+# admin.site.register(CallDetails, CallDetailsProfile)
+admin.site.register(CallDetails, CallDetailsAdmin)
