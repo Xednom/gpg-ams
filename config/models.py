@@ -24,3 +24,4 @@ class CallDetails(models.Model):
 
 
 eav.register(ClientName)
+eav.register(CallDetails)
