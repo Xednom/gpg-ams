@@ -72,6 +72,6 @@ class CallDetailsProfile(admin.ModelAdmin):
     )
 
 
-admin.site.register(ClientName, ClientNameAdmin)
-# admin.site.register(CallDetails, CallDetailsProfile)
-admin.site.register(CallDetails, CallDetailsAdmin)
+admin.site.register(ClientName, ClientNameProfile)
+admin.site.register(CallDetails, CallDetailsProfile)
+# admin.site.register(CallDetails, CallDetailsAdmin)

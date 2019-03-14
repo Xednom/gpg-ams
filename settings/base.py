@@ -25,6 +25,7 @@ LOCAL_APPS = (
     'carespecialist',
     'config',
     'eav',
+    'landmaster',
 )
 
 DJANGO_APPS = (
