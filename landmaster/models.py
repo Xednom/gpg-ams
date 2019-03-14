@@ -19,6 +19,9 @@ class DueDiligence(TimeStampedModel):
                                                  null=True, blank=True)
     customer_care_specialist = models.CharField(max_length=250, null=True, blank=True)
 
+    def __str__(self):
+        return str(self.company_owner)
+
 
 class LandData(models.Model):
     owner_name = models.ForeignKey(DueDiligence, null=True, blank=True, on_delete=models.PROTECT)
