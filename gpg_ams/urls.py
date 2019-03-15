@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('', include('users.urls')),
     path('client/', include('client.urls')),
+    path('land-master/', include('landmaster.urls')),
     path('jobrequest/', include('jobrequest.urls')),
     path('reporting/', include('reporting.urls')),
 

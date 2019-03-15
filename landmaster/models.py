@@ -22,6 +22,11 @@ class DueDiligence(TimeStampedModel):
     def __str__(self):
         return str(self.company_owner)
 
+    class Meta:
+        ordering = ['date_requested']
+
+    
+
 
 class LandData(models.Model):
     owner_name = models.ForeignKey(DueDiligence, null=True, blank=True, on_delete=models.PROTECT)
@@ -39,12 +44,18 @@ class LandData(models.Model):
     assessed_value = models.CharField(max_length=250, null=True, blank=True)
     access_to_property = models.CharField(max_length=250, null=True, blank=True, verbose_name='Access to Property (Dirt or Paved)')
 
+    def __str__(self):
+        return str(self.owner_name)
+
 
 class AdditionalLandInfo(models.Model):
     client_name = models.ForeignKey(DueDiligence, null=True, blank=True, on_delete=models.PROTECT)
     closest_major_city = models.CharField(max_length=250, null=True, blank=True)
     closest_small_town = models.CharField(max_length=250, null=True, blank=True)
     nearby_attractions = models.CharField(max_length=250, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.client_name)
 
 
 class CountyData(models.Model):
@@ -60,6 +71,9 @@ class CountyData(models.Model):
     tax_office_contact = models.CharField(max_length=250, null=True, blank=True)
     assessors_office_contact = models.CharField(max_length=250, null=True, blank=True, verbose_name="Assessor's Office Contact")
 
+    def __str__(self):
+        return str(self.client_name)
+
 
 class TaxData(models.Model):
     client_name = models.ForeignKey(DueDiligence, null=True, blank=True, on_delete=models.PROTECT)
@@ -68,6 +82,9 @@ class TaxData(models.Model):
     annual_property_taxes = models.CharField(max_length=250, null=True, blank=True)
     is_property_part_of_an_hoa = models.BooleanField()
     how_much_dues = models.CharField(max_length=250, null=True, blank=True, verbose_name="Is so how much are the dues?")
+
+    def __str__(self):
+        return str(self.client_name)
 
 
 class ZoningData(models.Model):
@@ -85,6 +102,9 @@ class ZoningData(models.Model):
     notes_on_mobile_homes = models.TextField(null=True, blank=True)
     is_property_flood_zone_area = models.BooleanField(verbose_name="Is the property in the flood zone area?")
 
+    def __str__(self):
+        return str(self.client_name)
+
 
 class DataOnUtilities(models.Model):
     SEWER_OR_SEPTIC_CHOICES = (
@@ -97,6 +117,9 @@ class DataOnUtilities(models.Model):
     power = models.BooleanField(verbose_name='Power(electricity)?')
     gas = models.BooleanField(verbose_name='Gas?')
     waste = models.BooleanField(verbose_name='Waste?')
+
+    def __str__(self):
+        return str(self.client_name)    
 
     class Meta:
         verbose_name = 'Data On Utility'

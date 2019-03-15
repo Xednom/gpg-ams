@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+GPG System | Due Diligence
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header">
+            Due Diligence Tab
+        </h1>
+    </div>
+</div>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'users:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Add Due Diligence</li>
+</ol>
+<div id="gpg-land-master" style="width: 100;" v-cloak>
+    
+</div>
+
+{% endblock %}
