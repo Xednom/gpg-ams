@@ -39,7 +39,7 @@ class DueDiligenceView(LoginRequiredMixin, ListView):
 
 class DueDiligenceViewSet(viewsets.ModelViewSet):
     queryset = DueDiligence.objects.all()
-    authentication_class = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permistion_classes = (IsAuthenticated,)
     serializer_class = DueDiligenceSerializer
 
@@ -47,40 +47,40 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
 class LandDataViewSet(viewsets.ModelViewSet):
     queryset = LandData.objects.all()
     serializer_class = LandDataSerializer
-    authentication_class = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     
 
 class AdditionalLandInfoViewSet(viewsets.ModelViewSet):
     queryset = AdditionalLandInfo.objects.all()
     serializer_class = AdditionalLandInfoSerializer
-    authentication_class = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
 
 class CountyDataViewSet(viewsets.ModelViewSet):
     queryset = CountyData.objects.all()
     serializer_class = CountyDataSerializer
-    authentication_class = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
 
 class TaxDataViewSet(viewsets.ModelViewSet):
     queryset = TaxData.objects.all()
     serializer_class = TaxDataSerializer
-    authentication_class = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
 
 class ZoningDataViewSet(viewsets.ModelViewSet):
     queryset = ZoningData.objects.all()
     serializer_class = ZoningDataSerializer
-    authentication_class = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
 
 class DataOnUtilitiesViewSet(viewsets.ModelViewSet):
     queryset = DataOnUtilities.objects.all()
     serializer_class = DataOnUtilitiesSerializer
-    authentication_class = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)

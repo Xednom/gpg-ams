@@ -79,7 +79,7 @@ new Vue({
         },
     },
     mounted: function () {
-
+        this.getClientNames();
     },
     methods: {
         resetDueDiligenceFields: function () {
@@ -116,6 +116,15 @@ new Vue({
             Object.keys(this.newDataOnUtilities).forEach(key => {
                 this.newDataOnUtilities[key] = ''
             })
+        },
+        addAllApps: function () {
+            this.addDueDiligence();
+            this.addLandData();
+            this.addAdditionalLandInfo();
+            this.addCountyData();
+            this.addTaxData();
+            this.addZoningData();
+            this.addDataOnUtilities();
         },
         getClientNames: function() {
             this.loading = true;
@@ -162,8 +171,8 @@ new Vue({
         },
         addAdditionalLandInfo: function () {
             this.loading = true;
-            this.$http.post('/api/v1/additional-land-info', this.newAdditionalLandInfo)
-                .then(() => {
+            this.$http.post('/api/v1/additional-land-info/', this.newAdditionalLandInfo)
+                .then((response) => {
                     this.loading = false;
                     this.resetAdditionalLandInfoFields();
                 })
@@ -174,8 +183,8 @@ new Vue({
         },
         addCountyData: function () {
             this.loading = true;
-            this.$http.post('/api/v1/county-data', this.newCountyData)
-                .then(() => {
+            this.$http.post('/api/v1/county-data/', this.newCountyData)
+                .then((response) => {
                     this.loading = false;
                     this.resetCountyDataFields();
                 })
@@ -187,7 +196,7 @@ new Vue({
         addTaxData: function () {
             this.loading = true;
             this.$http.post('/api/v1/tax-data/', this.newTaxData)
-                .then(() => {
+                .then((response) => {
                     this.loading = false;
                     this.resetTaxDataFields();
                 })
@@ -199,7 +208,7 @@ new Vue({
         addZoningData: function () {
             this.loading = true;
             this.$http.post('/api/v1/zoning-data/', this.newZoningData)
-                .then(() => {
+                .then((response) => {
                     this.loading = false;
                     this.resetZoningDataFields();
                 })
@@ -210,8 +219,8 @@ new Vue({
         },
         addDataOnUtilities: function () {
             this.loading = true;
-            this.$http.post('/api/v1/data-on-utilities', this.newDataOnUtilities)
-                .then(() => {
+            this.$http.post('/api/v1/data-on-utilities/', this.newDataOnUtilities)
+                .then((response) => {
                     this.loading = false;
                     this.resetDataOnUtilitiesFields();
                 })

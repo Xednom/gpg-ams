@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 from fillables.models import CompanyName
@@ -12,6 +14,7 @@ class TimeStampedModel(models.Model):
 
 
 class DueDiligence(TimeStampedModel):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_requested = models.DateField(null=True, blank=True)
     company_name = models.ForeignKey(CompanyName, null=True, blank=True, on_delete=models.PROTECT)
     company_owner = models.CharField(max_length=250, null=True, blank=True)
@@ -20,7 +23,7 @@ class DueDiligence(TimeStampedModel):
     customer_care_specialist = models.CharField(max_length=250, null=True, blank=True)
 
     def __str__(self):
-        return str(self.company_owner)
+        return str(self.company_name)
 
     class Meta:
         ordering = ['date_requested']

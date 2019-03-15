@@ -24,7 +24,7 @@ class DueDiligenceSerializer(serializers.ModelSerializer):
 
 
 class LandDataSerializer(serializers.ModelSerializer):
-    owner_name = serializers.SlugRelatedField(slug_field='name', queryset=CompanyName.objects.all())
+    owner_name = serializers.SlugRelatedField(slug_field='company_name', queryset=DueDiligence.objects.all())
 
     class Meta:
         model = LandData
