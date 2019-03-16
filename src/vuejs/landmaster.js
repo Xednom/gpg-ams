@@ -128,7 +128,7 @@ new Vue({
         },
         getClientNames: function() {
             this.loading = true;
-            this.$http.get(`/api/v1/client-name/`)
+            this.$http.get(`/api/v1/due-diligence/`)
                 .then((response) => {
                     this.clientNames = response.data;
                     this.loading = false;
