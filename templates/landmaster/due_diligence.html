@@ -21,7 +21,7 @@ GPG System | Due Diligence
     <li class="breadcrumb-item active">Add Due Diligence</li>
 </ol>
 <div id="gpg-land-master" style="width: 100;" v-cloak>
-    <form v-on:submit.prevent="addAllApps" method="POST">
+    <form v-on:submit.prevent="addDueDiligence" method="POST">
         <div class="row">
             <div class="col-md-12 col-sm-12">
                 <div>
@@ -59,108 +59,392 @@ GPG System | Due Diligence
                         </div>
                     </div>
                     <hr>
-                    <h3>
-                        Land Data Information
-                    </h3>
+                    <div>
+                        <h3>
+                            Land Data Information
+                        </h3>
+                    </div>
+                    <div class="panel-body">
                         <div class="form-row">
-                            <div class="form-row col-md-2 col-sm-12">
-                                <label>Owner name</label>
-                                <select class="form-control form-control-sm" v-model="newLandData.owner_name">
-                                    <!-- <option v-model="newLandData.owner_name"></option> -->
-                                    <option v-for="cn in clientNames">[[ cn.company_name ]]</option>
-                                </select>
+                            <div class="form-group col-md-2 col-sm-12">
+                                <label>Owner's name</label>
+                                <input type="text" 
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.owner_name"
+                                :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-3 col-sm-12">
                                 <label>Parcel Number</label>
                                 <input type="text" 
                                 class="form-control form-control-sm" 
-                                v-model="newLandData.parcel_number"
+                                v-model="newDueDiligence.parcel_number"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-3 col-sm-12">
                                 <label>Account number</label>
                                 <input type="text" 
                                 class="form-control form-control-sm"
-                                v-model="newLandData.account_number"
+                                v-model="newDueDiligence.account_number"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-4 col-sm-12">
                                 <label>Property Address</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.property_address"
+                                v-model="newDueDiligence.property_address"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-2 col-sm-12">
                                 <label>County</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.county"
+                                v-model="newDueDiligence.county"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-3 col-sm-12">
                                 <label>Lot Number</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.lot_number"
+                                v-model="newDueDiligence.lot_number"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-4 col-sm-12">
                                 <label>Legal Description</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.lagel_description"
+                                v-model="newDueDiligence.lagel_description"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-3 col-sm-12">
                                 <label>Parcel Size</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.parcel_size"
+                                v-model="newDueDiligence.parcel_size"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-4 col-sm-12">
                                 <label>GPS Coordinates</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.gpg_coordinates"
+                                v-model="newDueDiligence.gpg_coordinates"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-4 col-sm-12">
                                 <label>GPS Coordinates 4 corners</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.gps_coordinates_4_corners"
+                                v-model="newDueDiligence.gps_coordinates_4_corners"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-4 col-sm-12">
                                 <label>Google Map Link</label>
                                 <input type="url"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.google_map_link"
+                                v-model="newDueDiligence.google_map_link"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-4 col-sm-12">
                                 <label>Elevation</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.elevation"
+                                v-model="newDueDiligence.elevation"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-4 col-sm-12">
                                 <label>Assessed value</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.assessed_value"
+                                v-model="newDueDiligence.assessed_value"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-row col-md-4 col-sm-12">
+                            <div class="form-group col-md-4 col-sm-12">
                                 <label>Access to Property</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
-                                v-model="newLandData.access_to_property"
+                                v-model="newDueDiligence.access_to_property"
                                 :disabled="loading == true">
                             </div>
+                        </div>
+                    </div>
+                        <hr>
+                        <div>
+                            <h3>
+                                Additional Land Info
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Closest major city</label>
+                                    <input type="text" 
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.closest_major_city"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Closest minor town</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.closest_minor_town"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Nearby attractions</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.nearby_attractions"
+                                    :disabled="loading == true">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h3>
+                                County Data
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Assessor Website</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.assessor_website"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Treasurer Website</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.treasurer_website"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Treasurer Website</label>
+                                    <input type="text" 
+                                    class="form-control form-control-sm" 
+                                    v-model="newDueDiligence.recorder_cleark_website"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Reorder/Clerk Website</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.reorder_clerk_website"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Zoning Department Website</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.zoning_department_website"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>GIS Website</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.gis_website"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>CAD Website</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.cad_website"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Planning Department Website</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.planning_department_contact"
+                                    :disabled="loading == true">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Reorder/Clerk Contact</label>
+                                    <input type="text"
+                                    class="form-control form-control-sm"
+                                    v-model="newDueDiligence.recorder_clerk_contact"
+                                    :disabled="loading == true">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h3>
+                                Tax Data
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Back Taxes owed? If so, amount owed.</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.back_taxes"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Tax Liens? If so, amount owed.</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.tax_liens"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Annual Property Taxes</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.annual_property_taxes"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Is property part of an HOA?</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.is_property_part_of_an_hoa"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Is so how much are the dues?</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.how_much_dues"
+                                :disabled="loading == true">
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h3>
+                                Zoning Data
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label>Zoning</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.zoning"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label>Terrain Type</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.terrain_type"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Property use code</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.property_use_code"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>What can be built on the property?</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.what_can_be_built"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label>Time limit to build</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.time_limit_to_build"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label>Can you camp on the property?</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.can_camp"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Notes on Camping?</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.notes_on_camping"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>RV's allowed on the property?</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.rv_allowed"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Note's on RV's</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.note_on_rv"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Mobile homes allowed on property?</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.mobile_homes"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-12">
+                                <label>Notes on mobile homes?</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.notes_on_mobile_homes"
+                                :disabled="loading == true">
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                                <label>Is the property in the flood zone area?</label>
+                                <input type="text"
+                                class="form-control form-control-sm"
+                                v-model="newDueDiligence.is_property_flood_zone_area"
+                                :disabled="loading == true">
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h3>
+                                Data on Utilities
+                            </h3>
+                        </div>
+                        <div class="form-group col-md-4 col-sm-12">
+                            <label>Water?</label>
+                            <input type="text"
+                            class="form-control form-control-sm"
+                            v-model="newDueDiligence.water"
+                            :disabled="loading == true">
+                        </div>
+                        <div class="form-group col-md-4 col-sm-12">
+                            <label>Sewer or Septic?</label>
+                            <select v-model="newDueDiligence.sewer_or_septic" class="form-control form-control-sm">
+                                <option>Sewer</option>
+                                <option>Septic</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4 col-sm-12">
+                            <label>Power(Electricity)?</label>
+                            <input type="text"
+                            class="form-control form-control-sm"
+                            v-model="newDueDiligence.power"
+                            :disabled="loading == true">
+                        </div>
+                        <div class="form-group col-md-4 col-sm-12">
+                            <label>Gas?</label>
+                            <input type="text" 
+                            class="form-control form-control-sm"
+                            v-model="newDueDiligence.gas"
+                            :disabled="loading == true">
+                        </div>
+                        <div class="form-group col-md-4 col-sm-12">
+                            <label>Waste?</label>
+                            <input type="text"
+                            class="form-control form-control-sm"
+                            v-model="newDueDiligence.waste"
+                            :disabled="loading == true">
                         </div>
                 </div>
             </div>

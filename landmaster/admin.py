@@ -1,68 +1,9 @@
 from django.contrib import admin
 
-from .models import (
-    DueDiligence,
-    LandData,
-    AdditionalLandInfo,
-    CountyData,
-    TaxData,
-    ZoningData,
-    DataOnUtilities
-    )
-
-
-class LandDataDetail(admin.StackedInline):
-    model = LandData
-
-    def get_max_num(self, request, obj=None, **kwargs):
-        max_num = 1
-        return max_num
-
-
-class AdditionalLandInfoDetail(admin.StackedInline):
-    model = AdditionalLandInfo
-    
-    def get_max_num(self, request, obj=None, **kwargs):
-        max_num = 1
-        return max_num
-
-
-class CountyDataDetail(admin.StackedInline):
-    model = CountyData
-
-    def get_max_num(self, request, obj=None, **kwargs):
-        max_num = 1
-        return max_num
-
-
-class TaxDataDetail(admin.StackedInline):
-    model = TaxData
-
-    def get_max_num(self, request, obj=None, **kwargs):
-        max_num = 1
-        return max_num
-
-
-class ZoningDataDetail(admin.StackedInline):
-    model = ZoningData
-
-    def get_max_num(self, request, obj=None, **kwargs):
-        max_num = 1
-        return max_num
-
-
-class DataOnUtilitiesDetail(admin.StackedInline):
-    model = DataOnUtilities
-
-    def get_max_num(self, request, obj=None, **kwargs):
-        max_num = 1
-        return max_num
+from .models import DueDiligence
 
 
 class DueDiligenceProfile(admin.ModelAdmin):
-    inlines = (LandDataDetail, AdditionalLandInfoDetail,
-               CountyDataDetail, TaxDataDetail,
-               ZoningDataDetail, DataOnUtilitiesDetail)
     list_display = ('date_requested', 'company_name', 'company_owner', 'date_completed_or_returned')
     search_fields = ('company_name__name', 'company_owner')
     fieldsets = (
@@ -72,6 +13,79 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'company_name',
                 'company_owner',
                 'date_completed_or_returned',
+            )
+        }),
+        ("Land Data information", {
+            'fields': (
+                'owner_name',
+                'parcel_number',
+                'account_number',
+                'property_address',
+                'county',
+                'lot_number',
+                'legal_description',
+                'parcel_size',
+                'gps_coordinates',
+                'gps_coordinates_4_corners',
+                'google_map_link',
+                'elevation',
+                'assessed_value',
+                'access_to_property',
+            )
+        }),
+        ("Additional Land Info", {
+            'fields': (
+                'closest_major_city',
+                'closest_small_town',
+                'nearby_attractions',
+            )
+        }),
+        ("County Data", {
+            'fields': (
+                'assessor_website',
+                'treasurer_website',
+                'recorder_clerk_website',
+                'zoning_department_website',
+                'gis_website',
+                'cad_website',
+                'planning_department_contact',
+                'recorder_clerk_contact',
+                'tax_office_contact',
+                'assessors_office_contact',
+            )
+        }),
+        ("Tax Data", {
+            'fields': (
+                'back_taxes',
+                'tax_liens',
+                'annual_property_taxes',
+                'is_property_part_of_an_hoa',
+                'how_much_dues',
+            )
+        }),
+        ("Zoning Data", {
+            'fields': (
+                'zoning',
+                'terrian_type',
+                'property_use_code',
+                'what_can_be_built',
+                'time_limit_to_build',
+                'can_camp',
+                'notes_on_camping',
+                'rv_allowed',
+                'note_on_rv',
+                'mobile_homes',
+                'notes_on_mobile_homes',
+                'is_property_flood_zone_area',
+            )
+        }),
+        ("Data on Utilities", {
+            'fields': (
+                'water',
+                'sewer_or_septice',
+                'power',
+                'gas',
+                'waste',
             )
         }),
     )
