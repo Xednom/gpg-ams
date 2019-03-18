@@ -9,8 +9,8 @@ GPG System | Due Diligence
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-header">
-            Due Diligence Tab
+        <h1 class="page-header text-center">
+            Land Master Due Diligence Tab
         </h1>
     </div>
 </div>
@@ -25,7 +25,7 @@ GPG System | Due Diligence
         <div class="row">
             <div class="col-md-12 col-sm-12">
                 <div>
-                    <div>
+                    <div class="text-center">
                         <h3>Due Diligence Information</h3>
                     </div>
                     <div class="panel-body">
@@ -59,7 +59,7 @@ GPG System | Due Diligence
                         </div>
                     </div>
                     <hr>
-                    <div>
+                    <div class="text-center">
                         <h3>
                             Land Data Information
                         </h3>
@@ -165,9 +165,9 @@ GPG System | Due Diligence
                                 :disabled="loading == true">
                             </div>
                         </div>
-                    </div>
+                    </div class="text-center">
                         <hr>
-                        <div>
+                        <div class="text-center">
                             <h3>
                                 Additional Land Info
                             </h3>
@@ -198,7 +198,7 @@ GPG System | Due Diligence
                             </div>
                         </div>
                         <hr>
-                        <div>
+                        <div class="text-center">
                             <h3>
                                 County Data
                             </h3>
@@ -271,7 +271,7 @@ GPG System | Due Diligence
                             </div>
                         </div>
                         <hr>
-                        <div>
+                        <div class="text-center">
                             <h3>
                                 Tax Data
                             </h3>
@@ -314,7 +314,7 @@ GPG System | Due Diligence
                             </div>
                         </div>
                         <hr>
-                        <div>
+                        <div class="text-center">
                             <h3>
                                 Zoning Data
                             </h3>
@@ -334,7 +334,7 @@ GPG System | Due Diligence
                                 v-model="newDueDiligence.terrain_type"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-group col-md-3 col-sm-12">
+                            <div class="form-group col-md-4 col-sm-12">
                                 <label>Property use code</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
@@ -348,39 +348,25 @@ GPG System | Due Diligence
                                 v-model="newDueDiligence.what_can_be_built"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-group col-md-4 col-sm-12">
+                            <div class="form-group col-md-2 col-sm-12">
                                 <label>Time limit to build</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
                                 v-model="newDueDiligence.time_limit_to_build"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-group col-md-4 col-sm-12">
+                            <div class="form-group col-md-2 col-sm-12">
                                 <label>Can you camp on the property?</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
                                 v-model="newDueDiligence.can_camp"
                                 :disabled="loading == true">
                             </div>
-                            <div class="form-group col-md-3 col-sm-12">
-                                <label>Notes on Camping?</label>
-                                <input type="text"
-                                class="form-control form-control-sm"
-                                v-model="newDueDiligence.notes_on_camping"
-                                :disabled="loading == true">
-                            </div>
-                            <div class="form-group col-md-3 col-sm-12">
+                            <div class="form-group col-md-2 col-sm-12">
                                 <label>RV's allowed on the property?</label>
                                 <input type="text"
                                 class="form-control form-control-sm"
                                 v-model="newDueDiligence.rv_allowed"
-                                :disabled="loading == true">
-                            </div>
-                            <div class="form-group col-md-3 col-sm-12">
-                                <label>Note's on RV's</label>
-                                <input type="text"
-                                class="form-control form-control-sm"
-                                v-model="newDueDiligence.note_on_rv"
                                 :disabled="loading == true">
                             </div>
                             <div class="form-group col-md-3 col-sm-12">
@@ -404,9 +390,25 @@ GPG System | Due Diligence
                                 v-model="newDueDiligence.is_property_flood_zone_area"
                                 :disabled="loading == true">
                             </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Notes on Camping?</label>
+                                <textarea cols="80" rows="10"
+                                class="form-control"
+                                v-model="newDueDiligence.notes_on_camping"
+                                :disabled="loading == true">
+                            </textarea>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Note's on RV's</label>
+                                <textarea class="form-control form-control-sm" 
+                                cols="80" rows="10"
+                                v-model="newDueDiligence.note_on_rv"
+                                :disabled="loading == true">
+                                </textarea>
+                            </div>
                         </div>
                         <hr>
-                        <div>
+                        <div class="text-center">
                             <h3>
                                 Data on Utilities
                             </h3>
@@ -449,7 +451,9 @@ GPG System | Due Diligence
                 </div>
             </div>
         </div>
+        <div class="pull-right">
         <button type="submit" class="btn btn-primary btn-save">Save</button>
+        </div>
     </form>
 </div>
 {% endblock %}
