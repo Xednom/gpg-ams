@@ -7,3 +7,4 @@ secrets.json
 db.sqlite3
 *.log
 .env
+staticfiles
