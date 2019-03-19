@@ -76,10 +76,21 @@ label, th {
   font-weight: 0 !important;
 }
 .btn-save {
+  margin: 10px 10px 10px 0px;
+  padding: 10px 75px 10px 75px;
+  border-radius: 0px !important;
+}
+.btn-cancel {
   margin-top: 10px;
   margin-bottom: 10px;
-  padding: 10px 35px 10px 35px;
+  padding: 10px 75px 10px 75px;
   border-radius: 0px !important;
+}
+.btn-link {
+  color: orange;
+}
+.btn-link:focus .btn-link:hover {
+  color: darkorange;
 }
 .sidebar .sidebar-nav.navbar-collapse {
   padding-left: 0;

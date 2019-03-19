@@ -86,6 +86,12 @@ label, th {
   padding: 10px 75px 10px 75px;
   border-radius: 0px !important;
 }
+.btn-link {
+  color: orange;
+}
+.btn-link:focus .btn-link:hover {
+  color: darkorange;
+}
 .sidebar .sidebar-nav.navbar-collapse {
   padding-left: 0;
   padding-right: 0;
