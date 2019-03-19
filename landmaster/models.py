@@ -20,10 +20,9 @@ class DueDiligence(TimeStampedModel):
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_requested = models.DateField(null=True, blank=True)
-    company_name = models.ForeignKey(CompanyName, null=True, blank=True, on_delete=models.PROTECT)
+    company_name = models.CharField(max_length=250, null=True, blank=True)
     company_owner = models.CharField(max_length=250, null=True, blank=True)
-    date_completed_or_returned = models.DateField(verbose_name='Date Completed or Returned to the Client',
-                                                 null=True, blank=True)
+    due_date = models.DateField(null=True, blank=True)
     customer_care_specialist = models.CharField(max_length=250, null=True, blank=True)
     owner_name = models.CharField(max_length=250, null=True, blank=True, verbose_name="Owner's name")
     parcel_number = models.CharField(max_length=250, null=True, blank=True)
@@ -74,6 +73,9 @@ class DueDiligence(TimeStampedModel):
     power = models.CharField(max_length=250, null=True, blank=True, verbose_name='Power(electricity)?')
     gas = models.CharField(max_length=250, verbose_name='Gas?', null=True, blank=True)
     waste = models.CharField(max_length=250, verbose_name='Waste?', null=True, blank=True)
+    date_completed = models.DateField(null=True, blank=True)
+    notes_from_the_client = models.TextField(null=True, blank=True)
+    notes_from_land_master_team = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ('date_requested',)

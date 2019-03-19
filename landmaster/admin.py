@@ -4,15 +4,15 @@ from .models import DueDiligence
 
 
 class DueDiligenceProfile(admin.ModelAdmin):
-    list_display = ('date_requested', 'company_name', 'company_owner', 'date_completed_or_returned')
+    list_display = ('date_requested', 'company_name', 'company_owner', 'due_date')
     search_fields = ('company_name__name', 'company_owner')
     fieldsets = (
         ('Due Diligence client Information', {
             'fields': (
+                'due_date',
                 'date_requested',
                 'company_name',
                 'company_owner',
-                'date_completed_or_returned',
             )
         }),
         ("Land Data information", {
@@ -86,6 +86,13 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'power',
                 'gas',
                 'waste',
+            )
+        }),
+        ("Notes", {
+            'fields': (
+                'date_completed',
+                'notes_from_the_client',
+                'notes_from_land_master_team',
             )
         }),
     )
