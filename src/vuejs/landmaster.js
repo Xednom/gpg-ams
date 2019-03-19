@@ -6,10 +6,10 @@ new Vue({
         loading: false,
         clientNames: [],
         newDueDiligence: {
-            'date_requested': "",
+            'date_requested': null,
             'company_name': "",
             'company_owner': "",
-            'due_date': "",
+            'due_date': null,
             'owner_name': "",
             'parcel_number': "",
             'account_number': "",
@@ -59,7 +59,7 @@ new Vue({
             'power': "",
             'gas': "",
             'waste': "",
-            'date_completed': "",
+            'date_completed': null,
             'notes_from_the_client': "",
             'notes_from_the_land_master_team': "",
         },
@@ -90,7 +90,6 @@ new Vue({
             this.$http.post('/api/v1/due-diligence/', this.newDueDiligence)
                 .then((response) => {
                     this.loading = false;
-                    this.resetDueDiligenceFields();
                     swal({
                         title: "GPG System",
                         text: "Due Diligence task has been added successfully!",
@@ -98,6 +97,7 @@ new Vue({
                         buttons: false,
                         timer: 3000
                     })
+                    this.resetDueDiligenceFields();
                 })
                 .catch((err) => {
                     this.loading = false;
