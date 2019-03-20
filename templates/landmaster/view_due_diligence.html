@@ -1,0 +1,509 @@
+{% extends 'base.html' %}
+{% block title %}
+GPG System | View Due Diligence
+{% endblock %}
+{% block dashboard_notif %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            View Due Diligence work assigned
+        </h1>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+<br>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'users:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">
+        View Due Diligence work
+    </li>
+</ol>
+<div id="gpg-land-master" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Assigned Due Diligence work to Land Master Team
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date Requested</th>
+                                    <th>Due Date</th>
+                                    <th>Company Name</th>
+                                    <th>Company Owner</th>
+                                    <th>Parcel Number</th>
+                                    <th>Account number</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="odd gradeX" v-for="d in dueDiligences">
+                                    <td>[[ d.date_requested ]]</td>
+                                    <td>[[ d.due_date ]]</td>
+                                    <td>[[ d.company_name ]]</td>
+                                    <td>[[ d.company_owner ]]</td>
+                                    <td>[[ d.parcel_number ]]</td>
+                                    <td>[[ d.account_number ]]</td>
+                                    <td><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModalCenter" v-on:click="viewDueDiligence(d.id)">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- show a specific info based on view -->
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLongTitle">Due Diligence work for [[ currentDueDiligence.company_owner ]]</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            Due Diligence work Information for [[ currentDueDiligence.company_name ]]
+                                        </div>
+                                        <div class="panel-body">
+                                            <h4>
+                                                Due Diligence Informations
+                                            </h4>
+                                            <div class="row">
+                                                <div class="form-group col-md-4 col-sm-12 ">
+                                                    <label>Date Requested</label>
+                                                    <input type="date"
+                                                    class="form-control form-control-sm"
+                                                    v-model="currentDueDiligence.date_requested"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Due Date</label>
+                                                    <input type="date"
+                                                    class="form-control form-control-sm"
+                                                    v-model="currentDueDiligence.due_date"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Company Name</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.company_name"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Company Owner</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.company_owner"
+                                                    disabled>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                                <h4>Land Data Informations</h4>
+                                            <div class="row">
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Owner's Name</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.owner_name"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Parcel Number</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.parcel_number"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Account Number</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.account_number"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Property Address</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.property_address"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>County</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.county"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Lot Number</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.lot_number"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Legal Description</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.legal_description"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Parcel Size</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.parcel_number"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>GPS Coordinates</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.gps_coordinates"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>GPS Coordinates 4 corners</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.gpgs_coordinates_4_corners"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Google Map Link</label>
+                                                    <input type="url"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.google_map_link"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Elevation</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.elevation"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Assessed Value</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.assessed_value"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Access to Property</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.access_to_property"
+                                                    disabled>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <h4>
+                                                Additional Data Informations
+                                            </h4>
+                                            <div class="row">
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Closest Major City</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.closest_major_city"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Closest minor town</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.closest_minor_town"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Nearby attractions</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.nearby_attractions"
+                                                    disabled>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <h4>
+                                                County Data Informations
+                                            </h4>
+                                            <div class="row">
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Assessor Website</label>
+                                                    <input type="url"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.assessor_website"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Treasurer Website</label>
+                                                    <input type="url"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.treasurer_website"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Reorder/Clerk Website</label>
+                                                    <input type="url"
+                                                    class="form-control form-control-sm"
+                                                    v-model="currentDueDiligence.reorder_clerk_website"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Zoning Department Website</label>
+                                                    <input type="url"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.zoning_department_website"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>GIS Website</label>
+                                                    <input type="url"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.gis_website"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>CAD Website</label>
+                                                    <input type="url"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.cad_website"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Planning Department Website</label>
+                                                    <input type="url"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.planning_department_contact"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Reorder/Clerk Contact</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.recorder_clerk_contact"
+                                                    disabled>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <h4>Tax Data Information</h4>
+                                            <div class="row">
+                                                <div class="form-group col-md-5 col-sm-12">
+                                                    <label>Back Taxes owed? If so, amount owed.</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.back_taxes"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-7 col-sm-12">
+                                                    <label>Tax Liens? If so, amount owed.</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.tax_liens"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Annual Property Taxes</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.annual_property_taxes"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Is property part of an HOA?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.is_property_part_of_an_hoa"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Is so how much are the dues?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.how_much_dues"
+                                                    disabled>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <h4>Zoning Data Information</h4>
+                                            <div class="row">
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Zoning</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.zoning"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Terrain Type</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.terrain_type"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Property use code</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.property_use_code"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>What can be built on the property?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.what_can_be_built"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Time limit to build</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.time_limit_to_build"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Can you camp on the property?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.can_camp"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>RV's allowed on the property?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.rv_allowed"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Mobile homes allowed on property?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.mobile_homes"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Is the property in the flood zone area?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.is_property_flood_zone_area"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-12">
+                                                    <label>Notes on mobile homes?</label>
+                                                    <textarea cols="80" rows="10"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.notes_on_mobile_homes"
+                                                    disabled>
+                                                    </textarea>
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-12">
+                                                    <label>Notes on Camping?</label>
+                                                    <textarea cols="80" rows="10"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.notes_on_camping"
+                                                    disabled>
+                                                    </textarea>
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-12">
+                                                    <label>Note's on RV's</label>
+                                                    <textarea cols="80" rows="10"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.note_on_rv"
+                                                    disabled>
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <h4>Data on Utilities Informations</h4>
+                                            <div class="row">
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Water?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.water"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Sewer or Septic?</label>
+                                                    <select v-model="currentDueDiligence.sewer_or_septic" class="form-control" disabled>
+                                                        <option>Sewer</option>
+                                                        <option>Septic</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Power(Electricity)?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.power"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Gas?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.gas"
+                                                    disabled>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Waste?</label>
+                                                    <input type="text"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.waste"
+                                                    disabled>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <h4>Notes</h4>
+                                            <div class="row">
+                                                <div class="form-group col-md-6 col-sm-12">
+                                                    <label>Notes from the Client</label>
+                                                    <textarea cols="30" rows="10"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.notes_from_the_client"
+                                                    disabled></textarea>
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-12">
+                                                    <label>Notes from the Land Master Team</label>
+                                                    <textarea cols="30" rows="10"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.notes_from_the_land_master_team"
+                                                    disabled></textarea>
+                                                </div>
+                                                <div class="form-group col-md-4 col-sm-12">
+                                                    <label>Date Completed</label>
+                                                    <input type="date"
+                                                    class="form-control"
+                                                    v-model="currentDueDiligence.date_completed"
+                                                    disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

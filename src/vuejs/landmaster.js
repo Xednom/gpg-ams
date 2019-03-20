@@ -4,7 +4,9 @@ new Vue({
     delimiters: ['[[',']]'],
     data: {
         loading: false,
+        dueDiligences: [],
         clientNames: [],
+        currentDueDiligence: [],
         newDueDiligence: {
             'date_requested': null,
             'company_name': "",
@@ -66,6 +68,7 @@ new Vue({
     },
     mounted: function () {
         this.getClientNames();
+        this.getDueDiligence();
     },
     methods: {
         resetDueDiligenceFields: function () {
@@ -98,6 +101,30 @@ new Vue({
                         timer: 3000
                     })
                     this.resetDueDiligenceFields();
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        getDueDiligence: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/due-diligence/`)
+                .then((response) => {
+                    this.loading = false;
+                    this.dueDiligences = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        viewDueDiligence: function (id) {
+            this.loading = true;
+            this.$http.get(`/api/v1/due-diligence/${id}/`)
+                .then((response) => {
+                    this.loading = false;
+                    this.currentDueDiligence = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
