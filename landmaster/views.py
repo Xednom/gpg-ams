@@ -1,4 +1,4 @@
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 
 from rest_framework import viewsets
@@ -16,9 +16,13 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
         return  # To not perform the csrf check previously happening
         
 
-class DueDiligenceView(LoginRequiredMixin, ListView):
+class AddDueDiligenceView(LoginRequiredMixin, ListView):
     model = DueDiligence
     template_name = 'landmaster/due_diligence.html'
+
+
+class DueDiligenceView(LoginRequiredMixin, TemplateView):
+    template_name = 'landmaster/view_due_diligence.html'
 
 
 class DueDiligenceViewSet(viewsets.ModelViewSet):
