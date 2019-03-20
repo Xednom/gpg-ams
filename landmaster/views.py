@@ -30,3 +30,8 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permistion_classes = (IsAuthenticated,)
     serializer_class = DueDiligenceSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = DueDiligence.objects.filter(company_owner=user)
+        return queryset

@@ -43,6 +43,9 @@ GPG System | View Due Diligence
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td colspan="14" class="text-center bg-warning" v-if="!dueDiligences.length">You have no Due Diligence work assigned to the Land Master Team.</td>
+                                </tr>
                                 <tr class="odd gradeX" v-for="d in dueDiligences">
                                     <td>[[ d.date_requested ]]</td>
                                     <td>[[ d.due_date ]]</td>
@@ -439,7 +442,7 @@ GPG System | View Due Diligence
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Sewer or Septic?</label>
-                                                    <select v-model="currentDueDiligence.sewer_or_septic" class="form-control" disabled>
+                                                    <select class="form-control" v-model="currentDueDiligence.sewer_or_septic" disabled>
                                                         <option>Sewer</option>
                                                         <option>Septic</option>
                                                     </select>

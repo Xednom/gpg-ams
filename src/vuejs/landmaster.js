@@ -57,7 +57,7 @@ new Vue({
             'notes_on_mobile_homes': "",
             'is_property_flood_zone_area': "",
             'water': "",
-            'sewer_or_septice': "",
+            'sewer_or_septic': "",
             'power': "",
             'gas': "",
             'waste': "",
