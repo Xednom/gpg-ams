@@ -69,7 +69,7 @@ class DueDiligence(TimeStampedModel):
     notes_on_mobile_homes = models.TextField(null=True, blank=True)
     is_property_flood_zone_area = models.CharField(max_length=250, null=True, blank=True, verbose_name="Is the property in the flood zone area?")
     water = models.CharField(max_length=250, null=True, blank=True, verbose_name="Water?")
-    sewer_or_septice = models.CharField(max_length=100, choices=SEWER_OR_SEPTIC_CHOICES, null=True, blank=True)
+    sewer_or_septic = models.CharField(max_length=100, choices=SEWER_OR_SEPTIC_CHOICES, null=True, blank=True)
     power = models.CharField(max_length=250, null=True, blank=True, verbose_name='Power(electricity)?')
     gas = models.CharField(max_length=250, verbose_name='Gas?', null=True, blank=True)
     waste = models.CharField(max_length=250, verbose_name='Waste?', null=True, blank=True)
