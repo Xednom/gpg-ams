@@ -82,7 +82,7 @@ class DueDiligenceProfile(admin.ModelAdmin):
         ("Data on Utilities", {
             'fields': (
                 'water',
-                'sewer_or_septice',
+                'sewer_or_septic',
                 'power',
                 'gas',
                 'waste',
