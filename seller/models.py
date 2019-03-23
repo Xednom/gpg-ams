@@ -6,7 +6,7 @@ from django.db import models
 from buyer.models import CustomerCareSpecialist
 
 
-class CygnusInvestment(models.Model):
+class CygnusInvestmentSeller(models.Model):
     PROVIDED_CHOICES = (
         ('YES', 'Yes'),
         ('NO', 'No')
@@ -105,7 +105,7 @@ class OfficeFlowersValleyProperties(models.Model):
                                                       help_text="If yes, Name & Phone Num. of Agent?")
     date_listed = models.DateField(null=True, blank=True, default=datetime.date.today, 
                                    help_text="What was the date you listed it?")
-    average_handling_time = models.FloatField(null=True, blank=True, defaul=0.00)
+    average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
     additional_comments = models.TextField(null=True, blank=True)
     additional_notes = models.TextField(null=True, blank=True)
 
@@ -151,7 +151,7 @@ class NewLeafInvestors(models.Model):
     customer_care_specialist = models.ForeignKey(CustomerCareSpecialist, null=True, blank=True, on_delete=models.PROTECT)
     name = models.CharField(max_length=250, null=True, blank=True, help_text="Name of the Caller")
     phone_number = models.CharField(max_length=250, null=True, blank=True, help_text="Phone number of Caller")
-    receive_a_letter_or_voicemail = models.CharField(max_lenght=250, null=True, blank=True, help_text="Did you receive a letter or a voicemail from us?")
+    receive_a_letter_or_voicemail = models.CharField(max_length=250, null=True, blank=True, help_text="Did you receive a letter or a voicemail from us?")
     owner_of_record = models.CharField(max_length=250, null=True, blank=True, help_text="Are you the owner of record")
     phone_number_to_reach = models.CharField(max_length=250, null=True, blank=True, 
                                              help_text="What is a good phone number that we can reach you at if we have any additional questions in the future?")
@@ -416,4 +416,170 @@ class LandRapid(models.Model):
                                       help_text="What is the current zoning on this property (i.e. – what can it be used for)?")
     currently_listed = models.CharField(max_length=150, null=True, blank=True,
                                         help_text="Is this property currently listed with a Realtor (and if so, can I get their contact information)?")
-    
+    about_the_property = models.CharField(max_length=150, null=True, blank=True,
+                                          help_text="Is there anything we should know about the property? (I’m looking for good or bad things about the area).")
+    own_any_other_properties = models.CharField(max_length=150, null=True, blank=True, 
+                                                help_text="Do you own any other properties that you’d like to sell?")
+    should_note = models.CharField(max_length=150, null=True, blank=True,
+                                   help_text="Is there anything else I should note or any other comments?")
+    average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
+    additional_notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Land Rapid Seller Data"
+        verbose_name_plural = "Land Rapid Seller Datas"
+
+    def __str__(self):
+        return str(self.customer_care_specialist)
+
+
+class Alevi(models.Model):
+    UTILITIES_CHOICES = (
+        ('Yes', 'Yes'),
+        ('No', 'No'),
+        ('In Area', 'In Area'),
+        ('Not Sure', 'Not Sure')
+    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    call_date = models.DateField(null=True, blank=True, default=datetime.date.today)
+    customer_care_specialist = models.ForeignKey(CustomerCareSpecialist, null=True, blank=True, on_delete=models.PROTECT)
+    phone_number = models.CharField(max_length=150, null=True, blank=True, help_text="Phone number of the Caller")
+    reference_number = models.CharField(max_length=150, null=True, blank=True,
+                                        help_text="Can you provide us with the reference number from the letter? (APN) ")
+    owner_of_record = models.CharField(max_length=150, null=True, blank=True,
+                                       help_text="You are the owner of record with the county, that information we had was correct? (either write yes if they are or any other owner information they provide – no need to ask follow up questions)")
+    interested_in_selling = models.CharField(max_length=150, null=True, blank=True,
+                                             help_text="And you are interested in selling it? (write down comments what they say)")
+    several_properties = models.CharField(max_length=150, null=True, blank=True,
+                                          help_text="Do you own one or several properties (if several please write down the info they provide like address and county).")
+    size = models.CharField(max_length=150, null=True, blank=True,
+                            help_text="What size is the property – is it a building lot or an acerage?")
+    road_access = models.CharField(max_length=150, null=True, blank=True,
+                                   help_text="Does it have road access and if so is it paved or unpaved?")
+    utilities = models.CharField(max_length=15, choices=UTILITIES_CHOICES, null=True, blank=True,
+                                 help_text="Are there utilities at the property?")
+    improvements = models.CharField(max_length=150, null=True, blank=True,
+                                    help_text="Are there any improvements to the property? (just write down any comments they make)")
+    owned_the_property = models.CharField(max_length=150, null=True, blank=True,
+                                          help_text="How long have you owned the property?")
+    back_taxes = models.CharField(max_length=150, null=True, blank=True,
+                                  help_text="How long have you owned the property?")
+    owners_association = models.CharField(max_length=150, null=True, blank=True,
+                                          help_text="Is the property part of a home owners association? (if yes, please ask for the name of the home owners association and annual fees)")
+    listed_with_real_estate_agent = models.CharField(max_length=150, null=True, blank=True,
+                                                     help_text="Is the property currently listed with a Real Estate Agent? (if yes, please ask for how much it is listed for and for how long)?")
+    last_question = models.CharField(max_length=150, null=True, blank=True,
+                                     help_text="(word for word – last question): So at this point – what are you trying to do – are you trying to get rid of it or do you have a number in mind what you wanted to get for the property? (write down their comments and ideally an expected number) ")
+    average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
+    additional_notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Alevi Seller Data"
+        verbose_name_plural = "Alevi Seller Datas"
+
+    def __str__(self):
+        return str(self.customer_care_specialist)
+
+
+class AfforableLandInvestment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    call_date = models.DateField(null=True, blank=True, default=datetime.date.today)
+    customer_care_specialist = models.ForeignKey(CustomerCareSpecialist, null=True, blank=True, on_delete=models.PROTECT)
+    contact_information = models.CharField(max_length=150, null=True, blank=True, 
+                                           help_text="Have you provided the office of Adam Harrison with your contact information? (if yes, skip questions below, and take a brief message)")
+    name = models.CharField(max_length=150, null=True, blank=True, help_text="What is your name?")
+    state_county = models.CharField(max_length=150, null=True, blank=True, 
+                                    help_text="What state and county is your property located in?")
+    parcel_number = models.CharField(max_length=150, null=True, blank=True,
+                                     help_text="Do you know what the parcel number of the property is, it is located on the second page of the letter if you got a letter")
+    property_owner = models.CharField(max_length=150, null=True, blank=True,
+                                      help_text="Are you the property owner listed on the deed?")
+    other_owners = models.CharField(max_length=150, null=True, blank=True,
+                                    help_text="Are there any other owners listed on the deed?(If others on the deed, ask the following question)")
+    sell_the_property = models.CharField(max_length=150, null=True, blank=True,
+                                         help_text="Have you and the others on the deed all decided to sell the property?")
+    phone_number = models.CharField(max_length=150, null=True, blank=True,
+                                    help_text="What is your phone number?")
+    email_address = models.EmailField(null=True, blank=True, help_text="What is your email address?")
+    listed_in_letter_or_postcard = models.CharField(max_length=150, null=True, blank=True,
+                                                    help_text="Do you want to sell at the price listed on the letter or the postcard you received? ( If they say no to this question ask them the following:) ")
+    for_your_property = models.CharField(max_length=150, null=True, blank=True,
+                                         help_text="If we were to pay all cash and close within the next 10 days, what is the least you would accept for your property?")
+    average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
+    additional_notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Afforable Land Investment Seller Data"
+        verbose_name_plural = "Afforable Land Investment Seller Datas"
+
+    def __str__(self):
+        return str(self.customer_care_specialist)
+
+
+class LGPropertyVentrues(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    call_date = models.DateField(null=True, blank=True, default=datetime.date.today)
+    customer_care_specialist = models.ForeignKey(CustomerCareSpecialist, null=True, blank=True, on_delete=models.PROTECT)
+    reference_number = models.CharField(max_length=250, null=True, blank=True,
+                                        help_text="WHAT IS THE REFERENCE NUMBER ON THE TOP OF YOUR LETTER PLEASE? THIS WILL ASSIST US IN GETTING TO THE OFFER OUT TO YOU? ")
+    property_owner = models.CharField(max_length=250, null=True, blank=True,
+                                      help_text="ARE YOU THE PROPERTY OWNER OR I NEED EVERYONES NMAE THATS ON THE DEED?")
+    access = models.CharField(max_length=150, null=True, blank=True,
+                              help_text="DOES THE PROPERTY HAVE ACCESS TO POWER, WATER OR SEWER? ")
+    selling_your_property = models.CharField(max_length=150, null=True, blank=True,
+                                             help_text="SIR/MAME AND WHY ARE YOU SELLING YOUR PROPERTY?")
+    average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
+    additional_notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "LG Property Ventures Seller Data"
+        verbose_name_plural = "LG Property Ventures Seller Datas"
+
+    def __str__(self):
+        return str(self.customer_care_specialist)
+
+
+class FranklinManagement(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    call_date = models.DateField(null=True, blank=True, default=datetime.date.today)
+    customer_care_specialist = models.ForeignKey(CustomerCareSpecialist, null=True, blank=True, on_delete=models.PROTECT)
+    name = models.CharField(max_length=150, null=True, blank=True, help_text="What is your name?")
+    property_owner = models.CharField(max_length=150, null=True, blank=True, 
+                                      help_text="Are you the property owner listed on the deed?")
+    other_owner = models.CharField(max_length=150, null=True, blank=True,
+                                   help_text="Are there any other owners listed on the deed?")
+    phone_number = models.CharField(max_length=150, null=True, blank=True,
+                                    help_text="What is your phone number? ")
+    email_address = models.EmailField(null=True, blank=True, help_text="What is your email?")
+    road_access = models.CharField(max_length=150, null=True, blank=True,
+                                   help_text="Does the property have road access?")
+    property_currently_listed = models.CharField(max_length=150, null=True, blank=True,
+                                                 help_text="Is the property currently listed with a real estate agent?")
+    utilities = models.CharField(max_length=150, null=True, blank=True,
+                                 help_text="Are there utilities available at the property?")
+    consider_selling_it = models.CharField(max_length=150, null=True, blank=True,
+                                           help_text="This is a nice property, why would you ever consider selling it? ")
+    improvements = models.CharField(max_length=150, null=True, blank=True,
+                                    help_text="Does the property have any improvements?")
+    hoa_poa = models.CharField(max_length=150, null=True, blank=True,
+                               help_text="Is there a HOA/POA?")
+    back_taxes = models.CharField(max_length=150, null=True, blank=True,
+                                  help_text="Are there any back taxes on the property?")
+    liens_in_property = models.CharField(max_length=150, null=True, blank=True,
+                                         help_text="Any other liens on the property?")
+    lowest_number = models.CharField(max_length=150, null=True, blank=True,
+                                     help_text="what is the lowest number you are willing to take?")
+    closing_date = models.DateField(null=True, blank=True, help_text="Are you okay with up to a 6 month closing date?")
+    other_properties = models.CharField(max_length=150, null=True, blank=True,
+                                        help_text="Do you have other properties that you would consider selling?")
+    know_about_the_property = models.CharField(max_length=150, null=True, blank=True,
+                                               help_text="Anything else we should know about the property?")
+    average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
+    additional_notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Franklin Management Seller Data"
+        verbose_name_plural = "Franklin Management Seller Datas"
+
+    def __str__(self):
+        return str(self.customer_care_specialist)

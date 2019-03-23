@@ -27,6 +27,7 @@ LOCAL_APPS = (
     'eav',
     'landmaster',
     'buyer',
+    'seller',
 )
 
 DJANGO_APPS = (
