@@ -126,7 +126,7 @@ class SolidWorkProperties(models.Model):
                                       help_text="What is the lot APN number? Where`s the land located?")
     property_owner = models.CharField(max_length=100, null=True, blank=True, 
                                       help_text="Are you the property owner listed on the deed?")
-    other_owenrs = models.CharField(max_length=100, null=True, blank=True, 
+    other_owners = models.CharField(max_length=100, null=True, blank=True, 
                                     help_text="Are there any other owners listed on the deed?")
     phone_number = models.CharField(max_length=100, null=True, blank=True, help_text="What is your Phone number?")
     mailing_address = models.TextField(null=True, blank=True, help_text="What's your Mailing Address?")
@@ -250,8 +250,6 @@ class LynkCapital(models.Model):
                                      blank=True, help_text="Is there a road access to the property? Y/N")
     structure_on_property = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True,
                                              blank=True, help_text="Is there a structure on the property? Y/N")
-    property_listed_on_realtor = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True,
-                                                  blank=True, help_text="Is the property Listed with a realtor? Y/N")
     property_listed_on_realtor = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True,
                                                   blank=True, help_text="Is the property Listed with a realtor? Y/N")
     property_been_flooded = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True,
@@ -481,7 +479,7 @@ class Alevi(models.Model):
         return str(self.customer_care_specialist)
 
 
-class AfforableLandInvestment(models.Model):
+class AffordaleLandInvestment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     call_date = models.DateField(null=True, blank=True, default=datetime.date.today)
     customer_care_specialist = models.ForeignKey(CustomerCareSpecialist, null=True, blank=True, on_delete=models.PROTECT)
@@ -509,14 +507,14 @@ class AfforableLandInvestment(models.Model):
     additional_notes = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "Afforable Land Investment Seller Data"
-        verbose_name_plural = "Afforable Land Investment Seller Datas"
+        verbose_name = "Affordable Land Investment Seller Data"
+        verbose_name_plural = "Affordable Land Investment Seller Datas"
 
     def __str__(self):
         return str(self.customer_care_specialist)
 
 
-class LGPropertyVentrues(models.Model):
+class LGPropertyVentures(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     call_date = models.DateField(null=True, blank=True, default=datetime.date.today)
     customer_care_specialist = models.ForeignKey(CustomerCareSpecialist, null=True, blank=True, on_delete=models.PROTECT)
