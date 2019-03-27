@@ -101,3 +101,15 @@ class Task(models.Model):
 
     def __str__(self):
         return self.job_name
+
+
+class VirtualAssistant(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=150, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'List of VA'
+        verbose_name_plural = 'List of VAs'
+
+    def __str__(self):
+        return str(self.name)

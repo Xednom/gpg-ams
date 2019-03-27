@@ -93,6 +93,8 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'date_completed',
                 'notes_from_the_client',
                 'notes_from_land_master_team',
+                'dd_team_assigned_va',
+                'project_manager',
             )
         }),
     )

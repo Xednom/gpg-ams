@@ -53,8 +53,33 @@ class CygnusInvestment(models.Model):
     additional_notes = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "Cygnus Investment Buyer Form"
-        verbose_name_plural = "Cygnus Investment Buyer Forms"
+        verbose_name = "Cygnus Investment Buyer Data"
+        verbose_name_plural = "Cygnus Investment Buyer Datas"
 
     def __str__(self):
         return str(self.name)
+
+
+class WeBuyAcreageLlc(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    call_date = models.DateField(null=True, blank=True)
+    customer_care_specialist = models.ForeignKey(CustomerCareSpecialist, null=True, blank=True, on_delete=models.PROTECT)
+    contact_information = models.CharField(max_length=250, null=True, blank=True,
+                                           help_text="Have you provided (Jeff) with your contact information? (if yes, skip questions below, and take a brief message)")
+    address_or_apn = models.TextField(null=True, blank=True, 
+                                           help_text="What is the address of the property you are interested in?(If the caller does NOT have the property address, ask them...)What is the APN number?")
+    name_of_the_caller = models.CharField(max_length=250, null=True, blank=True)
+    phone_number_of_caller = models.CharField(max_length=250, null=True, blank=True)
+    are_you_an_agent = models.CharField(max_length=250, null=True, blank=True)
+    listing = models.CharField(max_length=250, null=True, blank=True, help_text="Where did you see the listing?")
+    your_phone_number = models.CharField(max_length=250, null=True, blank=True, help_text="What is your Phone number?")
+    email_address = models.EmailField(max_length=250, null=True, blank=True, help_text="What is your email address")
+    average_handling_time = models.CharField(max_length=250, null=True, blank=True, help_text="Average Handling Time")
+    additional_notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "We Buy Acreage LLC Buyer Data"
+        verbose_name_plural = "We Buy Acreage LLC Buyer Data"
+
+    def __str__(self):
+        return str(self.customer_care_specialist)
