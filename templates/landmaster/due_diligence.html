@@ -625,12 +625,32 @@ GPG System | Due Diligence
                                             :disabled="loading == true">
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">DD Team Assigned VA</label>
+                                            <div class="col-md-10 col-sm-12">
+                                                <select v-model="newDueDiligence.dd_team_assigned_va" class="form-control">
+                                                    <option v-for="va in virtualAssistants">
+                                                        [[ va.name ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Project Manager</label>
+                                            <div class="col-md-10 col-sm-12">
+                                                <select v-model="newDueDiligence.project_manager" class="form-control">
+                                                    <option v-for="pm in projectManagers">
+                                                        [[ pm.project_manager ]]
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <hr>s
+                    <hr>
                 </div>
             </div>
             <div class="col-md-12 col-sm-12">

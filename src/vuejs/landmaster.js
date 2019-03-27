@@ -6,6 +6,8 @@ new Vue({
         loading: false,
         dueDiligences: [],
         clientNames: [],
+        virtualAssistants: [],
+        projectManagers: [],
         currentDueDiligence: [],
         newDueDiligence: {
             'date_requested': null,
@@ -64,11 +66,15 @@ new Vue({
             'date_completed': null,
             'notes_from_the_client': "",
             'notes_from_the_land_master_team': "",
+            'dd_team_assigned_va': "",
+            'project_manager': "",
         },
     },
     mounted: function () {
         this.getClientNames();
         this.getDueDiligence();
+        this.getVas();
+        this.getProjectManagers();
     },
     methods: {
         resetDueDiligenceFields: function () {
@@ -81,6 +87,30 @@ new Vue({
             this.$http.get(`/api/v1/client-name/`)
                 .then((response) => {
                     this.clientNames = response.data;
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        getVas: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/virtual-assistant`)
+                .then((response) =>{
+                    this.virtualAssistants = response.data;
+                    this.loading = false;
+                })
+                .catch((err) =>{
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        getProjectManagers: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/project-manager`)
+                .then((response) => {
+                    this.projectManagers = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {

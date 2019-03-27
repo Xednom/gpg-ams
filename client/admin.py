@@ -6,7 +6,8 @@ from fillables.models import (
     LeadSource,
     ProjectManager,
     SeniorManager,
-    TypeOfTask
+    TypeOfTask,
+    VirtualAssistant
     )
 
 
@@ -49,4 +50,5 @@ admin.site.register(LeadSource)
 admin.site.register(ProjectManager)
 admin.site.register(SeniorManager)
 admin.site.register(TypeOfTask)
+admin.site.register(VirtualAssistant)
 admin.site.register(Client, ClientProfile)

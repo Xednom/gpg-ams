@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 
-from fillables.models import CompanyName
+from fillables.models import CompanyName, VirtualAssistant, ProjectManager
 
 
 class TimeStampedModel(models.Model):
@@ -76,6 +76,9 @@ class DueDiligence(TimeStampedModel):
     date_completed = models.DateField(null=True, blank=True)
     notes_from_the_client = models.TextField(null=True, blank=True)
     notes_from_land_master_team = models.TextField(null=True, blank=True)
+    dd_team_assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+                                            verbose_name="DD Team Assigned VA")
+    project_manager = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         ordering = ('date_requested',)

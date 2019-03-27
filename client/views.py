@@ -7,7 +7,7 @@ from .models import (
         CompanyName,
         ProjectManager,
         TypeOfTask,
-        SeniorManager
+        SeniorManager,
     )
 from .serializers import (
             ClientSerializer,
@@ -17,6 +17,9 @@ from .serializers import (
             SeniorManagerSerializer,
             CustomUserSerializer
         )
+from fillables.models import VirtualAssistant
+
+from landmaster.serializers import VaSerializer
 
 from django.shortcuts import render
 from django.views.generic import View, ListView
@@ -77,6 +80,11 @@ class SeniorManagerViewSet(viewsets.ModelViewSet):
 class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
+
+
+class VirtualAssistantViewSet(viewsets.ModelViewSet):
+    queryset = VirtualAssistant.objects.all()
+    serializer_class = VaSerializer
 
 
 class ClientViewSet(viewsets.ModelViewSet):
