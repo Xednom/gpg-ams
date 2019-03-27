@@ -3,26 +3,38 @@ from .models import JobRequest
 
 
 class JobRequestProfile(admin.ModelAdmin):
-    list_display = ['job_request_title', 'job_request_sent_via', 'project_managers', 'client_code', 'status']
-    list_filter = ['status']
+    list_display = ['date_requested', 'category', 'company_name', 'job_request_title',
+                    'assigned_project_managers', 'project_status']
+    list_filter = ['project_status']
     list_per_page = 15
     # change_list_template = 'jobrequest/change_list_graph.html'
-    search_fields = ('client_code', 'project_managers__project_manager', 'job_request_title')
+    search_fields = (
+        'company_name', 'company_name', 'assigned_project_managers__project_manager')
     fieldsets = (
         (None, {
-            'fields': ('date', 'due_date', 'total_hours_minutes_allocated')
+            'fields': ('date_requested', 'month', 'time_in', 'time_out', 'total_minutes_hours')
         }),
         ('Job Request informations', {
             'fields': (
-                    'client_code',
-                    'job_request_title',
-                    'job_request_sent_via',
-                    'job_request_instruction',
-                    'project_managers',
-                    'VA_admin_support',
-                    'status',
-                    'notes_and_coaching_from_project_manager'
+                'category',
+                'requestors_name',
+                'company_name',
+                'job_request_number',
+                'job_request_title',
+                'job_request_instruction',
+                'assigned_project_managers',
+                'project_status',
+                'url_training_videos',
+                'assigned_va',
                 )
+        }),
+        ("Notes", {
+            'fields': (
+                'additional_comments_or_feedbacks',
+                'client_notes',
+                'manager_notes',
+                'va_notes',
+            )
         })
     )
 
