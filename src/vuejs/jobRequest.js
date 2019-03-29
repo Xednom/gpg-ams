@@ -9,6 +9,7 @@ new Vue({
     virtualAssistants: [],
     jobRequestTitles: [],
     loading: false,
+    saving: false,
     currentJobRequest: {},
     message: null,
     newJobRequest: {
@@ -106,7 +107,6 @@ new Vue({
           })
           .catch((err) => {
             this.loading = false;
-            console.log(res);
             console.log(err);
           })
     },
@@ -135,10 +135,10 @@ new Vue({
         })
     },
     addJobRequest: function() {
-      this.loading = true;
+      this.saving = true;
       this.$http.post('/api/v1/jobrequest/', this.newJobRequest)
           .then((response) => {
-            this.loading = true;
+            this.saving = false;
             this.getJobRequests();
             swal({
               title: "GPG System",
