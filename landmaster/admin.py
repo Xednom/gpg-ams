@@ -97,6 +97,12 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'project_manager',
             )
         }),
+        ("Other information", {
+            'fields': (
+                'total_minutes_hours_duration',
+                'attachments',
+            )
+        }),
     )
 
 

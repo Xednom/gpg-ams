@@ -24,11 +24,6 @@ class CygnusInvestmentProfile(admin.ModelAdmin):
     list_filter = ('customer_care_specialist',)
     search_fields = ('customer_care_specialist', 'email_address', 'name')
     fieldsets = (
-        ("Date Information", {
-            'fields': (
-                'call_date',
-            )
-        }),
         ("Seller Information for Cygnus Investment", {
             'fields': (
                 'customer_care_specialist',
@@ -43,6 +38,11 @@ class CygnusInvestmentProfile(admin.ModelAdmin):
                 'additional_notes'
             )
         }),
+        ("Date Information", {
+            'fields': (
+                'call_date',
+            )
+        }),
     )
 
 
@@ -53,11 +53,6 @@ class DreamWeaverPropertyProfile(admin.ModelAdmin):
     list_filter = ('customer_care_specialist',)
     search_fields = ('customer_care_specialist', 'email_address', 'reference_number_or_parcel_number')
     fieldsets = (
-        ("Date Information", {
-            'fields': (
-                'call_date',
-            )
-        }),
         ("Seller Information for Dream Weaver Property", {
             'fields': (
                 'customer_care_specialist',
@@ -73,6 +68,11 @@ class DreamWeaverPropertyProfile(admin.ModelAdmin):
                 'additional_notes',
             )
         }),
+        ("Date Information", {
+            'fields': (
+                'call_date',
+            )
+        }),
     )
 
 
@@ -82,13 +82,6 @@ class OfficeFlowersVallerPropertiesProfile(admin.ModelAdmin):
                     'co_owners', 'owner')
     list_filter = ('customer_care_specialist',)
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'date_listed',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Dream Weaver Property", {
             'fields': (
                 'customer_care_specialist',
@@ -115,6 +108,13 @@ class OfficeFlowersVallerPropertiesProfile(admin.ModelAdmin):
                 
             )
         }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'date_listed',
+                'average_handling_time',
+            )
+        }),
         ("Other Informations", {
             'fields': (
                 'additional_comments',
@@ -130,12 +130,6 @@ class SolidWorkPropertiesProfile(admin.ModelAdmin):
     list_filter = ('customer_care_specialist', 'name', 'lot_apn_number')
     search_fields = ('customer_care_specialist', 'name', 'lot_apn_number')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Solid Work Properties Seller", {
             'fields': (
                 'customer_care_specialist',
@@ -147,6 +141,12 @@ class SolidWorkPropertiesProfile(admin.ModelAdmin):
                 'mailing_address',
                 'structure',
                 'perc_test',
+            )
+        }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
             )
         }),
         ("Other Information", {
@@ -163,12 +163,6 @@ class NewLeafInvestorsProfile(admin.ModelAdmin):
     list_filter = ('customer_care_specialist', 'name', 'city', 'state')
     search_fields = ('customer_care_specialist', 'name', 'state_and_county')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for New Leaf Investors", {
             'fields': (
                 'customer_care_specialist',
@@ -189,6 +183,12 @@ class NewLeafInvestorsProfile(admin.ModelAdmin):
                 'state_and_county',
             )
         }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
+            )
+        }),
         ("Other Information", {
             'fields': (
                 'additional_notes',
@@ -203,12 +203,6 @@ class LibertyLandsProfile(admin.ModelAdmin):
     list_filter = ('customer_care_specialist', 'name', 'call_date')
     search_fields = ('customer_care_specialist', 'name', 'apn', 'owner_of_record')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Liberty Lands", {
             'fields': (
                 'customer_care_specialist',
@@ -229,6 +223,12 @@ class LibertyLandsProfile(admin.ModelAdmin):
                 'state_and_county',
             )
         }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
+            )
+        }),
         ("Other Information", {
             'fields': (
                 'additional_notes',
@@ -244,12 +244,6 @@ class LynkCapitalProfile(admin.ModelAdmin):
     search_fields = ('customer_care_specialist', 'name', 'city', 'state', 'name_on_the_letter',
                      'apn_number')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Lynk Capital", {
             'fields': (
                 'customer_care_specialist',
@@ -291,6 +285,12 @@ class LynkCapitalProfile(admin.ModelAdmin):
                 'best_number_to_call',
             )
         }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
+            )
+        }),
         ("Other Information", {
             'fields': (
                 'additional_notes',
@@ -305,12 +305,6 @@ class DreamCloudBuyLandProfile(admin.ModelAdmin):
     list_filter = ('customer_care_specialist', 'name', 'owner_of_record')
     search_fields = ('customer_care_specialist', 'name', 'owner_of_record')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Dream Cloud Buy Land", {
             'fields': (
                 'customer_care_specialist',
@@ -323,6 +317,12 @@ class DreamCloudBuyLandProfile(admin.ModelAdmin):
                 'additional_owners',
                 'own_the_property_free_and_clear',
                 'other_information',
+            )
+        }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
             )
         }),
         ("Other Information", {
@@ -340,12 +340,6 @@ class LandQuestProProfile(admin.ModelAdmin):
     list_filter = ('customer_care_specialist', 'caller_name', 'other_owners')
     search_fields = ('customer_care_specialist', 'caller_name', 'other_owners', 'phone_number')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Land Quest Pro", {
             'fields': (
                 'customer_care_specialist',
@@ -358,6 +352,12 @@ class LandQuestProProfile(admin.ModelAdmin):
                 'other_details',
                 'other_properties',
                 'last_questions',
+            )
+        }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
             )
         }),
         ("Other Information", {
@@ -376,12 +376,6 @@ class LandRapidProfile(admin.ModelAdmin):
     search_fields = ('customer_care_specialist', 'caller_name',
                      'owner_name', 'other_co_owners')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Land Rapid Pro", {
             'fields': (
                 'customer_care_specialist',
@@ -417,6 +411,12 @@ class LandRapidProfile(admin.ModelAdmin):
                 'should_note',
             )
         }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
+            )
+        }),
         ("Other Information", {
             'fields': (
                 'additional_notes',
@@ -432,12 +432,6 @@ class AleviProfile(admin.ModelAdmin):
     search_fields = ('customer_care_specialist', 'owner_of_record', 'reference_number'
                      'size')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Land Quest Pro", {
             'fields': (
                 'customer_care_specialist',
@@ -457,6 +451,12 @@ class AleviProfile(admin.ModelAdmin):
                 'last_question',
             )
         }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
+            )
+        }),
         ("Other Information", {
             'fields': (
                 'additional_notes',
@@ -473,12 +473,6 @@ class AffordableLandInvestmentProfile(admin.ModelAdmin):
     search_fields = ('call_date', 'customer_care_specialist', 'contact_information',
                      'name', 'state_county', 'state_county', 'email_address')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Affordable Land Investment", {
             'fields': (
                 'customer_care_specialist',
@@ -495,6 +489,12 @@ class AffordableLandInvestmentProfile(admin.ModelAdmin):
                 'for_your_property',
             )
         }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
+            )
+        }),
         ("Other Information", {
             'fields': (
                 'additional_notes',
@@ -509,12 +509,6 @@ class LGPropertyVenturesProfile(admin.ModelAdmin):
     list_filter = ('customer_care_specialist', 'property_owner')
     search_fields = ('customer_care_specialist', 'property_owner')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for LG Property Ventures", {
             'fields': (
                 'customer_care_specialist',
@@ -522,6 +516,12 @@ class LGPropertyVenturesProfile(admin.ModelAdmin):
                 'property_owner',
                 'access',
                 'selling_your_property',
+            )
+        }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
             )
         }),
         ("Other Information", {
@@ -541,12 +541,6 @@ class FranklinManagementProfile(admin.ModelAdmin):
     search_fields = ('customer_care_specialist', 'name',
                      'property_owner', 'other_owner')
     fieldsets = (
-        ("Date & Time Information", {
-            'fields': (
-                'call_date',
-                'average_handling_time',
-            )
-        }),
         ("Seller Information for Franklin Management", {
             'fields': (
                 'customer_care_specialist',
@@ -567,6 +561,12 @@ class FranklinManagementProfile(admin.ModelAdmin):
                 'closing_date',
                 'other_properties',
                 'know_about_the_property',
+            )
+        }),
+        ("Date & Time Information", {
+            'fields': (
+                'call_date',
+                'average_handling_time',
             )
         }),
         ("Other Information", {
