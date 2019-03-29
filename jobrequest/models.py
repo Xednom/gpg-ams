@@ -1,7 +1,14 @@
 import uuid
 from django.db import models
 
-from fillables.models import ProjectManager, JobTitleRequest, VirtualAssistant
+from fillables.models import (
+    ProjectManager, 
+    JobTitleRequest, 
+    VirtualAssistant,
+    CompanyName,
+    InternalCompanyName
+    )
+
 
 
 class JobRequest(models.Model):
@@ -55,6 +62,9 @@ class JobRequest(models.Model):
     manager_notes = models.TextField(null=True, blank=True)
     client_notes = models.TextField(null=True, blank=True)
     va_notes = models.TextField(null=True, blank=True)
+    company_billable_to = models.ForeignKey(CompanyName, null=True, blank=True, on_delete=models.PROTECT)
+    company_assigned_to = models.ForeignKey(InternalCompanyName, null=True, blank=True, on_delete=models.PROTECT)
+
 
     class Meta:
         ordering = ['-date_requested']

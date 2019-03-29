@@ -26,6 +26,8 @@ class JobRequestProfile(admin.ModelAdmin):
                 'project_status',
                 'url_training_videos',
                 'assigned_va',
+                'company_billable_to',
+                'company_assigned_to',
                 )
         }),
         ("Notes", {
