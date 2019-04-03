@@ -6,51 +6,49 @@ new Vue({
     jobRequests: [],
     statusOfTheJobRequests: [],
     projectManagers: [],
+    virtualAssistants: [],
     jobRequestTitles: [],
     loading: false,
+    saving: false,
     currentJobRequest: {},
     message: null,
     newJobRequest: {
-      'date': null,
-      'due_date': null,
-      'client_code': null,
+      'category': null,
+      'date_requested': null,
+      'month': null,
+      'requestors_name': null,
+      'company_name': null,
+      'job_request_number': null,
       'job_request_title': null,
-      'job_request_sent_via': null,
       'job_request_instruction': null,
-      'total_hours_minutes_allocated': null,
-      'project_managers': null,
-      'VA_admin_support': null,
-      'status': null,
-      'notes_and_coaching_from_project_manager': null,
+      'additional_comments_or_feedbacks': null,
+      'assigned_project_managers': null,
+      'project_status': null,
+      'url_training_videos': null,
+      'assigned_va': null,
+      'time_in': null,
+      'time_out': null,
+      'total_minutes_hours': null,
+      'manager_notes': null,
+      'client_notes': null,
+      'va_notes': null,
     },
     search_term: ''
   },
   mounted: function() {
-    //this.getJobRequests();
+    this.getJobRequests();
     this.getStatusOfJobRequest();
     this.getProjectManagers();
     this.getJobRequestTitles();
+    this.getVAs();
   },
   methods: {
     reset: function() {
-      this.newJobRequest.date =  this.newJobRequest.due_date = this.newJobRequest.client_code = null;
-      this.newJobRequest.job_request_title = this.newJobRequest.job_request_sent_via = this.newJobRequest.job_request_instruction = null;
-      this.newJobRequest.total_hours_minutes_allocated = this.newJobRequest.project_managers = this.newJobRequest.VA_admin_support = null;
-      this.newJobRequest.status = this.newJobRequest.notes_and_coaching_from_project_manager = null;
+      Object.keys(this.newJobRequest).forEach(key => {
+        this.newJobRequest[key] = ""
+      })
     },
     getJobRequests: function() {
-          let api_url = '/api/v1/jobrequest/';
-          if(this.search_term==''||this.search_term==null) {
-            swal({
-              title: "GPG System",
-              text: "Please fill up the search box",
-              icon: "warning",
-              buttons: false,
-              timer: 1500
-            })
-            this.jobRequests = null;
-          }
-          else{
             api_url = `/api/v1/jobrequest/?search=${this.search_term}`
             this.loading = false;
             this.$http.get(api_url)
@@ -62,7 +60,6 @@ new Vue({
                   this.loading = false;
                   console.log(err);
                 })
-          }
         },
     getJobRequest: function(id) {
       this.loading = true;
@@ -97,7 +94,6 @@ new Vue({
           })
           .catch((err) => {
             this.loading = false;
-            console.log(res);
             console.log(err);
           })
     },
@@ -113,11 +109,23 @@ new Vue({
             console.log(err);
           })
     },
-    addJobRequest: function() {
+    getVAs: function () {
       this.loading = true;
+      this.$http.get(`/api/v1/virtual-assistant/`)
+        .then((response) => {
+          this.virtualAssistants = response.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
+    },
+    addJobRequest: function() {
+      this.saving = true;
       this.$http.post('/api/v1/jobrequest/', this.newJobRequest)
           .then((response) => {
-            this.loading = true;
+            this.saving = false;
             this.getJobRequests();
             swal({
               title: "GPG System",

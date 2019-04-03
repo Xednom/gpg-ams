@@ -79,6 +79,8 @@ class DueDiligence(TimeStampedModel):
     dd_team_assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
                                             verbose_name="DD Team Assigned VA")
     project_manager = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)
+    total_minutes_hours_duration = models.CharField(max_length=150, null=True, blank=True, verbose_name="Total Minutes/hours duration")
+    attachments = models.URLField(null=True, blank=True)
 
     class Meta:
         ordering = ('date_requested',)

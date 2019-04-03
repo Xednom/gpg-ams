@@ -1,3 +1,5 @@
+from django import template
+
 from django.views.generic import View, ListView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 
@@ -8,6 +10,13 @@ from rest_framework.permissions import IsAuthenticated
 from .models import DueDiligence
 
 from .serializers import DueDiligenceSerializer
+
+register = template.Library()
+
+
+@register.filter(name='Client')
+def has_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):

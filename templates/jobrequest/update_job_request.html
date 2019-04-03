@@ -43,11 +43,12 @@ GPG System | Update Job Request
                               <th>VA admin support</th>
                               <th>Status of the job request</th>
                               <th>Notes and coaching from project manager</th>
+                              <th>Actions</th>
                           </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td colspan="14" class="text-center bg-warning" v-if="!jobRequests.length">You can use "Date", "Client Code" or "VA admin support" to search a data to update/delete.</td>
+                          <td colspan="15" class="text-center bg-warning" v-if="!jobRequests.length">You can use "Date", "Client Code" or "VA admin support" to search a data to update/delete.</td>
                         </tr>
                           <tr class="odd gradeX" v-for="job in jobRequests">
                             <td>[[ job.date ]]</td>
@@ -62,12 +63,12 @@ GPG System | Update Job Request
                             <td>[[ job.status ]]</td>
                             <td>[[ job.notes_and_coaching_from_project_manager ]]</td>
                             {% if perms.jobrequest.change_jobrequest %}
-                            <td><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editModal" v-on:click="getJobRequest(job.id)">
-                              Edit
-                            </button></td>
-                            {% endif %}
-                            {% if perms.jobrequest.delete_request %}
-                            <td><button type="button" class="btn btn-danger" v-on:click="deleteJobRequest(job.id)">Delete</button></td>
+                            <td><button type="button" class="btn btn-warning fa fa-edit" data-toggle="modal" data-target="#editModal" v-on:click="getJobRequest(job.id)">
+                              
+                            </button>
+                          <!-- <button type="button" class="btn btn-danger fa fa-trash" v-on:click="deleteJobRequest(job.id)">
+
+                          </button></td> -->
                             {% endif %}
                           </tr>
                       </tbody>

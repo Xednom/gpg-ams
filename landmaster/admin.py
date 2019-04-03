@@ -9,8 +9,8 @@ class DueDiligenceProfile(admin.ModelAdmin):
     fieldsets = (
         ('Due Diligence client Information', {
             'fields': (
-                'due_date',
                 'date_requested',
+                'due_date',
                 'company_name',
                 'company_owner',
             )
@@ -95,6 +95,12 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'notes_from_land_master_team',
                 'dd_team_assigned_va',
                 'project_manager',
+            )
+        }),
+        ("Other information", {
+            'fields': (
+                'total_minutes_hours_duration',
+                'attachments',
             )
         }),
     )

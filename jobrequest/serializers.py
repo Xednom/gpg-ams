@@ -13,8 +13,7 @@ class JobTitleRequestSerializer(serializers.ModelSerializer):
 
 
 class JobRequestSerializer(serializers.ModelSerializer):
-    project_managers = serializers.SlugRelatedField(slug_field='project_manager', queryset=ProjectManager.objects.all())
-    job_request_title = serializers.SlugRelatedField(slug_field='title', queryset=JobTitleRequest.objects.all())
+    assigned_project_managers = serializers.SlugRelatedField(slug_field='project_manager', queryset=ProjectManager.objects.all())
 
     class Meta:
         model = JobRequest
