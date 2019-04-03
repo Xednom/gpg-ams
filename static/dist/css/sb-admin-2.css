@@ -420,6 +420,7 @@ table.dataTable thead .sorting:after {
 }
 .timeline-title {
   margin-top: 0;
+  margin-bottom: 20px;
   color: inherit;
 }
 .timeline-body > p,

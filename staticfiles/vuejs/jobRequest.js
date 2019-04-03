@@ -9,6 +9,7 @@ new Vue({
     virtualAssistants: [],
     jobRequestTitles: [],
     loading: false,
+    saving: false,
     currentJobRequest: {},
     message: null,
     newJobRequest: {
@@ -35,7 +36,7 @@ new Vue({
     search_term: ''
   },
   mounted: function() {
-    //this.getJobRequests();
+    this.getJobRequests();
     this.getStatusOfJobRequest();
     this.getProjectManagers();
     this.getJobRequestTitles();
@@ -48,18 +49,6 @@ new Vue({
       })
     },
     getJobRequests: function() {
-          let api_url = '/api/v1/jobrequest/';
-          if(this.search_term==''||this.search_term==null) {
-            swal({
-              title: "GPG System",
-              text: "Please fill up the search box",
-              icon: "warning",
-              buttons: false,
-              timer: 1500
-            })
-            this.jobRequests = null;
-          }
-          else{
             api_url = `/api/v1/jobrequest/?search=${this.search_term}`
             this.loading = false;
             this.$http.get(api_url)
@@ -71,7 +60,6 @@ new Vue({
                   this.loading = false;
                   console.log(err);
                 })
-          }
         },
     getJobRequest: function(id) {
       this.loading = true;
@@ -134,10 +122,10 @@ new Vue({
         })
     },
     addJobRequest: function() {
-      this.loading = true;
+      this.saving = true;
       this.$http.post('/api/v1/jobrequest/', this.newJobRequest)
           .then((response) => {
-            this.loading = true;
+            this.saving = false;
             this.getJobRequests();
             swal({
               title: "GPG System",

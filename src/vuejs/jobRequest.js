@@ -36,7 +36,7 @@ new Vue({
     search_term: ''
   },
   mounted: function() {
-    //this.getJobRequests();
+    this.getJobRequests();
     this.getStatusOfJobRequest();
     this.getProjectManagers();
     this.getJobRequestTitles();
@@ -49,31 +49,18 @@ new Vue({
       })
     },
     getJobRequests: function() {
-          let api_url = '/api/v1/jobrequest/';
-          if(this.search_term==''||this.search_term==null) {
-            swal({
-              title: "GPG System",
-              text: "Please fill up the search box",
-              icon: "warning",
-              buttons: false,
-              timer: 1500
-            })
-            this.jobRequests = null;
-          }
-          else{
-            api_url = `/api/v1/jobrequest/?search=${this.search_term}`
+      api_url = `/api/v1/jobrequest/?search=${this.search_term}`
+      this.loading = false;
+      this.$http.get(api_url)
+          .then((response) => {
+            this.jobRequests = response.data;
             this.loading = false;
-            this.$http.get(api_url)
-                .then((response) => {
-                  this.jobRequests = response.data;
-                  this.loading = false;
-                })
-                .catch((err) => {
-                  this.loading = false;
-                  console.log(err);
-                })
-          }
-        },
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
     getJobRequest: function(id) {
       this.loading = true;
       this.$http.get(`/api/v1/jobrequest/${id}/`)
