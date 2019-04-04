@@ -1,4 +1,5 @@
 from django import template
+from django.db.models import Q
 
 from django.views.generic import View, ListView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
@@ -42,5 +43,5 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = DueDiligence.objects.filter(company_owner=user)
+        queryset = DueDiligence.objects.filter(Q(company_owner=user) | Q(project_manager__project_manager=user))
         return queryset

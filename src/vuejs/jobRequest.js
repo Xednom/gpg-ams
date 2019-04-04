@@ -37,7 +37,7 @@ new Vue({
   },
   mounted: function() {
     this.getJobRequests();
-    this.getStatusOfJobRequest();
+    //this.getStatusOfJobRequest();
     this.getProjectManagers();
     this.getJobRequestTitles();
     this.getVAs();
