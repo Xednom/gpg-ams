@@ -28,6 +28,7 @@ LOCAL_APPS = (
     'landmaster',
     'buyer',
     'seller',
+    'logins',
 )
 
 DJANGO_APPS = (
