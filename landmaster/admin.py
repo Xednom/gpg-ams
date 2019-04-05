@@ -13,6 +13,7 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'due_date',
                 'company_name',
                 'company_owner',
+                'customer_care_specialist',
             )
         }),
         ("Land Data information", {

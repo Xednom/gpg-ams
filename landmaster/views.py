@@ -36,7 +36,6 @@ class DueDiligenceView(LoginRequiredMixin, TemplateView):
 
 
 class DueDiligenceViewSet(viewsets.ModelViewSet):
-    queryset = DueDiligence.objects.all()
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permistion_classes = (IsAuthenticated,)
     serializer_class = DueDiligenceSerializer

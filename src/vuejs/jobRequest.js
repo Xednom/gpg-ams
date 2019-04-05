@@ -32,6 +32,8 @@ new Vue({
       'manager_notes': null,
       'client_notes': null,
       'va_notes': null,
+      'company_billable_to': null,
+      'company_asigned_to': null,
     },
     search_term: ''
   },

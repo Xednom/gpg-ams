@@ -14,8 +14,8 @@ class VaSerializer(serializers.ModelSerializer):
 
 
 class DueDiligenceSerializer(serializers.ModelSerializer):
-    dd_team_assigned_va = serializers.SlugRelatedField(slug_field='name', queryset=VirtualAssistant.objects.all())
-    project_manager = serializers.SlugRelatedField(slug_field='project_manager', queryset=ProjectManager.objects.all())
+    dd_team_assigned_va = serializers.SlugRelatedField(slug_field='name', queryset=VirtualAssistant.objects.all(), allow_null=True, required=False)
+    project_manager = serializers.SlugRelatedField(slug_field='project_manager', queryset=ProjectManager.objects.all(), allow_null=True, required=False)
 
     class Meta:
         model = DueDiligence
