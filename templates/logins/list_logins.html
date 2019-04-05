@@ -40,6 +40,9 @@
                             <th>Give access to</th>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td colspan="15" class="text-center bg-warning" v-if="!logins.length">No assigned logins to you as of now.</td>
+                            </tr>
                             <tr v-for="login in logins">
                                 <td>[[ login.client_full_name ]]</td>
                                 <td>[[ login.company_name ]]</td>
