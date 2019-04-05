@@ -103,7 +103,49 @@ GPG System | View Job Request
                         Due Diligence work Information for [[ currentJobRequest.company_name ]]
                       </div>
                       <div class="panel-body">
-                        asdasdasd
+                        <h4 class="title1">Job Request Informations</h4>
+                        <hr>
+                        <form v-on:submit.prevent=updateJobRequest>
+                          {% csrf_token %}
+                          <div class="form-group col-md-4 col-sm-12">
+                            <label for="brand_name">Category</label>
+                            <input class="form-control" id="brand_name" v-model="currentJobRequest.category" autocomplete="off" />
+                          </div>
+                          <div class="form-group col-md-4 col-sm-12">
+                            <label>Requestor's Name</label>
+                            <input type="text" class="form-control" v-model="currentJobRequest.requestors_name" autocomplete="off" />
+                          </div>
+                          <div class="form-group col-md-4 col-sm-12">
+                            <label>Company Name</label>
+                            <input type="text" class="form-control" v-model="currentJobRequest.company_name" autocomplete="off" />
+                          </div>
+                          <div class="form-group col-md-4 col-sm-12">
+                            <label>Job Request number</label>
+                            <input type="text" class="form-control" v-model="currentJobRequest.job_request_number" autocomplete="off">
+                          </div>
+                          <div class="form-group col-md-4 col-sm-12">
+                            <label>Job Request Title</label>
+                            <input type="text" class="form-control" v-model="currentJobRequest.job_request_title" autocomplete="off">
+                          </div>
+                          <div class="form-group col-md-12 col-sm-12">
+                            <label>Job Request Instructions</label>
+                            <textarea cols="15" rows="15" class="form-control" v-model="currentJobRequest.job_request_instruction"></textarea>
+                          </div>
+                          <div class="form-group col-md-4 col-sm-12">
+                            <label>Assigned Project Manager </label>
+                            <select class="form-control" v-model="currentJobRequest.assigned_project_managers">
+                              <option v-for="pm in projectManagers">[[pm.project_manager]]</option>
+                            </select>
+                          </div>
+                          <div class="form-group col-md-4 col-sm-12">
+                            <label>VA admin support</label>
+                            <input type="text" class="form-control" v-model="currentJobRequest.VA_admin_support" autocomplete="off" />
+                          </div>
+                          <div class="form-group col-md-12 col-sm-12">
+                            <label>Notes and coaching from Project Manager</label>
+                            <textarea class="form-control" rows="8" cols="80"
+                              v-model="currentJobRequest.notes_and_coaching_from_project_manager" autocomlete="off"></textarea>
+                          </div>
                       </div>
                       <!-- panelbody ends here -->
                     </div>
