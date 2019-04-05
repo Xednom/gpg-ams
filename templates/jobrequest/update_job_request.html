@@ -35,17 +35,12 @@ GPG System | View Job Request
               id="jobRequestTable">
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Due date</th>
-                  <th>Client Code</th>
+                  <th>Date Requested</th>
+                  <th>Category</th>
+                  <th>Company Name</th>
                   <th>Job Request Title</th>
-                  <th>Job Request sent Via</th>
-                  <th>Job Request Instruction</th>
-                  <th>Total hours and minutes allocated</th>
                   <th>Project Managers</th>
-                  <th>VA admin support</th>
-                  <th>Status of the job request</th>
-                  <th>Notes and coaching from project manager</th>
+                  <th>Project Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -55,28 +50,20 @@ GPG System | View Job Request
                     Code" or "VA admin support" to search a data to update/delete.</td>
                 </tr>
                 <tr class="odd gradeX" v-for="job in jobRequests">
-                  <td>[[ job.date ]]</td>
-                  <td>[[ job.due_date ]]</td>
-                  <td>[[ job.client_code ]]</td>
+                  <td>[[ job.date_requested ]]</td>
+                  <td>[[ job.category ]]</td>
+                  <td>[[ job.company_name ]]</td>
                   <td>[[ job.job_request_title ]]</td>
-                  <td>[[ job.job_request_sent_via ]]</td>
-                  <td>[[ job.job_request_instruction ]]</td>
-                  <td>[[ job.total_hours_minutes_allocated ]]</td>
-                  <td>[[ job.project_managers ]]</td>
-                  <td>[[ job.VA_admin_support ]]</td>
-                  <td>[[ job.status ]]</td>
-                  <td>[[ job.notes_and_coaching_from_project_manager ]]</td>
+                  <td>[[ job.assigned_project_managers ]]</td>
+                  <td>[[ job.project_status ]]</td>
                   {% if perms.jobrequest.change_jobrequest %}
                   <td>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editmodal"
+                    <button type="button" class="btn btn-warning fa fa-edit" data-toggle="modal" data-target="#editModal"
                       v-on:click="getJobRequest(job.id)">
-                      Launch demo modal
                     </button>
                   </td>
-                  <!-- <button type="button" class="btn btn-danger fa fa-trash" v-on:click="deleteJobRequest(job.id)">
-
-                          </button></td> -->
+                  <!-- <button type="button" class="btn btn-danger fa fa-trash" v-on:click="deleteJobRequest(job.id)"></button></td> -->
                   {% endif %}
                 </tr>
               </tbody>
@@ -96,55 +83,129 @@ GPG System | View Job Request
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <form v-on:submit.prevent="updateDueDiligence()">
+                <form v-on:submit.prevent="updateJobRequest">
                   <div class="modal-body">
                     <div class="panel panel-default">
                       <div class="panel-heading">
-                        Due Diligence work Information for [[ currentJobRequest.company_name ]]
+                        Job Request Information for [[ currentJobRequest.company_name ]]
                       </div>
                       <div class="panel-body">
-                        <h4 class="title1">Job Request Informations</h4>
+                        {% if request.user.position == "VA" %}
+                        <h4 class="title1">General Informations</h4>
                         <hr>
+                        <div class="row">
                         <form v-on:submit.prevent=updateJobRequest>
                           {% csrf_token %}
-                          <div class="form-group col-md-4 col-sm-12">
-                            <label for="brand_name">Category</label>
-                            <input class="form-control" id="brand_name" v-model="currentJobRequest.category" autocomplete="off" />
-                          </div>
-                          <div class="form-group col-md-4 col-sm-12">
-                            <label>Requestor's Name</label>
-                            <input type="text" class="form-control" v-model="currentJobRequest.requestors_name" autocomplete="off" />
-                          </div>
-                          <div class="form-group col-md-4 col-sm-12">
-                            <label>Company Name</label>
-                            <input type="text" class="form-control" v-model="currentJobRequest.company_name" autocomplete="off" />
-                          </div>
-                          <div class="form-group col-md-4 col-sm-12">
-                            <label>Job Request number</label>
-                            <input type="text" class="form-control" v-model="currentJobRequest.job_request_number" autocomplete="off">
-                          </div>
-                          <div class="form-group col-md-4 col-sm-12">
-                            <label>Job Request Title</label>
-                            <input type="text" class="form-control" v-model="currentJobRequest.job_request_title" autocomplete="off">
-                          </div>
-                          <div class="form-group col-md-12 col-sm-12">
-                            <label>Job Request Instructions</label>
-                            <textarea cols="15" rows="15" class="form-control" v-model="currentJobRequest.job_request_instruction"></textarea>
-                          </div>
-                          <div class="form-group col-md-4 col-sm-12">
-                            <label>Assigned Project Manager </label>
-                            <select class="form-control" v-model="currentJobRequest.assigned_project_managers">
-                              <option v-for="pm in projectManagers">[[pm.project_manager]]</option>
-                            </select>
-                          </div>
-                          <div class="form-group col-md-4 col-sm-12">
-                            <label>VA admin support</label>
-                            <input type="text" class="form-control" v-model="currentJobRequest.VA_admin_support" autocomplete="off" />
-                          </div>
-                          <div class="form-group col-md-12 col-sm-12">
-                            <label>Notes and coaching from Project Manager</label>
-                            <textarea class="form-control" rows="8" cols="80"
-                              v-model="currentJobRequest.notes_and_coaching_from_project_manager" autocomlete="off"></textarea>
+                        <div class="form-group col-md-3 col-sm-12">
+                          <label>Month</label>
+                          <select class="form-control" v-model="currentJobRequest.month">
+                            <option>January</option>
+                            <option>February</option>
+                            <option>March</option>
+                            <option>April</option>
+                            <option>May</option>
+                            <option>June</option>
+                            <option>July</option>
+                            <option>August</option>
+                            <option>September</option>
+                            <option>October</option>
+                            <option>November</option>
+                            <option>December</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-3 col-sm-12">
+                          <label>Time in</label>
+                          <input type="number"
+                          class="form-control" 
+                          step="0.01"
+                          v-model="currentJobRequest.time_in">
+                        </div>
+                        <div class="form-group col-md-3 col-sm-12">
+                          <label>Time in</label>
+                          <input type="number"
+                          class="form-control" 
+                          step="0.01"
+                          v-model="currentJobRequest.time_out">
+                        </div>
+                        <div class="form-group col-md-3 col-sm-12">
+                          <label>Total minutes hours</label>
+                          <input type="number"
+                          class="form-control" 
+                          step="0.01"
+                          v-model="currentJobRequest.total_minutes_hours">
+                        </div>
+                      </div>
+                      {% endif %}
+                      <hr>
+                      <h4 class="title1">Job Request Informations</h4>
+                      <div class="row">
+                            <div class="form-group col-md-4 col-sm-12">
+                              <label for="brand_name">Category</label>
+                              <input class="form-control" id="brand_name" v-model="currentJobRequest.category" autocomplete="off"
+                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %} />
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                              <label>Requestor's Name</label>
+                              <input type="text" class="form-control" v-model="currentJobRequest.requestors_name" autocomplete="off"
+                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %} />
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                              <label>Company Name</label>
+                              <input type="text" class="form-control" v-model="currentJobRequest.company_name" autocomplete="off"
+                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %} />
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                              <label>Job Request number</label>
+                              <input type="text" class="form-control" v-model="currentJobRequest.job_request_number" autocomplete="off"
+                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                              <label>Job Request Title</label>
+                              <input type="text" class="form-control" v-model="currentJobRequest.job_request_title" autocomplete="off"
+                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                              <label>Job Request Instructions</label>
+                              <textarea cols="15" rows="15" class="form-control" v-model="currentJobRequest.job_request_instruction"
+                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                              <label>Assigned Project Manager </label>
+                              <select class="form-control" v-model="currentJobRequest.assigned_project_managers"
+                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                                <option v-for="pm in projectManagers">[[pm.project_manager]]</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-md-4 col-sm-12">
+                              <label>VA admin support</label>
+                              <select class="form-control" v-model="currentJobRequest.assigned_va"
+                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                                <option v-for="va in virtualAssistants">[[ va.name ]]</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                              <label>Additional comments or feedbacks</label>
+                              <textarea cols="30" rows="10" class="form-control" v-model="currentJobRequest.additional_comments_or_feedbacks"
+                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                              <label>Client Notes</label>
+                              <textarea cols="30" rows="10" class="form-control"
+                                v-model="currentJobRequest.client_notes"
+                                {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                              <label>Manager Notes</label>
+                              <textarea cols="30" rows="10" class="form-control"
+                                v-model="currentJobRequest.manager_notes"
+                                {% if request.user.position == 'Project Manager' or request.user.is_superuser %}{% elif request.user.position == 'Client' or request.user.position == 'VA' %}disabled{% endif %}></textarea>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                              <label>VA Notes</label>
+                              <textarea cols="30" rows="10" class="form-control"
+                                v-model="currentJobRequest.va_notes"
+                                {% if request.user.position == 'VA' or request.user.is_superuser %}{% elif request.user.position == 'Client' or request.user.position == 'Project Manager' %}disabled{% endif %}></textarea>
+                            </div>
                           </div>
                       </div>
                       <!-- panelbody ends here -->

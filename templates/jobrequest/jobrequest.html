@@ -32,9 +32,9 @@ GPG Sytem | Job Request
                 {% csrf_token %}
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs">
-                  <li class="active"><a href="#general-info" data-toggle="tab">General Information</a>
-                  </li>
-                  <li><a href="#job-req" data-toggle="tab">Job Request Information</a>
+                  <!-- <li class="active"><a href="#general-info" data-toggle="tab">General Information</a>
+                  </li> -->
+                  <li class="active"><a href="#job-req" data-toggle="tab">Job Request Information</a>
                   </li>
                   <li><a href="#notes" data-toggle="tab">Notes</a>
                   </li>
@@ -42,7 +42,7 @@ GPG Sytem | Job Request
           
                 <!-- Tab panes -->
                 <div class="tab-content">
-                  <div class="tab-pane fade in active" id="general-info">
+                  <!-- <div class="tab-pane fade in active" id="general-info">
                     <h3 class="timeline-title text-center">General Information</h3>
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label text-center">Time In</label>
@@ -87,41 +87,40 @@ GPG Sytem | Job Request
                         </select>
                       </div>
                     </div>
-                  </div>
-                  <div class="tab-pane fade" id="job-req">
-                    <h3 class="timeline-title text-center">Job Request Informations</h3>
+                  </div> -->
+                  <div class="tab-pane fade in active" id="job-req">
                     <div class="form-group row">
-                      <label for="inputEmail4" class="col-sm-4 col-form-label text-center">Category</label>
+                      <label for="inputEmail4" class="col-sm-2 col-form-label">Category</label>
                       <div class="col-md-4 col-sm-12">
                         <input type="text" class="form-control" v-model="newJobRequest.category" autocomplete="off" required>
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="inputEmail4" class="col-sm-4 col-form-label text-center">Requestor's name</label>
+                      <label for="inputEmail4" class="col-sm-2 col-form-label">Requestor's name</label>
                       <div class="col-md-4 col-sm-12">
                         <input type="text" class="form-control" v-model="newJobRequest.client_code" autocomplete="off" required>
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="inputReqTitle" class="col-sm-4 col-form-label text-center">Company name</label>
+                      <label for="inputReqTitle" class="col-sm-2 col-form-label">Company name</label>
                       <div class="col-md-4 col-sm-12">
                         <input type="text" class="form-control" v-model="newJobRequest.company_name" autocomplete="off">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="inputJobReqSent" class="col-sm-4 col-form-label text-center">Job Request Number</label>
+                      <label for="inputJobReqSent" class="col-sm-2 col-form-label">Job Request Number</label>
                       <div class="col-md-4 col-sm-12">
                         <input type="text" class="form-control" v-model="newJobRequest.job_request_number" required autocomplete="off">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label text-center">Job Request Title</label>
+                      <label class="col-sm-2 col-form-label">Job Request Title</label>
                       <div class="col-md-4 col-sm-12">
                         <input type="text" class="form-control" v-model="newJobRequest.job_request_title" autocomplete="off">
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="inputJobRequest" class="col-sm-4 col-form-label text-center">Assigned Project Manager</label>
+                      <label for="inputJobRequest" class="col-sm-2 col-form-label">Assigned Project Manager</label>
                       <div class="col-md-4 col-sm-12">
                         <select class="form-control" v-model="newJobRequest.assigned_project_managers">
                           <option v-for="pm in projectManagers">[[ pm.project_manager ]]</option>
@@ -129,7 +128,7 @@ GPG Sytem | Job Request
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="inputJobRequest" class="col-sm-4 col-form-label text-center">Assigned Virtual Assistant</label>
+                      <label for="inputJobRequest" class="col-sm-2 col-form-label">Assigned Virtual Assistant</label>
                       <div class="col-md-4 col-sm-12">
                         <select class="form-control" v-model="newJobRequest.assigned_va">
                           <option v-for="va in virtualAssistants">[[ va.name ]]</option>
@@ -137,7 +136,7 @@ GPG Sytem | Job Request
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="inputVASupport" class="col-sm-4 col-form-label text-center">Project Status</label>
+                      <label for="inputVASupport" class="col-sm-2 col-form-label">Project Status</label>
                       <div class="col-md-4 col-sm-12">
                         <select class="form-control" v-model="newJobRequest.project_status">
                           <option>Sent to Project Manager</option>
@@ -151,7 +150,7 @@ GPG Sytem | Job Request
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label text-center">URL Training Videos</label>
+                      <label class="col-sm-2 col-form-label">URL Training Videos</label>
                       <div class="col-md-4 col-sm-12">
                         <input type="url" class="form-control" v-model="newJobRequest.url_training_videos" autocomplete="off">
                       </div>
@@ -164,7 +163,6 @@ GPG Sytem | Job Request
                     </div>
                   </div>
                   <div class="tab-pane fade" id="notes">
-                    <h3 class="timeline-title text-center">Notes</h3>
                     
                     {% if request.user.position == 'Client' %}
                     <div class="form-group row">

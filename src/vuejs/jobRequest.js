@@ -8,6 +8,8 @@ new Vue({
     projectManagers: [],
     virtualAssistants: [],
     jobRequestTitles: [],
+    companyNames: [],
+    companyAssignedTo: [],
     loading: false,
     saving: false,
     currentJobRequest: {},
@@ -112,6 +114,18 @@ new Vue({
           })
     },
     getVAs: function () {
+      this.loading = true;
+      this.$http.get(`/api/v1/virtual-assistant/`)
+        .then((response) => {
+          this.virtualAssistants = response.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
+    },
+    getCompanyNames: function () {
       this.loading = true;
       this.$http.get(`/api/v1/virtual-assistant/`)
         .then((response) => {
