@@ -8,6 +8,8 @@ new Vue({
     projectManagers: [],
     virtualAssistants: [],
     jobRequestTitles: [],
+    companyNames: [],
+    companyAssignedTo: [],
     loading: false,
     saving: false,
     currentJobRequest: {},
@@ -32,12 +34,14 @@ new Vue({
       'manager_notes': null,
       'client_notes': null,
       'va_notes': null,
+      'company_billable_to': null,
+      'company_asigned_to': null,
     },
     search_term: ''
   },
   mounted: function() {
     this.getJobRequests();
-    this.getStatusOfJobRequest();
+    //this.getStatusOfJobRequest();
     this.getProjectManagers();
     this.getJobRequestTitles();
     this.getVAs();
@@ -49,18 +53,18 @@ new Vue({
       })
     },
     getJobRequests: function() {
-            api_url = `/api/v1/jobrequest/?search=${this.search_term}`
+      api_url = `/api/v1/jobrequest/?search=${this.search_term}`
+      this.loading = false;
+      this.$http.get(api_url)
+          .then((response) => {
+            this.jobRequests = response.data;
             this.loading = false;
-            this.$http.get(api_url)
-                .then((response) => {
-                  this.jobRequests = response.data;
-                  this.loading = false;
-                })
-                .catch((err) => {
-                  this.loading = false;
-                  console.log(err);
-                })
-        },
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
     getJobRequest: function(id) {
       this.loading = true;
       this.$http.get(`/api/v1/jobrequest/${id}/`)
@@ -110,6 +114,18 @@ new Vue({
           })
     },
     getVAs: function () {
+      this.loading = true;
+      this.$http.get(`/api/v1/virtual-assistant/`)
+        .then((response) => {
+          this.virtualAssistants = response.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
+    },
+    getCompanyNames: function () {
       this.loading = true;
       this.$http.get(`/api/v1/virtual-assistant/`)
         .then((response) => {

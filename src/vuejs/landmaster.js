@@ -65,14 +65,16 @@ new Vue({
             'waste': "",
             'date_completed': null,
             'notes_from_the_client': "",
-            'notes_from_the_land_master_team': "",
+            'notes_from_land_master_team': "",
             'dd_team_assigned_va': "",
             'project_manager': "",
+            'total_minutes_hours_duration': "",
+            'attachments': "",
         },
     },
     mounted: function () {
         this.getClientNames();
-        this.getDueDiligence();
+        this.getDueDiligences();
         this.getVas();
         this.getProjectManagers();
     },
@@ -137,7 +139,28 @@ new Vue({
                     console.log(err);
                 })
         },
-        getDueDiligence: function () {
+        updateDueDiligence: function () {
+            this.loading = true;
+            this.$http.put(`/api/v1/due-diligence/${this.currentDueDiligence.id}/`, this.currentDueDiligence)
+                .then((response) => {
+                    this.loading = false;
+                    this.currentDueDiligence = response.data;
+                    swal({
+                        title: "GPG system",
+                        text: "Successfully updated the data!",
+                        icon: "success",
+                        button: false,
+                        timer: 1500
+                    });
+                    $("#editModal").modal('hide')
+                    this.getDueDiligences();
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        getDueDiligences: function () {
             this.loading = true;
             this.$http.get(`/api/v1/due-diligence/`)
                 .then((response) => {

@@ -25,6 +25,9 @@ body {
 .tab-pane{
   padding: 15px;
 }
+.tab-content{
+  margin-top: 20px;
+}
 .navbar-top-links {
   margin-right: 0;
 }
