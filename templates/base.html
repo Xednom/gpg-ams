@@ -56,7 +56,8 @@
 
             <ul class="nav navbar-top-links navbar-right">
               <li>
-                <label>Welcome, {{ request.user }}!</label>
+                <label>Welcome, {{ request.user.clients.full_name }} {{ request.user.staffs.full_name }}</label>
+
               </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">

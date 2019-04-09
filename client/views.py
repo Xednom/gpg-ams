@@ -15,7 +15,6 @@ from .serializers import (
             ProjectManagerSerializer,
             TypeOfTaskSerializer,
             SeniorManagerSerializer,
-            CustomUserSerializer
         )
 from fillables.models import VirtualAssistant
 
@@ -75,11 +74,6 @@ class TypeOfTaskViewSet(viewsets.ModelViewSet):
 class SeniorManagerViewSet(viewsets.ModelViewSet):
     queryset = SeniorManager.objects.all()
     serializer_class = SeniorManagerSerializer
-
-
-class CustomUserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = CustomUserSerializer
 
 
 class VirtualAssistantViewSet(viewsets.ModelViewSet):

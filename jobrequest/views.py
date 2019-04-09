@@ -34,12 +34,19 @@ class UpdateJobRequestView(LoginRequiredMixin, PermissionRequiredMixin, ListView
 
 
 class JobRequestViewSet(viewsets.ModelViewSet):
-    queryset = JobRequest.objects.all()
     serializer_class = JobRequestSerializer
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('date', 'client_code', 'VA_admin_support')
+
+    def get_queryset(self):
+        #  data will only show by company name.
+        queryset = JobRequest.objects.filter(company_name=self.request.user.clients.company_name)
+        return queryset
+
+    def perform_create(self, serializer):
+        return serializer.save(requestors_name=self.request.user.clients.full_name, company_name=self.request.user.clients.company_name)
 
 
 class JobRequestTitleViewSet(viewsets.ModelViewSet):

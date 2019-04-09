@@ -63,12 +63,6 @@ GPG Sytem | Job Request
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label text-center">Date Requested</label>
-                      <div class="col-md-4 col-sm-12">
-                        <input class="form-control" type="date" v-model="newJobRequest.date_requested" name="date_requested">
-                      </div>
-                    </div>
-                    <div class="form-group row">
                       <label class="col-sm-4 col-form-label text-center">Month</label>
                       <div class="col-md-4 col-sm-12">
                         <select class="form-control" v-model="newJobRequest.month">
@@ -90,12 +84,20 @@ GPG Sytem | Job Request
                   </div> -->
                   <div class="tab-pane fade in active" id="job-req">
                     <div class="form-group row">
-                      <label for="inputEmail4" class="col-sm-2 col-form-label">Category</label>
-                      <div class="col-md-4 col-sm-12">
-                        <input type="text" class="form-control" v-model="newJobRequest.category" autocomplete="off" required>
+                      <label class="col-sm-2 col-form-label">Date Requested</label>
+                      <div class="col-md-8 col-sm-12">
+                        <input class="form-control" type="date" v-model="newJobRequest.date_requested"
+                          name="date_requested">
                       </div>
                     </div>
                     <div class="form-group row">
+                      <label for="inputEmail4" class="col-sm-2 col-form-label">Category</label>
+                      <div class="col-md-8 col-sm-12">
+                        <input type="text" class="form-control" v-model="newJobRequest.category" autocomplete="off" required>
+                      </div>
+                    </div>
+                    <!-- commented out due to automated save -->
+                    <!-- <div class="form-group row">
                       <label for="inputEmail4" class="col-sm-2 col-form-label">Requestor's name</label>
                       <div class="col-md-4 col-sm-12">
                         <input type="text" class="form-control" v-model="newJobRequest.client_code" autocomplete="off" required>
@@ -106,22 +108,22 @@ GPG Sytem | Job Request
                       <div class="col-md-4 col-sm-12">
                         <input type="text" class="form-control" v-model="newJobRequest.company_name" autocomplete="off">
                       </div>
-                    </div>
+                    </div> -->
                     <div class="form-group row">
                       <label for="inputJobReqSent" class="col-sm-2 col-form-label">Job Request Number</label>
-                      <div class="col-md-4 col-sm-12">
+                      <div class="col-md-8 col-sm-12">
                         <input type="text" class="form-control" v-model="newJobRequest.job_request_number" required autocomplete="off">
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">Job Request Title</label>
-                      <div class="col-md-4 col-sm-12">
+                      <div class="col-md-8 col-sm-12">
                         <input type="text" class="form-control" v-model="newJobRequest.job_request_title" autocomplete="off">
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="inputJobRequest" class="col-sm-2 col-form-label">Assigned Project Manager</label>
-                      <div class="col-md-4 col-sm-12">
+                      <div class="col-md-8 col-sm-12">
                         <select class="form-control" v-model="newJobRequest.assigned_project_managers">
                           <option v-for="pm in projectManagers">[[ pm.project_manager ]]</option>
                         </select>
@@ -129,7 +131,7 @@ GPG Sytem | Job Request
                     </div>
                     <div class="form-group row">
                       <label for="inputJobRequest" class="col-sm-2 col-form-label">Assigned Virtual Assistant</label>
-                      <div class="col-md-4 col-sm-12">
+                      <div class="col-md-8 col-sm-12">
                         <select class="form-control" v-model="newJobRequest.assigned_va">
                           <option v-for="va in virtualAssistants">[[ va.name ]]</option>
                         </select>
@@ -137,7 +139,7 @@ GPG Sytem | Job Request
                     </div>
                     <div class="form-group row">
                       <label for="inputVASupport" class="col-sm-2 col-form-label">Project Status</label>
-                      <div class="col-md-4 col-sm-12">
+                      <div class="col-md-8 col-sm-12">
                         <select class="form-control" v-model="newJobRequest.project_status">
                           <option>Sent to Project Manager</option>
                           <option>Sent to Virtual Assistant</option>
@@ -151,7 +153,7 @@ GPG Sytem | Job Request
                     </div>
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">URL Training Videos</label>
-                      <div class="col-md-4 col-sm-12">
+                      <div class="col-md-8 col-sm-12">
                         <input type="url" class="form-control" v-model="newJobRequest.url_training_videos" autocomplete="off">
                       </div>
                     </div>
@@ -164,7 +166,7 @@ GPG Sytem | Job Request
                   </div>
                   <div class="tab-pane fade" id="notes">
                     
-                    {% if request.user.position == 'Client' %}
+                    {% if request.user.clients %}
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">Additional comments or feedbacks</label>
                       <div class="col-md-8 col-sm-12">
@@ -178,14 +180,13 @@ GPG Sytem | Job Request
                         <textarea cols="50" rows="10" class="form-control" v-model="newJobRequest.client_notes"></textarea>
                       </div>
                     </div>
-                    {% elif request.user.position == 'Project Manager' %}
+                    {% elif request.user.staffs %}
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">Manager notes</label>
                       <div class="col-md-8 col-sm-12">
                         <textarea cols="50" rows="10" class="form-control" v-model="newJobRequest.manager_notes"></textarea>
                       </div>
                     </div>
-                    {% elif request.user.position == 'VA' %}
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">VA notes</label>
                       <div class="col-md-8 col-sm-12">
@@ -221,11 +222,13 @@ GPG Sytem | Job Request
                     {% endif %}
                   </div>
                 </div>
+                <button class="btn btn-info btn-save btn-outline pull-right" type="submit"
+                  :disabled="saving == true">Submit</button>
+                <button class="btn btn-warning btn-cancel btn-outline pull-right" v-on:click="reset">Cancel</button>
+                </form>
               </div>
               <!-- /.panel-body -->
-              <button class="btn btn-info btn-save btn-outline pull-right" :disabled="saving == true">Submit</button>
-              <button class="btn btn-warning btn-cancel btn-outline pull-right" v-on:click="reset">Cancel</button>
-              </form>
+              
             </div>
             <!-- /.panel -->
           </div>

@@ -7,7 +7,6 @@ new Vue({
     clientNames:[],
     clientProjectManagers: [],
     clientSeniorManagers: [],
-    clientVA: [],
     clientStatus: [],
     loading: false,
     currentClient: {},
@@ -41,7 +40,7 @@ new Vue({
     this.getClientNames();
     this.getClientProjectManagers();
     this.getClientSeniorManagers();
-    this.getClientVA();
+    // this.getClientVA();
     // this.getClientStatus();
   },
   methods: {
