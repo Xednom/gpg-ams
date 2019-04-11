@@ -41,8 +41,9 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
     serializer_class = DueDiligenceSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        queryset = DueDiligence.objects.filter(Q(company_owner=user) | Q(project_manager__project_manager=user))
+        owner = self.request.user.clients.full_name
+        pm = self.request.user.staffs.full_name
+        queryset = DueDiligence.objects.filter(Q(company_owner=owner) | Q(project_manager__project_manager=pm))
         return queryset
 
     def perform_create(self, serializer):

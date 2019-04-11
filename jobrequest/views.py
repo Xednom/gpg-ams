@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views.generic import View, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 from django.core.paginator import Paginator
+from django.db.models import Q
+
 
 from rest_framework import viewsets, filters
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -27,9 +29,9 @@ class JobRequestView(LoginRequiredMixin, ListView):
     context_object_name = 'jobs'
 
 
-class UpdateJobRequestView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class UpdateJobRequestView(LoginRequiredMixin, ListView):
     model = JobRequest
-    permission_required = ('jobrequest.view_jobrequest',)
+    # permission_required = ('jobrequest.view_jobrequest',)
     template_name = 'jobrequest/update_job_request.html'
 
 
@@ -42,7 +44,8 @@ class JobRequestViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         #  data will only show by company name.
-        queryset = JobRequest.objects.filter(company_name=self.request.user.clients.company_name)
+        queryset = JobRequest.objects.filter(Q(company_name=self.request.user.clients.company_name) |
+                                             Q(assigned_project_managers__project_manager=self.request.user.staffs.full_name))
         return queryset
 
     def perform_create(self, serializer):

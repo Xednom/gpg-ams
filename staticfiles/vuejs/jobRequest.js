@@ -20,7 +20,7 @@ new Vue({
       'month': null,
       'requestors_name': null,
       'company_name': null,
-      'job_request_number': null,
+      'job_request_number': jobRequests.length + 1,
       'job_request_title': null,
       'job_request_instruction': null,
       'additional_comments_or_feedbacks': null,

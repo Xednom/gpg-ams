@@ -46,8 +46,12 @@ GPG System | View Job Request
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="15" class="text-center bg-warning" v-if="!jobRequests.length">You can use "Date", "Client
-                    Code" or "VA admin support" to search a data to update/delete.</td>
+                  {% if request.user.is_staffs %}
+                  <td colspan="15" class="text-center bg-warning" v-if="!jobRequests.length">Currently there no assigned Job Requests to you, you can contact
+                    your admin manager in regards to this.</td>
+                    {% elif request.user.is_client %}
+                    <td colspan="15" class="text-center bg-warning" v-if="!jobRequests.length">Currently you haven't assigned any Job Requests.</td>
+                    {% endif %}
                 </tr>
                 <tr class="odd gradeX" v-for="job in jobRequests">
                   <td>[[ job.date_requested ]]</td>
@@ -56,7 +60,6 @@ GPG System | View Job Request
                   <td>[[ job.job_request_title ]]</td>
                   <td>[[ job.assigned_project_managers ]]</td>
                   <td>[[ job.project_status ]]</td>
-                  {% if perms.jobrequest.change_jobrequest %}
                   <td>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-warning fa fa-edit" data-toggle="modal" data-target="#editModal"
@@ -64,7 +67,6 @@ GPG System | View Job Request
                     </button>
                   </td>
                   <!-- <button type="button" class="btn btn-danger fa fa-trash" v-on:click="deleteJobRequest(job.id)"></button></td> -->
-                  {% endif %}
                 </tr>
               </tbody>
             </table>
@@ -142,69 +144,88 @@ GPG System | View Job Request
                             <div class="form-group col-md-4 col-sm-12">
                               <label for="brand_name">Category</label>
                               <input class="form-control" id="brand_name" v-model="currentJobRequest.category" autocomplete="off"
-                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %} />
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %} />
                             </div>
                             <div class="form-group col-md-4 col-sm-12">
                               <label>Requestor's Name</label>
                               <input type="text" class="form-control" v-model="currentJobRequest.requestors_name" autocomplete="off"
-                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %} />
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %} />
                             </div>
                             <div class="form-group col-md-4 col-sm-12">
                               <label>Company Name</label>
                               <input type="text" class="form-control" v-model="currentJobRequest.company_name" autocomplete="off"
-                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %} />
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %} />
                             </div>
                             <div class="form-group col-md-4 col-sm-12">
                               <label>Job Request number</label>
                               <input type="text" class="form-control" v-model="currentJobRequest.job_request_number" autocomplete="off"
-                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
                             </div>
                             <div class="form-group col-md-4 col-sm-12">
                               <label>Job Request Title</label>
                               <input type="text" class="form-control" v-model="currentJobRequest.job_request_title" autocomplete="off"
-                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
                             </div>
                             <div class="form-group col-md-12 col-sm-12">
                               <label>Job Request Instructions</label>
                               <textarea cols="15" rows="15" class="form-control" v-model="currentJobRequest.job_request_instruction"
-                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
                             </div>
                             <div class="form-group col-md-4 col-sm-12">
                               <label>Assigned Project Manager </label>
                               <select class="form-control" v-model="currentJobRequest.assigned_project_managers"
-                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
                                 <option v-for="pm in projectManagers">[[pm.project_manager]]</option>
                               </select>
                             </div>
                             <div class="form-group col-md-4 col-sm-12">
                               <label>VA admin support</label>
                               <select class="form-control" v-model="currentJobRequest.assigned_va"
-                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
                                 <option v-for="va in virtualAssistants">[[ va.name ]]</option>
                               </select>
+                            </div>
+                            <div class="form-group row">
+                              <label for="inputVASupport" class="col-sm-2 col-form-label">Project Status</label>
+                              <div class="col-md-4 col-sm-12">
+                                <select class="form-control" v-model="currentJobRequest.project_status"
+                                {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                  {% if request.user.is_client %}
+                                  <option>Sent to Project Manager</option>
+                                  <option>Sent to Virtual Assistant</option>
+                                  {% elif request.user.is_staffs %}
+                                  <option>In Progress / PROCESSING</option>
+                                  <option>Job Request Completed - VA Side</option>
+                                  <option>Submit to Project Manager for Quality Purposes</option>
+                                  <option>Submit to Client</option>
+                                  <option>Job Request Completed</option>
+                                  {% endif %}
+                                </select>
+                              </div>
                             </div>
                             <div class="form-group col-md-12 col-sm-12">
                               <label>Additional comments or feedbacks</label>
                               <textarea cols="30" rows="10" class="form-control" v-model="currentJobRequest.additional_comments_or_feedbacks"
-                              {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
                             </div>
                             <div class="form-group col-md-12 col-sm-12">
                               <label>Client Notes</label>
                               <textarea cols="30" rows="10" class="form-control"
                                 v-model="currentJobRequest.client_notes"
-                                {% if request.user.position == 'Client' or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
+                                {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
                             </div>
+                            
                             <div class="form-group col-md-12 col-sm-12">
                               <label>Manager Notes</label>
                               <textarea cols="30" rows="10" class="form-control"
                                 v-model="currentJobRequest.manager_notes"
-                                {% if request.user.position == 'Project Manager' or request.user.is_superuser %}{% elif request.user.position == 'Client' or request.user.position == 'VA' %}disabled{% endif %}></textarea>
+                            {% if request.user.is_client or request.user.staffs.position == 'Project Manager' %}disabled{% elif request.user.staffs %}{% endif %}></textarea>
                             </div>
                             <div class="form-group col-md-12 col-sm-12">
                               <label>VA Notes</label>
                               <textarea cols="30" rows="10" class="form-control"
                                 v-model="currentJobRequest.va_notes"
-                                {% if request.user.position == 'VA' or request.user.is_superuser %}{% elif request.user.position == 'Client' or request.user.position == 'Project Manager' %}disabled{% endif %}></textarea>
+                                {% if request.user.is_client or request.user.staffs.position == 'VA' %}disabled{% elif request.user.staffs %}{% endif %}></textarea>
                             </div>
                           </div>
                       </div>

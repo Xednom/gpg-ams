@@ -14,14 +14,14 @@ class CustomUserAdmin(UserAdmin):
     list_display = ['username']
     UserAdmin.fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name','notes',)}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name','notes', 'is_staffs','is_client')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),)
 
 
 class StaffProfile(admin.ModelAdmin):
-    list_display = ('user_name', 'full_name',
+    list_display = ('username', 'full_name',
                     'phone_number', 'SSS_number',
                     'TIN_number', 'pag_ibig_number',
                     'philhealth', 'position', 'status')
@@ -31,7 +31,7 @@ class StaffProfile(admin.ModelAdmin):
     fieldsets = (
         ('Staff Informations', {
             'fields': (
-                'user_name',
+                'username',
                 'full_name',
                 'phone_number',
                 'SSS_number',

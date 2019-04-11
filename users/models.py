@@ -9,6 +9,8 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     # add additional fields in here for custom user
     notes = models.TextField(null=True, blank=True)
+    is_staffs = models.BooleanField(default=False)
+    is_client = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'List of Username'
@@ -24,7 +26,7 @@ class Staffs(models.Model):
         ('PROBATIONARY', 'Probationary'),
         ('INACTIVE', 'Inactive'),
     )
-    user_name = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='staffs')
+    username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='staffs')
     full_name = models.CharField(max_length=250, default="My Name")
     phone_number = models.CharField(max_length=100, null=True, blank=True)
     SSS_number = models.CharField(max_length=250, null=True, blank=True)
@@ -64,3 +66,22 @@ class Clients(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+@receiver(post_save, sender=CustomUser)
+def create_user_profile(sender, instance, created, **kwargs):
+	print('****', created)
+	if instance.is_staffs:
+		Staffs.objects.get_or_create(username=instance)
+	else:
+		Clients.objects.get_or_create(username=instance)
+
+
+@receiver(post_save, sender=CustomUser)
+def save_user_profile(sender, instance, **kwargs):
+	print('_-----')
+	# print(instance.internprofile.bio, instance.internprofile.location)
+	if instance.is_staffs:
+		    instance.staffs.save()
+	else:
+            Clients.objects.get_or_create(username=instance)
