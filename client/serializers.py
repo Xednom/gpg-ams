@@ -29,12 +29,6 @@ class SeniorManagerSerializer(serializers.ModelSerializer):
         fields = ('name',)
 
 
-class CustomUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('full_name',)
-
-
 class ClientSerializer(serializers.ModelSerializer):
     company_name = serializers.SlugRelatedField(slug_field='name', queryset=CompanyName.objects.all())
     clients_project_manager = serializers.SlugRelatedField(slug_field='project_manager', queryset=ProjectManager.objects.all())

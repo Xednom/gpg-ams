@@ -1,21 +1,32 @@
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.models import User
-
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# from rest_framework.authtoken.models import Token
 
 
 class CustomUser(AbstractUser):
-    # add additional fields in here
+    # add additional fields in here for custom user
+    notes = models.TextField(null=True, blank=True)
+    is_staffs = models.BooleanField(default=False)
+    is_client = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'List of Username'
+        verbose_name_plural = 'List of Usernames'
+        ordering = ['notes']
+
+    def __str__(self):
+        return self.username
+
+class Staffs(models.Model):
     STATUS = (
         ('REGULAR', 'Regular'),
         ('PROBATIONARY', 'Probationary'),
         ('INACTIVE', 'Inactive'),
     )
+    username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='staffs')
     full_name = models.CharField(max_length=250, default="My Name")
     phone_number = models.CharField(max_length=100, null=True, blank=True)
     SSS_number = models.CharField(max_length=250, null=True, blank=True)
@@ -36,16 +47,41 @@ class CustomUser(AbstractUser):
     status = models.CharField(max_length=100, choices=STATUS, null=True, blank=True)
 
     class Meta:
-        verbose_name = 'List of Staff'
+        verbose_name = "List of Staff"
+        verbose_name_plural = "List of Staffs"
+        ordering = ['full_name']
 
     def __str__(self):
         return self.full_name
 
 
-# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-# def create_auth_token(sender, instance=None, created=False, **kwargs):
-#     if created:
-#         Token.objects.create(user=instance)
-#     else:
-#         for user in sender.objects.all():
-#             Token.objects.get_or_create(user=user)
+class Clients(models.Model):
+    username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='clients')
+    full_name = models.CharField(max_length=150)
+    company_name = models.CharField(max_length=150)
+
+    class Meta:
+        verbose_name = 'List of Client'
+        verbose_name_plural = 'List of Clients'
+
+    def __str__(self):
+        return self.full_name
+
+
+@receiver(post_save, sender=CustomUser)
+def create_user_profile(sender, instance, created, **kwargs):
+	print('****', created)
+	if instance.is_staffs:
+		Staffs.objects.get_or_create(username=instance)
+	else:
+		Clients.objects.get_or_create(username=instance)
+
+
+@receiver(post_save, sender=CustomUser)
+def save_user_profile(sender, instance, **kwargs):
+	print('_-----')
+	# print(instance.internprofile.bio, instance.internprofile.location)
+	if instance.is_staffs:
+		    instance.staffs.save()
+	else:
+            Clients.objects.get_or_create(username=instance)

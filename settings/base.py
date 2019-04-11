@@ -29,6 +29,7 @@ LOCAL_APPS = (
     'buyer',
     'seller',
     'logins',
+    'accounts',
 )
 
 DJANGO_APPS = (

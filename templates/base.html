@@ -56,7 +56,8 @@
 
             <ul class="nav navbar-top-links navbar-right">
               <li>
-                <label>Welcome, {{ request.user }}!</label>
+                <label>Welcome, {% if request.user.is_client %} {{ request.user.clients.full_name }} {% elif request.user.is_staffs %}{{ request.user.staffs.full_name }} {% endif %}</label>
+
               </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
@@ -79,7 +80,7 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <!-- <a href="{% url 'users:home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a> -->
+                            <a href="{% url 'users:home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
@@ -99,12 +100,16 @@
                                     <li>
                                       <a href="#">Job Request <span class="fa arrow"></span></a>
                                         <ul class="nav nav-third-level">
+                                          {% if request.user.is_client %}
                                             <li>
                                                 <a href="{% url 'jobrequest:add_job_request' %}">Add Job Request</a>
+                                                <a href="{% url 'jobrequest:update_job_request' %}">Update Job Request</a>
                                             </li>
+                                            {% elif request.user.is_staffs %}
                                             <li>
-                                                <a href="{% url 'jobrequest:update_job_request' %}">Update and Delete a Job Request</a>
+                                                <a href="{% url 'jobrequest:update_job_request' %}">Update Job Request</a>
                                             </li>
+                                            {% endif %}
                                         </ul>
                                         <!-- /.nav-third-level -->
                                     </li>
@@ -118,12 +123,16 @@
                         <li>
                           <a href="#">Land Master <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
+                              {% if request.user.is_client %}
                               <li>
                                 <a href="{% url 'landmaster:due_diligence' %}">Add Due Diligence work</a>
+                                <a href="{% url 'landmaster:view_due_diligence' %}">View Due Diligence work</a>
                               </li>
+                              {% else %}
                               <li>
                                 <a href="{% url 'landmaster:view_due_diligence' %}">View Due Diligence work</a>
                               </li>
+                              {% endif %}
                             </ul>
                         </li>
                     </ul>
@@ -155,8 +164,23 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                          <div id="container-client" class="col-sm-6 " data-url="{% url 'users:client_status_data' %}"></div>
-                          <div id="container-jobrequest" class="col-sm-6 " data-url="{% url 'users:job_request_status_data' %}"></div>
+                          <div id="gpg-job-request" v-cloak>
+                            {% if request.user.is_client %}
+                            <label>Total Job Requests You assigned:</label> [[ jobRequests.length ]]
+                            {% elif request.user.is_staffs %}
+                            <label>Total Job Requests assigned to you:</label> [[ jobRequests.length ]]
+                            {% endif %}
+                          </div>
+                          <div id="gpg-land-master" v-cloak>
+                            {% if request.user.is_client %}
+                            <label>Total Due Diligence work You assigned to the Land Master Team:</label> [[ dueDiligences.length ]]
+                            {% elif request.user.is_staffs %}
+                            <label>Total Due Diligence work assigned to You:</label> [[ dueDiligences.length ]]
+                            {% endif %}
+                          </div>
+                          <!-- below is the chart, disabled for simplicity sake -->
+                          <!-- <div id="container-client" class="col-sm-6 " data-url="{% url 'users:client_status_data' %}"></div>
+                          <div id="container-jobrequest" class="col-sm-6 " data-url="{% url 'users:job_request_status_data' %}"></div> -->
 
                         </div>
                         <!-- /.panel-body -->

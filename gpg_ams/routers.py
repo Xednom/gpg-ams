@@ -5,7 +5,6 @@ from client.views import (
             ProjectManagerViewSet,
             TypeOfTaskViewSet,
             SeniorManagerViewSet,
-            CustomUserViewSet,
             VirtualAssistantViewSet
         )
 from landmaster.views import DueDiligenceViewSet
@@ -23,8 +22,7 @@ router.register(r'project-manager', ProjectManagerViewSet)
 router.register(r'type-of-task', TypeOfTaskViewSet)
 router.register(r'senior-manager', SeniorManagerViewSet)
 router.register(r'virtual-assistant', VirtualAssistantViewSet)
-router.register(r'custom-user', CustomUserViewSet)
-router.register(r'jobrequest', JobRequestViewSet)
+router.register(r'jobrequest', JobRequestViewSet, base_name="JobRequest")
 router.register(r'job-request-title', JobRequestTitleViewSet)
 router.register(r'reporting', ReportingViewSet)
 router.register(r'due-diligence', DueDiligenceViewSet, base_name='DueDiligence')

@@ -87,28 +87,28 @@ GPG System | View Due Diligence
                                                     <input type="date"
                                                     class="form-control form-control-sm"
                                                     v-model="currentDueDiligence.date_requested"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Due Date</label>
                                                     <input type="date"
                                                     class="form-control form-control-sm"
                                                     v-model="currentDueDiligence.due_date"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Company Name</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.company_name"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Company Owner</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.company_owner"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                             </div>
                                             <hr>
@@ -119,98 +119,98 @@ GPG System | View Due Diligence
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.owner_name"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Parcel Number</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.parcel_number"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Account Number</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.account_number"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Property Address</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.property_address"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>County</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.county"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Lot Number</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.lot_number"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Legal Description</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.legal_description"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Parcel Size</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.parcel_number"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>GPS Coordinates</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.gps_coordinates"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>GPS Coordinates 4 corners</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.gpgs_coordinates_4_corners"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Google Map Link</label>
                                                     <input type="url"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.google_map_link"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Elevation</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.elevation"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Assessed Value</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.assessed_value"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Access to Property</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.access_to_property"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                             </div>
                                             <hr>
@@ -223,14 +223,14 @@ GPG System | View Due Diligence
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.closest_major_city"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Closest minor town</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.closest_minor_town"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Nearby attractions</label>
@@ -250,56 +250,56 @@ GPG System | View Due Diligence
                                                     <input type="url"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.assessor_website"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Treasurer Website</label>
                                                     <input type="url"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.treasurer_website"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Reorder/Clerk Website</label>
                                                     <input type="url"
                                                     class="form-control form-control-sm"
                                                     v-model="currentDueDiligence.reorder_clerk_website"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Zoning Department Website</label>
                                                     <input type="url"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.zoning_department_website"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>GIS Website</label>
                                                     <input type="url"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.gis_website"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>CAD Website</label>
                                                     <input type="url"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.cad_website"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Planning Department Website</label>
                                                     <input type="url"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.planning_department_contact"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Reorder/Clerk Contact</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.recorder_clerk_contact"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                             </div>
                                             <hr>
@@ -310,35 +310,35 @@ GPG System | View Due Diligence
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.back_taxes"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-7 col-sm-12">
                                                     <label>Tax Liens? If so, amount owed.</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.tax_liens"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Annual Property Taxes</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.annual_property_taxes"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Is property part of an HOA?</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.is_property_part_of_an_hoa"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Is so how much are the dues?</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.how_much_dues"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                             </div>
                                             <hr>
@@ -349,70 +349,70 @@ GPG System | View Due Diligence
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.zoning"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Terrain Type</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.terrain_type"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Property use code</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.property_use_code"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>What can be built on the property?</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.what_can_be_built"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Time limit to build</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.time_limit_to_build"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Can you camp on the property?</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.can_camp"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>RV's allowed on the property?</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.rv_allowed"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Mobile homes allowed on property?</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.mobile_homes"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Is the property in the flood zone area?</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.is_property_flood_zone_area"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-6 col-sm-12">
                                                     <label>Notes on mobile homes?</label>
                                                     <textarea cols="80" rows="10"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.notes_on_mobile_homes"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                     </textarea>
                                                 </div>
                                                 <div class="form-group col-md-6 col-sm-12">
@@ -420,7 +420,7 @@ GPG System | View Due Diligence
                                                     <textarea cols="80" rows="10"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.notes_on_camping"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                     </textarea>
                                                 </div>
                                                 <div class="form-group col-md-12 col-sm-12">
@@ -428,7 +428,7 @@ GPG System | View Due Diligence
                                                     <textarea cols="80" rows="10"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.note_on_rv"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                     </textarea>
                                                 </div>
                                             </div>
@@ -440,11 +440,13 @@ GPG System | View Due Diligence
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.water"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Sewer or Septic?</label>
-                                                    <select class="form-control" v-model="currentDueDiligence.sewer_or_septic" {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    <select class="form-control"
+                                                        v-model="currentDueDiligence.sewer_or_septic"
+                                                        {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                         <option>Sewer</option>
                                                         <option>Septic</option>
                                                     </select>
@@ -454,21 +456,21 @@ GPG System | View Due Diligence
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.power"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Gas?</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.gas"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Waste?</label>
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.waste"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                             </div>
                                             <hr>
@@ -479,14 +481,14 @@ GPG System | View Due Diligence
                                                     <textarea cols="30" rows="10"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.notes_from_the_client"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}></textarea>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}></textarea>
                                                 </div>
                                                 <div class="form-group col-md-12 col-sm-12">
                                                     <label>Notes from the Land Master Team</label>
                                                     <textarea cols="30" rows="10"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.notes_from_land_master_team"
-                                                    {% if request.user.position == 'Client' %} disabled{% endif %}></textarea>
+                                                    {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}></textarea>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Date Completed</label>
@@ -498,24 +500,29 @@ GPG System | View Due Diligence
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>DD Team Assigned VA</label>
                                                     <select class="form-control" v-model="currentDueDiligence.dd_team_assigned_va" 
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %} required>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}
+                                                    required>
                                                         <option v-for="va in virtualAssistants">[[ va.name ]]</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Project Manager</label>
                                                     <select class="form-control" v-model="currentDueDiligence.project_manager" 
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %} required>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}
+                                                    required>
                                                         <option v-for="pm in projectManagers">[[ pm.project_manager ]]</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-4 col-sm-12">
                                                     <label>Total minutes/hours duration</label>
-                                                    <input type="text" class="form-control" v-model="currentDueDiligence.total_minutes_hours_duration" disabled>
+                                                    <input type="text" class="form-control" v-model="currentDueDiligence.total_minutes_hours_duration" 
+                                                    {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}>
                                                 </div>
                                                 <div class="form-group col-md-8 col-sm-12">
                                                     <label>Attachments</label>
-                                                    <input type="url" class="form-control" v-model="currentDueDiligence.attachments" disabled>
+                                                    <input type="url" class="form-control"
+                                                        v-model="currentDueDiligence.attachments"
+                                                        {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}>
                                                 </div>
                                             </div>
                                         </div>
