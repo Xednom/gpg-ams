@@ -47,17 +47,41 @@ GPG System | View Due Diligence
                                 <tr>
                                     <td colspan="14" class="text-center bg-warning" v-if="!dueDiligences.length">You have no Due Diligence work assigned to the Land Master Team.</td>
                                 </tr>
-                                <tr class="odd gradeX" v-for="d in dueDiligences">
-                                    <td>[[ d.date_requested ]]</td>
-                                    <td>[[ d.due_date ]]</td>
-                                    <td>[[ d.company_name ]]</td>
-                                    <td>[[ d.company_owner ]]</td>
-                                    <td>[[ d.parcel_number ]]</td>
-                                    <td>[[ d.account_number ]]</td>
-                                    <td><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editModal" v-on:click="viewDueDiligence(d.id)">View</button></td>
+                                <tr class="odd gradeX" v-for="(dueDiligences, i) in paginatedRecords">
+                                    <td>[[ dueDiligences.date_requested ]]</td>
+                                    <td>[[ dueDiligences.due_date ]]</td>
+                                    <td>[[ dueDiligences.company_name ]]</td>
+                                    <td>[[ dueDiligences.company_owner ]]</td>
+                                    <td>[[ dueDiligences.parcel_number ]]</td>
+                                    <td>[[ dueDiligences.account_number ]]</td>
+                                    <td><button class="btn btn-primary" type="button" data-toggle="modal"
+                                            data-target="#editModal"
+                                            v-on:click="viewDueDiligence(dueDiligences.id)">View</button></td>
                                 </tr>
                             </tbody>
                         </table>
+                        <!-- pagination -->
+                        <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                            <ul class="pagination justify-content-end">
+                                <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                    <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li v-for="pageNumber in pages"
+                                    v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                        [[ pageNumber ]]
+                                    </a>
+                                </li>
+                                <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- end of pagination -->
                     </div>
                     <!-- show a specific info based on view -->
                     <!-- Modal -->

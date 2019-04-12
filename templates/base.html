@@ -65,7 +65,9 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
+                      {% if request.user.is_staffs %}
                         <li><a href="{% url 'logins:login' %}"><i class="fa fa-list fa-fw"></i> Assigned logins</a>
+                          {% endif %}
                         <li><a href="{% url 'users:logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
