@@ -53,23 +53,44 @@ GPG System | View Job Request
                     <td colspan="15" class="text-center bg-warning" v-if="!jobRequests.length">Currently you haven't assigned any Job Requests.</td>
                     {% endif %}
                 </tr>
-                <tr class="odd gradeX" v-for="job in jobRequests">
-                  <td>[[ job.date_requested ]]</td>
-                  <td>[[ job.category ]]</td>
-                  <td>[[ job.company_name ]]</td>
-                  <td>[[ job.job_request_title ]]</td>
-                  <td>[[ job.assigned_project_managers ]]</td>
-                  <td>[[ job.project_status ]]</td>
+                <tr class="odd gradeX" v-for="(jobRequests, i) in paginatedRecords">
+                  <td>[[ jobRequests.date_requested ]]</td>
+                  <td>[[ jobRequests.category ]]</td>
+                  <td>[[ jobRequests.company_name ]]</td>
+                  <td>[[ jobRequests.job_request_title ]]</td>
+                  <td>[[ jobRequests.assigned_project_managers ]]</td>
+                  <td>[[ jobRequests.project_status ]]</td>
                   <td>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-warning fa fa-edit" data-toggle="modal" data-target="#editModal"
-                      v-on:click="getJobRequest(job.id)">
+                      v-on:click="getJobRequest(jobRequests.id)">
                     </button>
                   </td>
                   <!-- <button type="button" class="btn btn-danger fa fa-trash" v-on:click="deleteJobRequest(job.id)"></button></td> -->
                 </tr>
               </tbody>
             </table>
+             <!-- pagination -->
+             <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+               <ul class="pagination justify-content-end">
+                 <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                   <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                     Previous
+                   </a>
+                 </li>
+                 <li v-for="pageNumber in pages" v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                   <a class="page-link" v-on:click="goToPage(pageNumber)">
+                     [[ pageNumber ]]
+                   </a>
+                 </li>
+                 <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                   <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                     Next
+                   </a>
+                 </li>
+               </ul>
+             </nav>
+             <!-- end of pagination -->
             <!-- /.table-responsive -->
           </div>
           <!-- show a specific info based on view -->

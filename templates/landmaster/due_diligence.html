@@ -536,9 +536,14 @@ GPG System | Due Diligence
             <div class="col-md-12 col-sm-12">
                 <!-- loading -->
             <template v-if="loading == true">
+                
                 <button class="btn btn-warning btn-cancel" type="button" disabled style="float: right;">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Cancel
+                </button>
+                <button class="btn btn-primary btn-save" type="button" disabled style="float: right;">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Save
                 </button>
             </template>
             <template v-else-if="loading == false">
@@ -548,7 +553,7 @@ GPG System | Due Diligence
             <!-- end of loading -->
 
             <!-- loading -->
-            <template v-if="loading == true">
+            <template v-if="saving == true">
                 <button class="btn btn-primary btn-save" type="button" disabled style="float: right;">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Saving...
