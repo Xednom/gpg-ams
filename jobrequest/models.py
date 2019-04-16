@@ -42,8 +42,20 @@ class JobRequest(models.Model):
         ('Submit to Client', 'Submit to Client'),
         ('Job Request Completed', 'Job Request Completed'),
     )
+    CATEGORY = (
+        ('General Administrative Task', 'General Administrative Task'),
+        ('Data Entry', 'Data Entry'),
+        ('Website Design', 'Website Design'),
+        ('Graphics Design', 'Graphics Design'),
+        ('Customer Support', 'Customer Support'),
+        ('Creating Ad Content', 'Creating Ad Content'),
+        ('Marketing', 'Marketing'),
+        ('Due Diligence', 'Due Diligence'),
+        ('Craigslist Support', 'Craigslist Support'),
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    category = models.CharField(max_length=150, null=True, blank=True)
+    company_to_request = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
+    category = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
     date_requested = models.DateField(null=True, blank=True)
     month = models.CharField(max_length=150, choices=MONTH_CHOICES, null=True, blank=True)
     requestors_name = models.CharField(max_length=250, null=True, blank=True)

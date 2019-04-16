@@ -119,9 +119,11 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        {% if request.user.is_staffs %}
                         <li>
                           <a href="{% url 'reporting:view_report' %}"> <i class="fa fa-files-o fa-fw"></i> Reporting</a>
                         </li>
+                        {% endif %}
                         <li>
                           <a href="#">Land Master <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">

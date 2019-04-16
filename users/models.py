@@ -26,6 +26,12 @@ class Staffs(models.Model):
         ('PROBATIONARY', 'Probationary'),
         ('INACTIVE', 'Inactive'),
     )
+    JOB_POSITION = (
+        ('Senior Operations Managers', 'Senior Operations Managers'),
+        ('Project Managers', 'Project Managers'),
+        ('Team Leads', 'Team Leads'),
+        ('General Administrative Support', 'General Administrative Support')
+    )
     username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='staffs')
     full_name = models.CharField(max_length=250, default="My Name")
     phone_number = models.CharField(max_length=100, null=True, blank=True)
@@ -33,7 +39,7 @@ class Staffs(models.Model):
     TIN_number = models.CharField(max_length=250, null=True, blank=True)
     pag_ibig_number = models.CharField(max_length=250, null=True, blank=True)
     philhealth = models.CharField(max_length=250, null=True, blank=True)
-    position = models.CharField(max_length=250, null=True, blank=True)
+    position = models.CharField(max_length=150, choices=JOB_POSITION, null=True, blank=True)
     id_number = models.CharField(max_length=250, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     blood_type = models.CharField(max_length=150, null=True, blank=True)

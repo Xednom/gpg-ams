@@ -261,7 +261,7 @@ GPG System | View Due Diligence
                                                     <input type="text"
                                                     class="form-control"
                                                     v-model="currentDueDiligence.nearby_attractions"
-                                                    {% if request.user.position == 'Project Manager' or request.user.position == 'VA' %} disabled{% endif %}>
+                                                    {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
                                                 </div>
                                             </div>
                                             <hr>
