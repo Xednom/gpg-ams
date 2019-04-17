@@ -30,6 +30,7 @@ LOCAL_APPS = (
     'seller',
     'logins',
     'accounts',
+    'payroll',
 )
 
 DJANGO_APPS = (

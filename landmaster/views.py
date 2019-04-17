@@ -42,8 +42,10 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         owner = self.request.user.clients.full_name
-        pm = self.request.user.staffs.full_name
-        queryset = DueDiligence.objects.filter(Q(company_owner=owner) | Q(project_manager__project_manager=pm))
+        user = self.request.user.staffs.full_name
+        queryset = DueDiligence.objects.filter(Q(company_owner=owner) | 
+                                               Q(project_manager__project_manager=user) |
+                                               Q(dd_team_assigned_va__name=user))
         return queryset
 
     def perform_create(self, serializer):
