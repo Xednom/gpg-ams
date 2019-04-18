@@ -1,3 +1,5 @@
+import datetime
+
 from decimal import Decimal
 
 from django.shortcuts import render
@@ -9,7 +11,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 
 from .models import VaPayroll
-from django.db.models import Sum
+from django.db.models import Sum, Q
 
 from .serializers import VaPayrollSerializer
 
@@ -25,7 +27,11 @@ class AddPayrollView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         user = request.user.staffs.full_name
-        total_salary = VaPayroll.objects.filter(virtual_assistant__name=user).aggregate(Sum('salary'))
+        current_month = datetime.date.today().month
+        current_year = datetime.date.today().year
+        total_salary = VaPayroll.objects.filter(Q(virtual_assistant__name=user), 
+                                                Q(date__month=current_month), 
+                                                Q(date__year=current_year)).aggregate(Sum('salary'))
         context = {
             'total_salary': total_salary
         }
@@ -38,5 +44,9 @@ class PayrollViewSet(viewsets.ModelViewSet):
     serializer_class = VaPayrollSerializer
 
     def get_queryset(self):
-        queryset = VaPayroll.objects.filter(virtual_assistant__name=self.request.user.staffs.full_name)
+        current_month = datetime.date.today().month
+        current_year = datetime.date.today().year
+        queryset = VaPayroll.objects.filter(Q(virtual_assistant__name=self.request.user.staffs.full_name), 
+                                            Q(date__month=current_month), 
+                                            Q(date__year=current_year))
         return queryset

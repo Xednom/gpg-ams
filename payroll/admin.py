@@ -1,12 +1,16 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 
 from .models import VaPayroll
+from .resources import PayrollResource
 
 
-class VaPayrollProfile(admin.ModelAdmin):
-    list_display = ('date', 'virtual_assistant', 'time_in', 'time_out', 'client_name', 'salary')
+class VaPayrollProfile(ImportExportModelAdmin):
+    list_display = ('date', 'virtual_assistant', 'time_in', 'time_out', 'hours', 'client_name', 'salary')
+    list_filter = ('date', 'virtual_assistant__name')
     search_fields = ('virtual_assistant', 'client_name')
-    readonly_fields = ('salary',)
+    resource_class = PayrollResource
+    readonly_fields = ('salary', 'hours')
     fieldsets = (
         ("Virtual Assistant's Payroll", {
             'fields': (
@@ -14,6 +18,7 @@ class VaPayrollProfile(admin.ModelAdmin):
                 'virtual_assistant',
                 'time_in',
                 'time_out',
+                'hours',
                 'client_name',
                 'rate',
                 'salary',

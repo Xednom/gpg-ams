@@ -12,6 +12,7 @@ new Vue({
             'virtual_assistant': null,
             'time_in': null,
             'time_out': null,
+            'hours': null,
             'client_name': null,
             'rate': null,
             'salary': null,
