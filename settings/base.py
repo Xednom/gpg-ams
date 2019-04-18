@@ -28,6 +28,9 @@ LOCAL_APPS = (
     'landmaster',
     'buyer',
     'seller',
+    'logins',
+    'accounts',
+    'payroll',
 )
 
 DJANGO_APPS = (
@@ -44,7 +47,8 @@ THIRD_PARTY_APPS = (
     'rest_framework',
     'django_filters',
     'rest_framework_datatables',
-    'corsheaders'
+    'corsheaders',
+    'import_export'
 )
 
 INSTALLED_APPS = ADMIN_APPS + DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS

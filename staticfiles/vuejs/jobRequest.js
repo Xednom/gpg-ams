@@ -8,7 +8,10 @@ new Vue({
     projectManagers: [],
     virtualAssistants: [],
     jobRequestTitles: [],
+    companyNames: [],
+    companyAssignedTo: [],
     loading: false,
+    saving: false,
     currentJobRequest: {},
     message: null,
     newJobRequest: {
@@ -31,12 +34,21 @@ new Vue({
       'manager_notes': null,
       'client_notes': null,
       'va_notes': null,
+      'company_billable_to': null,
+      'company_asigned_to': null,
     },
-    search_term: ''
+    search_term: '',
+    // for pagination
+    currentPage: 1,
+    pageSize: RECORDS_PER_PAGE,
+    startPage: 1,
+    endPage: null,
+    maxPages: RECORDS_PER_PAGE,
+    paginatedRecords: [],
   },
   mounted: function() {
-    //this.getJobRequests();
-    this.getStatusOfJobRequest();
+    this.getJobRequests();
+    //this.getStatusOfJobRequest();
     this.getProjectManagers();
     this.getJobRequestTitles();
     this.getVAs();
@@ -48,31 +60,18 @@ new Vue({
       })
     },
     getJobRequests: function() {
-          let api_url = '/api/v1/jobrequest/';
-          if(this.search_term==''||this.search_term==null) {
-            swal({
-              title: "GPG System",
-              text: "Please fill up the search box",
-              icon: "warning",
-              buttons: false,
-              timer: 1500
-            })
-            this.jobRequests = null;
-          }
-          else{
-            api_url = `/api/v1/jobrequest/?search=${this.search_term}`
+      api_url = `/api/v1/jobrequest/?search=${this.search_term}`
+      this.loading = false;
+      this.$http.get(api_url)
+          .then((response) => {
+            this.jobRequests = response.data;
             this.loading = false;
-            this.$http.get(api_url)
-                .then((response) => {
-                  this.jobRequests = response.data;
-                  this.loading = false;
-                })
-                .catch((err) => {
-                  this.loading = false;
-                  console.log(err);
-                })
-          }
-        },
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+          })
+    },
     getJobRequest: function(id) {
       this.loading = true;
       this.$http.get(`/api/v1/jobrequest/${id}/`)
@@ -133,11 +132,23 @@ new Vue({
           console.log(err);
         })
     },
-    addJobRequest: function() {
+    getCompanyNames: function () {
       this.loading = true;
+      this.$http.get(`/api/v1/virtual-assistant/`)
+        .then((response) => {
+          this.virtualAssistants = response.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
+    },
+    addJobRequest: function() {
+      this.saving = true;
       this.$http.post('/api/v1/jobrequest/', this.newJobRequest)
           .then((response) => {
-            this.loading = true;
+            this.saving = false;
             this.getJobRequests();
             swal({
               title: "GPG System",
@@ -209,6 +220,70 @@ new Vue({
         }
       });
 
-    }
-  }
+    },
+    getPaginatedRecords: function () {
+        const startIndex = this.startIndex;
+        this.paginatedRecords = this.jobRequests.slice().splice(startIndex, this.pageSize);
+      },
+      goToPage: function (page) {
+        if (page < 1) {
+          return this.currentPage = 1;
+        }
+        if (page > this.totalPages) {
+          return this.currentPage = this.totalPages;
+        }
+        this.currentPage = page;
+      },
+      setPageGroup: function () {
+        if (this.totalPages <= this.maxPages) {
+          this.startPage = 1;
+          this.endPage = Math.min(this.totalPages, this.maxPages);
+        } else {
+          let maxPagesBeforeCurrentPage = Math.floor(this.maxPages / 2);
+          let maxPagesAfterCurrentPage = Math.ceil(this.maxPages / 2) - 1;
+          if (this.currentPage <= maxPagesBeforeCurrentPage) {
+            // current page near the start
+            this.startPage = 1;
+            this.endPage = this.maxPages;
+          } else if (this.currentPage + maxPagesAfterCurrentPage >= this.totalPages) {
+            // current page near the end
+            this.startPage = this.totalPages - this.maxPages + 1;
+            this.endPage = this.totalPages;
+          } else {
+            // current page somewhere in the middle
+            this.startPage = this.currentPage - maxPagesBeforeCurrentPage;
+            this.endPage = this.currentPage + maxPagesAfterCurrentPage;
+          }
+        }
+      }
+  },
+  watch: {
+      jobRequests: function (newjobRequestsRecords, oldjobRequestsRecords) {
+        this.setPageGroup();
+        this.getPaginatedRecords();
+      },
+      currentPage: function (newCurrentPage, oldCurrentPage) {
+        this.setPageGroup();
+        this.getPaginatedRecords()
+      },
+    },
+    computed: {
+      totalItems: function () {
+        return this.jobRequests.length;
+      },
+      totalPages: function () {
+        return Math.ceil(this.totalItems / this.pageSize);
+      },
+      startIndex: function () {
+        return (this.currentPage - 1) * this.pageSize;
+      },
+      endIndex: function () {
+        return Math.min(this.startIndex + this.pageSize - 1, this.totalItems - 1);
+      },
+      pages: function () {
+        let pages = [];
+        for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
+        return pages;
+      },
+    },
 });

@@ -1,3 +1,6 @@
+from django import template
+from django.db.models import Q
+
 from django.views.generic import View, ListView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 
@@ -8,6 +11,13 @@ from rest_framework.permissions import IsAuthenticated
 from .models import DueDiligence
 
 from .serializers import DueDiligenceSerializer
+
+register = template.Library()
+
+
+@register.filter(name='Client')
+def has_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -26,12 +36,17 @@ class DueDiligenceView(LoginRequiredMixin, TemplateView):
 
 
 class DueDiligenceViewSet(viewsets.ModelViewSet):
-    queryset = DueDiligence.objects.all()
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
-    permistion_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = DueDiligenceSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        queryset = DueDiligence.objects.filter(company_owner=user)
+        owner = self.request.user.clients.full_name
+        user = self.request.user.staffs.full_name
+        queryset = DueDiligence.objects.filter(Q(company_owner=owner) | 
+                                               Q(project_manager__project_manager=user) |
+                                               Q(dd_team_assigned_va__name=user))
         return queryset
+
+    def perform_create(self, serializer):
+        return serializer.save(company_name=self.request.user.clients.company_name)

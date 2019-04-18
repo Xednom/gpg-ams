@@ -22,6 +22,12 @@ body {
     border-left: 1px solid #e7e7e7;
   }
 }
+.tab-pane{
+  padding: 15px;
+}
+.tab-content{
+  margin-top: 20px;
+}
 .navbar-top-links {
   margin-right: 0;
 }
@@ -81,8 +87,8 @@ label, th {
   border-radius: 0px !important;
 }
 .btn-cancel {
-  margin: 10px 10x 10px 0px;
-  padding: 10px 75px 10px 75px;
+  margin: 10px 10px 10px 0px;
+  padding: 10px 64px 10px 75px;
   border-radius: 0px !important;
 }
 .btn-link {
@@ -417,6 +423,7 @@ table.dataTable thead .sorting:after {
 }
 .timeline-title {
   margin-top: 0;
+  margin-bottom: 20px;
   color: inherit;
 }
 .timeline-body > p,

@@ -4,6 +4,7 @@ new Vue({
     delimiters: ['[[',']]'],
     data: {
         loading: false,
+        saving: false,
         dueDiligences: [],
         clientNames: [],
         virtualAssistants: [],
@@ -65,14 +66,23 @@ new Vue({
             'waste': "",
             'date_completed': null,
             'notes_from_the_client': "",
-            'notes_from_the_land_master_team': "",
+            'notes_from_land_master_team': "",
             'dd_team_assigned_va': "",
             'project_manager': "",
+            'total_minutes_hours_duration': "",
+            'attachments': "",
         },
+        // for pagination
+        currentPage: 1,
+        pageSize: RECORDS_PER_PAGE,
+        startPage: 1,
+        endPage: null,
+        maxPages: RECORDS_PER_PAGE,
+        paginatedRecords: [],
     },
     mounted: function () {
         this.getClientNames();
-        this.getDueDiligence();
+        this.getDueDiligences();
         this.getVas();
         this.getProjectManagers();
     },
@@ -119,10 +129,10 @@ new Vue({
                 })
         },
         addDueDiligence: function () {
-            this.loading = true;
+            this.saving = true;
             this.$http.post('/api/v1/due-diligence/', this.newDueDiligence)
                 .then((response) => {
-                    this.loading = false;
+                    this.saving = false;
                     swal({
                         title: "GPG System",
                         text: "Due Diligence task has been added successfully!",
@@ -133,11 +143,32 @@ new Vue({
                     this.resetDueDiligenceFields();
                 })
                 .catch((err) => {
+                    this.saving = false;
+                    console.log(err);
+                })
+        },
+        updateDueDiligence: function () {
+            this.loading = true;
+            this.$http.put(`/api/v1/due-diligence/${this.currentDueDiligence.id}/`, this.currentDueDiligence)
+                .then((response) => {
+                    this.loading = false;
+                    this.currentDueDiligence = response.data;
+                    swal({
+                        title: "GPG system",
+                        text: "Successfully updated the data!",
+                        icon: "success",
+                        button: false,
+                        timer: 1500
+                    });
+                    $("#editModal").modal('hide')
+                    this.getDueDiligences();
+                })
+                .catch((err) => {
                     this.loading = false;
                     console.log(err);
                 })
         },
-        getDueDiligence: function () {
+        getDueDiligences: function () {
             this.loading = true;
             this.$http.get(`/api/v1/due-diligence/`)
                 .then((response) => {
@@ -161,5 +192,69 @@ new Vue({
                     console.log(err);
                 })
         },
-    }
+        getPaginatedRecords: function () {
+                const startIndex = this.startIndex;
+                this.paginatedRecords = this.dueDiligences.slice().splice(startIndex, this.pageSize);
+            },
+            goToPage: function (page) {
+                if (page < 1) {
+                    return this.currentPage = 1;
+                }
+                if (page > this.totalPages) {
+                    return this.currentPage = this.totalPages;
+                }
+                this.currentPage = page;
+            },
+            setPageGroup: function () {
+                if (this.totalPages <= this.maxPages) {
+                    this.startPage = 1;
+                    this.endPage = Math.min(this.totalPages, this.maxPages);
+                } else {
+                    let maxPagesBeforeCurrentPage = Math.floor(this.maxPages / 2);
+                    let maxPagesAfterCurrentPage = Math.ceil(this.maxPages / 2) - 1;
+                    if (this.currentPage <= maxPagesBeforeCurrentPage) {
+                        // current page near the start
+                        this.startPage = 1;
+                        this.endPage = this.maxPages;
+                    } else if (this.currentPage + maxPagesAfterCurrentPage >= this.totalPages) {
+                        // current page near the end
+                        this.startPage = this.totalPages - this.maxPages + 1;
+                        this.endPage = this.totalPages;
+                    } else {
+                        // current page somewhere in the middle
+                        this.startPage = this.currentPage - maxPagesBeforeCurrentPage;
+                        this.endPage = this.currentPage + maxPagesAfterCurrentPage;
+                    }
+                }
+            }
+    },
+    watch: {
+            dueDiligences: function (newDueDiligencesRecords, oldDueDiligencesRecords) {
+                this.setPageGroup();
+                this.getPaginatedRecords();
+            },
+            currentPage: function (newCurrentPage, oldCurrentPage) {
+                this.setPageGroup();
+                this.getPaginatedRecords()
+            },
+        },
+        computed: {
+            totalItems: function () {
+                return this.dueDiligences.length;
+            },
+            totalPages: function () {
+                return Math.ceil(this.totalItems / this.pageSize);
+            },
+            startIndex: function () {
+                return (this.currentPage - 1) * this.pageSize;
+            },
+            endIndex: function () {
+                return Math.min(this.startIndex + this.pageSize - 1, this.totalItems - 1);
+            },
+            pages: function () {
+                let pages = [];
+                for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
+                return pages;
+            },
+        },
 })

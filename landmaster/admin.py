@@ -9,10 +9,11 @@ class DueDiligenceProfile(admin.ModelAdmin):
     fieldsets = (
         ('Due Diligence client Information', {
             'fields': (
-                'due_date',
                 'date_requested',
+                'due_date',
                 'company_name',
                 'company_owner',
+                'customer_care_specialist',
             )
         }),
         ("Land Data information", {
