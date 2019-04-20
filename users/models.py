@@ -65,6 +65,10 @@ class Clients(models.Model):
     username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='clients')
     full_name = models.CharField(max_length=150)
     company_name = models.CharField(max_length=150)
+    date_signed_up = models.DateTimeField(auto_now_add=True)
+    client_control_number = models.CharField(max_length=150, null=True, blank=True)
+    referral = models.CharField(max_length=150, null=True, blank=True)
+
 
     class Meta:
         verbose_name = 'List of Client'
@@ -91,3 +95,27 @@ def save_user_profile(sender, instance, **kwargs):
 		    instance.staffs.save()
 	else:
             Clients.objects.get_or_create(username=instance)
+
+
+class Email(models.Model):
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    email_address = models.EmailField(null=True, blank=True)
+
+    def __str__(self):
+        return self.email_address
+
+
+class PaypalEmail(models.Model):
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    paypal_email_address = models.EmailField(null=True, blank=True)
+
+    def __str__(self):
+        return self.paypal_email_address
+
+
+class WebsiteUrl(models.Model):
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    url = models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return self.url

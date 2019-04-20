@@ -86,6 +86,11 @@ label, th {
   padding: 10px 75px 10px 75px;
   border-radius: 0px !important;
 }
+.btn-next {
+  margin: 10px 10px 10px 0px;
+  padding: 10px 75px 10px 75px;
+  border-radius: 10px !important;
+}
 .btn-cancel {
   margin: 10px 10px 10px 0px;
   padding: 10px 64px 10px 75px;
