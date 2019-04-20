@@ -18,12 +18,18 @@ class DueDiligence(TimeStampedModel):
         ('Sewer', 'Sewer'),
         ('Septic', 'Septic'),
     )
+    STATUS = (
+        ('Project Managers Review', 'Project Managers Review'),
+        ('Submitted to the Client', 'Submitted to the Client'),
+        ('Approved by the Client', 'Approved by the Client'),
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_requested = models.DateField(null=True, blank=True)
     company_name = models.CharField(max_length=250, null=True, blank=True)
-    company_owner = models.CharField(max_length=250, null=True, blank=True)
+    company_owner_or_requestor = models.CharField(max_length=250, null=True, blank=True)
     due_date = models.DateField(null=True, blank=True)
-    customer_care_specialist = models.CharField(max_length=250, null=True, blank=True)
+    customer_care_specialist = models.CharField(
+        max_length=250, null=True, blank=True, help_text="Customer Care Specialist or Operator ID, Assessors/County")
     owner_name = models.CharField(max_length=250, null=True, blank=True, verbose_name="Owner's name")
     parcel_number = models.CharField(max_length=250, null=True, blank=True)
     account_number = models.CharField(max_length=259, null=True, blank=True)
@@ -75,12 +81,14 @@ class DueDiligence(TimeStampedModel):
     waste = models.CharField(max_length=250, verbose_name='Waste?', null=True, blank=True)
     date_completed = models.DateField(null=True, blank=True)
     notes_from_the_client = models.TextField(null=True, blank=True)
-    notes_from_land_master_team = models.TextField(null=True, blank=True)
+    notes_from_the_quality_specialist = models.TextField(null=True, blank=True)
+    notes_from_the_virtual_assistant = models.TextField(null=True, blank=True)
     dd_team_assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
                                             verbose_name="DD Team Assigned VA")
     project_manager = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)
     total_minutes_hours_duration = models.CharField(max_length=150, null=True, blank=True, verbose_name="Total Minutes/hours duration")
     attachments = models.URLField(null=True, blank=True)
+    status_of_dd = models.CharField(max_length=150, choices=STATUS, null=True, blank=True)
 
     class Meta:
         ordering = ('date_requested',)
