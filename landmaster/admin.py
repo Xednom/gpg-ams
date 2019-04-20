@@ -4,8 +4,9 @@ from .models import DueDiligence
 
 
 class DueDiligenceProfile(admin.ModelAdmin):
-    list_display = ('date_requested', 'company_name',
-                    'company_owner_or_requestor', 'due_date')
+    list_display = ('date_requested', 'date_completed', 'company_name',
+                    'company_owner_or_requestor', 'due_date', 'project_manager',
+                    'dd_team_assigned_va', 'status_of_dd')
     search_fields = ('company_name__name', 'company_owner')
     fieldsets = (
         ('Due Diligence client Information', {
@@ -98,6 +99,7 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'notes_from_the_virtual_assistant',
                 'dd_team_assigned_va',
                 'project_manager',
+                'status_of_dd',
             )
         }),
         ("Other information", {

@@ -64,7 +64,7 @@ new Vue({
             'power': "",
             'gas': "",
             'waste': "",
-            'date_completed': null,
+            'date_completed': "",
             'notes_from_the_client': "",
             'notes_from_the_quality_specialist': "",
             'notes_from_the_virtual_assistant': "",
