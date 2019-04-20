@@ -42,7 +42,7 @@
     <div id="wrapper">
       {% block navbar %}
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -119,9 +119,11 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        {% if request.user.is_staffs %}
                         <li>
-                          <a href="{% url 'reporting:view_report' %}"> <i class="fa fa-files-o fa-fw"></i> Reporting</a>
+                          <a href="{% url 'payroll:add_payroll' %}"> <i class="fa fa-files-o fa-fw"></i> Payroll</a>
                         </li>
+                        {% endif %}
                         <li>
                           <a href="#">Land Master <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
@@ -205,7 +207,7 @@
 
     <script>
       // constants
-      const RECORDS_PER_PAGE = 10;
+      const RECORDS_PER_PAGE = 15;
     </script>
 
     <!-- jQuery -->
@@ -256,6 +258,7 @@
           <script src="{% static 'vuejs/jobRequest.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/landmaster.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/logins.js' %}" type="text/javascript"></script>
+          <script src="{% static 'vuejs/payroll.js' %}" type="text/javascript"></script>
 </body>
 
 </html>

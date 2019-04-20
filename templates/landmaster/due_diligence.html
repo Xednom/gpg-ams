@@ -32,26 +32,16 @@ GPG System | Due Diligence
                     <div class="panel-body">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#due-diligence" data-toggle="tab">Due Diligence Information</a>
+                            <li class="active"><a href="#due-diligence" class="due-diligence" data-toggle="tab">Due Diligence Information</a>
                             </li>
-                            <li><a href="#land-data" data-toggle="tab">Land Data Information</a>
-                            </li>
-                            <li><a href="#additional-data" data-toggle="tab">Additional Data Information</a>
-                            </li>
-                            <li><a href="#county-data" data-toggle="tab">County Data Information</a>
-                            </li>
-                            <li><a href="#tax-data" data-toggle="tab">Tax Data Information</a>
-                            </li>
-                            <li><a href="#zoning-data" data-toggle="tab">Zoning Data Information</a>
-                            </li>
-                            <li><a href="#data-on-utilities" data-toggle="tab">Data on Utilities Information</a>
-                            </li>
-                            <li><a href="#notes" data-toggle="tab">Notes</a></li>
                         </ul>
             
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="due-diligence">
+                                <h4 class="title1 text-center">Due Diligence Information</h4><button type="button"
+                                    class="btn btn-primary btn-xs pull-right" href="#summary" data-toggle="tab">Go to summary page</button>
+                                <hr>
                                 <div class="form-row">
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Date Requested</label>
@@ -68,21 +58,26 @@ GPG System | Due Diligence
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Company Name</label>
+                                        <label class="col-sm-2 col-form-label">Company Owner or Requestor</label>
                                         <div class="col-md-4 col-sm-12">
-                                            <input type="text" class="form-control" v-model="newDueDiligence.company_name" :disabled="loading == true">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Company Owner</label>
-                                        <div class="col-md-4 col-sm-12">
-                                            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.company_owner"
+                                            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.company_owner_or_requestor"
                                                 :disabled="loading == true">
                                         </div>
                                     </div>
+                                    <a class="btn btn-primary btn-next"
+                                    href="#land-data" 
+                                    data-toggle="tab"
+                                    type="button"
+                                    style="float: right;">
+                                        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+                                    </a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="land-data">
+                                <h4 class="title1 text-center">Land Data Information</h4><button type="button"
+                                    class="btn btn-primary btn-xs pull-right" href="#summary" data-toggle="tab">Go to
+                                    summary page</button>
+                                <hr>
                                 <div class="form-row">
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Owner's name</label>
@@ -138,7 +133,7 @@ GPG System | Due Diligence
                                         <div class="col-md-8 col-sm-12">
                                             <textarea cols="30" rows="10"
                                             class="form-control"
-                                            v-model="newDueDiligence.lagel_description"
+                                            v-model="newDueDiligence.legal_description"
                                             :disabled="loading == true"></textarea>
                                         </div>
                                 
@@ -199,9 +194,21 @@ GPG System | Due Diligence
                                         </div>
                                 
                                     </div>
+                                    <a class="btn btn-primary btn-next" href="#additional-data" data-toggle="tab"
+                                        type="button" style="float: right;">
+                                        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+                                    </a>
+                                    <a class="btn btn-warning btn-next" href="#due-diligence" data-toggle="tab"
+                                        type="button" style="float: right;">
+                                        <i class="fa fa-angle-double-left"></i> <span>Back</span>
+                                    </a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="additional-data">
+                                <h4 class="title1 text-center">Additional Data Information</h4><button type="button"
+                                    class="btn btn-primary btn-xs pull-right" href="#summary" data-toggle="tab">Go to
+                                    summary page</button>
+                                <hr>
                                 <div class="form-row">
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Closest major city</label>
@@ -224,9 +231,21 @@ GPG System | Due Diligence
                                                 :disabled="loading == true">
                                         </div>
                                     </div>
+                                    <a class="btn btn-primary btn-next" href="#county-data" data-toggle="tab"
+                                        type="button" style="float: right;">
+                                        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+                                    </a>
+                                    <a class="btn btn-warning btn-next" href="#land-data" data-toggle="tab"
+                                        type="button" style="float: right;">
+                                        <i class="fa fa-angle-double-left"></i> <span>Back</span>
+                                    </a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="county-data">
+                                <h4 class="title1 text-center">County Data Information</h4><button type="button"
+                                    class="btn btn-primary btn-xs pull-right" href="#summary" data-toggle="tab">Go to
+                                    summary page</button>
+                                <hr>
                                 <div class="form-row">
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Assessor Website</label>
@@ -239,13 +258,6 @@ GPG System | Due Diligence
                                         <label class="col-sm-2 col-form-label">Treasurer Website</label>
                                         <div class="col-md-4 col-sm-12">
                                             <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.treasurer_website"
-                                                :disabled="loading == true">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Treasurer Website</label>
-                                        <div class="col-md-4 col-sm-12">
-                                            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.recorder_cleark_website"
                                                 :disabled="loading == true">
                                         </div>
                                     </div>
@@ -291,9 +303,21 @@ GPG System | Due Diligence
                                                 :disabled="loading == true">
                                         </div>
                                     </div>
+                                    <a class="btn btn-primary btn-next" href="#tax-data" data-toggle="tab"
+                                        type="button" style="float: right;">
+                                        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+                                    </a>
+                                    <a class="btn btn-warning btn-next" href="#additional-data" data-toggle="tab"
+                                        type="button" style="float: right;">
+                                        <i class="fa fa-angle-double-left"></i> <span>Back</span>
+                                    </a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="tax-data">
+                                <h4 class="title1 text-center">Tax Data Information</h4><button type="button"
+                                    class="btn btn-primary btn-xs pull-right" href="#summary" data-toggle="tab">Go to
+                                    summary page</button>
+                                <hr>
                                 <div class="form-row">
                                     <div class="form-group row">
                                         <label class="col-md-2 col-form-label">Back Taxes owed? If so, amount owed.</label>
@@ -330,9 +354,21 @@ GPG System | Due Diligence
                                                 :disabled="loading == true">
                                         </div>
                                     </div>
+                                    <a class="btn btn-primary btn-next" href="#zoning-data" data-toggle="tab"
+                                        type="button" style="float: right;">
+                                        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+                                    </a>
+                                    <a class="btn btn-warning btn-next" href="#county-data" data-toggle="tab" type="button"
+                                        style="float: right;">
+                                        <i class="fa fa-angle-double-left"></i> <span>Back</span>
+                                    </a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="zoning-data">
+                                <h4 class="title1 text-center">Zoning Data Information</h4><button type="button"
+                                    class="btn btn-primary btn-xs pull-right" href="#summary" data-toggle="tab">Go to
+                                    summary page</button>
+                                <hr>
                                 <div class="form-row">
                                     <div class="form-group row">
                                         <label class="col-md-2 col-form-label">Zoning</label>
@@ -430,9 +466,21 @@ GPG System | Due Diligence
                                                                                 </textarea>
                                         </div>
                                     </div>
+                                    <a class="btn btn-primary btn-next" href="#data-on-utilities" data-toggle="tab"
+                                        type="button" style="float: right;">
+                                        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+                                    </a>
+                                    <a class="btn btn-warning btn-next" href="#tax-data" data-toggle="tab"
+                                        type="button" style="float: right;">
+                                        <i class="fa fa-angle-double-left"></i> <span>Back</span>
+                                    </a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="data-on-utilities">
+                                <h4 class="title1 text-center">Data On Utilities</h4><button type="button"
+                                    class="btn btn-primary btn-xs pull-right" href="#summary" data-toggle="tab">Go to
+                                    summary page</button>
+                                <hr>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Water?</label>
                                     <div class="col-md-4 col-sm-12">
@@ -475,8 +523,20 @@ GPG System | Due Diligence
                                         <small class="form-text text-muted">Will the county or city pick up the trash?</small>
                                     </div>
                                 </div>
+                                <a class="btn btn-primary btn-next" href="#notes" data-toggle="tab" type="button"
+                                    style="float: right;">
+                                    <span>Next</span> <i class="fa fa-angle-double-right"></i>
+                                </a>
+                                <a class="btn btn-warning btn-next" href="#zoning-data" data-toggle="tab" type="button"
+                                    style="float: right;">
+                                    <i class="fa fa-angle-double-left"></i> <span>Back</span>
+                                </a>
                             </div>
                             <div class="tab-pane fade" id="notes">
+                                <h4 class="title1 text-center">Notes</h4><button type="button"
+                                    class="btn btn-primary btn-xs pull-right" href="#summary" data-toggle="tab">Go to
+                                    summary page</button>
+                                <hr>
                                 {% if request.user.is_client %}
                                 <div class="form-row">
                                     <div class="form-group row">
@@ -524,7 +584,415 @@ GPG System | Due Diligence
                                     </div>
                                     {% endif %}
                                 </div>
+                                <a class="btn btn-primary btn-next" href="#summary" data-toggle="tab" type="button"
+                                    style="float: right;">
+                                    <span>Next</span> <i class="fa fa-angle-double-right"></i>
+                                </a>
+                                <a class="btn btn-warning btn-next" href="#data-on-utilities" data-toggle="tab" type="button"
+                                    style="float: right;">
+                                    <i class="fa fa-angle-double-left"></i> <span>Back</span>
+                                </a>
                             </div>
+                            <div class="tab-pane fade" id="summary">
+                                <div class="form-row">
+                                    <div class="form-group row">
+                                        <h3 class="title1 text-center">Summary</h3><br>
+                                        <h4>Due Diligence</h4>
+                                        <button type="button" class="btn btn-primary btn-xs pull-right"
+                                            href="#due-diligence" data-toggle="tab">Change info</button>
+                                        <hr>
+                                        <label class="col-sm-2 col-form-label">Date Requested:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                        <label>[[ newDueDiligence.date_requested ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Due Date:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.due_date ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Company Owner:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.company_owner_or_requestor ]]</label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <h4>Land Data Informations</h4>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" href="#land-data"
+                                        data-toggle="tab">Change info</button>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Owner's name:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.owner_name ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Parcel number:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.parcel_number ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Account number:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.account_number ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Property Address:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.property_address ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">County:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.county ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Lot number:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.lot_number ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Legal Descrition:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.legal_description ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Parcel Size:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.parcel_size ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">GPS Coordinates:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.gps_coordinates ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">GPS Coordinates 4 corners:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.gps_coordinates_4_corners ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Google Map Link:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.google_map_link ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Elevation:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.elevation ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Assessed Value:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.assessed_value ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Assessed Value:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.assessed_value ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Access to Property:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.access_to_property ]]</label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <h4>Additional Data</h4>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" href="#additional-data"
+                                        data-toggle="tab">Change info</button>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Closest Major City:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.closest_major_city ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Closest minor town:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.closest_minor_town ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Nearby attractions:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.nearby_attractions ]]</label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <h4>County Data</h4>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" href="#county-data"
+                                        data-toggle="tab">Change info</button>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Assessor Website:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.assessor_website ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Treasurer Website:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.treasurer_website ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Reorder/Clerk Website:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.reorder_clerk_website ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Zoning Department Website:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.zoning_department_website ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">GIS Website:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.gis_website ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">CAD Website:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.cad_website ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Planning Department Website:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.planning_department_contact ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Reorder/Clerk Contact:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.recorder_clerk_contact ]]</label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <h4>Tax Data</h4>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" href="#tax-data"
+                                        data-toggle="tab">Change info</button>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Back Taxes owed? If so, amount owed:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.back_taxes ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Tax Liens? If so, amount owed:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.tax_liens ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Annual Property Taxes:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.annual_property_taxes ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Is property part of an HOA:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.is_property_part_of_an_hoa ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Is so how much are the dues:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.how_much_dues ]]</label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <h4>Zoning Data</h4>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" href="#zoning-data"
+                                        data-toggle="tab">Change info</button>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Zoning:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.zoning ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Terrain Type:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.terrain_type ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Property use code:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.property_use_code ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">What can be built on the
+                                            property:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.what_can_be_built ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Time limit to build:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.time_limit_to_build ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Can you camp on the property:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.can_camp ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">RV's allowed on the property:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.rv_allowed ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Mobile homes allowed on property:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.mobile_homes ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Is the property in the flood zone
+                                            area:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.is_property_flood_zone_area ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Notes on mobile homes:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.notes_on_mobile_homes ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Notes on Camping:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.notes_on_camping ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Note's on RV's:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.note_on_rv ]]</label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <h4>Data on Utilities</h4>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" href="#data-on-utilities"
+                                        data-toggle="tab">Change info</button>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Water:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.water ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Sewer or Septic:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.sewer_or_septic ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Power(Electricity):</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.power ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Gas:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.gas ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Waste:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.waste ]]</label>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <h4>Notes</h4>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" href="#notes"
+                                        data-toggle="tab">Change info</button>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Notes:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.notes_from_the_client ]]</label>
+                                        </div>
+                                    </div>
+                                    <!-- save -->
+                                    <div class="col-md-12 col-sm-12">
+                                        <!-- loading -->
+                                        <template v-if="loading == true">
+
+                                            <button class="btn btn-warning btn-cancel" type="button" disabled
+                                                style="float: right;">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                Cancel
+                                            </button>
+                                            <button class="btn btn-primary btn-save" type="button" disabled
+                                                style="float: right;">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                Save
+                                            </button>
+                                        </template>
+                                        <template v-else-if="loading == false">
+                                            <button type="submit" class="btn btn-warning btn-cancel" style="float: right;"
+                                                v-on:click.prevent="resetDueDiligenceFields">Cancel</button>
+                                        </template>
+
+                                        <!-- end of loading -->
+
+                                        <!-- saving -->
+                                        <template v-if="saving == true">
+                                            <button class="btn btn-primary btn-save" type="button" disabled
+                                                style="float: right;">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                Saving...
+                                            </button>
+                                        </template>
+                                        <template v-else-if="loading == false">
+                                            <button type="submit" class="btn btn-primary btn-save"
+                                                style="float: right;">Save</button>
+                                        </template>
+                                        <!-- /.saving -->
+                                    </div>
+                                    <!-- /.save -->
+                                </div>
+                            </div>
+                            <!-- /.summary -->
                         </div>
                     </div>
                     <!-- /.panel-body -->
@@ -532,38 +1000,6 @@ GPG System | Due Diligence
                 <!-- /.panel -->
             </div>
             <!-- /.col-lg-6 -->
-            
-            <div class="col-md-12 col-sm-12">
-                <!-- loading -->
-            <template v-if="loading == true">
-                
-                <button class="btn btn-warning btn-cancel" type="button" disabled style="float: right;">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Cancel
-                </button>
-                <button class="btn btn-primary btn-save" type="button" disabled style="float: right;">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Save
-                </button>
-            </template>
-            <template v-else-if="loading == false">
-                <button type="submit" class="btn btn-warning btn-cancel" style="float: right;"
-                v-on:click.prevent="resetDueDiligenceFields">Cancel</button>
-            </template>
-            <!-- end of loading -->
-
-            <!-- loading -->
-            <template v-if="saving == true">
-                <button class="btn btn-primary btn-save" type="button" disabled style="float: right;">
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Saving...
-                </button>
-            </template>
-            <template v-else-if="loading == false">
-                <button type="submit" class="btn btn-primary btn-save" style="float: right;">Save</button>
-            </template>
-            <!-- end of loading -->
-            </div>
         </div>
     </form>
 </div>

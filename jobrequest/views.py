@@ -44,7 +44,7 @@ class JobRequestViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         #  data will only show by company name.
-        queryset = JobRequest.objects.filter(Q(company_name=self.request.user.clients.company_name) |
+        queryset = JobRequest.objects.filter(Q(company_name=self.request.user.clients.company_name),
                                              Q(assigned_project_managers__project_manager=self.request.user.staffs.full_name))
         return queryset
 

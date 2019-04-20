@@ -13,7 +13,7 @@ new Vue({
         newDueDiligence: {
             'date_requested': null,
             'company_name': "",
-            'company_owner': "",
+            'company_owner_or_requestor': "",
             'due_date': null,
             'owner_name': "",
             'parcel_number': "",
@@ -64,13 +64,15 @@ new Vue({
             'power': "",
             'gas': "",
             'waste': "",
-            'date_completed': null,
+            'date_completed': "",
             'notes_from_the_client': "",
-            'notes_from_land_master_team': "",
+            'notes_from_the_quality_specialist': "",
+            'notes_from_the_virtual_assistant': "",
             'dd_team_assigned_va': "",
             'project_manager': "",
             'total_minutes_hours_duration': "",
             'attachments': "",
+            'status_of_dd': "",
         },
         // for pagination
         currentPage: 1,
@@ -139,7 +141,9 @@ new Vue({
                         icon: "success",
                         buttons: false,
                         timer: 3000
-                    })
+                    }).then(function() {
+                    window.location.reload()
+                    });
                     this.resetDueDiligenceFields();
                 })
                 .catch((err) => {

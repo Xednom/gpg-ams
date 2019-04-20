@@ -113,7 +113,7 @@ GPG System | View Job Request
                         Job Request Information for [[ currentJobRequest.company_name ]]
                       </div>
                       <div class="panel-body">
-                        {% if request.user.position == "VA" %}
+                        {% if request.user.is_staffs %}
                         <h4 class="title1">General Informations</h4>
                         <hr>
                         <div class="row">
@@ -164,8 +164,18 @@ GPG System | View Job Request
                       <div class="row">
                             <div class="form-group col-md-4 col-sm-12">
                               <label for="brand_name">Category</label>
-                              <input class="form-control" id="brand_name" v-model="currentJobRequest.category" autocomplete="off"
-                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %} />
+                              <select v-model="currentJobRequest.category" class="form-control"
+                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                                <option>General Administrative Task</option>
+                                <option>Data Entry</option>
+                                <option>Website Design</option>
+                                <option>Graphics Design</option>
+                                <option>Customer Support</option>
+                                <option>Creating Ad Content</option>
+                                <option>Marketing</option>
+                                <option>Due Diligence</option>
+                                <option>Craigslist Support</option>
+                              </select>
                             </div>
                             <div class="form-group col-md-4 col-sm-12">
                               <label>Requestor's Name</label>
@@ -202,15 +212,14 @@ GPG System | View Job Request
                             <div class="form-group col-md-4 col-sm-12">
                               <label>VA admin support</label>
                               <select class="form-control" v-model="currentJobRequest.assigned_va"
-                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                              {% if request.user.is_client or request.user.is_superuser %}{% elif request.user.is_staffs.position == 'Project Managers' %}disabled{% endif %}>
                                 <option v-for="va in virtualAssistants">[[ va.name ]]</option>
                               </select>
                             </div>
                             <div class="form-group row">
                               <label for="inputVASupport" class="col-sm-2 col-form-label">Project Status</label>
                               <div class="col-md-4 col-sm-12">
-                                <select class="form-control" v-model="currentJobRequest.project_status"
-                                {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                <select class="form-control" v-model="currentJobRequest.project_status">
                                   {% if request.user.is_client %}
                                   <option>Sent to Project Manager</option>
                                   <option>Sent to Virtual Assistant</option>
@@ -240,13 +249,13 @@ GPG System | View Job Request
                               <label>Manager Notes</label>
                               <textarea cols="30" rows="10" class="form-control"
                                 v-model="currentJobRequest.manager_notes"
-                            {% if request.user.is_client or request.user.staffs.position == 'Project Manager' %}disabled{% elif request.user.staffs %}{% endif %}></textarea>
+                            {% if request.user.staffs.position == 'Project Managers' %}{% else %}disabled{% endif %}></textarea>
                             </div>
                             <div class="form-group col-md-12 col-sm-12">
                               <label>VA Notes</label>
                               <textarea cols="30" rows="10" class="form-control"
                                 v-model="currentJobRequest.va_notes"
-                                {% if request.user.is_client or request.user.staffs.position == 'VA' %}disabled{% elif request.user.staffs %}{% endif %}></textarea>
+                                {% if request.user.staffs.position == 'General Administrative Support' %}{% else %}disabled{% endif %}></textarea>
                             </div>
                           </div>
                       </div>

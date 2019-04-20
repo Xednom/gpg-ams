@@ -1,10 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.translation import gettext as _
 
+from django.forms import modelformset_factory
+
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, Staffs, Clients
+from .models import CustomUser, Staffs, Clients, Email, PaypalEmail, WebsiteUrl
 
 
 class CustomUserAdmin(UserAdmin):
@@ -18,6 +21,21 @@ class CustomUserAdmin(UserAdmin):
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),)
+
+
+class EmailInline(admin.TabularInline):
+    model = Email
+    extra = 1
+
+
+class PaypalEmailInline(admin.TabularInline):
+    model = PaypalEmail
+    extra = 1
+
+
+class WebsiteInline(admin.TabularInline):
+    model = WebsiteUrl
+    extra = 1
 
 
 class StaffProfile(admin.ModelAdmin):
@@ -60,8 +78,14 @@ class StaffProfile(admin.ModelAdmin):
 
 
 class ClientProfile(admin.ModelAdmin):
+    inlines = [
+        EmailInline,
+        PaypalEmailInline,
+        WebsiteInline,
+    ]
     list_display = ('username','full_name', 'company_name')
     list_filter = ['company_name']
+    readonly_fields = ['date_signed_up']
     search_fields = ('username', 'full_name', 'company_name')
     fieldsets = (
         ('Client Informations', {
@@ -69,6 +93,13 @@ class ClientProfile(admin.ModelAdmin):
                 'username',
                 'full_name',
                 'company_name',
+                'client_control_number',
+                'referral',
+            )
+        }),
+        ('Important Information', {
+            'fields': (
+                'date_signed_up',
             )
         }),
     )
