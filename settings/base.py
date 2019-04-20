@@ -23,8 +23,8 @@ LOCAL_APPS = (
     'reporting',
     'jobrequest',
     'carespecialist',
-    'config',
-    'eav',
+    # 'config',
+    # 'eav',
     'landmaster',
     'buyer',
     'seller',
@@ -82,6 +82,7 @@ CORS_ALLOW_HEADERS = (
 
 # Django Jet Customization(s)
 JET_CHANGE_FORM_SIBLING_LINKS = True
+JET_SIDE_MENU_COMPACT = True
 JET_INDEX_DASHBOARD = 'jet.dashboard.dashboard.DefaultIndexDashboard'
 JET_APP_INDEX_DASHBOARD = 'jet.dashboard.dashboard.DefaultAppIndexDashboard'
 
