@@ -19,9 +19,6 @@ class DueDiligence(TimeStampedModel):
         ('Septic', 'Septic'),
     )
     STATUS = (
-        ('Project Managers Review', 'Project Managers Review'),
-        ('Submitted to the Client', 'Submitted to the Client'),
-        ('Approved by the Client', 'Approved by the Client'),
         ('Sent to Project Manager', 'Sent to Project Manager'),
         ('Project Managers Review', 'Project Managers Review'),
         ('Sent to VA', 'Sent to VA'),
