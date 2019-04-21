@@ -22,6 +22,14 @@ class DueDiligence(TimeStampedModel):
         ('Project Managers Review', 'Project Managers Review'),
         ('Submitted to the Client', 'Submitted to the Client'),
         ('Approved by the Client', 'Approved by the Client'),
+        ('Sent to Project Manager', 'Sent to Project Manager'),
+        ('Project Managers Review', 'Project Managers Review'),
+        ('Sent to VA', 'Sent to VA'),
+        ('VA Processing', 'VA Processing'),
+        ('Sent to Quality Specialist', 'Sent to Quality Specialist'),
+        ('Quality Specialist Checking', 'Quality Specialist Checking'),
+        ('Submitted to the Client', 'Submitted to the Client'),
+        ('Approved by the Client', 'Approved by the Client'),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_requested = models.DateField(null=True, blank=True)

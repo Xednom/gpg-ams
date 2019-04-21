@@ -36,10 +36,14 @@ GPG System | View Due Diligence
                                 <tr>
                                     <th>Date Requested</th>
                                     <th>Due Date</th>
+                                    <th>Date Completed</th>
                                     <th>Company Name</th>
                                     <th>Company Owner</th>
                                     <th>Parcel Number</th>
                                     <th>Account number</th>
+                                    <th>Project Manager</th>
+                                    <th>VA assigned</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -50,10 +54,14 @@ GPG System | View Due Diligence
                                 <tr class="odd gradeX" v-for="(dueDiligences, i) in paginatedRecords">
                                     <td>[[ dueDiligences.date_requested ]]</td>
                                     <td>[[ dueDiligences.due_date ]]</td>
+                                    <td>[[ dueDiligences.date_completed ]]</td>
                                     <td>[[ dueDiligences.company_name ]]</td>
                                     <td>[[ dueDiligences.company_owner_or_requestor ]]</td>
                                     <td>[[ dueDiligences.parcel_number ]]</td>
                                     <td>[[ dueDiligences.account_number ]]</td>
+                                    <td>[[ dueDiligences.project_manager ]]</td>
+                                    <td>[[ dueDiligences.dd_team_assigned_va ]]</td>
+                                    <td>[[ dueDiligences.status_of_dd ]]</td>
                                     <td><button class="btn btn-primary" type="button" data-toggle="modal"
                                             data-target="#editModal"
                                             v-on:click="viewDueDiligence(dueDiligences.id)">View</button></td>
@@ -92,7 +100,7 @@ GPG System | View Due Diligence
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                    <h4 class="modal-title" id="myModalLabel">Due Diligence information for [[ currentDueDiligence.company_name ]]</h4>
                                 </div>
                                 <div class="modal-body">
                                     <form v-on:submit.prevent="updateDueDiligence()">
@@ -130,6 +138,14 @@ GPG System | View Due Diligence
                                                             <input type="text" class="form-control"
                                                                 v-model="currentDueDiligence.company_owner_or_requestor"
                                                                 {% if request.user.is_staffs %}disabled{% elif request.user.is_client %}{% endif %}>
+                                                        </div>
+                                                        <div class="form-group col-md-8 col-sm-12">
+                                                            <label>Customer Specialist</label>
+                                                            <input type="text" class="form-control"
+                                                                v-model="currentDueDiligence.customer_care_specialist"
+                                                                {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                <small class="form-text text-muted">Customer Care
+                                                                    Specialist or Operator ID, Assessors/County</small>
                                                         </div>
                                                     </div>
                                                     <hr>
@@ -461,7 +477,7 @@ GPG System | View Due Diligence
                                                             <label>Notes from the Quality Specialist</label>
                                                             <textarea cols="30" rows="10" class="form-control"
                                                                 v-model="currentDueDiligence.notes_from_the_quality_specialist"
-                                                                {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}></textarea>
+                                                                {% if request.user.staffs.position == 'Project Managers' %}{% else %}disabled{% endif %}></textarea>
                                                         </div>
                                                         <div class="form-group col-md-12 col-sm-12">
                                                             <label>Notes from the Virtual Assistant</label>
@@ -479,7 +495,7 @@ GPG System | View Due Diligence
                                                             <label>DD Team Assigned VA</label>
                                                             <select class="form-control"
                                                                 v-model="currentDueDiligence.dd_team_assigned_va"
-                                                                {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+                                                                {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' %}{% else %}disabled{% endif %}
                                                                 required>
                                                                 <option v-for="va in virtualAssistants">[[ va.name ]]
                                                                 </option>
@@ -489,7 +505,7 @@ GPG System | View Due Diligence
                                                             <label>Project Manager</label>
                                                             <select class="form-control"
                                                                 v-model="currentDueDiligence.project_manager"
-                                                                {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+                                                                {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' %}{% else %}disabled{% endif %}
                                                                 required>
                                                                 <option v-for="pm in projectManagers">[[
                                                                     pm.project_manager ]]</option>
@@ -502,6 +518,14 @@ GPG System | View Due Diligence
                                                                 {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
                                                                 required>
                                                                 <option>Project Managers Review</option>
+                                                                <option>Submitted to the Client</option>
+                                                                <option>Approved by the Client</option>
+                                                                <option>Sent to Project Manager</option>
+                                                                <option>Project Managers Review</option>
+                                                                <option>Sent to VA</option>
+                                                                <option>VA Processing</option>
+                                                                <option>Sent to Quality Specialist</option>
+                                                                <option>Quality Specialist Checking</option>
                                                                 <option>Submitted to the Client</option>
                                                                 <option>Approved by the Client</option>
                                                             </select>
