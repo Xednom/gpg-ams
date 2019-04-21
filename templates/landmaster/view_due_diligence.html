@@ -517,9 +517,6 @@ GPG System | View Due Diligence
                                                                 v-model="currentDueDiligence.status_of_dd"
                                                                 {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
                                                                 required>
-                                                                <option>Project Managers Review</option>
-                                                                <option>Submitted to the Client</option>
-                                                                <option>Approved by the Client</option>
                                                                 <option>Sent to Project Manager</option>
                                                                 <option>Project Managers Review</option>
                                                                 <option>Sent to VA</option>
