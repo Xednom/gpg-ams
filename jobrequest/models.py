@@ -1,5 +1,7 @@
 import uuid
 from django.db import models
+from decimal import Decimal
+from django.utils import timezone as tz
 
 from fillables.models import (
     ProjectManager, 
@@ -57,10 +59,10 @@ class JobRequest(models.Model):
     company_to_request = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
     category = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
     date_requested = models.DateField(null=True, blank=True)
+    due_date = models.DateField(null=True, blank=True)
     month = models.CharField(max_length=150, choices=MONTH_CHOICES, null=True, blank=True)
     requestors_name = models.CharField(max_length=250, null=True, blank=True)
     company_name = models.CharField(max_length=150, null=True, blank=True)
-    job_request_number = models.CharField(max_length=250, null=True, blank=True)
     job_request_title = models.CharField(max_length=150, null=True, blank=True)
     job_request_instruction = models.TextField(null=True, blank=True)
     additional_comments_or_feedbacks = models.TextField(null=True, blank=True)
@@ -68,18 +70,26 @@ class JobRequest(models.Model):
     project_status = models.CharField(max_length=150, choices=PROJECT_STATUS_CHOICES, null=True, blank=True)
     url_training_videos = models.URLField(null=True, blank=True)
     assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
-    time_in = models.DecimalField(null=True, blank=True, max_digits=4, decimal_places=2, default=0.00)
-    time_out = models.DecimalField(null=True, blank=True, max_digits=4, decimal_places=2, default=0.00)
-    total_minutes_hours = models.IntegerField(null=True, blank=True)
+    time_in = models.DateTimeField(default=tz.now, null=True, blank=True)
+    time_out = models.DateTimeField(default=tz.now, null=True, blank=True)
+    total_minutes_hours = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     manager_notes = models.TextField(null=True, blank=True)
     client_notes = models.TextField(null=True, blank=True)
     va_notes = models.TextField(null=True, blank=True)
-    company_billable_to = models.ForeignKey(CompanyName, null=True, blank=True, on_delete=models.PROTECT)
-    company_assigned_to = models.ForeignKey(InternalCompanyName, null=True, blank=True, on_delete=models.PROTECT)
-
+    company_tagging = models.ForeignKey(InternalCompanyName, null=True, blank=True, on_delete=models.PROTECT)
+    authorized_minutes_hours_allocation = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ['-date_requested']
+
+    def calculate_working_hours(self):
+        worked_hours = (self.time_out - self.time_in).total_seconds() / 60 / 60
+        total_hours = Decimal(worked_hours)
+        return total_hours
+    
+    def save(self, *args, **kwargs):
+        self.total_minutes_hours = self.calculate_working_hours()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return str(self.job_request_title)
