@@ -7,27 +7,34 @@ class JobRequestProfile(admin.ModelAdmin):
                     'assigned_project_managers', 'project_status']
     list_filter = ['project_status']
     list_per_page = 15
+    readonly_fields = ['total_minutes_hours']
     # change_list_template = 'jobrequest/change_list_graph.html'
     search_fields = (
-        'company_name', 'company_name', 'assigned_project_managers__project_manager')
+        'requestors_name', 'company_name', 'assigned_project_managers__project_manager', 'project_status',
+        'url_training_videos', 'assigned_va')
     fieldsets = (
-        (None, {
-            'fields': ('date_requested', 'month', 'time_in', 'time_out', 'total_minutes_hours')
+        ('Date Informations', {
+            'fields': (
+                'date_requested', 
+                'due_date', 
+                'month', 
+                'time_in', 
+                'time_out', 
+                'total_minutes_hours')
         }),
         ('Job Request informations', {
             'fields': (
                 'category',
                 'requestors_name',
                 'company_name',
-                'job_request_number',
                 'job_request_title',
                 'job_request_instruction',
                 'assigned_project_managers',
                 'project_status',
                 'url_training_videos',
                 'assigned_va',
-                'company_billable_to',
-                'company_assigned_to',
+                'company_tagging',
+                'authorized_minutes_hours_allocation',
                 )
         }),
         ("Notes", {

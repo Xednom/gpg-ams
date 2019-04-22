@@ -36,6 +36,7 @@ new Vue({
       'va_notes': null,
       'company_billable_to': null,
       'company_asigned_to': null,
+      'authorized_minutes_hours_allocation': null,
     },
     search_term: '',
     // for pagination
@@ -160,7 +161,7 @@ new Vue({
             this.reset();
           })
           .catch((err) => {
-            this.loading = true;
+            this.loading = false;
             console.log(err);
           })
     },

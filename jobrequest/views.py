@@ -44,8 +44,9 @@ class JobRequestViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         #  data will only show by company name.
-        queryset = JobRequest.objects.filter(Q(company_name=self.request.user.clients.company_name),
-                                             Q(assigned_project_managers__project_manager=self.request.user.staffs.full_name))
+        queryset = JobRequest.objects.filter(Q(requestors_name=self.request.user.clients.full_name) |
+                                             Q(assigned_project_managers__project_manager=self.request.user.staffs.full_name) |
+                                             Q(assigned_va__name=self.request.user.staffs.full_name))
         return queryset
 
     def perform_create(self, serializer):
