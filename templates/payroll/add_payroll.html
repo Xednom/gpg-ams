@@ -20,6 +20,26 @@
     <li class="breadcrumb-item active">List of your Payroll</li>
 </ol>
 <div id="gpg-payroll" v-cloak>
+    <form method="GET" class="form-inline">
+        <div class="form-group mx-sm-3 mb-2 pull-right" style="margin-bottom:20px;">
+            <label>Choose a month:</label>
+                <select name="search" class="form-control">
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
     <div id="content-wrapper">
         <div class="col-md-12 col-sm-12">
             <div class="panel panel-default">
@@ -39,19 +59,24 @@
                             <th>Salary</th>
                         </thead>
                         <tbody>
+                            {% if payroll_data %}
+                                {% for payroll in payroll_data %}
                             <tr>
-                                <td colspan="15" class="text-center bg-warning" v-if="!payrolls.length">You don't have any Payroll 
+                                <td>{{ payroll.date }}</td>
+                                <td>{{ payroll.virtual_assistant }}</td>
+                                <td>{{ payroll.client_name }}</td>
+                                <td>{{ payroll.time_in }}</td>
+                                <td>{{ payroll.time_out }}</td>
+                                <td>{{ payroll.hours }}</td>
+                                <td>{{ payroll.rate }}</td>
+                                <td>{{ payroll.salary }}</td>
+                                {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="15" class="text-center bg-warning">You don't have any Payroll
                                     as of now. Try working!</td>
                             </tr>
-                            <tr v-for="payroll in payrolls">
-                                <td>[[ payroll.date ]]</td>
-                                <td>[[ payroll.virtual_assistant ]]</td>
-                                <td>[[ payroll.client_name ]]</td>
-                                <td>[[ payroll.time_in ]]</td>
-                                <td>[[ payroll.time_out ]]</td>
-                                <td>[[ payroll.hours ]]</td>
-                                <td>[[ payroll.rate ]]</td>
-                                <td>[[ payroll.salary ]]</td>
+                            {% endif %}
                             </tr>
                         </tbody>
                     </table>
