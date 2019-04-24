@@ -34,12 +34,14 @@ class AddPayrollView(LoginRequiredMixin, ListView):
         payroll_data = payroll_list.filter(Q(virtual_assistant__name=user),
                                            Q(date__month=current_month))
         total_salary = VaPayroll.objects.filter(Q(virtual_assistant__name=user), 
-                                                Q(date__month=search), 
+                                                Q(date__month=current_month), 
                                                 Q(date__year=current_year)).aggregate(Sum('salary'))
         if search:
             payroll_data = payroll_list.filter(Q(virtual_assistant__name=user),
                                                Q(date__icontains=search))
-        
+            total_salary = VaPayroll.objects.filter(Q(virtual_assistant__name=user),
+                                                    Q(date__month=search),
+                                                    Q(date__year=current_year)).aggregate(Sum('salary'))
             payroll_data
         context = {
             'total_salary': total_salary,
