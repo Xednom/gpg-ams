@@ -121,7 +121,13 @@
                         </li>
                         {% if request.user.is_staffs %}
                         <li>
-                          <a href="{% url 'payroll:add_payroll' %}"> <i class="fa fa-files-o fa-fw"></i> Payroll</a>
+                          <a href="#"><i class="fa fa-money"></i> Payroll <span class="fa arrow"></span></a>
+                          <ul class="nav nav-third-level">
+                            <li>
+                              <a href="{% url 'payroll:view_payroll' %}"> <i class="fa fa-files-o fa-fw"></i> View Payroll</a>
+                              <a href="{% url 'payroll:add_payroll' %}"> <i class="fa fa-plus"></i> Add Payroll</a>
+                            </li>
+                          </ul>
                         </li>
                         {% endif %}
                         <li>
