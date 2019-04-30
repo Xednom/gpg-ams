@@ -2,7 +2,7 @@ import datetime
 
 from django.db.models import Q, Sum
 from rest_framework import serializers
-from .models import VaPayroll
+from .models import VaPayroll, VaCashOut
 
 from fillables.models import VirtualAssistant
 
@@ -21,3 +21,11 @@ class VaPayrollSerializer(serializers.ModelSerializer):
                                                Q(date__month=datetime.date.today().month),
                                                Q(date__year=datetime.date.today().year)).aggregate(total_salary=Sum('salary'))
         return totalsalary['total_salary']
+
+
+class VaCashOutSerializer(serializers.ModelSerializer):
+    name = serializers.SlugRelatedField(slug_field='name', queryset=VirtualAssistant.objects.all())
+
+    class Meta:
+        model = VaCashOut
+        fields = '__all__'

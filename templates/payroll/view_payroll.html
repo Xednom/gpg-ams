@@ -37,9 +37,24 @@ GPG System | View Payroll
                     <option value="11">November</option>
                     <option value="12">December</option>
                 </select>
-                <button type="submit" class="btn btn-primary" v-on:click.prevent="searchMonthPayroll">Search</button>
+                <button type="submit" class="btn btn-primary"
+                    v-on:click.prevent="searchAll">Search</button>
             </div>
         </form>
+        <div class="col-md-12 col-sm-12">
+            <div class="col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Salary complete computations
+                    </div>
+                    <div class="panel-body">
+                        <h5 class="col-md-4 col-sm-12 pull-right">Total Salary: <strong>[[ totalSalary ]]</strong></h5>
+                        <h5 class="col-md-4 col-sm-12 pull-right">Total Cash Out: <strong>[[ totalCashOuts ]]</strong></h5>
+                        <h5 class="col-md-4 col-sm-12 pull-right">Total Due to the Staff/Employee: <strong>[[ totalDue ]]</strong></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="content-wrapper">
             <div class="col-md-12 col-sm-12">
                 <div class="panel panel-success">
@@ -108,6 +123,129 @@ GPG System | View Payroll
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        Cash for {{ request.user.staffs.full_name }}
+                    </div>
+                    <div class="panel-body">
+                        <h4 class="pull-right">Total cash out: [[ totalCashOuts ]]</h4>
+                        <h4></h4>
+                        <table class="table table-bordered table-hover table-responsive">
+                            <thead>
+                                <th>Date Release</th>
+                                <th>Amount</th>
+                                <th>Referrence</th>
+                                <th>Bank</th>
+                                <th>Approved By</th>
+                                <th>Purpose</th>
+                                <th>Notes</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="15" class="text-center bg-warning" v-if="!cashouts.length">You
+                                        don't
+                                        have any Cashout!</td>
+                                </tr>
+                                <tr v-for="cashout in cashouts">
+                                    <td>[[ cashout.date_release ]]</td>
+                                    <td>[[ cashout.amount ]]</td>
+                                    <td>[[ cashout.referrence ]]</td>
+                                    <td>[[ cashout.bank ]]</td>
+                                    <td>[[ cashout.approved_by ]]</td>
+                                    <td>[[ cashout.purpose ]]</td>
+                                    <td>[[ cashout.notes ]]</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- pagination -->
+                        <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                            <ul class="pagination justify-content-end">
+                                <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                    <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li v-for="pageNumber in pages"
+                                    v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                        [[ pageNumber ]]
+                                    </a>
+                                </li>
+                                <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- end of pagination -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- <div id="gpg-cashout">
+        <div class="col-md-12 col-sm-12">
+             <div class="panel panel-warning">
+                 <div class="panel-heading">
+                     Cash for {{ request.user.staffs.full_name }}
+                 </div>
+                 <div class="panel-body">
+                        <h4 class="pull-right">Total cash out: [[ totalCashOut ]]</h4>
+                     <h4></h4>
+                     <table class="table table-bordered table-hover table-responsive">
+                         <thead>
+                             <th>Date Release</th>
+                             <th>Amount</th>
+                             <th>Referrence</th>
+                             <th>Bank</th>
+                             <th>Approved By</th>
+                             <th>Purpose</th>
+                             <th>Notes</th>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td colspan="15" class="text-center bg-warning" v-if="!cashouts.length">You
+                                     don't
+                                     have any Cashout!</td>
+                             </tr>
+                             <tr v-for="cashout in cashouts">
+                                 <td>[[ cashout.date_release ]]</td>
+                                 <td>[[ cashout.amount ]]</td>
+                                 <td>[[ cashout.referrence ]]</td>
+                                 <td>[[ cashout.bank ]]</td>
+                                 <td>[[ cashout.approved_by ]]</td>
+                                 <td>[[ cashout.purpose ]]</td>
+                                 <td>[[ cashout.notes ]]</td>
+                             </tr>
+                         </tbody>
+                     </table>
+                     pagination
+                     <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                         <ul class="pagination justify-content-end">
+                             <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                 <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                     Previous
+                                 </a>
+                             </li>
+                             <li v-for="pageNumber in pages"
+                                 v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                 <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                     [[ pageNumber ]]
+                                 </a>
+                             </li>
+                             <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                 <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                     Next
+                                 </a>
+                             </li>
+                         </ul>
+                     </nav>
+                     end of pagination
+                 </div>
+             </div>
+        </div>
+    </div> -->
     {% endblock %}
