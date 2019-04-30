@@ -18,6 +18,7 @@ new Vue({
             'salary': null,
         },
         search_term: '',
+        search_month: '',
 
         // for pagination
         currentPage: 1,
@@ -28,16 +29,34 @@ new Vue({
         paginatedRecords: [],
     },
     mounted: function () {
-        this.getPayroll();
+        // this.getPayroll();
+        this.setCurrentMonth();
+        this.searchMonthPayroll();
     },
     methods: {
+        setCurrentMonth: function () {
+            let currentMonth = moment(new Date()).format("MM");
+            this.search_month = currentMonth;
+            console.log(currentMonth);
+        },
         getPayroll: function () {
-            let api_url = '/api/v1/payroll/';
             this.loading = true;
-            this.$http.get(api_url)
+            this.$http.get(`/api/v1/payroll/`)
                 .then((response) => {
-                    this.payrolls = response.data;
                     this.loading = false;
+                    this.payrolls = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        searchMonthPayroll: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/payroll/?date__month=${this.search_month}`)
+                .then((response) => {
+                    this.loading = false;
+                    this.payrolls = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
@@ -46,7 +65,7 @@ new Vue({
         },
         getPaginatedRecords: function () {
             const startIndex = this.startIndex;
-            this.paginatedRecords = this.Payrolls.slice().splice(startIndex, this.pageSize);
+            this.paginatedRecords = this.payrolls.slice().splice(startIndex, this.pageSize);
         },
         goToPage: function (page) {
             if (page < 1) {
@@ -81,7 +100,7 @@ new Vue({
         }
     },
     watch: {
-        Payrolls: function (newPayrollRecords, oldPayrollRecords) {
+        payrolls: function (newPayrollRecords, oldPayrollRecords) {
             this.setPageGroup();
             this.getPaginatedRecords();
         },
@@ -92,7 +111,7 @@ new Vue({
     },
     computed: {
         totalItems: function () {
-            return this.Payrolls.length;
+            return this.payrolls.length;
         },
         totalPages: function () {
             return Math.ceil(this.totalItems / this.pageSize);
@@ -108,5 +127,10 @@ new Vue({
             for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
             return pages;
         },
+        totalSalary: function () {
+            return this.payrolls.reduce(function (sum, payrolls) {
+                return sum + parseFloat(payrolls.salary);
+            }, 0);
+        }
     }
 });

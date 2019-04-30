@@ -48,12 +48,15 @@ THIRD_PARTY_APPS = (
     'django_filters',
     'rest_framework_datatables',
     'corsheaders',
-    'import_export'
+    'import_export',
+    'crispy_forms'
 )
 
 INSTALLED_APPS = ADMIN_APPS + DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # To enable the sites framework
 SITE_ID = 1
@@ -96,6 +99,9 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
