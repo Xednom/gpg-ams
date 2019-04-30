@@ -29,7 +29,7 @@ new Vue({
         paginatedRecords: [],
     },
     mounted: function () {
-        this.getPayroll();
+        // this.getPayroll();
         this.setCurrentMonth();
         this.searchMonthPayroll();
     },
