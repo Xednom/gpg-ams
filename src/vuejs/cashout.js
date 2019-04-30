@@ -1,24 +1,12 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
 new Vue({
-    el: '#gpg-payroll',
+    el: '#gpg-cashout',
     delimiters: ['[[', ']]'],
     data: {
-        payrolls: [],
         cashouts: [],
         loading: false,
         currentPayroll: {},
         message: null,
-        newPayroll: {
-            'date': null,
-            'virtual_assistant': null,
-            'time_in': null,
-            'time_out': null,
-            'hours': null,
-            'client_name': null,
-            'rate': null,
-            'salary': null,
-        },
-        search_term: '',
         search_month: '',
 
         // for pagination
@@ -30,11 +18,8 @@ new Vue({
         paginatedRecords: [],
     },
     mounted: function () {
-        // this.getPayroll();
         this.setCurrentMonth();
-        this.searchMonthPayroll();
         this.searchMonthCashOut();
-        this.getCashOut();
     },
     methods: {
         setCurrentMonth: function () {
@@ -42,28 +27,12 @@ new Vue({
             this.search_month = currentMonth;
             console.log(currentMonth);
         },
-        getPayroll: function () {
+        getCashOut: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/payroll/`)
+            this.$http.get(`/api/v1/cashout/`)
                 .then((response) => {
                     this.loading = false;
-                    this.payrolls = response.data;
-                })
-                .catch((err) => {
-                    this.loading = false;
-                    console.log(err);
-                })
-        },
-        searchAll: function (){
-            this.searchMonthPayroll();
-            this.searchMonthCashOut();
-        },
-        searchMonthPayroll: function () {
-            this.loading = true;
-            this.$http.get(`/api/v1/payroll/?date__month=${this.search_month}`)
-                .then((response) => {
-                    this.loading = false;
-                    this.payrolls = response.data;
+                    this.cashouts = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
@@ -82,21 +51,9 @@ new Vue({
                     console.log(err);
                 })
         },
-        getCashOut: function () {
-            this.loading = true;
-            this.$http.get(`/api/v1/cashout/`)
-                .then((response) => {
-                    this.loading = false;
-                    this.cashouts = response.data;
-                })
-                .catch((err) => {
-                    this.loading = false;
-                    console.log(err);
-                })
-        },
         getPaginatedRecords: function () {
             const startIndex = this.startIndex;
-            this.paginatedRecords = this.payrolls.slice().splice(startIndex, this.pageSize);
+            this.paginatedRecords = this.cashouts.slice().splice(startIndex, this.pageSize);
         },
         goToPage: function (page) {
             if (page < 1) {
@@ -131,7 +88,7 @@ new Vue({
         }
     },
     watch: {
-        payrolls: function (newPayrollRecords, oldPayrollRecords) {
+        cashouts: function (newCashOutRecords, oldCashOutRecords) {
             this.setPageGroup();
             this.getPaginatedRecords();
         },
@@ -142,7 +99,7 @@ new Vue({
     },
     computed: {
         totalItems: function () {
-            return this.payrolls.length;
+            return this.cashouts.length;
         },
         totalPages: function () {
             return Math.ceil(this.totalItems / this.pageSize);
@@ -158,19 +115,10 @@ new Vue({
             for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
             return pages;
         },
-        totalSalary: function () {
-            return this.payrolls.reduce(function (sum, payrolls) {
-                return sum + parseFloat(payrolls.salary);
-            }, 0);
-        },
-        totalCashOuts: function() {
+        totalCashOut: function () {
             return this.cashouts.reduce(function (sum, cashouts) {
                 return sum + parseFloat(cashouts.amount);
             }, 0);
-        },
-        totalDue: function() {
-            let sum = this.totalSalary - this.totalCashOuts;
-            return sum.toFixed(2);
         }
     }
 });

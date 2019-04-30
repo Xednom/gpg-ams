@@ -12,7 +12,7 @@ from landmaster.views import DueDiligenceViewSet
 from jobrequest.views import JobRequestViewSet, JobRequestTitleViewSet
 from reporting.views import ReportingViewSet
 from logins.views import LoginsViewSet
-from payroll.views import PayrollViewSet
+from payroll.views import PayrollViewSet, PayrollCashOutViewSet
 
 
 router = routers.DefaultRouter()
@@ -29,3 +29,4 @@ router.register(r'reporting', ReportingViewSet)
 router.register(r'due-diligence', DueDiligenceViewSet, base_name='DueDiligence')
 router.register(r'logins', LoginsViewSet, base_name='Logins')
 router.register(r'payroll', PayrollViewSet, base_name='Payroll')
+router.register(r'cashout', PayrollCashOutViewSet, base_name='CashOut')
