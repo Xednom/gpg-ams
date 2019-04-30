@@ -8,9 +8,8 @@ class PayrollCreateForm(forms.ModelForm):
 
     class Meta:
         model = VaPayroll
-        fields = ['date', 'virtual_assistant', 'time_in', 'time_out',
-                  'client_name', 'rate']
-        exclude = [ 'salary', 'hours']
+        fields = ['date', 'virtual_assistant',
+                  'time_in', 'time_out', 'client_name', 'rate']
         widgets = {
             'date': forms.DateInput(format=('%m/%d/%y'), attrs={
                 'class': 'form-control',
