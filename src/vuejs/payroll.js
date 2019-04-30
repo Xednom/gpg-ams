@@ -18,6 +18,7 @@ new Vue({
             'salary': null,
         },
         search_term: '',
+        search_month: '',
 
         // for pagination
         currentPage: 1,
@@ -29,11 +30,30 @@ new Vue({
     },
     mounted: function () {
         this.getPayroll();
+        this.setCurrentMonth();
+        this.searchMonthPayroll();
     },
     methods: {
+        setCurrentMonth: function () {
+            let currentMonth = moment(new Date()).format("MM");
+            this.search_month = currentMonth;
+            console.log(currentMonth);
+        },
         getPayroll: function () {
             this.loading = true;
             this.$http.get(`/api/v1/payroll/`)
+                .then((response) => {
+                    this.loading = false;
+                    this.payrolls = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        searchMonthPayroll: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/payroll/?date__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.payrolls = response.data;

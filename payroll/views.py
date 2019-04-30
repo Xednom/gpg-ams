@@ -1,7 +1,10 @@
 import datetime
+import django_filters
 
 from decimal import Decimal
 
+from django_filters.rest_framework import FilterSet
+from django_filters import DateRangeFilter, DateFilter, CharFilter, NumberFilter
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -10,7 +13,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -72,15 +75,27 @@ class AddPayroll(CreateView):
         return HttpResponseRedirect(reverse_lazy('payroll:view_payroll'))
 
 
+class PayrollFilters(FilterSet):
+    date__month = NumberFilter(field_name='date', lookup_expr='month')
+    virtual_assistant = CharFilter(field_name='virtual_assistant', lookup_expr='icontains')
+
+    class Meta:
+        model = VaPayroll
+        fields = ('date__month', 'virtual_assistant')
+
+
 class PayrollViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = VaPayrollSerializer
+    filter_class = (PayrollFilters)
+    filterset_fields = ('date',)
+    search_fields = ('date',)
 
     def get_queryset(self):
         current_month = datetime.date.today().month
         current_year = datetime.date.today().year
         queryset = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name), 
-                                            Q(date__month=current_month), 
-                                            Q(date__year=current_year)).annotate(Sum('salary'))
+                                            Q(date__year=current_year),
+                                            Q(status='APPROVED-BY-THE-MANAGER'))
         return queryset

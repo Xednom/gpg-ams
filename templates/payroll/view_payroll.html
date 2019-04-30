@@ -23,7 +23,7 @@ GPG System | View Payroll
         <form method="GET" class="form-inline">
             <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
                 <label>Choose a month:</label>
-                <select name="search" class="form-control">
+                <select name="search" class="form-control" v-model="search_month">
                     <option value="01">January</option>
                     <option value="02">February</option>
                     <option value="03">March</option>
@@ -37,7 +37,7 @@ GPG System | View Payroll
                     <option value="11">November</option>
                     <option value="12">December</option>
                 </select>
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary" v-on:click.prevent="searchMonthPayroll">Search</button>
             </div>
         </form>
         <div id="content-wrapper">
@@ -51,7 +51,7 @@ GPG System | View Payroll
                             Only the Payrolls that has the status of <strong>Approved by the Manager</strong> are shown
                             here.
                         </div>
-                        <h4 class="pull-right">Total salary: [[ totalSalary | money ]]</h4>
+                        <h4 class="pull-right">Total salary: [[ totalSalary ]]</h4>
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <th>Date</th>
