@@ -29,7 +29,7 @@ class VaPayroll(models.Model):
     class Meta:
         verbose_name = 'VA Payroll'
         verbose_name_plural = 'VA Payrolls'
-        ordering = ['date']
+        ordering = ['-date']
 
     def calculate_salary(self):
         worked_hours = (self.time_out - self.time_in).total_seconds() / 60 / 60
@@ -52,3 +52,24 @@ class VaPayroll(models.Model):
     
     def __str__(self):
         return str(self.virtual_assistant)
+
+
+class VaCashOut(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.ForeignKey(VirtualAssistant, null=True,
+                             blank=True, on_delete=models.PROTECT)
+    date_release = models.DateField()
+    amount = models.DecimalField(max_digits=7, decimal_places=2)
+    purpose = models.TextField(null=True, blank=True)
+    referrence = models.CharField(max_length=150, null=True, blank=True)
+    bank = models.CharField(max_length=150, null=True, blank=True)
+    approved_by = models.CharField(max_length=150, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'VA Cash Out'
+        verbose_name_plural = 'VA Cash Outs'
+        ordering=['-date_release']
+
+    def __str__(self):
+        return str(self.name)

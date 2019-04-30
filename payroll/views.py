@@ -22,9 +22,9 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.db.models import Sum, Q, F
 
-from .models import VaPayroll
+from .models import VaPayroll, VaCashOut
 from .forms import PayrollCreateForm
-from .serializers import VaPayrollSerializer
+from .serializers import VaPayrollSerializer, VaCashOutSerializer
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -91,6 +91,15 @@ class PayrollFilters(FilterSet):
         fields = ('date__month', 'virtual_assistant')
 
 
+class CashOutFilters(FilterSet):
+    date_release__month = NumberFilter(field_name='date_release', lookup_expr='month')
+    name = CharFilter(field_name='name', lookup_expr='icontains')
+
+    class Meta:
+        model = VaCashOut
+        fields = ('date_release__month', 'name')
+
+
 class PayrollViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
@@ -105,4 +114,19 @@ class PayrollViewSet(viewsets.ModelViewSet):
         queryset = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name), 
                                             Q(date__year=current_year),
                                             Q(status='APPROVED-BY-THE-MANAGER'))
+        return queryset
+
+
+class PayrollCashOutViewSet(viewsets.ModelViewSet):
+    aauthentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = VaCashOutSerializer
+    filter_class = (CashOutFilters)
+    filterset_fields = ('date_release',)
+    search_fields = ('date_release',)
+
+    def get_queryset(self):
+        current_year = datetime.date.today().year
+        queryset = VaCashOut.objects.filter(Q(name__name=self.request.user.staffs.full_name),
+                                            Q(date_release__year=current_year))
         return queryset
