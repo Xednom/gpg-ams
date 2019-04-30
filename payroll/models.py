@@ -9,6 +9,11 @@ from fillables.models import VirtualAssistant
 
 # Create your models here.
 class VaPayroll(models.Model):
+    STATUS_CHOICES = (
+        ('APPROVED-BY-THE-MANAGER', 'Approved by the Manager'),
+        ('HOURS-RE-ADJUSTMENT', 'Hours Re-Adjustment'),
+        ('DECLINED', 'Declined'),
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date = models.DateField()
     virtual_assistant = models.CharField(max_length=150, null=True, blank=True)
@@ -18,6 +23,8 @@ class VaPayroll(models.Model):
     client_name = models.CharField(max_length=150, null=True, blank=True)
     rate = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     salary = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, help_text="Salary = Total hours * Hourly rate")
+    status = models.CharField(max_length=150, choices=STATUS_CHOICES, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'VA Payroll'
