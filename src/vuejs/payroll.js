@@ -169,7 +169,8 @@ new Vue({
             }, 0);
         },
         totalDue: function() {
-            return this.totalCashOuts - this.totalSalary;
+            let sum = this.totalSalary - this.totalCashOuts;
+            return sum.toFixed(2);
         }
     }
 });

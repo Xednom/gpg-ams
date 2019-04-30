@@ -235,7 +235,7 @@ class LynkCapital(models.Model):
     state = models.CharField(max_length=250, null=True, blank=True, help_text="What State?")
     zip_code = models.CharField(max_length=250, null=True, blank=True, help_text="What is the Zip Code")
     county = models.CharField(max_length=250, null=True, blank=True, help_text="What county is the property in?")
-    leter = models.CharField(max_length=250, null=True, blank=True, help_text="Do you have the letter that we send you handy?")
+    letter = models.CharField(max_length=250, null=True, blank=True, help_text="Do you have the letter that we send you handy?")
     apn_number = models.CharField(max_length=250, null=True, blank=True,
                                   help_text="If Yes: OK, there is an APN number on the letter, if I can get that itwould be very helpful.")
     name_on_the_letter = models.CharField(max_length=250, null=True, blank=True,
