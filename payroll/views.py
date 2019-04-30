@@ -10,6 +10,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, View, ListView
 from django.views.generic.edit import CreateView
+
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -66,13 +68,18 @@ class PayrollView(LoginRequiredMixin, TemplateView):
 
 class AddPayroll(CreateView):
     template_name = 'payroll/add_payroll.html'
-    form_class = PayrollCreateForm
+    model = VaPayroll
+    fields = ['date', 'virtual_assistant', 'time_in', 'time_out', 'client_name', 'rate']
+    # form_class = PayrollCreateForm
+    success_url = 'payroll:view_payroll'
+    success_message = "Successfully added a payroll."
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.virtual_assistant = self.request.user.staffs.full_name
-        self.object.save()
-        return HttpResponseRedirect(reverse_lazy('payroll:view_payroll'))
+        form.instance.virtual_assistant = self.request.user.staffs.full_name
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("payroll:view_payroll")
 
 
 class PayrollFilters(FilterSet):

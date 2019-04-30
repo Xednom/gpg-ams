@@ -21,7 +21,8 @@
             Add Payroll
         </div>
         <div class="panel-body">
-            <form method="post">
+            {% include 'messages/messages.html' %}
+            <form method="POST">
                 {% csrf_token %}
                 <div class="row">
                     <div class="form-group col-md-2 mb-0">

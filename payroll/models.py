@@ -48,7 +48,7 @@ class VaPayroll(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('payroll:add_payroll')
+        return reverse('payroll:view_payroll')
     
     def __str__(self):
         return str(self.virtual_assistant)
