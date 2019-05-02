@@ -6,6 +6,7 @@ from fillables.models import VirtualAssistant
 
 class Logins(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date_added = models.DateField(auto_now_add=True)
     client_full_name = models.CharField(max_length=150, null=True, blank=True)
     company_name = models.CharField(max_length=150, null=True, blank=True)
     type_of_apps = models.CharField(max_length=150, null=True, blank=True)
@@ -14,6 +15,8 @@ class Logins(models.Model):
     password = models.CharField(max_length=150, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     give_access_to = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
+    added_by = models.CharField(max_length=150, null=True, blank=True)
+    updated_by = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
         verbose_name = 'List of Logins of the client'

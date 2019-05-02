@@ -32,9 +32,9 @@ new Vue({
     mounted: function () {
         // this.getPayroll();
         this.setCurrentMonth();
-        this.searchMonthPayroll();
         this.searchMonthCashOut();
-        this.getCashOut();
+        this.searchMonthPayroll();
+        // this.getCashOut();
     },
     methods: {
         setCurrentMonth: function () {

@@ -42,14 +42,16 @@ GPG System | View Payroll
             </div>
         </form>
         <div class="col-md-12 col-sm-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Salary complete computations
-                </div>
-                <div class="panel-body">
-                    <h5 class="col-md-4 col-sm-12 pull-right">Total Salary: <strong>[[ totalSalary ]]</strong></h5>
-                    <h5 class="col-md-4 col-sm-12 pull-right">Total Cash Out: <strong>[[ totalCashOuts ]]</strong></h5>
-                    <h5 class="col-md-4 col-sm-12 pull-right">Total Due to the Staff/Employee: <strong>[[ totalDue ]]</strong></h5>
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Salary complete computations
+                    </div>
+                    <div class="panel-body">
+                        <h5 class="col-md-4 col-sm-12 pull-right">Total Salary: <strong>[[ totalSalary ]]</strong></h5>
+                        <h5 class="col-md-4 col-sm-12 pull-right">Total Cash Out: <strong>[[ totalCashOuts ]]</strong></h5>
+                        <h5 class="col-md-4 col-sm-12 pull-right">Total Due to the Staff/Employee: <strong>[[ totalDue ]]</strong></h5>
+                    </div>
                 </div>
             </div>
         </div>
@@ -124,7 +126,7 @@ GPG System | View Payroll
             <div class="col-md-12 col-sm-12">
                 <div class="panel panel-warning">
                     <div class="panel-heading">
-                        Cash for {{ request.user.staffs.full_name }}
+                        Cash out for {{ request.user.staffs.full_name }}
                     </div>
                     <div class="panel-body">
                         <h4 class="pull-right">Total cash out: [[ totalCashOuts ]]</h4>
