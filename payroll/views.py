@@ -126,6 +126,7 @@ class PayrollCashOutViewSet(viewsets.ModelViewSet):
     search_fields = ('date_release',)
 
     def get_queryset(self):
+        current_month = datetime.date.today().month
         current_year = datetime.date.today().year
         queryset = VaCashOut.objects.filter(Q(name__name=self.request.user.staffs.full_name),
                                             Q(date_release__year=current_year))
