@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import DueDiligence
+from .models import DueDiligence, DueDiligencesCleared
 
 
 class DueDiligenceProfile(admin.ModelAdmin):
@@ -111,4 +111,33 @@ class DueDiligenceProfile(admin.ModelAdmin):
     )
 
 
+class DueDiligenceClearedProfile(admin.ModelAdmin):
+    list_display = ('date_of_call', 'client_full_name', 'client_company_name', 'apn',
+                    'call_in', 'call_out', 'total_hours', 'customer_service_representative')
+    list_filter = ['client_full_name', 'client_company_name',
+                   'customer_service_representative__name']
+    search_fields = ('client_full_name', 'client_company_name',
+                     'customer_service_representative__name')
+    readonly_fields = ['total_hours']
+    fieldsets = (
+        ('Due Diligence Cleared Information', {
+            'fields': (
+                'date_of_call',
+                'client_full_name',
+                'client_company_name',
+                'apn',
+                'call_in',
+                'call_out',
+                'total_hours',
+                'department_calling_about',
+                'contact_number',
+                'operators_details',
+                'notes',
+                'customer_service_representative'
+            )
+        }),
+    )
+
+
 admin.site.register(DueDiligence, DueDiligenceProfile)
+admin.site.register(DueDiligencesCleared, DueDiligenceClearedProfile)

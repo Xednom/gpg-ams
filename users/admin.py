@@ -7,7 +7,16 @@ from django.utils.translation import gettext as _
 from django.forms import modelformset_factory
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, Staffs, Clients, Email, PaypalEmail, WebsiteUrl
+from .models import (
+        CustomUser, 
+        Staffs, 
+        Clients, 
+        Email, 
+        PaypalEmail, 
+        WebsiteUrl, 
+        ClientProfiling,
+        TrainingUrl
+    )
 
 
 class CustomUserAdmin(UserAdmin):
@@ -35,6 +44,11 @@ class PaypalEmailInline(admin.TabularInline):
 
 class WebsiteInline(admin.TabularInline):
     model = WebsiteUrl
+    extra = 1
+
+
+class TrainingUrlInline(admin.TabularInline):
+    model = TrainingUrl
     extra = 1
 
 
@@ -74,6 +88,14 @@ class StaffProfile(admin.ModelAdmin):
                 'residential_address',
             )
         }),
+        ('Bank Information', {
+            'fields': (
+                'bank_name',
+                'bank_account_name',
+                'bank_type',
+                'bank_account_number',
+            )
+        }),
     )
 
 
@@ -82,6 +104,7 @@ class ClientProfile(admin.ModelAdmin):
         EmailInline,
         PaypalEmailInline,
         WebsiteInline,
+        TrainingUrlInline
     ]
     list_display = ('username','full_name', 'company_name')
     list_filter = ['company_name']
@@ -104,6 +127,24 @@ class ClientProfile(admin.ModelAdmin):
         }),
     )
 
+
+class ClientProfilingInfo(admin.ModelAdmin):
+    list_display = ('client_name', 'kind_of_client')
+    list_filter = ('client_name', 'kind_of_client')
+    search_fields = ('client_name', 'kind_of_client')
+    fieldsets = (
+        ('Client Profiling', {
+            'fields': (
+                'client_name',
+                'kind_of_client',
+                'notes',
+            )
+        }),
+    )
+    
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Staffs, StaffProfile)
 admin.site.register(Clients, ClientProfile)
+admin.site.register(ClientProfiling, ClientProfilingInfo)

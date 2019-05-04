@@ -4,6 +4,9 @@ from django.dispatch import receiver
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.timezone import now
+
+from fillables.models import VirtualAssistant, ProjectManager
 
 
 class CustomUser(AbstractUser):
@@ -51,6 +54,10 @@ class Staffs(models.Model):
     residential_address = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=100, choices=STATUS, null=True, blank=True)
+    bank_name = models.CharField(max_length=150)
+    bank_account_name = models.CharField(max_length=150)
+    bank_type = models.CharField(max_length=150)
+    bank_account_number = models.CharField(max_length=150)
 
     class Meta:
         verbose_name = "List of Staff"
@@ -65,9 +72,14 @@ class Clients(models.Model):
     username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='clients')
     full_name = models.CharField(max_length=150)
     company_name = models.CharField(max_length=150)
-    date_signed_up = models.DateTimeField(auto_now_add=True)
+    date_signed_up = models.DateTimeField(default=now, null=True, blank=True)
     client_control_number = models.CharField(max_length=150, null=True, blank=True)
     referral = models.CharField(max_length=150, null=True, blank=True)
+    assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
+    assigned_pm = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)
+    task_enroute = models.CharField(max_length=150, null=True, blank=True)
+    type_of_task = models.TextField(null=True, blank=True)
+    internal_folder_link = models.URLField(null=True, blank=True)
 
 
     class Meta:
@@ -97,6 +109,17 @@ def save_user_profile(sender, instance, **kwargs):
             Clients.objects.get_or_create(username=instance)
 
 
+class ClientProfiling(models.Model):
+    kind_of_client = models.CharField(max_length=150)
+    client_name = models.ForeignKey(Clients, null=True, blank=True, on_delete=models.PROTECT)
+    notes = models.TextField()
+    
+    class Meta:
+        verbose_name = 'Client Profile'
+        verbose_name_plural = 'Client Profiles'
+        ordering = ['kind_of_client']
+
+
 class Email(models.Model):
     name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
     email_address = models.EmailField(null=True, blank=True)
@@ -119,3 +142,8 @@ class WebsiteUrl(models.Model):
 
     def __str__(self):
         return self.url
+
+
+class TrainingUrl(models.Model):
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    url = models.URLField(null=True, blank=True)

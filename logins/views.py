@@ -27,6 +27,6 @@ class LoginsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        user = self.request.user
+        user = self.request.user.staffs.full_name
         qs = Logins.objects.filter(give_access_to__name=user)
         return qs
