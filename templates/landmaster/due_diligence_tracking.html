@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}GPG System | Add Due Diligence Tracker {% endblock %}
+
+{% block content %}
+<div class="col-md-12 col-sm-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Add <strong>Due Diligence Tracking Cleared Informations</strong>
+        </div>
+        <div class="panel-body">
+            {% include 'messages/messages.html' %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.date_of_call|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.client_full_name|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.client_company_name|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.apn|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.call_in|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.call_out|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.department_calling_about|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-2 mb-0">
+                        {{ form.contact_number|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-12 mb-0">
+                        {{ form.operators_details|as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-12 mb-0">
+                        {{ form.notes|as_crispy_field }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Tracker</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

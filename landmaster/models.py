@@ -5,6 +5,7 @@ from django.db import models
 
 from fillables.models import CompanyName, VirtualAssistant, ProjectManager
 from django.utils.timezone import now
+from django.urls import reverse
 
 
 class TimeStampedModel(models.Model):
@@ -110,14 +111,14 @@ class DueDiligencesCleared(models.Model):
     client_full_name = models.CharField(max_length=150, null=True, blank=True)
     client_company_name = models.CharField(max_length=150, null=True, blank=True)
     apn = models.CharField(max_length=150, null=True, blank=True)
-    call_in = models.DateTimeField(null=True, blank=True)
-    call_out = models.DateTimeField(null=True, blank=True)
+    call_in = models.DateTimeField(default=now, null=True, blank=True)
+    call_out = models.DateTimeField(default=now, null=True, blank=True)
     total_hours = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     department_calling_about = models.CharField(max_length=150, null=True, blank=True)
     contact_number = models.CharField(max_length=150, null=True, blank=True)
     operators_details = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    customer_service_representative = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
+    customer_service_representative = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Due Diligences Cleared Information'
@@ -132,6 +133,9 @@ class DueDiligencesCleared(models.Model):
     def save(self, *args, **kwargs):
         self.total_hours = self.calculate_total_hours()
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('')
 
     def __str__(self):
         return self.client_full_name + " of " + self.client_company_name

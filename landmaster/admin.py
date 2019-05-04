@@ -115,9 +115,9 @@ class DueDiligenceClearedProfile(admin.ModelAdmin):
     list_display = ('date_of_call', 'client_full_name', 'client_company_name', 'apn',
                     'call_in', 'call_out', 'total_hours', 'customer_service_representative')
     list_filter = ['client_full_name', 'client_company_name',
-                   'customer_service_representative__name']
+                   'customer_service_representative']
     search_fields = ('client_full_name', 'client_company_name',
-                     'customer_service_representative__name')
+                     'customer_service_representative')
     readonly_fields = ['total_hours']
     fieldsets = (
         ('Due Diligence Cleared Information', {

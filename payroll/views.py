@@ -12,6 +12,7 @@ from django.views.generic import TemplateView, View, ListView
 from django.views.generic.edit import CreateView
 
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -66,12 +67,11 @@ class PayrollView(LoginRequiredMixin, TemplateView):
         return render(request, self.template_name, context)
 
 
-class AddPayroll(CreateView):
+class AddPayroll(SuccessMessageMixin, CreateView):
     template_name = 'payroll/add_payroll.html'
     model = VaPayroll
     fields = ['date', 'virtual_assistant', 'time_in', 'time_out', 'client_name', 'rate']
     # form_class = PayrollCreateForm
-    success_url = 'payroll:view_payroll'
     success_message = "Successfully added a payroll."
 
     def form_valid(self, form):
@@ -79,7 +79,7 @@ class AddPayroll(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy("payroll:view_payroll")
+        return reverse_lazy("payroll:add_payroll")
 
 
 class PayrollFilters(FilterSet):

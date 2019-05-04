@@ -141,6 +141,9 @@
                               {% else %}
                               <li>
                                 <a href="{% url 'landmaster:view_due_diligence' %}">View Due Diligence work</a>
+                                <a href="{% url 'landmaster:view_due_diligence_tracker' %}">View Due Diligence Tracking Cleared</a>
+                                <a href="{% url 'landmaster:add_due_diligence_tracker' %}">Add Due Diligence
+                                  Tracker</a>
                               </li>
                               {% endif %}
                             </ul>

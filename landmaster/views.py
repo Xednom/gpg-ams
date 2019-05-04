@@ -2,13 +2,16 @@ from django import template
 from django.db.models import Q
 
 from django.views.generic import View, ListView, TemplateView
+from django.views.generic.edit import CreateView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
+from django.urls import reverse_lazy
 
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from .models import DueDiligence
+from .models import DueDiligence, DueDiligencesCleared
 
 from .serializers import DueDiligenceSerializer
 
@@ -29,6 +32,26 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 class AddDueDiligenceView(LoginRequiredMixin, ListView):
     model = DueDiligence
     template_name = 'landmaster/due_diligence.html'
+
+
+class AddDueDiligenceTrackerView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    template_name = 'landmaster/due_diligence_tracking.html'
+    model = DueDiligencesCleared
+    fields = ['date_of_call', 'client_full_name',
+              'client_company_name', 'apn', 'call_in', 'call_out',
+              'department_calling_about', 'contact_number', 'operators_details',
+              'notes']
+    success_message = "Successfully added Due Diligence Tracking Information."
+
+    def form_valid(self, form):
+        form.instance.customer_service_representative = self.request.user.staffs.full_name
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("landmaster:add_due_diligence_tracker")
+
+class DueDiligenceTrackingView(TemplateView):
+    template_name = 'landmaster/view_dd_tracking.html'
 
 
 class DueDiligenceView(LoginRequiredMixin, TemplateView):
