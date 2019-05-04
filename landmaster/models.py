@@ -1,8 +1,10 @@
 import uuid
 
+from decimal import Decimal
 from django.db import models
 
 from fillables.models import CompanyName, VirtualAssistant, ProjectManager
+from django.utils.timezone import now
 
 
 class TimeStampedModel(models.Model):
@@ -100,3 +102,36 @@ class DueDiligence(TimeStampedModel):
 
     def __str__(self):
         return str(self.company_name)
+
+
+class DueDiligencesCleared(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date_of_call = models.DateField(default=now, null=True, blank=True)
+    client_full_name = models.CharField(max_length=150, null=True, blank=True)
+    client_company_name = models.CharField(max_length=150, null=True, blank=True)
+    apn = models.CharField(max_length=150, null=True, blank=True)
+    call_in = models.DateTimeField(null=True, blank=True)
+    call_out = models.DateTimeField(null=True, blank=True)
+    total_hours = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    department_calling_about = models.CharField(max_length=150, null=True, blank=True)
+    contact_number = models.CharField(max_length=150, null=True, blank=True)
+    operators_details = models.TextField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+    customer_service_representative = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = 'Due Diligences Cleared Information'
+        verbose_name_plural = 'Due Diligences Cleared Informations'
+        ordering=['-date_of_call']
+
+    def calculate_total_hours(self):
+        worked_hours = (self.call_out - self.call_in).total_seconds() / 60 / 60
+        total_hours = Decimal(worked_hours)
+        return total_hours
+
+    def save(self, *args, **kwargs):
+        self.total_hours = self.calculate_total_hours()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.client_full_name + " of " + self.client_company_name
