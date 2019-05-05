@@ -1,7 +1,7 @@
 import datetime
 
 from rest_framework import serializers
-from .models import DueDiligence
+from .models import DueDiligence, DueDiligencesCleared
 
 from fillables.models import CompanyName, VirtualAssistant, ProjectManager
 
@@ -19,4 +19,13 @@ class DueDiligenceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DueDiligence
+        fields = '__all__'
+
+
+class DueDiligenceClearedSerializer(serializers.ModelSerializer):
+    call_in = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    call_out = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
+    class Meta:
+        model = DueDiligencesCleared
         fields = '__all__'

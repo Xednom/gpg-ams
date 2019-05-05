@@ -1,25 +1,12 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
 new Vue({
-    el: '#gpg-payroll',
+    el: '#gpg-due-diligence-tracker',
     delimiters: ['[[', ']]'],
     data: {
-        payrolls: [],
-        cashouts: [],
         loading: false,
-        currentPayroll: {},
-        message: null,
-        newPayroll: {
-            'date': null,
-            'virtual_assistant': null,
-            'time_in': null,
-            'time_out': null,
-            'hours': null,
-            'client_name': null,
-            'rate': null,
-            'salary': null,
-        },
-        search_term: '',
-        search_month: '',
+        saving: false,
+        duediligencestracking: [],
+        currentDueDiligencesTracking: [],
 
         // for pagination
         currentPage: 1,
@@ -30,64 +17,48 @@ new Vue({
         paginatedRecords: [],
     },
     mounted: function () {
-        // this.getPayroll();
-        this.setCurrentMonth();
-        this.searchMonthCashOut();
-        this.searchMonthPayroll();
-        this.showDateTime();
-        // this.getCashOut();
+        this.getDueDiligenceCleared();
     },
     methods: {
-        setCurrentMonth: function () {
-            let currentMonth = moment(new Date()).format("MM");
-            this.search_month = currentMonth;
-        },
-        getPayroll: function () {
+        getDueDiligenceCleared: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/payroll/`)
+            this.$http.get(`/api/v1/due-diligence-tracker/`)
                 .then((response) => {
+                    this.duediligencestracking = response.data;
                     this.loading = false;
-                    this.payrolls = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
                     console.log(err);
                 })
         },
-        searchAll: function (){
-            this.searchMonthPayroll();
-            this.searchMonthCashOut();
-        },
-        searchMonthPayroll: function () {
+        updateDueDiligenceCleared: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/payroll/?date__month=${this.search_month}`)
+            this.$http.put(`/api/v1/due-diligence-tracker/${this.currentDueDiligencesTracking.id}/`, this.currentDueDiligencesTracking)
                 .then((response) => {
                     this.loading = false;
-                    this.payrolls = response.data;
+                    this.currentDueDiligencesTracking = response.data;
+                    swal({
+                        title: "GPG system",
+                        text: "Successfully updated the data!",
+                        icon: "success",
+                        button: false,
+                        timer: 2000
+                    });
+                    $("#editModal").modal('hide')
+                    this.getDueDiligenceCleared();
                 })
                 .catch((err) => {
                     this.loading = false;
                     console.log(err);
                 })
         },
-        searchMonthCashOut: function () {
+        viewDueDiligenceCleared: function (id) {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/?date_release__month=${this.search_month}`)
+            this.$http.get(`/api/v1/due-diligence-tracker/${id}`)
                 .then((response) => {
                     this.loading = false;
-                    this.cashouts = response.data;
-                })
-                .catch((err) => {
-                    this.loading = false;
-                    console.log(err);
-                })
-        },
-        getCashOut: function () {
-            this.loading = true;
-            this.$http.get(`/api/v1/cashout/`)
-                .then((response) => {
-                    this.loading = false;
-                    this.cashouts = response.data;
+                    this.currentDueDiligencesTracking = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
@@ -96,7 +67,7 @@ new Vue({
         },
         getPaginatedRecords: function () {
             const startIndex = this.startIndex;
-            this.paginatedRecords = this.payrolls.slice().splice(startIndex, this.pageSize);
+            this.paginatedRecords = this.duediligencestracking.slice().splice(startIndex, this.pageSize);
         },
         goToPage: function (page) {
             if (page < 1) {
@@ -112,13 +83,13 @@ new Vue({
                 this.startPage = 1;
                 this.endPage = Math.min(this.totalPages, this.maxPages);
             } else {
-                let maxPagesBefireCurrentPage = Math.floor(this.maxPages / 2);
+                let maxPagesBeforeCurrentPage = Math.floor(this.maxPages / 2);
                 let maxPagesAfterCurrentPage = Math.ceil(this.maxPages / 2) - 1;
                 if (this.currentPage <= maxPagesBeforeCurrentPage) {
                     // current page near the start
                     this.startPage = 1;
                     this.endPage = this.maxPages;
-                } else if (thiscurrentPage + maxPagesAfterCurrentPage >= this.totalPages) {
+                } else if (this.currentPage + maxPagesAfterCurrentPage >= this.totalPages) {
                     // current page near the end
                     this.startPage = this.totalPages - this.maxPages + 1;
                     this.endPage = this.totalPages;
@@ -131,18 +102,18 @@ new Vue({
         }
     },
     watch: {
-        payrolls: function (newPayrollRecords, oldPayrollRecords) {
+        duediligencestracking: function (newduediligencestrackingRecords, oldduediligencestrackingRecords) {
             this.setPageGroup();
             this.getPaginatedRecords();
         },
-        currentPage: function (newCurrenPage, oldCurrentPage) {
+        currentPage: function (newCurrentPage, oldCurrentPage) {
             this.setPageGroup();
-            this.getPaginatedRecords();
+            this.getPaginatedRecords()
         },
     },
     computed: {
         totalItems: function () {
-            return this.payrolls.length;
+            return this.duediligencestracking.length;
         },
         totalPages: function () {
             return Math.ceil(this.totalItems / this.pageSize);
@@ -158,19 +129,5 @@ new Vue({
             for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
             return pages;
         },
-        totalSalary: function () {
-            return this.payrolls.reduce(function (sum, payrolls) {
-                return sum + parseFloat(payrolls.salary);
-            }, 0);
-        },
-        totalCashOuts: function() {
-            return this.cashouts.reduce(function (sum, cashouts) {
-                return sum + parseFloat(cashouts.amount);
-            }, 0);
-        },
-        totalDue: function() {
-            let sum = this.totalSalary - this.totalCashOuts;
-            return sum.toFixed(2);
-        }
-    }
-});
+    },
+})

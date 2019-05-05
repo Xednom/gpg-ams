@@ -5,161 +5,167 @@ GPG System | View Payroll
 {% block dashboard_notif %}
 {% endblock %}
     {% block content %}
-    <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header">
-                Payroll of {{ request.user.staffs.full_name }}
-            </h2>
-        </div>
-    </div>
-    <!-- Breadcrumbs-->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url 'users:home' %}">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">List of your Payroll</li>
-    </ol>
-    <div id="gpg-payroll" v-cloak>
-        <form method="GET" class="form-inline">
-            <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
-                <label>Choose a month:</label>
-                <select name="search" class="form-control" v-model="search_month">
-                    <option value="01">January</option>
-                    <option value="02">February</option>
-                    <option value="03">March</option>
-                    <option value="04">April</option>
-                    <option value="05">May</option>
-                    <option value="06">June</option>
-                    <option value="07">July</option>
-                    <option value="08">August</option>
-                    <option value="09">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                </select>
-                <button type="submit" class="btn btn-primary"
-                    v-on:click.prevent="searchAll">Search</button>
-            </div>
-        </form>
-        <div class="col-md-12 col-sm-12">
-            <div class="col-md-12 col-sm-12">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        Salary complete computations
-                    </div>
-                    <div class="panel-body">
-                        <h5 class="col-md-4 col-sm-12 pull-right">Total Salary: <strong>[[ totalSalary ]]</strong></h5>
-                        <h5 class="col-md-4 col-sm-12 pull-right">Total Cash Out: <strong>[[ totalCashOuts ]]</strong></h5>
-                        <h5 class="col-md-4 col-sm-12 pull-right">Total Due to the Staff/Employee: <strong>[[ totalDue ]]</strong></h5>
-                    </div>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">
+                        Payroll of {{ request.user.staffs.full_name }}
+                    </h2>
                 </div>
             </div>
-        </div>
-        <div id="content-wrapper">
-            <div class="col-md-12 col-sm-12">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        List of Payroll for <strong>{{ request.user.staffs.full_name }}</strong>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">List of your Payroll</li>
+            </ol>
+            <div id="gpg-payroll" v-cloak>
+                <form method="GET" class="form-inline">
+                    <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
+                        <label>Choose a month:</label>
+                        <select name="search" class="form-control" v-model="search_month">
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary" v-on:click.prevent="searchAll">Search</button>
                     </div>
-                    <div class="panel-body">
-                        <div class="alert alert-info text-center">
-                            Only the Payrolls that has the status of <strong>Approved by the Manager</strong> are shown
-                            here.
+                </form>
+                <div class="col-md-12 col-sm-12">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Salary complete computations
+                            </div>
+                            <div class="panel-body">
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Salary: <strong>[[ totalSalary
+                                        ]]</strong></h5>
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Cash Out: <strong>[[ totalCashOuts
+                                        ]]</strong></h5>
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Due to the Staff/Employee: <strong>[[
+                                        totalDue ]]</strong></h5>
+                            </div>
                         </div>
-                        <h4 class="pull-right">Total salary: [[ totalSalary ]]</h4>
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Client name</th>
-                                <th>Time In</th>
-                                <th>Time Out</th>
-                                <th>Total Hours</th>
-                                <th>Rate</th>
-                                <th>Salary</th>
-                                <th>Notes</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="15" class="text-center bg-warning" v-if="!payrolls.length">You don't
-                                        have any Payroll
-                                        as of now. Try working!</td>
-                                </tr>
-                                <tr v-for="(payrolls, i) in paginatedRecords">
-                                    <td>[[ payrolls.date ]]</td>
-                                    <td>[[ payrolls.virtual_assistant ]]</td>
-                                    <td>[[ payrolls.client_name ]]</td>
-                                    <td>[[ payrolls.time_in ]]</td>
-                                    <td>[[ payrolls.time_out ]]</td>
-                                    <td>[[ payrolls.hours ]]</td>
-                                    <td>[[ payrolls.rate ]]</td>
-                                    <td>[[ payrolls.salary ]]</td>
-                                    <td>[[ payrolls.notes ]]</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <!-- pagination -->
-                        <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
-                            <ul class="pagination justify-content-end">
-                                <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
-                                    <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
-                                        Previous
-                                    </a>
-                                </li>
-                                <li v-for="pageNumber in pages"
-                                    v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
-                                    <a class="page-link" v-on:click="goToPage(pageNumber)">
-                                        [[ pageNumber ]]
-                                    </a>
-                                </li>
-                                <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
-                                    <a class="page-link" v-on:click="goToPage(currentPage + 1)">
-                                        Next
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <!-- end of pagination -->
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12 col-sm-12">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        Cash out for {{ request.user.staffs.full_name }}
+                <div id="content-wrapper">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                List of Payroll for <strong>{{ request.user.staffs.full_name }}</strong>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert alert-info text-center">
+                                    Only the Payrolls that has the status of <strong>Approved by the Manager</strong>
+                                    are shown
+                                    here.
+                                </div>
+                                <h4 class="pull-right">Total salary: [[ totalSalary ]]</h4>
+                                <table class="table table-bordered table-hover table-responsive">
+                                    <thead>
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Client name</th>
+                                        <th>Time In</th>
+                                        <th>Time Out</th>
+                                        <th>Total Hours</th>
+                                        <th>Rate</th>
+                                        <th>Salary</th>
+                                        <th>Notes</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="15" class="text-center bg-warning" v-if="!payrolls.length">You
+                                                don't
+                                                have any Payroll
+                                                as of now. Try working!</td>
+                                        </tr>
+                                        <tr v-for="(payrolls, i) in paginatedRecords">
+                                            <td>[[ payrolls.date ]]</td>
+                                            <td>[[ payrolls.virtual_assistant ]]</td>
+                                            <td>[[ payrolls.client_name ]]</td>
+                                            <td>[[ payrolls.time_in ]]</td>
+                                            <td>[[ payrolls.time_out ]]</td>
+                                            <td>[[ payrolls.hours ]]</td>
+                                            <td>[[ payrolls.rate ]]</td>
+                                            <td>[[ payrolls.salary ]]</td>
+                                            <td>[[ payrolls.notes ]]</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in pages"
+                                            v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                            <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                                [[ pageNumber ]]
+                                            </a>
+                                        </li>
+                                        <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                            <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
+                            </div>
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        <h4 class="pull-right">Total cash out: [[ totalCashOuts ]]</h4>
-                        <h4></h4>
-                        <table class="table table-bordered table-hover table-responsive">
-                            <thead>
-                                <th>Date Release</th>
-                                <th>Amount</th>
-                                <th>Referrence</th>
-                                <th>Bank</th>
-                                <th>Approved By</th>
-                                <th>Purpose</th>
-                                <th>Notes</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="15" class="text-center bg-warning" v-if="!cashouts.length">You
-                                        don't
-                                        have any Cashout!</td>
-                                </tr>
-                                <tr v-for="cashout in cashouts">
-                                    <td>[[ cashout.date_release ]]</td>
-                                    <td>[[ cashout.amount ]]</td>
-                                    <td>[[ cashout.referrence ]]</td>
-                                    <td>[[ cashout.bank ]]</td>
-                                    <td>[[ cashout.approved_by ]]</td>
-                                    <td>[[ cashout.purpose ]]</td>
-                                    <td>[[ cashout.notes ]]</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <!-- pagination todo: will fix this one for the future reference --> 
-                        <!-- <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                Cash out for {{ request.user.staffs.full_name }}
+                            </div>
+                            <div class="panel-body">
+                                <h4 class="pull-right">Total cash out: [[ totalCashOuts ]]</h4>
+                                <h4></h4>
+                                <table class="table table-bordered table-hover table-responsive">
+                                    <thead>
+                                        <th>Date Release</th>
+                                        <th>Amount</th>
+                                        <th>Referrence</th>
+                                        <th>Bank</th>
+                                        <th>Approved By</th>
+                                        <th>Purpose</th>
+                                        <th>Notes</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="15" class="text-center bg-warning" v-if="!cashouts.length">You
+                                                don't
+                                                have any Cashout!</td>
+                                        </tr>
+                                        <tr v-for="cashout in cashouts">
+                                            <td>[[ cashout.date_release ]]</td>
+                                            <td>[[ cashout.amount ]]</td>
+                                            <td>[[ cashout.referrence ]]</td>
+                                            <td>[[ cashout.bank ]]</td>
+                                            <td>[[ cashout.approved_by ]]</td>
+                                            <td>[[ cashout.purpose ]]</td>
+                                            <td>[[ cashout.notes ]]</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- pagination todo: will fix this one for the future reference -->
+                                <!-- <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
                             <ul class="pagination justify-content-end">
                                 <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
                                     <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
@@ -179,13 +185,15 @@ GPG System | View Payroll
                                 </li>
                             </ul>
                         </nav> -->
-                        <!-- end of pagination -->
+                                <!-- end of pagination -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <!-- <div id="gpg-cashout">
         <div class="col-md-12 col-sm-12">
              <div class="panel panel-warning">

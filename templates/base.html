@@ -85,7 +85,7 @@
                             <a href="{% url 'users:home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-tasks fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                   <!-- {% if request.user.position == 'Senior Manager' %}
@@ -100,16 +100,20 @@
 
                                 <li>
                                     <li>
-                                      <a href="#">Job Request <span class="fa arrow"></span></a>
+                                      <a href="#"><i class="fa fa-list"></i> Job Request <span
+                                          class="fa arrow"></span></a>
                                         <ul class="nav nav-third-level">
                                           {% if request.user.is_client %}
                                             <li>
-                                                <a href="{% url 'jobrequest:add_job_request' %}">Add Job Request</a>
-                                                <a href="{% url 'jobrequest:update_job_request' %}">Update Job Request</a>
+                                                <a href="{% url 'jobrequest:add_job_request' %}"><i
+                                                    class="fa fa-plus"></i> Add Job Request</a>
+                                                <a href="{% url 'jobrequest:update_job_request' %}"><i
+                                                    class="fa fa-pencil"></i>Update Job Request</a>
                                             </li>
                                             {% elif request.user.is_staffs %}
                                             <li>
-                                                <a href="{% url 'jobrequest:update_job_request' %}">Update Job Request</a>
+                                                <a href="{% url 'jobrequest:update_job_request' %}"><i
+                                                    class="fa fa-pencil"></i> Update Job Request</a>
                                             </li>
                                             {% endif %}
                                         </ul>
@@ -135,12 +139,20 @@
                             <ul class="nav nav-third-level">
                               {% if request.user.is_client %}
                               <li>
-                                <a href="{% url 'landmaster:due_diligence' %}">Add Due Diligence work</a>
-                                <a href="{% url 'landmaster:view_due_diligence' %}">View Due Diligence work</a>
+                                <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due Diligence work</a>
+                                <a href="{% url 'landmaster:view_due_diligence_tracker' %}"> <i class="fa fa-eye"></i> View Due Diligence Tracking Cleared</a>
+                                <a href="{% url 'landmaster:view_due_diligence' %}"> <i class="fa fa-eye"></i> View Due
+                                  Diligence work</a>
                               </li>
                               {% else %}
                               <li>
-                                <a href="{% url 'landmaster:view_due_diligence' %}">View Due Diligence work</a>
+                                <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due
+                                  Diligence work</a>
+                                <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i
+                                    class="fa fa-eye"></i> View Due Diligence Tracking
+                                  Cleared</a>
+                                <a href="{% url 'landmaster:add_due_diligence_tracker' %}"> <i class="fa fa-plus"></i> Add Due Diligence
+                                  Tracker</a>
                               </li>
                               {% endif %}
                             </ul>
@@ -264,6 +276,7 @@
           <script src="{% static 'vuejs/client.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/jobRequest.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/landmaster.js' %}" type="text/javascript"></script>
+          <script src="{% static 'vuejs/dd_tracking_cleared.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/logins.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/payroll.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/cashout.js' %}" type="text/javascript"></script>

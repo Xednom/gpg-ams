@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block title %}GPG System | View Due Diligence Tracking Infos{% endblock %}
+
+{% block content %}
+<div id="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <h4 class="page-header">
+                    View Due Diligence Tracking Cleared Informations
+                </h4>
+            </div>
+        </div>
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'users:home' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">List of Due Diligence Tracking Cleared</li>
+        </ol>
+        <div id="gpg-due-diligence-tracker" v-cloak>
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        List of Due Diligence Tracking Cleared Informations
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered table hovered table-responsive">
+                            <thead>
+                                <th>Date Of Call</th>
+                                <th>Client Name</th>
+                                <th>Client Company Name</th>
+                                <th>APN</th>
+                                <th>Call In</th>
+                                <th>Call Out</th>
+                                <th>Total Hours</th>
+                                <th>Department Calling About</th>
+                                <th>Contact Number</th>
+                                <th>Customer Service Representative</th>
+                                <th>Action</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="15" class="text-center bg-warning" v-if="!duediligencestracking.length">
+                                        You don't have any Due Diligence Tracking Cleared Infos as of now.
+                                    </td>
+                                </tr>
+                                <tr v-for="(duediligencestracking, i) in paginatedRecords">
+                                    <td>[[ duediligencestracking.date_of_call ]]</td>
+                                    <td>[[ duediligencestracking.client_full_name ]]</td>
+                                    <td>[[ duediligencestracking.client_company_name ]]</td>
+                                    <td>[[ duediligencestracking.apn ]]</td>
+                                    <td>[[ duediligencestracking.call_in ]]</td>
+                                    <td>[[ duediligencestracking.call_out ]]</td>
+                                    <td>[[ duediligencestracking.total_hours ]]</td>
+                                    <td>[[ duediligencestracking.department_calling_about ]]</td>
+                                    <td>[[ duediligencestracking.contact_number ]]</td>
+                                    <td>[[ duediligencestracking.customer_service_representative ]]</td>
+                                    <td><button class="btn btn-primary btn-sm" type="button" data-toggle="modal"
+                                            data-target="#editModal"
+                                            v-on:click="viewDueDiligenceCleared(duediligencestracking.id)">View</button>
+                                            </td>
+                                </tr> 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                   <form v-on:submit.prevent="updateDueDiligenceCleared()">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Due Diligence Tracking Cleared Information for [[
+                                    currentDueDiligencesTracking.client_full_name ]]</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="panel panel-success">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label>Date of Call</label>
+                                                <input type="date" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.date_of_call"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                            </div>
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label>Client Name</label>
+                                                <input type="text" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.client_full_name"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                            </div>
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label>Client Company Name</label>
+                                                <input type="text" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.client_company_name"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                            </div>
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label>APN</label>
+                                                <input type="text" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.apn"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                            </div>
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label>Call In</label>
+                                                <input type="datetime-local" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.call_in"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                            </div>
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label>Call Out</label>
+                                                <input type="datetime-local" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.call_out"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                            </div>
+                                            <div class="form-group col-md-2 col-sm-12">
+                                                <label>Total Hours</label>
+                                                <input type="text" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.total_hours"
+                                                    disabled>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label>Department Calling About</label>
+                                                <input type="text" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.department_calling_about"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                            </div>
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label>Contact Number</label>
+                                                <input type="text" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.contact_number"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                            </div>
+                                            <div class="form-group col-md-12 col-sm-12">
+                                                <label>Operator's Details</label>
+                                                <textarea cols="30" rows="10" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.operators_details"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}></textarea>
+                                            </div>
+                                            <div class="form-group col-md-12 col-sm-12">
+                                                <label>Notes</label>
+                                                <textarea cols="30" rows="10"
+                                                class="form-control"
+                                                v-model="currentDueDiligencesTracking.notes"
+                                                {% if request.user.is_client %}disabled{% else %}{% endif %}></textarea>
+                                            </div>
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label>Customer Service Representative</label>
+                                                <input type="text" class="form-control"
+                                                v-model="currentDueDiligencesTracking.customer_service_representative"
+                                                disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                {% if request.user.is_client %}
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                {% elif request.user.staffs %}
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                {% endif %}
+                                
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </form>
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+        </div>
+    </div>
+</div>
+{% endblock %}
