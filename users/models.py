@@ -54,10 +54,10 @@ class Staffs(models.Model):
     residential_address = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=100, choices=STATUS, null=True, blank=True)
-    bank_name = models.CharField(max_length=150)
-    bank_account_name = models.CharField(max_length=150)
-    bank_type = models.CharField(max_length=150)
-    bank_account_number = models.CharField(max_length=150)
+    bank_name = models.CharField(max_length=150, null=True, blank=True)
+    bank_account_name = models.CharField(max_length=150, null=True, blank=True)
+    bank_type = models.CharField(max_length=150, null=True, blank=True)
+    bank_account_number = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
         verbose_name = "List of Staff"

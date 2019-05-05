@@ -9,6 +9,8 @@ from fillables.models import VirtualAssistant
 
 class VaPayrollSerializer(serializers.ModelSerializer):
     total_salary = serializers.SerializerMethodField()
+    time_in = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    time_out = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = VaPayroll

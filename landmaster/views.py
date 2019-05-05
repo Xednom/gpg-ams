@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import DueDiligence, DueDiligencesCleared
 
-from .serializers import DueDiligenceSerializer
+from .serializers import DueDiligenceSerializer, DueDiligenceClearedSerializer
 
 register = template.Library()
 
@@ -73,3 +73,18 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         return serializer.save(company_name=self.request.user.clients.company_name)
+
+
+class DueDiligenceTrackerViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = (DueDiligenceClearedSerializer)
+
+    def get_queryset(self):
+        queryset = DueDiligencesCleared.objects.filter(Q(client_full_name=self.request.user.clients.full_name) |
+                                                       Q(client_company_name=self.request.user.clients.company_name) |
+                                                       Q(customer_service_representative=self.request.user.staffs.full_name))
+        return queryset
+    
+    def perform_create(self, serializer):
+        return serializer.save(customer_service_representative=self.request.user.staffs.full_name)
