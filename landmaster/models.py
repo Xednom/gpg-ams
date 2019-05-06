@@ -91,6 +91,11 @@ class DueDiligence(TimeStampedModel):
     notes_from_the_client = models.TextField(null=True, blank=True)
     notes_from_the_quality_specialist = models.TextField(null=True, blank=True)
     notes_from_the_virtual_assistant = models.TextField(null=True, blank=True)
+    notes_on_zoning = models.TextField(null=True, blank=True)
+    notes_on_utilities = models.TextField(null=True, blank=True) 
+    notes_on_tax = models.TextField(null=True, blank=True)
+    notes_on_legal_description = models.TextField(null=True, blank=True)
+    notes_on_deeds = models.TextField(null=True, blank=True)
     dd_team_assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
                                             verbose_name="DD Team Assigned VA")
     project_manager = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)

@@ -42,7 +42,6 @@ GPG System | View Due Diligence
                                         <th>Company Name</th>
                                         <th>Company Owner</th>
                                         <th>Parcel Number</th>
-                                        <th>Account number</th>
                                         <th>Project Manager</th>
                                         <th>VA assigned</th>
                                         <th>Status</th>
@@ -60,7 +59,6 @@ GPG System | View Due Diligence
                                         <td>[[ dueDiligences.company_name ]]</td>
                                         <td>[[ dueDiligences.company_owner_or_requestor ]]</td>
                                         <td>[[ dueDiligences.parcel_number ]]</td>
-                                        <td>[[ dueDiligences.account_number ]]</td>
                                         <td>[[ dueDiligences.project_manager ]]</td>
                                         <td>[[ dueDiligences.dd_team_assigned_va ]]</td>
                                         <td>[[ dueDiligences.status_of_dd ]]</td>
@@ -488,7 +486,37 @@ GPG System | View Due Diligence
                                                         <div class="form-group col-md-12 col-sm-12">
                                                             <label>Notes from the Virtual Assistant</label>
                                                             <textarea cols="30" rows="10" class="form-control"
-                                                                v-model="currentDueDiligence.notes_from_land_master_team"
+                                                                v-model="currentDueDiligence.notes_from_the_virtual_assistant"
+                                                                {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}></textarea>
+                                                        </div>
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Notes on Zoning</label>
+                                                            <textarea cols="30" rows="10" class="form-control"
+                                                                v-model="currentDueDiligence.notes_on_zoning"
+                                                                {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}></textarea>
+                                                        </div>
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Notes on Utilities</label>
+                                                            <textarea cols="30" rows="10" class="form-control"
+                                                                v-model="currentDueDiligence.notes_on_utilities"
+                                                                {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}></textarea>
+                                                        </div>
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Notes on Tax</label>
+                                                            <textarea cols="30" rows="10" class="form-control"
+                                                                v-model="currentDueDiligence.notes_on_tax"
+                                                                {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}></textarea>
+                                                        </div>
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Notes on Legal Description</label>
+                                                            <textarea cols="30" rows="10" class="form-control"
+                                                                v-model="currentDueDiligence.notes_on_legal_description"
+                                                                {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}></textarea>
+                                                        </div>
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <label>Notes on Deeds</label>
+                                                            <textarea cols="30" rows="10" class="form-control"
+                                                                v-model="currentDueDiligence.notes_on_deeds"
                                                                 {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}></textarea>
                                                         </div>
                                                         <div class="form-group col-md-4 col-sm-12">
