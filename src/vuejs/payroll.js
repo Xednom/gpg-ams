@@ -34,7 +34,6 @@ new Vue({
         this.setCurrentMonth();
         this.searchMonthCashOut();
         this.searchMonthPayroll();
-        this.showDateTime();
         // this.getCashOut();
     },
     methods: {

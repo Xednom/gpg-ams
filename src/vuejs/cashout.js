@@ -25,7 +25,6 @@ new Vue({
         setCurrentMonth: function () {
             let currentMonth = moment(new Date()).format("MM");
             this.search_month = currentMonth;
-            console.log(currentMonth);
         },
         getCashOut: function () {
             this.loading = true;
