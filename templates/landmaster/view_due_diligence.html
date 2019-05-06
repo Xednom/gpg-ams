@@ -31,43 +31,46 @@ GPG System | View Due Diligence
                         Assigned Due Diligence work to Land Master Team
                     </div>
                     <div class="panel-body">
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Date Requested</th>
-                                    <th>Due Date</th>
-                                    <th>Date Completed</th>
-                                    <th>Company Name</th>
-                                    <th>Company Owner</th>
-                                    <th>Parcel Number</th>
-                                    <th>Account number</th>
-                                    <th>Project Manager</th>
-                                    <th>VA assigned</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="14" class="text-center bg-warning" v-if="!dueDiligences.length">You have no Due Diligence work assigned to the Land Master Team.</td>
-                                </tr>
-                                <tr class="odd gradeX" v-for="(dueDiligences, i) in paginatedRecords">
-                                    <td>[[ dueDiligences.date_requested ]]</td>
-                                    <td>[[ dueDiligences.due_date ]]</td>
-                                    <td>[[ dueDiligences.date_completed ]]</td>
-                                    <td>[[ dueDiligences.company_name ]]</td>
-                                    <td>[[ dueDiligences.company_owner_or_requestor ]]</td>
-                                    <td>[[ dueDiligences.parcel_number ]]</td>
-                                    <td>[[ dueDiligences.account_number ]]</td>
-                                    <td>[[ dueDiligences.project_manager ]]</td>
-                                    <td>[[ dueDiligences.dd_team_assigned_va ]]</td>
-                                    <td>[[ dueDiligences.status_of_dd ]]</td>
-                                    <td><button class="btn btn-primary" type="button" data-toggle="modal"
-                                            data-target="#editModal"
-                                            v-on:click="viewDueDiligence(dueDiligences.id)">View</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div style="overflow-x: auto;">
+
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date Requested</th>
+                                        <th>Due Date</th>
+                                        <th>Date Completed</th>
+                                        <th>Company Name</th>
+                                        <th>Company Owner</th>
+                                        <th>Parcel Number</th>
+                                        <th>Account number</th>
+                                        <th>Project Manager</th>
+                                        <th>VA assigned</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="14" class="text-center bg-warning" v-if="!dueDiligences.length">You have no Due Diligence work assigned to the Land Master Team.</td>
+                                    </tr>
+                                    <tr class="odd gradeX" v-for="(dueDiligences, i) in paginatedRecords">
+                                        <td>[[ dueDiligences.date_requested ]]</td>
+                                        <td>[[ dueDiligences.due_date ]]</td>
+                                        <td>[[ dueDiligences.date_completed ]]</td>
+                                        <td>[[ dueDiligences.company_name ]]</td>
+                                        <td>[[ dueDiligences.company_owner_or_requestor ]]</td>
+                                        <td>[[ dueDiligences.parcel_number ]]</td>
+                                        <td>[[ dueDiligences.account_number ]]</td>
+                                        <td>[[ dueDiligences.project_manager ]]</td>
+                                        <td>[[ dueDiligences.dd_team_assigned_va ]]</td>
+                                        <td>[[ dueDiligences.status_of_dd ]]</td>
+                                        <td><button class="btn btn-primary" type="button" data-toggle="modal"
+                                                data-target="#editModal"
+                                                v-on:click="viewDueDiligence(dueDiligences.id)">View</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <!-- pagination -->
                         <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
                             <ul class="pagination justify-content-end">

@@ -25,44 +25,47 @@
                         List of Due Diligence Tracking Cleared Informations
                     </div>
                     <div class="panel-body">
-                        <table class="table table-bordered table hovered table-responsive">
-                            <thead>
-                                <th>Date Of Call</th>
-                                <th>Client Name</th>
-                                <th>Client Company Name</th>
-                                <th>APN</th>
-                                <th>Call In</th>
-                                <th>Call Out</th>
-                                <th>Total Hours</th>
-                                <th>Department Calling About</th>
-                                <th>Contact Number</th>
-                                <th>Customer Service Representative</th>
-                                <th>Action</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="15" class="text-center bg-warning" v-if="!duediligencestracking.length">
-                                        You don't have any Due Diligence Tracking Cleared Infos as of now.
-                                    </td>
-                                </tr>
-                                <tr v-for="(duediligencestracking, i) in paginatedRecords">
-                                    <td>[[ duediligencestracking.date_of_call ]]</td>
-                                    <td>[[ duediligencestracking.client_full_name ]]</td>
-                                    <td>[[ duediligencestracking.client_company_name ]]</td>
-                                    <td>[[ duediligencestracking.apn ]]</td>
-                                    <td>[[ duediligencestracking.call_in ]]</td>
-                                    <td>[[ duediligencestracking.call_out ]]</td>
-                                    <td>[[ duediligencestracking.total_hours ]]</td>
-                                    <td>[[ duediligencestracking.department_calling_about ]]</td>
-                                    <td>[[ duediligencestracking.contact_number ]]</td>
-                                    <td>[[ duediligencestracking.customer_service_representative ]]</td>
-                                    <td><button class="btn btn-primary btn-sm" type="button" data-toggle="modal"
-                                            data-target="#editModal"
-                                            v-on:click="viewDueDiligenceCleared(duediligencestracking.id)">View</button>
-                                            </td>
-                                </tr> 
-                            </tbody>
-                        </table>
+                        <div style="overflow-x:auto;">
+                            
+                            <table class="table table-bordered table hovered table-responsive">
+                                <thead>
+                                    <th>Date Of Call</th>
+                                    <th>Client Name</th>
+                                    <th>Client Company Name</th>
+                                    <th>APN</th>
+                                    <th>Call In</th>
+                                    <th>Call Out</th>
+                                    <th>Total Hours</th>
+                                    <th>Department Calling About</th>
+                                    <th>Contact Number</th>
+                                    <th>Customer Service Representative</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="15" class="text-center bg-warning" v-if="!duediligencestracking.length">
+                                            You don't have any Due Diligence Tracking Cleared Infos as of now.
+                                        </td>
+                                    </tr>
+                                    <tr v-for="(duediligencestracking, i) in paginatedRecords">
+                                        <td>[[ duediligencestracking.date_of_call ]]</td>
+                                        <td>[[ duediligencestracking.client_full_name ]]</td>
+                                        <td>[[ duediligencestracking.client_company_name ]]</td>
+                                        <td>[[ duediligencestracking.apn ]]</td>
+                                        <td>[[ duediligencestracking.call_in ]]</td>
+                                        <td>[[ duediligencestracking.call_out ]]</td>
+                                        <td>[[ duediligencestracking.total_hours ]]</td>
+                                        <td>[[ duediligencestracking.department_calling_about ]]</td>
+                                        <td>[[ duediligencestracking.contact_number ]]</td>
+                                        <td>[[ duediligencestracking.customer_service_representative ]]</td>
+                                        <td><button class="btn btn-primary btn-sm" type="button" data-toggle="modal"
+                                                data-target="#editModal"
+                                                v-on:click="viewDueDiligenceCleared(duediligencestracking.id)">View</button>
+                                                </td>
+                                    </tr> 
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

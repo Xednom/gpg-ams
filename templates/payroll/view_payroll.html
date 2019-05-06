@@ -71,39 +71,43 @@ GPG System | View Payroll
                                     are shown
                                     here.
                                 </div>
+                                <div style="overflow-x:auto;">
                                 <h4 class="pull-right">Total salary: [[ totalSalary ]]</h4>
-                                <table class="table table-bordered table-hover table-responsive">
-                                    <thead>
-                                        <th>Date</th>
-                                        <th>Name</th>
-                                        <th>Client name</th>
-                                        <th>Time In</th>
-                                        <th>Time Out</th>
-                                        <th>Total Hours</th>
-                                        <th>Rate</th>
-                                        <th>Salary</th>
-                                        <th>Notes</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="15" class="text-center bg-warning" v-if="!payrolls.length">You
-                                                don't
-                                                have any Payroll
-                                                as of now. Try working!</td>
-                                        </tr>
-                                        <tr v-for="(payrolls, i) in paginatedRecords">
-                                            <td>[[ payrolls.date ]]</td>
-                                            <td>[[ payrolls.virtual_assistant ]]</td>
-                                            <td>[[ payrolls.client_name ]]</td>
-                                            <td>[[ payrolls.time_in ]]</td>
-                                            <td>[[ payrolls.time_out ]]</td>
-                                            <td>[[ payrolls.hours ]]</td>
-                                            <td>[[ payrolls.rate ]]</td>
-                                            <td>[[ payrolls.salary ]]</td>
-                                            <td>[[ payrolls.notes ]]</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <th>Date</th>
+                                            <th>Name</th>
+                                            <th>Client name</th>
+                                            <th>Time In</th>
+                                            <th>Time Out</th>
+                                            <th>Total Hours</th>
+                                            <th>Rate</th>
+                                            <th>Salary</th>
+                                            <th>Notes</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="15" class="text-center bg-warning" v-if="!payrolls.length">
+                                                    You
+                                                    don't
+                                                    have any Payroll
+                                                    as of now. Try working!</td>
+                                            </tr>
+                                            <tr v-for="(payrolls, i) in paginatedRecords">
+                                                <td>[[ payrolls.date ]]</td>
+                                                <td>[[ payrolls.virtual_assistant ]]</td>
+                                                <td>[[ payrolls.client_name ]]</td>
+                                                <td>[[ payrolls.time_in ]]</td>
+                                                <td>[[ payrolls.time_out ]]</td>
+                                                <td>[[ payrolls.hours ]]</td>
+                                                <td>[[ payrolls.rate ]]</td>
+                                                <td>[[ payrolls.salary ]]</td>
+                                                <td>[[ payrolls.notes ]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
                                 <!-- pagination -->
                                 <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
                                     <ul class="pagination justify-content-end">
@@ -135,35 +139,37 @@ GPG System | View Payroll
                                 Cash out for {{ request.user.staffs.full_name }}
                             </div>
                             <div class="panel-body">
-                                <h4 class="pull-right">Total cash out: [[ totalCashOuts ]]</h4>
-                                <h4></h4>
-                                <table class="table table-bordered table-hover table-responsive">
-                                    <thead>
-                                        <th>Date Release</th>
-                                        <th>Amount</th>
-                                        <th>Referrence</th>
-                                        <th>Bank</th>
-                                        <th>Approved By</th>
-                                        <th>Purpose</th>
-                                        <th>Notes</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="15" class="text-center bg-warning" v-if="!cashouts.length">You
-                                                don't
-                                                have any Cashout!</td>
-                                        </tr>
-                                        <tr v-for="cashout in cashouts">
-                                            <td>[[ cashout.date_release ]]</td>
-                                            <td>[[ cashout.amount ]]</td>
-                                            <td>[[ cashout.referrence ]]</td>
-                                            <td>[[ cashout.bank ]]</td>
-                                            <td>[[ cashout.approved_by ]]</td>
-                                            <td>[[ cashout.purpose ]]</td>
-                                            <td>[[ cashout.notes ]]</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div style="overflow-x:auto;">
+                                    <h4 class="pull-right">Total cash out: [[ totalCashOuts ]]</h4>
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <th>Date Release</th>
+                                            <th>Amount</th>
+                                            <th>Referrence</th>
+                                            <th>Bank</th>
+                                            <th>Approved By</th>
+                                            <th>Purpose</th>
+                                            <th>Notes</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="15" class="text-center bg-warning" v-if="!cashouts.length">
+                                                    You
+                                                    don't
+                                                    have any Cashout!</td>
+                                            </tr>
+                                            <tr v-for="cashout in cashouts">
+                                                <td>[[ cashout.date_release ]]</td>
+                                                <td>[[ cashout.amount ]]</td>
+                                                <td>[[ cashout.referrence ]]</td>
+                                                <td>[[ cashout.bank ]]</td>
+                                                <td>[[ cashout.approved_by ]]</td>
+                                                <td>[[ cashout.purpose ]]</td>
+                                                <td>[[ cashout.notes ]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <!-- pagination todo: will fix this one for the future reference -->
                                 <!-- <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
                             <ul class="pagination justify-content-end">
