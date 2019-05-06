@@ -23,8 +23,8 @@ class DueDiligenceSerializer(serializers.ModelSerializer):
 
 
 class DueDiligenceClearedSerializer(serializers.ModelSerializer):
-    call_in = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
-    call_out = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    call_in = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    call_out = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
 
     class Meta:
         model = DueDiligencesCleared
