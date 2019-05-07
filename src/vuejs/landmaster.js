@@ -68,6 +68,11 @@ new Vue({
             'notes_from_the_client': "",
             'notes_from_the_quality_specialist': "",
             'notes_from_the_virtual_assistant': "",
+            'notes_on_zoning': "",
+            'notes_on_utilities': "",
+            'notes_on_tax': "",
+            'notes_on_legal_description': "",
+            'notes_on_deeds': "",
             'dd_team_assigned_va': "",
             'project_manager': "",
             'total_minutes_hours_duration': "",
@@ -169,6 +174,13 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
+                    swal({
+                        title: "GPG System",
+                        text: JSON.stringify(err.body),
+                        icon: "error",
+                        buttons: false,
+                        timer: 3000,
+                    });
                     console.log(err);
                 })
         },

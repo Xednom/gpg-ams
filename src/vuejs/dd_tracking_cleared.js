@@ -50,6 +50,12 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
+                    swal({
+                        title: "GPG System",
+                        text: JSON.stringify(err.body),
+                        icon: "error",
+                        buttons: "Ok",
+                    });
                     console.log(err);
                 })
         },
