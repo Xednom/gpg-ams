@@ -174,6 +174,13 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
+                    swal({
+                        title: "GPG System",
+                        text: JSON.stringify(err.body),
+                        icon: "error",
+                        buttons: false,
+                        timer: 3000,
+                    });
                     console.log(err);
                 })
         },

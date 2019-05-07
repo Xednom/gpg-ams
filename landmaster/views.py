@@ -64,11 +64,24 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
     serializer_class = DueDiligenceSerializer
 
     def get_queryset(self):
-        owner = self.request.user.clients.full_name
-        user = self.request.user.staffs.full_name
-        queryset = DueDiligence.objects.filter(Q(company_owner_or_requestor=owner) |
-                                               Q(project_manager__project_manager=user) |
-                                               Q(dd_team_assigned_va__name=user))
+        user = self.request.user.staffs.position
+        queryset = DueDiligence.objects.filter(Q(company_owner_or_requestor=self.request.user.clients.full_name) |
+                                               Q(dd_team_assigned_va__name=self.request.user.staffs.full_name) | 
+                                               Q(project_manager__project_manager=self.request.user.staffs.full_name))
+        if user == 'Project Managers':
+            queryset = DueDiligence.objects.filter(Q(project_manager__project_manager=self.request.user.staffs.full_name),
+                                                   Q(status_of_dd="Sent to Project Manager") |
+                                                   Q(status_of_dd="Project Managers Review") |
+                                                   Q(status_of_dd="Sent to VA") |
+                                                   Q(status_of_dd="VA Processing") |
+                                                   Q(status_of_dd="Sent to Quality Specialist"))
+        elif user == 'General Administrative Support':
+            queryset = DueDiligence.objects.filter(Q(dd_team_assigned_va__name=self.request.user.staffs.full_name),
+                                                   Q(status_of_dd="Sent to Project Manager") |
+                                                   Q(status_of_dd="Project Managers Review") |
+                                                   Q(status_of_dd="Sent to VA") |
+                                                   Q(status_of_dd="VA Processing") |
+                                                   Q(status_of_dd="Sent to Quality Specialist"))
         return queryset
 
     def perform_create(self, serializer):
