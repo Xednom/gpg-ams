@@ -33,6 +33,7 @@ LOCAL_APPS = (
     'payroll',
     'reminders',
     'callmeinventory',
+    'companyexpenses',
 )
 
 DJANGO_APPS = (
