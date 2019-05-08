@@ -64,7 +64,6 @@ new Vue({
             'power': "",
             'gas': "",
             'waste': "",
-            'date_completed': "",
             'notes_from_the_client': "",
             'notes_from_the_quality_specialist': "",
             'notes_from_the_virtual_assistant': "",
@@ -153,6 +152,12 @@ new Vue({
                 })
                 .catch((err) => {
                     this.saving = false;
+                    swal({
+                        title: "GPG System",
+                        text: JSON.stringify(err.body),
+                        icon: "error",
+                        buttons: "Ok",
+                    })
                     console.log(err);
                 })
         },
