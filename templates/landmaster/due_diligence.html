@@ -264,7 +264,8 @@ GPG System | Due Diligence
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Reorder/Clerk Website</label>
                                         <div class="col-md-4 col-sm-12">
-                                            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.reorder_clerk_website"
+                                            <input type="text" class="form-control form-control-sm"
+                                                v-model="newDueDiligence.recorder_clerk_website"
                                                 :disabled="loading == true">
                                         </div>
                                     </div>
@@ -290,7 +291,7 @@ GPG System | Due Diligence
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Planning Department Website</label>
+                                        <label class="col-sm-2 col-form-label">Planning Department Contact</label>
                                         <div class="col-md-4 col-sm-12">
                                             <input type="text" class="form-control form-control-sm"
                                                 v-model="newDueDiligence.planning_department_contact" :disabled="loading == true">
@@ -734,6 +735,30 @@ GPG System | Due Diligence
                                     <button type="button" class="btn btn-primary btn-xs pull-right" href="#county-data"
                                         data-toggle="tab">Change info</button>
                                     <hr>
+                                    <div class="error" v-if="errored">
+                                        <div class="alert alert-danger" role="alert">
+                                            <i class="fa fa-times-circle"></i>
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                                            <div class="text-center" v-if="errorduediligence.assessor_website">
+                                                <label>Assessor Website: Please enter a Valid URL</label>
+                                            </div>
+                                            <div class="text-center" v-if="errorduediligence.treasurer_website">
+                                                <label>Treasurer Website: Please enter a valid URL.</label>
+                                            </div>
+                                            <div class="text-center" v-if="errorduediligence.recorder_clerk_website">
+                                                <label>Reorder/Clerk Website: Please enter a valid URL.</label>
+                                            </div>
+                                            <div class="text-center" v-if="errorduediligence.zoning_department_website">
+                                                <label>Zoning Department Website: Please enter a valid URL.</label>
+                                            </div>
+                                            <div class="text-center" v-if="errorduediligence.gis_website">
+                                                <label>GIS Website Please enter a valid URL.</label>
+                                            </div>
+                                            <div class="text-center" v-if="errorduediligence.cad_website">
+                                                <label>CAD Website: Please enter a valid URL.</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Assessor Website:</label>
                                         <div class="col-md-2 col-sm-12">
@@ -749,7 +774,7 @@ GPG System | Due Diligence
                                     <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Reorder/Clerk Website:</label>
                                         <div class="col-md-2 col-sm-12">
-                                            <label>[[ newDueDiligence.reorder_clerk_website ]]</label>
+                                            <label>[[ newDueDiligence.recorder_clerk_website ]]</label>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -771,7 +796,7 @@ GPG System | Due Diligence
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label">Planning Department Website:</label>
+                                        <label class="col-sm-2 col-form-label">Planning Department Contact:</label>
                                         <div class="col-md-2 col-sm-12">
                                             <label>[[ newDueDiligence.planning_department_contact ]]</label>
                                         </div>
