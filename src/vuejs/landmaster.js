@@ -5,11 +5,13 @@ new Vue({
     data: {
         loading: false,
         saving: false,
+        errored: false,
         dueDiligences: [],
         clientNames: [],
         virtualAssistants: [],
         projectManagers: [],
         currentDueDiligence: [],
+        errorduediligence: [],
         newDueDiligence: {
             'date_requested': null,
             'company_name': "",
@@ -152,13 +154,15 @@ new Vue({
                 })
                 .catch((err) => {
                     this.saving = false;
+                    this.errored = true;
                     swal({
                         title: "GPG System",
-                        text: JSON.stringify(err.body),
+                        text: "Please check the summaries of your request. If the problem persist, please contact the admin.",
                         icon: "error",
                         buttons: "Ok",
                     })
-                    console.log(err);
+                    this.errorduediligence = err.body;
+                    console.log(err.bodyText);
                 })
         },
         updateDueDiligence: function () {

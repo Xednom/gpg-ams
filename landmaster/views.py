@@ -65,9 +65,7 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user.staffs.position
-        queryset = DueDiligence.objects.filter(Q(company_owner_or_requestor=self.request.user.clients.full_name) |
-                                               Q(dd_team_assigned_va__name=self.request.user.staffs.full_name) | 
-                                               Q(project_manager__project_manager=self.request.user.staffs.full_name))
+        is_client = self.request.user.clients
         if user == 'Project Managers':
             queryset = DueDiligence.objects.filter(Q(project_manager__project_manager=self.request.user.staffs.full_name),
                                                    Q(status_of_dd="Sent to Project Manager") |
@@ -82,6 +80,8 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
                                                    Q(status_of_dd="Sent to VA") |
                                                    Q(status_of_dd="VA Processing") |
                                                    Q(status_of_dd="Sent to Quality Specialist"))
+        elif is_client:
+            queryset = DueDiligence.objects.filter(company_owner_or_requestor=self.request.user.clients.full_name)
         return queryset
 
     def perform_create(self, serializer):
@@ -94,8 +94,8 @@ class DueDiligenceTrackerViewSet(viewsets.ModelViewSet):
     serializer_class = (DueDiligenceClearedSerializer)
 
     def get_queryset(self):
-        queryset = DueDiligencesCleared.objects.filter(Q(client_full_name=self.request.user.clients.full_name) |
-                                                       Q(client_company_name=self.request.user.clients.company_name) |
+        queryset = DueDiligencesCleared.objects.filter(Q(client_full_name=self.request.user.clients.full_name) &
+                                                       Q(client_company_name=self.request.user.clients.company_name) &
                                                        Q(customer_service_representative=self.request.user.staffs.full_name))
         return queryset
     
