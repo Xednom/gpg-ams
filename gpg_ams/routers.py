@@ -13,6 +13,7 @@ from jobrequest.views import JobRequestViewSet, JobRequestTitleViewSet
 from reporting.views import ReportingViewSet
 from logins.views import LoginsViewSet
 from payroll.views import PayrollViewSet, PayrollCashOutViewSet
+from clienttimesheet.views import TimeSheetViewSet, PaymentMadeViewSet
 
 
 router = routers.DefaultRouter()
@@ -31,3 +32,5 @@ router.register(r'due-diligence-tracker', DueDiligenceTrackerViewSet, base_name=
 router.register(r'logins', LoginsViewSet, base_name='Logins')
 router.register(r'payroll', PayrollViewSet, base_name='Payroll')
 router.register(r'cashout', PayrollCashOutViewSet, base_name='CashOut')
+router.register(r'timesheet', TimeSheetViewSet, base_name='TimeSheet')
+router.register(r'paymentmade', PaymentMadeViewSet, base_name='PaymentMade')
