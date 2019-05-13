@@ -65,6 +65,7 @@ class TimeSheet(models.Model):
 
 class PaymentMade(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    client_name = models.CharField(max_length=150, null=True, blank=True)
     date = models.DateField(default=now, null=True, blank=True, help_text="Date the payment made.")
     amount = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     reference = models.CharField(max_length=150, null=True, blank=True)
