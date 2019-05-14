@@ -59,7 +59,7 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
         client = self.request.user.clients.full_name
         va = self.request.user.staffs.full_name
         current_year = datetime.date.today().year
-        queryset = TimeSheet.objects.filter(Q(company_tagging=client),
+        queryset = TimeSheet.objects.filter(Q(clients_full_name=client),
                                             Q(shift_date__year=current_year))
         return queryset
 
