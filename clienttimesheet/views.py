@@ -27,6 +27,10 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
         return  # To not perform the csrf check previously happening
 
 
+class TimeSheetView(TemplateView):
+    template_name = 'timesheet/view_timesheet.html'
+
+
 class TimeSheetFilter(FilterSet):
     shift_date__month = NumberFilter(field_name='shift_date', lookup_expr='month')
     company_tagging = CharFilter(field_name='company_tagging', lookup_expr='icontains')
@@ -56,8 +60,8 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
         client = self.request.user.clients.full_name
         va = self.request.user.staffs.full_name
         current_year = datetime.date.today().year
-        queryset = TimeSheet.objects.filter(Q(company_tagging=client),
-                                            Q(assigned_job_request_to__name=va),
+        queryset = TimeSheet.objects.filter(Q(company_tagging=client) |
+                                            Q(assigned_job_request_to__name=va) |
                                             Q(shift_date__year=current_year))
         return queryset
 

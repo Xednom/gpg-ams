@@ -38,13 +38,14 @@ class TimeSheetProfile(ImportExportModelAdmin):
 
 
 class PaymentMadeProfile(ImportExportModelAdmin):
-    list_display = ('date', 'amount', 'reference', 'payment_channel')
+    list_display = ('date', 'client_name', 'amount', 'reference', 'payment_channel')
     list_filter = ('date', 'reference', 'payment_channel')
     search_fields = ('reference', 'payment_channel')
     fieldsets = (
         ("Payment Made for the Client", {
             'fields': (
                 'date',
+                'client_name',
                 'amount',
                 'reference',
                 'payment_channel',
