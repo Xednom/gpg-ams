@@ -50,8 +50,7 @@ class PaymentMadeFilter(FilterSet):
 
 
 class TimeSheetViewSet(viewsets.ModelViewSet):
-    authentication_classes = (
-        CsrfExemptSessionAuthentication, BasicAuthentication,)
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication,)
     permission_classes = (IsAuthenticated,)
     serializer_class = TimeSheetSerializer
     filter_class = (TimeSheetFilter)
@@ -60,8 +59,7 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
         client = self.request.user.clients.full_name
         va = self.request.user.staffs.full_name
         current_year = datetime.date.today().year
-        queryset = TimeSheet.objects.filter(Q(company_tagging=client) |
-                                            Q(assigned_job_request_to__name=va) |
+        queryset = TimeSheet.objects.filter(Q(company_tagging=client),
                                             Q(shift_date__year=current_year))
         return queryset
 
