@@ -67,7 +67,7 @@ GPG System | View Payroll
                             </div>
                             <div class="panel-body">
                                 <div style="overflow-x:auto;">
-                                <h4 class="pull-right">Total salary: [[ totalTimeSheet ]]</h4>
+                                <h4 class="pull-right">Total Amount: [[ totalTimeSheet ]]</h4>
                                     <table class="table table-bordered table-hover table-responsive">
                                         <thead>
                                             <th>Shift Date</th>
@@ -135,14 +135,14 @@ GPG System | View Payroll
                             </div>
                             <div class="panel-body">
                                 <div style="overflow-x:auto;">
-                                    <h4 class="pull-right">Total cash out: [[ totalpaymentmade ]]</h4>
+                                    <h4 class="pull-right">Total: [[ totalpaymentmade ]]</h4>
                                     <table class="table table-bordered table-hover table-responsive">
                                         <thead>
                                             <th>Date</th>
-                                            <th>Amount</th>
                                             <th>Referrence</th>
                                             <th>Payment Channel</th>
                                             <th>Notes</th>
+                                            <th>Amount</th>
                                         </thead>
                                         <tbody>
                                             <tr>
@@ -153,10 +153,10 @@ GPG System | View Payroll
                                             </tr>
                                             <tr v-for="payments in paymentmade">
                                                 <td>[[ payments.date ]]</td>
-                                                <td>[[ payments.amount ]]</td>
                                                 <td>[[ payments.reference ]]</td>
                                                 <td>[[ payments.payment_channel ]]</td>
                                                 <td>[[ payments.notes ]]</td>
+                                                <td>[[ payments.amount ]]</td>
                                             </tr>
                                         </tbody>
                                     </table>
