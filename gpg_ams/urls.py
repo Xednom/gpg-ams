@@ -29,6 +29,7 @@ urlpatterns = [
     path('land-master/', include('landmaster.urls')),
     path('jobrequest/', include('jobrequest.urls')),
     path('payroll/', include('payroll.urls')),
+    path('timesheet/', include('clienttimesheet.urls')),
     path('reporting/', include('reporting.urls')),
 
 ]

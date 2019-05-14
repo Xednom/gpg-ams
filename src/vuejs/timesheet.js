@@ -8,7 +8,7 @@ new Vue({
         loading: false,
         currentTimeSheet: {},
         message: null,
-        newPayroll: {
+        newTimeSheet: {
             'date': null,
             'company_tagging': null,
             'shift_date': null,
@@ -40,20 +40,18 @@ new Vue({
         paginatedRecords: [],
     },
     mounted: function () {
-        // this.getPayroll();
         this.setCurrentMonth();
-        this.searchMonthCashOut();
-        this.searchMonthPayroll();
-        // this.getCashOut();
+        this.searchMonthPaymentMade();
+        this.searchMonthTimeSheet();
     },
     methods: {
         setCurrentMonth: function () {
             let currentMonth = moment(new Date()).format("MM");
             this.search_month = currentMonth;
         },
-        getPayroll: function () {
+        getTimeSheet: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/payroll/`)
+            this.$http.get(`/api/v1/timesheet/`)
                 .then((response) => {
                     this.loading = false;
                     this.timesheets = response.data;
@@ -64,12 +62,12 @@ new Vue({
                 })
         },
         searchAll: function () {
-            this.searchMonthPayroll();
-            this.searchMonthCashOut();
+            this.searchMonthTimeSheet();
+            this.searchMonthPaymentMade();
         },
-        searchMonthPayroll: function () {
+        searchMonthTimeSheet: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/payroll/?date__month=${this.search_month}`)
+            this.$http.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.timesheets = response.data;
@@ -79,24 +77,24 @@ new Vue({
                     console.log(err);
                 })
         },
-        searchMonthCashOut: function () {
+        searchMonthPaymentMade: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/?date_release__month=${this.search_month}`)
+            this.$http.get(`/api/v1/paymentmade/?date__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
-                    this.cashouts = response.data;
+                    this.paymentmade = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
                     console.log(err);
                 })
         },
-        getCashOut: function () {
+        getPaymentMade: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/`)
+            this.$http.get(`/api/v1/paymentmade`)
                 .then((response) => {
                     this.loading = false;
-                    this.cashouts = response.data;
+                    this.paymentmade = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
@@ -167,18 +165,18 @@ new Vue({
             for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
             return pages;
         },
-        totalSalary: function () {
+        totalTimeSheet: function () {
             return this.timesheets.reduce(function (sum, timesheets) {
-                return sum + parseFloat(timesheets.salary);
+                return sum + parseFloat(timesheets.total_amount_due);
             }, 0);
         },
-        totalCashOuts: function () {
-            return this.cashouts.reduce(function (sum, cashouts) {
-                return sum + parseFloat(cashouts.amount);
+        totalpaymentmade: function () {
+            return this.paymentmade.reduce(function (sum, paymentmade) {
+                return sum + parseFloat(paymentmade.amount);
             }, 0);
         },
         totalDue: function () {
-            let sum = this.totalSalary - this.totalCashOuts;
+            let sum = this.totalTimeSheet - this.totalpaymentmade;
             return sum.toFixed(2);
         }
     }
