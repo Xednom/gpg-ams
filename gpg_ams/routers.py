@@ -14,6 +14,7 @@ from reporting.views import ReportingViewSet
 from logins.views import LoginsViewSet
 from payroll.views import PayrollViewSet, PayrollCashOutViewSet
 from clienttimesheet.views import TimeSheetViewSet, PaymentMadeViewSet
+from reminders.views import ReminderViewSet
 
 
 router = routers.DefaultRouter()
@@ -34,3 +35,4 @@ router.register(r'payroll', PayrollViewSet, base_name='Payroll')
 router.register(r'cashout', PayrollCashOutViewSet, base_name='CashOut')
 router.register(r'timesheet', TimeSheetViewSet, base_name='TimeSheet')
 router.register(r'paymentmade', PaymentMadeViewSet, base_name='PaymentMade')
+router.register(r'reminders', ReminderViewSet, base_name='ManagerReminders')

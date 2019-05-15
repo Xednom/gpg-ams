@@ -17,14 +17,13 @@ ADMIN_APPS = (
 )
 
 LOCAL_APPS = (
+    'admin_totals',
     'fillables',
     'users',
     'client',
     'reporting',
     'jobrequest',
     'carespecialist',
-    # 'config',
-    # 'eav',
     'landmaster',
     'buyer',
     'seller',
@@ -35,6 +34,7 @@ LOCAL_APPS = (
     'callmeinventory',
     'companyexpenses',
     'clienttimesheet',
+    'inventory',
 )
 
 DJANGO_APPS = (

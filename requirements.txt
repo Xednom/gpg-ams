@@ -28,3 +28,6 @@ django-eav2==0.11.1
 
 # import and export 
 django-import-export==1.1.0
+
+#auto computations for totals in admin
+admin-totals==1.0.1
