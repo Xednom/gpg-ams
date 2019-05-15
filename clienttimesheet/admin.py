@@ -1,3 +1,4 @@
+from jet.filters import DateRangeFilter
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from admin_totals.admin import ModelAdminTotals
@@ -11,7 +12,7 @@ class TimeSheetProfile(ModelAdminTotals):
     list_display = ('company_tagging', 'shift_date', 'month_to_date', 'clients_full_name',
                     'title_job_request', 'time_in', 'time_out', 'duration', 'hourly_rate',
                     'total_tax_fee', 'total_amount_due')
-    list_filter = ('company_tagging', 'shift_date', 'clients_full_name')
+    list_filter = ('company_tagging', 'shift_date', ('shift_date', DateRangeFilter), 'clients_full_name')
     list_totals = [('total_tax_fee', Sum), ('total_amount_due', Sum), ('duration', Sum)]
     search_fields = ('company_tagging', 'clients_full_name', 'shift_date', 'month_to_date',
                      'title_job_request')
@@ -44,7 +45,7 @@ class TimeSheetProfile(ModelAdminTotals):
 class PaymentMadeProfile(ModelAdminTotals):
     list_display = ('date', 'client_name', 'reference',
                     'payment_channel', 'amount',)
-    list_filter = ('date', 'reference', 'payment_channel')
+    list_filter = (('date', DateRangeFilter), 'date', 'reference', 'payment_channel')
     list_totals = [('amount', Sum)]
     search_fields = ('reference', 'payment_channel')
     fieldsets = (
