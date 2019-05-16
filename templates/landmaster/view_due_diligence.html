@@ -64,7 +64,7 @@ GPG System | View Due Diligence
                                         <td>[[ dueDiligences.status_of_dd ]]</td>
                                         <td><button class="btn btn-primary" type="button" data-toggle="modal"
                                                 data-target="#editModal"
-                                                v-on:click="viewDueDiligence(dueDiligences.id)">View</button></td>
+                                                v-on:click="viewDueDiligence(dueDiligences.id)"><i class="fa fa-eye"></i></button>
                                     </tr>
                                 </tbody>
                             </table>
@@ -104,8 +104,18 @@ GPG System | View Due Diligence
                                     <h4 class="modal-title" id="myModalLabel">Due Diligence information for [[ currentDueDiligence.company_name ]]</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form v-on:submit.prevent="updateDueDiligence()">
+                                    <form v-on:submit.prevent="updateDueDiligence">
                                         <div class="modal-body">
+                                            {% if request.user.is_staffs %}
+                                            <div class="panel panel-success">
+                                                <div class="panel-heading">
+                                                    Time Sheet informations for Parcel Number <strong>[[ currentDueDiligence.parcel_number ]]</strong> 
+                                                </div>
+                                                <div class="panel-body">
+                                                    {% include 'landmaster/time_due.html' %}
+                                                </div>
+                                            </div>
+                                            {% endif %}
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     Due Diligence work Information for [[
@@ -530,7 +540,7 @@ GPG System | View Due Diligence
                                                             <select class="form-control"
                                                                 v-model="currentDueDiligence.dd_team_assigned_va"
                                                                 {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' %}{% else %}disabled{% endif %}
-                                                                required>
+                                                                >
                                                                 <option v-for="va in virtualAssistants">[[ va.name ]]
                                                                 </option>
                                                             </select>
@@ -584,6 +594,39 @@ GPG System | View Due Diligence
                                         </div>
                                     </form>
                                 </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+
+                    <!-- Modal for time in -->
+                    <div class="modal fade" id="timeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Time Information for Parcel number [[ currentDueDiligence.parcel_number ]]</h4>
+                                </div>
+                                <form action="PUT" v-on:click.prevent=updateDueDiligence>
+                                    <div class="modal-body">
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                Time Sheet informations
+                                            </div>
+                                            <div class="panel-body">
+                                                {% include 'landmaster/time_due.html' %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
                             </div>
                             <!-- /.modal-content -->
                         </div>
