@@ -74,7 +74,11 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
                                                    Q(status_of_dd="VA Processing") |
                                                    Q(status_of_dd="Sent to Quality Specialist"))
         elif user == 'General Administrative Support':
-            queryset = DueDiligence.objects.filter(Q(dd_team_assigned_va__name=self.request.user.staffs.full_name),
+            queryset = DueDiligence.objects.filter(Q(dd_va_assigned_initial_data__name=self.request.user.staffs.full_name) |
+                                                   Q(dd_va_assigned_call_outs_tax_data__name=self.request.user.staffs.full_name) |
+                                                   Q(dd_va_assigned_call_outs_zoning_data__name=self.request.user.staffs.full_name) |
+                                                   Q(dd_va_assigned_call_outs_utilities_data__name=self.request.user.staffs.full_name) |
+                                                   Q(dd_va_assigned_call_outs_other_requests__name=self.request.user.staffs.full_name) |
                                                    Q(status_of_dd="Sent to Project Manager") |
                                                    Q(status_of_dd="Project Managers Review") |
                                                    Q(status_of_dd="Sent to VA") |

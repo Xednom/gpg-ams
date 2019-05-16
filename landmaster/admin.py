@@ -1,13 +1,23 @@
 from django.contrib import admin
 
 from .models import DueDiligence, DueDiligencesCleared
+from jet.filters import DateRangeFilter
 
 
 class DueDiligenceProfile(admin.ModelAdmin):
     list_display = ('date_requested', 'date_completed', 'company_name',
                     'company_owner_or_requestor', 'due_date', 'project_manager',
-                    'dd_team_assigned_va', 'status_of_dd')
+                    'status_of_dd', 'total_duration')
+    list_filter = ('date_requested', 'due_date',
+                   'company_owner_or_requestor', 'owner_name',
+                   ('date_requested', DateRangeFilter))
     search_fields = ('company_name__name', 'company_owner')
+    readonly_fields = ('date_completed_initial_dd_total_time',
+                       'date_completed_tax_data_total_time',
+                       'date_completed_zoning_data_total_time',
+                       'date_completed_utilities_total_time',
+                       'date_completed_other_requests_total_time',
+                       'total_duration')
     fieldsets = (
         ('Due Diligence client Information', {
             'fields': (
@@ -91,9 +101,20 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'waste',
             )
         }),
+        ("DD Team member assigned", {
+            'fields': (
+                'project_manager',
+                'dd_va_assigned_initial_data',
+                'dd_va_assigned_call_outs_tax_data',
+                'dd_va_assigned_call_outs_zoning_data',
+                'dd_va_assigned_call_outs_utilities_data',
+                'dd_va_assigned_call_outs_other_requests',
+            )
+        }),
         ("Notes", {
             'fields': (
                 'date_completed',
+                'status_of_dd',
                 'notes_from_the_client',
                 'notes_from_the_quality_specialist',
                 'notes_from_the_virtual_assistant',
@@ -102,15 +123,26 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'notes_on_tax',
                 'notes_on_legal_description',
                 'notes_on_deeds',
-                'dd_team_assigned_va',
-                'project_manager',
-                'status_of_dd',
             )
         }),
         ("Other information", {
             'fields': (
-                'total_minutes_hours_duration',
-                'attachments',
+                'date_completed_initial_dd_time_in',
+                'date_completed_initial_dd_time_out',
+                'date_completed_initial_dd_total_time',
+                'date_completed_tax_data_time_in',
+                'date_completed_tax_data_time_out',
+                'date_completed_tax_data_total_time',
+                'date_completed_zoning_data_time_in',
+                'date_completed_zoning_data_time_out',
+                'date_completed_zoning_data_total_time',
+                'date_completed_utilities_time_in',
+                'date_completed_utilities_time_out',
+                'date_completed_utilities_total_time',
+                'date_completed_other_requests_time_in',
+                'date_completed_other_requests_time_out',
+                'date_completed_other_requests_total_time',
+                'total_duration'
             )
         }),
     )

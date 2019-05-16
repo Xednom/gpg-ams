@@ -96,18 +96,83 @@ class DueDiligence(TimeStampedModel):
     notes_on_tax = models.TextField(null=True, blank=True)
     notes_on_legal_description = models.TextField(null=True, blank=True)
     notes_on_deeds = models.TextField(null=True, blank=True)
-    dd_team_assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
-                                            verbose_name="DD Team Assigned VA")
+    dd_va_assigned_initial_data = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+                                            verbose_name="VA assigned for gathering initial data.", related_name="initial")
+    dd_va_assigned_call_outs_tax_data = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+                                            verbose_name="VA Assigned for call outs for Tax data", related_name='tax')
+    dd_va_assigned_call_outs_zoning_data = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+                                            verbose_name="VA Assigned for call outs on Zoning data", related_name='zoning')
+    dd_va_assigned_call_outs_utilities_data = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+                                            verbose_name="VA Assigned for call outs on Utilities data", related_name='utilities')
+    dd_va_assigned_call_outs_other_requests = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+                                        verbose_name="VA Assigned for call outs on Other Requests", related_name='other')
     project_manager = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)
     total_minutes_hours_duration = models.CharField(max_length=150, null=True, blank=True, verbose_name="Total Minutes/hours duration")
     attachments = models.URLField(null=True, blank=True)
     status_of_dd = models.CharField(max_length=150, choices=STATUS, null=True, blank=True)
+    date_completed_initial_dd_time_in = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_initial_dd_time_out = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_initial_dd_total_time = models.DecimalField(max_digits=6, decimal_places=2)
+    date_completed_tax_data_time_in = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_tax_data_time_out = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_tax_data_total_time = models.DecimalField(max_digits=5, decimal_places=2)
+    date_completed_zoning_data_time_in = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_zoning_data_time_out = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_zoning_data_total_time = models.DecimalField(max_digits=6, decimal_places=2)
+    date_completed_utilities_time_in = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_utilities_time_out = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_utilities_total_time = models.DecimalField(max_digits=6, decimal_places=2)
+    date_completed_other_requests_time_in = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_other_requests_time_out = models.DateTimeField(default=now, null=True, blank=True)
+    date_completed_other_requests_total_time = models.DecimalField(max_digits=6, decimal_places=2)
+    total_duration = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
     class Meta:
         ordering = ('date_requested',)
 
     def __str__(self):
         return str(self.company_name)
+    
+    def calculate_initial_time(self):
+        initial_time = (self.date_completed_initial_dd_time_out - self.date_completed_initial_dd_time_in).total_seconds() / 60 / 60
+        total_time = Decimal(initial_time)
+        return total_time
+    
+    def calculate_tax_time(self):
+        tax_time = (self.date_completed_tax_data_time_out - self.date_completed_tax_data_time_in).total_seconds() / 60 / 60
+        total_time = Decimal(tax_time)
+        return total_time
+    
+    def calculate_zoning_time(self):
+        zoning_time = (self.date_completed_zoning_data_time_out - self.date_completed_zoning_data_time_in).total_seconds() / 60 / 60
+        total_time = Decimal(zoning_time)
+        return total_time
+    
+    def calculate_utilities_time(self):
+        utilities_time = (self.date_completed_utilities_time_out - self.date_completed_utilities_time_in).total_seconds() / 60 / 60
+        total_time = Decimal(utilities_time)
+        return total_time
+    
+    def calculate_other_time(self):
+        other_time = (self.date_completed_other_requests_time_out - self.date_completed_other_requests_time_in).total_seconds() / 60 / 60
+        total_time = Decimal(other_time)
+        return total_time
+    
+    def calculate_duration(self):
+        duration = self.date_completed_initial_dd_total_time + \
+            self.date_completed_tax_data_total_time + \
+            self.date_completed_zoning_data_total_time + self.date_completed_utilities_total_time + \
+            self.date_completed_other_requests_total_time
+        return duration
+    
+    def save(self, *args, **kwargs):
+        self.date_completed_initial_dd_total_time = self.calculate_initial_time()
+        self.date_completed_tax_data_total_time = self.calculate_tax_time()
+        self.date_completed_zoning_data_total_time = self.calculate_zoning_time()
+        self.date_completed_utilities_total_time = self.calculate_zoning_time()
+        self.date_completed_other_requests_total_time = self.calculate_other_time()
+        self.total_duration = self.calculate_duration()
+        super().save(*args, **kwargs)
 
 
 class DueDiligencesCleared(models.Model):
