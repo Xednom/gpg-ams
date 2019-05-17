@@ -111,6 +111,13 @@ new Vue({
         this.getDueDiligences();
         this.getVas();
         this.getProjectManagers();
+
+        $('#datetimepickerinitialtimein').datetimepicker({
+            format: "YYYY-MM-DD HH:mm"   
+        });
+        $('#datetimepickerinitialtimeout').datetimepicker({
+            format: "YYYY-MM-DD HH:mm"
+        });
     },
     methods: {
         resetDueDiligenceFields: function () {
@@ -189,6 +196,7 @@ new Vue({
                 .then((response) => {
                     this.loading = false;
                     this.currentDueDiligence = response.data;
+                    console.log(this.currentDueDiligence.date_completed_initial_dd_time_in);
                     swal({
                         title: "GPG system",
                         text: "Successfully updated the data!",
