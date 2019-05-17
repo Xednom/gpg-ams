@@ -94,9 +94,9 @@ new Vue({
             'date_completed_other_requests_time_in': "",
             'date_completed_other_requests_time_out': "",
             'date_completed_other_requests_total_time': "",
-            'project_manager': "",
+            'project_customerCare': "",
             'attachments': "",
-            'status_of_dd': "",
+            'accessToProperty_of_dd': "",
         },
         // for pagination
         currentPage: 1,
@@ -277,7 +277,605 @@ new Vue({
                         this.endPage = this.currentPage + maxPagesAfterCurrentPage;
                     }
                 }
+            },
+            generateExcelFile: function () {
+            let uri = 'data:application/vnd.ms-excel;base64,';
+
+            let context = {
+                worksheet: 'Worksheet1',
+                header: this.htmlConverter(this.generateExcelHeader()),
+                table: this.generateRows()
             }
+            let htmlXML = this.generateXMLNS();
+            let formattedTemplate = this.formatTemplate(htmlXML, context);
+
+            let a = document.createElement('A');
+            a.href = uri + this.base64(formattedTemplate);
+            a.download = 'due-diligence-Report-' + Date.now() + '.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        },
+        htmlConverter: function (data) {
+            temporaryContainer = document.createElement('div');
+            temporaryContainer.appendChild(data);
+
+            return temporaryContainer.innerHTML
+        },
+        generateRows: function () {
+            let duediligences = this.dueDiligences;
+            let tableRows = '';
+
+            for (let i = 0; i < duediligences.length; i++) {
+                tableRows += this.htmlConverter(
+                    this.generateData(duediligences[i])
+                );
+            }
+
+            return tableRows
+
+        },
+        generateData: function (duediligence) {
+            let tr = document.createElement('tr');
+
+            let dateRequested = document.createElement('td');
+            let companyName = document.createElement('td');
+            let companyOwnerOrRequestor = document.createElement('td');
+            let dueDate = document.createElement('td');
+            let customerCare = document.createElement('td');
+            let ownerName = document.createElement('td');
+            let parcelNumber = document.createElement('td');
+            let accountNumber = document.createElement('td');
+            let propertyAddress = document.createElement('td');
+            let county = document.createElement('td');
+            let lotNumber = document.createElement('td');
+            let legalDescription = document.createElement('td');
+            let parcelSize = document.createElement('td');
+            let gpsCoordinates = document.createElement('td');
+            let gpsCoordinates4Corners = document.createElement('td');
+            let googleMapLink = document.createElement('td');
+            let elevation = document.createElement('td');
+            let assessedValue = document.createElement('td');
+            let accessToProperty = document.createElement('td');
+            let closestMajorCity = document.createElement('td');
+            let closestSmallTown = document.createElement('td');
+            let nearbyAttractions = document.createElement('td');
+            let assessorWebsite = document.createElement('td');
+            let treasurerWebsite = document.createElement('td');
+            let reorderClerkWebsite = document.createElement('td');
+            let zoningDepartmentWebsite = document.createElement('td');
+            let gisWebsite = document.createElement('td');
+            let cadWebsite = document.createElement('td');
+            let planningDepartmentContact = document.createElement('td');
+            let recorderClerkContact = document.createElement('td');
+            let taxOfficeContact = document.createElement('td');
+            let assessorsOfficeContact = document.createElement('td');
+            let backTaxes = document.createElement('td');
+            let taxLiens = document.createElement('td');
+            let annualPropertyTaxes = document.createElement('td');
+            let isPropertyPartOfAnHoa = document.createElement('td');
+            let howMuchDues = document.createElement('td');
+            let zoning = document.createElement('td');
+            let terrianType = document.createElement('td');
+            let propertyUseCode = document.createElement('td');
+            let whatCanBeBuilt = document.createElement('td');
+            let timeLimitToBuild = document.createElement('td');
+            let canCamp = document.createElement('td');
+            let notesOnCamping = document.createElement('td');
+            let rvAllowed = document.createElement('td');
+            let noteOnRv = document.createElement('td');
+            let mobileHomes = document.createElement('td');
+            let notesOnMobileHomes = document.createElement('td');
+            let isPropertyFloodZoneArea = document.createElement('td');
+            let water = document.createElement('td');
+            let sewerOrSeptic = document.createElement('td');
+            let power = document.createElement('td');
+            let gas = document.createElement('td');
+            let waste = document.createElement('td');
+            let dateCompleted = document.createElement('td');
+            let notesFromTheClient = document.createElement('td');
+            let notesFromTheQualitySpecialist = document.createElement('td');
+            let notesFromTheVirtualAssistant = document.createElement('td');
+            let notesOnZoning = document.createElement('td');
+            let notesOnUtilities = document.createElement('td');
+            let notesOnTax = document.createElement('td');
+            let notesOnLegalDescription = document.createElement('td');
+            let notesOnDeeds = document.createElement('td');
+            let ddVaAssignedInitialData = document.createElement('td');
+            let ddVaAssignedCallsOutsTaxData = document.createElement('td');
+            let ddVaAssignedCallsOutsZoningData = document.createElement('td');
+            let ddVaAssignedCallsOutsUtilitiesData = document.createElement('td');
+            let ddVaAssignedCallsOutsOtherRequest = document.createElement('td');
+            let projectManager = document.createElement('td');
+            let statusOfDd = document.createElement('td');
+            let dateCompletedInitialDdTimeIn = document.createElement('td');
+            let dateCompletedInitialDdTimeOut = document.createElement('td');
+            let dateCompletedInitialDdTotalTime = document.createElement('td');
+            let dateCompletedTaxDataTimeIn = document.createElement('td');
+            let dateCompletedTaxDataTimeOut = document.createElement('td');
+            let dateCompletedTaxDataTotalTime = document.createElement('td');
+            let dateCompletedZoningTimeIn = document.createElement('td');
+            let dateCompletedZoningTimeOut = document.createElement('td');
+            let dateCompletedZoningTotalTime = document.createElement('td');
+            let dateCompletedUtilitiesTimeIn = document.createElement('td');
+            let dateCompletedUtilitiesTimeOut = document.createElement('td');
+            let dateCompletedUtilitiesTotalTime = document.createElement('td');
+            let dateCompletedOtherRequestsTimeIn = document.createElement('td');
+            let dateCompletedOtherRequestsTimeOut = document.createElement('td');
+            let dateCompletedOtherRequestsTotalTime = document.createElement('td');
+            let totalDuration = document.createElement('td');
+
+            dateRequested.textContent = duediligence['date_requested'];
+            companyName.textContent = duediligence['company_name'];
+            companyOwnerOrRequestor.textContent = duediligence['company_owner_or_requestor'];
+            dueDate.textContent = duediligence['due_date'];
+            customerCare.textContent = duediligence['customer_care_specialist'];
+            ownerName.textContent = duediligence['owner_name'];
+            parcelNumber.textContent = duediligence['parcel_number'];
+            accountNumber.textContent = duediligence['account_number'];
+            propertyAddress.textContent = duediligence['property_address'];
+            county.textContent = duediligence['county'];
+            lotNumber.textContent = duediligence['lot_number'];
+            legalDescription.textContent = duediligence['legal_description'];
+            parcelSize.textContent = duediligence['parcel_size'];
+            gpsCoordinates.textContent = duediligence['gps_coordinates'];
+            gpsCoordinates4Corners.textContent = duediligence['gps_coordinates_4_corners'];
+            googleMapLink.textContent = duediligence['google_map_link'];
+            elevation.textContent = duediligence['elevation'];
+            assessedValue.textContent = duediligence['assessed_value'];
+            accessToProperty.textContent = duediligence['access_to_property'];
+            closestMajorCity.textContent = duediligence['closest_major_city'];
+            closestSmallTown.textContent = duediligence['closest_small_town'];
+            nearbyAttractions.textContent = duediligence['nearby_attractions'];
+            assessorWebsite.textContent = duediligence['assessor_website'];
+            treasurerWebsite.textContent = duediligence['treasurer_website'];
+            reorderClerkWebsite.textContent = duediligence['recorder_clerk_website'];
+            zoningDepartmentWebsite.textContent = duediligence['zoning_department_website'];
+            gisWebsite.textContent = duediligence['gis_website'];
+            cadWebsite.textContent = duediligence['cad_website'];
+            planningDepartmentContact.textContent = duediligence['planning_department_contact'];
+            recorderClerkContact.textContent = duediligence['recorder_clerk_contact'];
+            taxOfficeContact.textContent = duediligence['tax_office_contact'];
+            assessorsOfficeContact.textContent = duediligence['assessors_office_contact'];
+            backTaxes.textContent = duediligence['back_taxes'];
+            taxLiens.textContent = duediligence['tax_liens'];
+            annualPropertyTaxes.textContent = duediligence['annual_property_taxes'];
+            isPropertyPartOfAnHoa.textContent = duediligence['is_property_part_of_an_hoa'];
+            howMuchDues.textContent = duediligence['how_much_dues'];
+            zoning.textContent = duediligence['zoning'];
+            terrianType.textContent = duediligence['terrian_type'];
+            propertyUseCode.textContent = duediligence['property_use_code'];
+            whatCanBeBuilt.textContent = duediligence['what_can_be_built'];
+            timeLimitToBuild.textContent = duediligence['time_limit_to_build'];
+            canCamp.textContent = duediligence['can_camp'];
+            notesOnCamping.textContent = duediligence['notes_on_camping'];
+            rvAllowed.textContent = duediligence['rv_allowed'];
+            noteOnRv.textContent = duediligence['note_on_rv'];
+            mobileHomes.textContent = duediligence['mobile_homes'];
+            notesOnMobileHomes.textContent = duediligence['notes_on_mobile_homes'];
+            isPropertyFloodZoneArea.textContent = duediligence['is_property_flood_zone_area'];
+            water.textContent = duediligence['water'];
+            sewerOrSeptic.textContent = duediligence['sewer_or_septic'];
+            power.textContent = duediligence['power'];
+            gas.textContent = duediligence['gas'];
+            waste.textContent = duediligence['waste'];
+            dateCompleted.textContent = duediligence['date_completed'];
+            notesFromTheClient.textContent = duediligence['notes_from_the_client'];
+            notesFromTheQualitySpecialist.textContent = duediligence['notes_from_the_quality_specialist'];
+            notesFromTheVirtualAssistant.textContent = duediligence['notes_from_the_virtual_assistant'];
+            notesOnZoning.textContent = duediligence['notes_on_zoning'];
+            notesOnUtilities.textContent = duediligence['notes_on_utilities'];
+            notesOnTax.textContent = duediligence['notes_on_tax'];
+            notesOnLegalDescription.textContent = duediligence['notes_on_legal_description'];
+            notesOnDeeds.textContent = duediligence['notes_on_deeds'];
+            ddVaAssignedInitialData.textContent = duediligence['dd_va_assigned_initial_data'];
+            ddVaAssignedCallsOutsTaxData.textContent = duediligence['dd_va_assigned_call_outs_tax_data'];
+            ddVaAssignedCallsOutsZoningData.textContent = duediligence['dd_va_assigned_call_outs_zoning_data'];
+            ddVaAssignedCallsOutsUtilitiesData.textContent = duediligence['dd_va_assigned_call_outs_utilities_data'];
+            ddVaAssignedCallsOutsOtherRequest.textContent = duediligence['dd_va_assigned_call_outs_other_requests'];
+            projectManager.textContent = duediligence['project_manager'];
+            statusOfDd.textContent = duediligence['status_of_dd'];
+            dateCompletedInitialDdTimeIn.textContent = duediligence['date_completed_initial_dd_time_in'];
+            dateCompletedInitialDdTimeOut.textContent = duediligence['date_completed_initial_dd_time_out'];
+            dateCompletedInitialDdTotalTime.textContent = duediligence['date_completed_initial_dd_total_time'];
+            dateCompletedTaxDataTimeIn.textContent = duediligence['date_completed_tax_data_time_in'];
+            dateCompletedTaxDataTimeOut.textContent = duediligence['date_completed_tax_data_time_out'];
+            dateCompletedTaxDataTotalTime.textContent = duediligence['date_completed_tax_data_total_time'];
+            dateCompletedZoningTimeIn.textContent = duediligence['date_completed_zoning_data_time_in'];
+            dateCompletedZoningTimeOut.textContent = duediligence['date_completed_zoning_data_time_out'];
+            dateCompletedZoningTotalTime.textContent = duediligence['date_completed_zoning_data_total_time'];
+            dateCompletedUtilitiesTimeIn.textContent = duediligence['date_completed_utilities_time_in'];
+            dateCompletedUtilitiesTimeOut.textContent = duediligence['date_completed_utilities_time_out'];
+            dateCompletedUtilitiesTotalTime.textContent = duediligence['date_completed_utilities_total_time'];
+            dateCompletedOtherRequestsTimeIn.textContent = duediligence['date_completed_other_requests_time_in'];
+            dateCompletedOtherRequestsTimeOut.textContent = duediligence['date_completed_other_requests_time_out'];
+            dateCompletedOtherRequestsTotalTime.textContent = duediligence['date_completed_other_requests_total_time'];
+            totalDuration.textContent = duediligence['total_duration'];
+
+            tr.appendChild(dateRequested);
+            tr.appendChild(companyName);
+            tr.appendChild(companyOwnerOrRequestor);
+            tr.appendChild(dueDate);
+            tr.appendChild(customerCare);
+            tr.appendChild(ownerName);
+            tr.appendChild(parcelNumber);
+            tr.appendChild(accountNumber);
+            tr.appendChild(propertyAddress);
+            tr.appendChild(county);
+            tr.appendChild(lotNumber);
+            tr.appendChild(legalDescription);
+            tr.appendChild(parcelSize);
+            tr.appendChild(gpsCoordinates);
+            tr.appendChild(gpsCoordinates4Corners);
+            tr.appendChild(googleMapLink);
+            tr.appendChild(elevation);
+            tr.appendChild(assessedValue);
+            tr.appendChild(accessToProperty);
+            tr.appendChild(closestMajorCity);
+            tr.appendChild(closestSmallTown);
+            tr.appendChild(nearbyAttractions);
+            tr.appendChild(assessorWebsite);
+            tr.appendChild(treasurerWebsite);
+            tr.appendChild(reorderClerkWebsite);
+            tr.appendChild(zoningDepartmentWebsite);
+            tr.appendChild(gisWebsite);
+            tr.appendChild(cadWebsite);
+            tr.appendChild(planningDepartmentContact);
+            tr.appendChild(recorderClerkContact);
+            tr.appendChild(taxOfficeContact);
+            tr.appendChild(assessorsOfficeContact);
+            tr.appendChild(backTaxes);
+            tr.appendChild(taxLiens);
+            tr.appendChild(annualPropertyTaxes);
+            tr.appendChild(isPropertyPartOfAnHoa);
+            tr.appendChild(howMuchDues);
+            tr.appendChild(zoning);
+            tr.appendChild(terrianType);
+            tr.appendChild(propertyUseCode);
+            tr.appendChild(whatCanBeBuilt);
+            tr.appendChild(timeLimitToBuild);
+            tr.appendChild(canCamp);
+            tr.appendChild(notesOnCamping);
+            tr.appendChild(rvAllowed);
+            tr.appendChild(noteOnRv);
+            tr.appendChild(mobileHomes);
+            tr.appendChild(notesOnMobileHomes);
+            tr.appendChild(isPropertyFloodZoneArea);
+            tr.appendChild(water);
+            tr.appendChild(sewerOrSeptic);
+            tr.appendChild(power);
+            tr.appendChild(gas);
+            tr.appendChild(waste);
+            tr.appendChild(dateCompleted);
+            tr.appendChild(notesFromTheClient);
+            tr.appendChild(notesFromTheQualitySpecialist);
+            tr.appendChild(notesFromTheVirtualAssistant);
+            tr.appendChild(notesOnUtilities);
+            tr.appendChild(notesOnTax);
+            tr.appendChild(notesOnLegalDescription);
+            tr.appendChild(notesOnDeeds);
+            tr.appendChild(ddVaAssignedInitialData);
+            tr.appendChild(ddVaAssignedCallsOutsTaxData);
+            tr.appendChild(ddVaAssignedCallsOutsZoningData);
+            tr.appendChild(ddVaAssignedCallsOutsUtilitiesData);
+            tr.appendChild(ddVaAssignedCallsOutsOtherRequest);
+            tr.appendChild(projectManager);
+            tr.appendChild(statusOfDd);
+            tr.appendChild(dateCompletedInitialDdTimeIn);
+            tr.appendChild(dateCompletedInitialDdTimeOut);
+            tr.appendChild(dateCompletedInitialDdTotalTime);
+            tr.appendChild(dateCompletedTaxDataTimeIn);
+            tr.appendChild(dateCompletedTaxDataTimeOut);
+            tr.appendChild(dateCompletedTaxDataTotalTime);
+            tr.appendChild(dateCompletedZoningTimeIn);
+            tr.appendChild(dateCompletedZoningTimeOut);
+            tr.appendChild(dateCompletedZoningTotalTime);
+            tr.appendChild(dateCompletedUtilitiesTimeIn);
+            tr.appendChild(dateCompletedUtilitiesTimeOut);
+            tr.appendChild(dateCompletedUtilitiesTotalTime);
+            tr.appendChild(dateCompletedOtherRequestsTimeIn);
+            tr.appendChild(dateCompletedOtherRequestsTimeOut);
+            tr.appendChild(dateCompletedOtherRequestsTotalTime);
+            tr.appendChild(totalDuration);
+
+            return tr
+        },
+        generateExcelHeader: function (duediligence) {
+            let tr = document.createElement('tr');
+
+            let dateRequested = document.createElement('th');
+            let companyName = document.createElement('th');
+            let companyOwnerOrRequestor = document.createElement('th');
+            let dueDate = document.createElement('th');
+            let customerCare = document.createElement('th');
+            let ownerName = document.createElement('th');
+            let parcelNumber = document.createElement('th');
+            let accountNumber = document.createElement('th');
+            let propertyAddress = document.createElement('th');
+            let county = document.createElement('th');
+            let lotNumber = document.createElement('th');
+            let legalDescription = document.createElement('th');
+            let parcelSize = document.createElement('th');
+            let gpsCoordinates = document.createElement('th');
+            let gpsCoordinates4Corners = document.createElement('th');
+            let googleMapLink = document.createElement('th');
+            let elevation = document.createElement('th');
+            let assessedValue = document.createElement('th');
+            let accessToProperty = document.createElement('th');
+            let closestMajorCity = document.createElement('th');
+            let closestSmallTown = document.createElement('th');
+            let nearbyAttractions = document.createElement('th');
+            let assessorWebsite = document.createElement('th');
+            let treasurerWebsite = document.createElement('th');
+            let reorderClerkWebsite = document.createElement('th');
+            let zoningDepartmentWebsite = document.createElement('th');
+            let gisWebsite = document.createElement('th');
+            let cadWebsite = document.createElement('th');
+            let planningDepartmentContact = document.createElement('th');
+            let recorderClerkContact = document.createElement('th');
+            let taxOfficeContact = document.createElement('th');
+            let assessorsOfficeContact = document.createElement('th');
+            let backTaxes = document.createElement('th');
+            let taxLiens = document.createElement('th');
+            let annualPropertyTaxes = document.createElement('th');
+            let isPropertyPartOfAnHoa = document.createElement('th');
+            let howMuchDues = document.createElement('th');
+            let zoning = document.createElement('th');
+            let terrianType = document.createElement('th');
+            let propertyUseCode = document.createElement('th');
+            let whatCanBeBuilt = document.createElement('th');
+            let timeLimitToBuild = document.createElement('th');
+            let canCamp = document.createElement('th');
+            let notesOnCamping = document.createElement('th');
+            let rvAllowed = document.createElement('th');
+            let noteOnRv = document.createElement('th');
+            let mobileHomes = document.createElement('th');
+            let notesOnMobileHomes = document.createElement('th');
+            let isPropertyFloodZoneArea = document.createElement('th');
+            let water = document.createElement('th');
+            let sewerOrSeptic = document.createElement('th');
+            let power = document.createElement('th');
+            let gas = document.createElement('th');
+            let waste = document.createElement('th');
+            let dateCompleted = document.createElement('th');
+            let notesFromTheClient = document.createElement('th');
+            let notesFromTheQualitySpecialist = document.createElement('th');
+            let notesFromTheVirtualAssistant = document.createElement('th');
+            let notesOnUtilities = document.createElement('th');
+            let notesOnTax = document.createElement('th');
+            let notesOnLegalDescription = document.createElement('th');
+            let notesOnDeeds = document.createElement('th');
+            let ddVaAssignedInitialData = document.createElement('th');
+            let ddVaAssignedCallsOutsTaxData = document.createElement('th');
+            let ddVaAssignedCallsOutsZoningData = document.createElement('th');
+            let ddVaAssignedCallsOutsUtilitiesData = document.createElement('th');
+            let ddVaAssignedCallsOutsOtherRequest = document.createElement('th');
+            let projectManager = document.createElement('th');
+            let statusOfDd = document.createElement('th');
+            let dateCompletedInitialDdTimeIn = document.createElement('th');
+            let dateCompletedInitialDdTimeOut = document.createElement('th');
+            let dateCompletedInitialDdTotalTime = document.createElement('th');
+            let dateCompletedTaxDataTimeIn = document.createElement('th');
+            let dateCompletedTaxDataTimeOut = document.createElement('th');
+            let dateCompletedTaxDataTotalTime = document.createElement('th');
+            let dateCompletedZoningTimeIn = document.createElement('th');
+            let dateCompletedZoningTimeOut = document.createElement('th');
+            let dateCompletedZoningTotalTime = document.createElement('th');
+            let dateCompletedUtilitiesTimeIn = document.createElement('th');
+            let dateCompletedUtilitiesTimeOut = document.createElement('th');
+            let dateCompletedUtilitiesTotalTime = document.createElement('th');
+            let dateCompletedOtherRequestsTimeIn = document.createElement('th');
+            let dateCompletedOtherRequestsTimeOut = document.createElement('th');
+            let dateCompletedOtherRequestsTotalTime = document.createElement('th');
+            let totalDuration = document.createElement('th');
+
+            dateRequested.textContent = 'Date Requested';
+            companyName.textContent = 'Company Name';
+            companyOwnerOrRequestor.textContent = 'Company Owner or Requestor';
+            dueDate.textContent = 'Due Date';
+            customerCare.textContent = 'Customer Care';
+            ownerName.textContent = 'Date App Rec';
+            parcelNumber.textContent = 'Date Sample Rec';
+            accountNumber.textContent = 'Type of Test';
+            propertyAddress.textContent = 'Date of QCA';
+            county.textContent = 'Insurance Verified TSG Verification';
+            lotNumber.textContent = 'Telemed Name';
+            legalDescription.textContent = 'Date Submitted to Telemed';
+            parcelSize.textContent = 'Date Telemed Return';
+            gpsCoordinates.textContent = 'Date Bioconfirm Rec App';
+            gpsCoordinates4Corners.textContent = 'Date Paid';
+            googleMapLink.textContent = 'Date Lab Recorded App';
+            elevation.textContent = 'Lab Type';
+            assessedValue.textContent = 'assessedValue';
+            accessToProperty.textContent = 'accessToProperty';
+            closestMajorCity.textContent = 'closestMajorCity';
+            closestSmallTown.textContent = 'closestSmallTown';
+            nearbyAttractions.textContent = 'Rejection Date';
+            assessorWebsite.textContent = 'Patient ID Photo';
+            treasurerWebsite.textContent = 'Insurance Card Photo Front';
+            reorderClerkWebsite.textContent = 'Insurance Card Photo Back';
+            zoningDepartmentWebsite.textContent = 'Additional Insurance Cards';
+            gisWebsite.textContent = 'Consent Recording';
+            cadWebsite.textContent = 'Date Created';
+            planningDepartmentContact.textContent = 'Created by';
+            recorderClerkContact.textContent = 'Updated by';
+            taxOfficeContact.textContent = 'User Promo Code';
+            assessorsOfficeContact.textContent = 'User Promo Code';
+            backTaxes.textContent = 'User Promo Code';
+            taxLiens.textContent = 'User Promo Code';
+            annualPropertyTaxes.textContent = 'User Promo Code';
+            isPropertyPartOfAnHoa.textContent = 'User Promo Code';
+            howMuchDues.textContent = 'User Promo Code';
+            zoning.textContent = 'User Promo Code';
+            terrianType.textContent = 'User Promo Code';
+            propertyUseCode.textContent = 'User Promo Code';
+            whatCanBeBuilt.textContent = 'User Promo Code';
+            timeLimitToBuild.textContent = 'User Promo Code';
+            canCamp.textContent = 'User Promo Code';
+            notesOnCamping.textContent = 'User Promo Code';
+            rvAllowed.textContent = 'User Promo Code';
+            noteOnRv.textContent = 'User Promo Code';
+            mobileHomes.textContent = 'User Promo Code';
+            notesOnMobileHomes.textContent = 'User Promo Code';
+            isPropertyFloodZoneArea.textContent = 'User Promo Code';
+            water.textContent = 'User Promo Code';
+            sewerOrSeptic.textContent = 'User Promo Code';
+            power.textContent = 'User Promo Code';
+            gas.textContent = 'User Promo Code';
+            waste.textContent = 'User Promo Code';
+            dateCompleted.textContent = 'User Promo Code';
+            notesFromTheClient.textContent = 'User Promo Code';
+            notesFromTheQualitySpecialist.textContent = 'User Promo Code';
+            notesFromTheVirtualAssistant.textContent = 'User Promo Code';
+            notesOnUtilities.textContent = 'User Promo Code';
+            notesOnTax.textContent = 'User Promo Code';
+            notesOnLegalDescription.textContent = 'User Promo Code';
+            notesOnDeeds.textContent = 'User Promo Code';
+            ddVaAssignedInitialData.textContent = 'User Promo Code';
+            ddVaAssignedCallsOutsTaxData.textContent = 'User Promo Code';
+            ddVaAssignedCallsOutsZoningData.textContent = 'User Promo Code';
+            ddVaAssignedCallsOutsUtilitiesData.textContent = 'User Promo Code';
+            ddVaAssignedCallsOutsOtherRequest.textContent = 'User Promo Code';
+            projectManager.textContent = 'User Promo Code';
+            statusOfDd.textContent = 'User Promo Code';
+            dateCompletedInitialDdTimeIn.textContent = 'User Promo Code';
+            dateCompletedInitialDdTimeOut.textContent = 'User Promo Code';
+            dateCompletedInitialDdTotalTime.textContent = 'User Promo Code';
+            dateCompletedTaxDataTimeIn.textContent = 'User Promo Code';
+            dateCompletedTaxDataTimeOut.textContent = 'User Promo Code';
+            dateCompletedTaxDataTotalTime.textContent = 'User Promo Code';
+            dateCompletedZoningTimeIn.textContent = 'User Promo Code';
+            dateCompletedZoningTimeOut.textContent = 'User Promo Code';
+            dateCompletedZoningTotalTime.textContent = 'User Promo Code';
+            dateCompletedUtilitiesTimeIn.textContent = 'User Promo Code';
+            dateCompletedUtilitiesTimeOut.textContent = 'User Promo Code';
+            dateCompletedUtilitiesTotalTime.textContent = 'User Promo Code';
+            dateCompletedOtherRequestsTimeIn.textContent = 'User Promo Code';
+            dateCompletedOtherRequestsTimeOut.textContent = 'User Promo Code';
+            dateCompletedOtherRequestsTotalTime.textContent = 'User Promo Code';
+            totalDuration.textContent = 'User Promo Code';
+
+            tr.appendChild(dateRequested);
+            tr.appendChild(companyName);
+            tr.appendChild(companyOwnerOrRequestor);
+            tr.appendChild(dueDate);
+            tr.appendChild(customerCare);
+            tr.appendChild(ownerName);
+            tr.appendChild(parcelNumber);
+            tr.appendChild(accountNumber);
+            tr.appendChild(propertyAddress);
+            tr.appendChild(county);
+            tr.appendChild(lotNumber);
+            tr.appendChild(legalDescription);
+            tr.appendChild(parcelSize);
+            tr.appendChild(gpsCoordinates);
+            tr.appendChild(gpsCoordinates4Corners);
+            tr.appendChild(googleMapLink);
+            tr.appendChild(elevation);
+            tr.appendChild(assessedValue);
+            tr.appendChild(accessToProperty);
+            tr.appendChild(closestMajorCity);
+            tr.appendChild(closestSmallTown);
+            tr.appendChild(nearbyAttractions);
+            tr.appendChild(assessorWebsite);
+            tr.appendChild(treasurerWebsite);
+            tr.appendChild(reorderClerkWebsite);
+            tr.appendChild(zoningDepartmentWebsite);
+            tr.appendChild(gisWebsite);
+            tr.appendChild(cadWebsite);
+            tr.appendChild(planningDepartmentContact);
+            tr.appendChild(recorderClerkContact);
+            tr.appendChild(taxOfficeContact);
+            tr.appendChild(assessorsOfficeContact);
+            tr.appendChild(backTaxes);
+            tr.appendChild(taxLiens);
+            tr.appendChild(annualPropertyTaxes);
+            tr.appendChild(isPropertyPartOfAnHoa);
+            tr.appendChild(howMuchDues);
+            tr.appendChild(zoning);
+            tr.appendChild(terrianType);
+            tr.appendChild(propertyUseCode);
+            tr.appendChild(whatCanBeBuilt);
+            tr.appendChild(timeLimitToBuild);
+            tr.appendChild(canCamp);
+            tr.appendChild(notesOnCamping);
+            tr.appendChild(rvAllowed);
+            tr.appendChild(noteOnRv);
+            tr.appendChild(mobileHomes);
+            tr.appendChild(notesOnMobileHomes);
+            tr.appendChild(isPropertyFloodZoneArea);
+            tr.appendChild(water);
+            tr.appendChild(sewerOrSeptic);
+            tr.appendChild(power);
+            tr.appendChild(gas);
+            tr.appendChild(waste);
+            tr.appendChild(dateCompleted);
+            tr.appendChild(notesFromTheClient);
+            tr.appendChild(notesFromTheQualitySpecialist);
+            tr.appendChild(notesFromTheVirtualAssistant);
+            tr.appendChild(notesOnUtilities);
+            tr.appendChild(notesOnTax);
+            tr.appendChild(notesOnLegalDescription);
+            tr.appendChild(notesOnDeeds);
+            tr.appendChild(ddVaAssignedInitialData);
+            tr.appendChild(ddVaAssignedCallsOutsTaxData);
+            tr.appendChild(ddVaAssignedCallsOutsZoningData);
+            tr.appendChild(ddVaAssignedCallsOutsUtilitiesData);
+            tr.appendChild(ddVaAssignedCallsOutsOtherRequest);
+            tr.appendChild(projectManager);
+            tr.appendChild(statusOfDd);
+            tr.appendChild(dateCompletedInitialDdTimeIn);
+            tr.appendChild(dateCompletedInitialDdTimeOut);
+            tr.appendChild(dateCompletedInitialDdTotalTime);
+            tr.appendChild(dateCompletedTaxDataTimeIn);
+            tr.appendChild(dateCompletedTaxDataTimeOut);
+            tr.appendChild(dateCompletedTaxDataTotalTime);
+            tr.appendChild(dateCompletedZoningTimeIn);
+            tr.appendChild(dateCompletedZoningTimeOut);
+            tr.appendChild(dateCompletedZoningTotalTime);
+            tr.appendChild(dateCompletedUtilitiesTimeIn);
+            tr.appendChild(dateCompletedUtilitiesTimeOut);
+            tr.appendChild(dateCompletedUtilitiesTotalTime);
+            tr.appendChild(dateCompletedOtherRequestsTimeIn);
+            tr.appendChild(dateCompletedOtherRequestsTimeOut);
+            tr.appendChild(dateCompletedOtherRequestsTotalTime);
+            tr.appendChild(totalDuration);
+
+            return tr
+        },
+        generateXMLNS: function () {
+            let htmlOpenTag = '<html xmlns:o="urn:schemas-microsoft.com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+            let htmlHead = '<head><!-- [if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"></head>';
+            let htmlBody = '<body><table>{header}{table}</table></body>';
+            let htmlCloseTag = '</html>';
+
+            return htmlOpenTag + htmlHead + htmlBody + htmlCloseTag;
+        },
+        base64: function (template) {
+            return window.btoa(unescape(encodeURIComponent(template)))
+        },
+        formatTemplate: function (template, context) {
+            return template.replace(/{(\w+)}/g, function (m, p) { return context[p] })
+        },
+        generatePDF: function (id, buttonNumber) {
+            this.loadButton(buttonNumber);
+
+            let link = document.createElement('a');
+            link.href = `/duediligence/${id}/duediligence-report.pdf`;
+            link.download = 'duediligence-Report-' + Date.now();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        },
+        loadButton: function (buttonNumber) {
+            Vue.set(this.buttonsLoading, buttonNumber, 1);
+
+            let self = this;
+
+            setTimeout(function () {
+                Vue.set(self.buttonsLoading, buttonNumber, 0);
+            }, 8000);
+        }
     },
     watch: {
             dueDiligences: function (newDueDiligencesRecords, oldDueDiligencesRecords) {
