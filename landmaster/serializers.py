@@ -26,26 +26,6 @@ class DueDiligenceSerializer(serializers.ModelSerializer):
         slug_field='name', queryset=VirtualAssistant.objects.all(), allow_null=True, required=False)
     project_manager = serializers.SlugRelatedField(slug_field='project_manager', queryset=ProjectManager.objects.all(), allow_null=True, required=False)
     date_completed = serializers.DateField(allow_null=True, required=False)
-    date_completed_initial_dd_time_in = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
-    date_completed_initial_dd_time_out = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
-    date_completed_tax_data_time_in = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
-    date_completed_tax_data_time_out = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
-    date_completed_zoning_data_time_in = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
-    date_completed_zoning_data_time_out = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
-    date_completed_utilities_time_in = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
-    date_completed_utilities_time_out = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
-    date_completed_other_requests_time_in = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
-    date_completed_other_requests_time_out = serializers.DateTimeField(
-        format="%Y-%m-%d %H:%M")
 
     class Meta:
         model = DueDiligence

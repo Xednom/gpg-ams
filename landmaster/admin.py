@@ -5,27 +5,22 @@ from jet.filters import DateRangeFilter
 
 
 class DueDiligenceProfile(admin.ModelAdmin):
-    list_display = ('date_requested', 'date_completed', 'company_name',
-                    'company_owner_or_requestor', 'due_date', 'project_manager',
-                    'status_of_dd', 'total_duration')
+    list_display = ('date_requested', 'due_date', 'company_owner_or_requestor', 
+                    'company_name', 'parcel_number', 'project_manager', 'dd_va_assigned_initial_data',
+                    'dd_va_assigned_call_outs_tax_data', 'dd_va_assigned_call_outs_zoning_data', 
+                    'dd_va_assigned_call_outs_utilities_data', 'dd_va_assigned_call_outs_other_requests',
+                    'status_of_dd', 'date_completed')
     list_filter = ('date_requested', 'due_date',
                    'company_owner_or_requestor', 'owner_name',
                    ('date_requested', DateRangeFilter))
     search_fields = ('company_name__name', 'company_owner')
-    readonly_fields = ('date_completed_initial_dd_total_time',
-                       'date_completed_tax_data_total_time',
-                       'date_completed_zoning_data_total_time',
-                       'date_completed_utilities_total_time',
-                       'date_completed_other_requests_total_time',
-                       'total_duration')
     fieldsets = (
         ('Due Diligence client Information', {
             'fields': (
                 'date_requested',
                 'due_date',
-                'company_name',
                 'company_owner_or_requestor',
-                'customer_care_specialist',
+                'company_name',
             )
         }),
         ("Land Data information", {
@@ -43,7 +38,6 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'google_map_link',
                 'elevation',
                 'assessed_value',
-                'access_to_property',
             )
         }),
         ("Additional Land Info", {
@@ -113,6 +107,7 @@ class DueDiligenceProfile(admin.ModelAdmin):
         }),
         ("Notes", {
             'fields': (
+                'county_operator_details',
                 'date_completed',
                 'status_of_dd',
                 'notes_from_the_client',
@@ -121,28 +116,6 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'notes_on_zoning',
                 'notes_on_utilities',
                 'notes_on_tax',
-                'notes_on_legal_description',
-                'notes_on_deeds',
-            )
-        }),
-        ("Other information", {
-            'fields': (
-                'date_completed_initial_dd_time_in',
-                'date_completed_initial_dd_time_out',
-                'date_completed_initial_dd_total_time',
-                'date_completed_tax_data_time_in',
-                'date_completed_tax_data_time_out',
-                'date_completed_tax_data_total_time',
-                'date_completed_zoning_data_time_in',
-                'date_completed_zoning_data_time_out',
-                'date_completed_zoning_data_total_time',
-                'date_completed_utilities_time_in',
-                'date_completed_utilities_time_out',
-                'date_completed_utilities_total_time',
-                'date_completed_other_requests_time_in',
-                'date_completed_other_requests_time_out',
-                'date_completed_other_requests_total_time',
-                'total_duration'
             )
         }),
     )

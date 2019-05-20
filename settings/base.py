@@ -53,7 +53,8 @@ THIRD_PARTY_APPS = (
     'rest_framework_datatables',
     'corsheaders',
     'import_export',
-    'crispy_forms'
+    'crispy_forms',
+    'notifications'
 )
 
 INSTALLED_APPS = ADMIN_APPS + DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
