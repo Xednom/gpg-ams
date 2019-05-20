@@ -37,15 +37,25 @@ GPG System | View Due Diligence
                             <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
+                                        {% if request.user.is_staffs %}
                                         <th>Date Requested</th>
                                         <th>Due Date</th>
-                                        <th>Date Completed</th>
+                                        <th>Company Owner's name or Requestor</th>
                                         <th>Company Name</th>
-                                        <th>Company Owner</th>
-                                        <th>Parcel Number</th>
+                                        <th>Assessors Parcel Number</th>
                                         <th>Project Manager</th>
-                                        <th>VA assigned</th>
                                         <th>Status</th>
+                                        <th>Date of Completion</th>
+                                        {% elif request.user.is_client %}
+                                        <th>Date Requested</th>
+                                        <th>Due Date</th>
+                                        <th>Company Owner's name or Requestor</th>
+                                        <th>Company Name</th>
+                                        <th>Assessors Parcel Number</th>
+                                        <th>Project Manager</th>
+                                        <th>Due Diligence Status</th>
+                                        <th>Date Of Completion</th>
+                                        {% endif %}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -54,25 +64,35 @@ GPG System | View Due Diligence
                                         <td colspan="14" class="text-center bg-warning" v-if="!dueDiligences.length">You have no Due Diligence work assigned to the Land Master Team.</td>
                                     </tr>
                                     <tr class="odd gradeX" v-for="(dueDiligences, i) in paginatedRecords">
-                                        <td>[[ dueDiligences.date_requested ]]</td>
-                                        <td>[[ dueDiligences.due_date ]]</td>
-                                        <td>[[ dueDiligences.date_completed ]]</td>
-                                        <td>[[ dueDiligences.company_name ]]</td>
-                                        <td>[[ dueDiligences.company_owner_or_requestor ]]</td>
-                                        <td>[[ dueDiligences.parcel_number ]]</td>
-                                        <td>[[ dueDiligences.project_manager ]]</td>
-                                        <td>[[ dueDiligences.dd_team_assigned_va ]]</td>
-                                        <td>[[ dueDiligences.status_of_dd ]]</td>
+                                        {% if request.user.is_staffs %}
+                                            <td>[[ dueDiligences.date_requested ]]</td>
+                                            <td>[[ dueDiligences.due_date ]]</td>
+                                            <td>[[ dueDiligences.company_owner_or_requestor ]]</td>
+                                            <td>[[ dueDiligences.company_name ]]</td>
+                                            <td>[[ dueDiligences.parcel_number ]]</td>
+                                            <td>[[ dueDiligences.project_manager ]]</td>
+                                            <td>[[ dueDiligences.status_of_dd ]]</td>
+                                            <td>[[ dueDiligences.date_completed ]]</td>
+                                        {% elif request.user.is_client %}
+                                            <td>[[ dueDiligences.date_requested ]]</td>
+                                            <td>[[ dueDiligences.due_date ]]</td>
+                                            <td>[[ dueDiligences.company_owner_or_requestor ]]</td>
+                                            <td>[[ dueDiligences.company_name ]]</td>
+                                            <td>[[ dueDiligences.parcel_number ]]</td>
+                                            <td>[[ dueDiligences.project_manager ]]</td>
+                                            <td>[[ dueDiligences.status_of_dd ]]</td>
+                                            <td>[[ dueDiligences.date_completed ]]</td>
+                                        {% endif %}
                                         <td><button class="btn btn-primary" type="button" data-toggle="modal"
                                                 data-target="#editModal"
                                                 data-placement="top" title="View Information for this work"
                                                 v-on:click="viewDueDiligence(dueDiligences.id)"><i class="fa fa-eye"></i></button>
                                             {% if request.user.is_client %}    
                                             <button class="btn btn-success" type="button" data-toggle="modal"
-                                                data-target="#timeModal"
-                                                data-placement="top" title="View Time sheet"
+                                                data-target="#otherModal"
+                                                data-placement="top" title="View Other Information"
                                                 v-on:click="viewDueDiligence(dueDiligences.id)"><i
-                                                    class="fa fa-clock-o"></i></button>
+                                                    class="fa fa-info"></i></button>
                                             <button class="btn btn-info" type="button" data-toggle="modal"
                                                 data-target="#teamModal"
                                                 data-placement="top" title="View Team Assigned"
@@ -142,14 +162,14 @@ GPG System | View Due Diligence
                                                 <div class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapseTwo">Time Sheet informations for Parcel
+                                                            href="#collapseTwo">Other informations for Parcel
                                                             Number <strong>[[ currentDueDiligence.parcel_number
                                                                 ]]</strong></a>
                                                     </h4>
                                                 </div>
                                                 <div id="collapseTwo" class="panel-collapse collapse">
                                                     <div class="panel-body">
-                                                        {% include 'landmaster/time_due.html' %}
+                                                        {% include 'landmaster/other_info.html' %}
                                                     </div>
                                                 </div>
                                             </div>
@@ -157,7 +177,7 @@ GPG System | View Due Diligence
                                                 <div class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapseThree">VA assigned Information for Parcel
+                                                            href="#collapseThree">Due Diligence Team member(s) assigned for Parcel
                                                             number [[
                                                             currentDueDiligence.parcel_number ]]</a>
                                                     </h4>
@@ -185,22 +205,22 @@ GPG System | View Due Diligence
                     <!-- /.modal -->
 
                     <!-- Modal for time in -->
-                    <div class="modal fade" id="timeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    <div class="modal fade" id="otherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Time Information for Parcel number [[ currentDueDiligence.parcel_number ]]</h4>
+                                    <h4 class="modal-title" id="myModalLabel">Other Information for Parcel number [[ currentDueDiligence.parcel_number ]]</h4>
                                 </div>
                                     <div class="modal-body">
                                         <div class="panel panel-success">
                                             <div class="panel-heading">
-                                                Total Time Duration informations
+                                                Notes
                                             </div>
                                             <div class="panel-body">
-                                                {% include 'landmaster/total_time_due.html' %}
+                                                {% include 'landmaster/other_info.html' %}
                                             </div>
                                         </div>
                                     </div>
