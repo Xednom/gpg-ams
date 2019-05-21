@@ -1,7 +1,7 @@
 <div class="row">
     <div class="form-group col-md-4 col-sm-12">
         <label>County Operator's Details</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.customer_care_specialist"
+        <input type="text" class="form-control" v-model="currentDueDiligence.county_operator_details"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
         <small class="form-text text-muted">Customer Care
             Specialist or Operator ID, Assessors/County</small>

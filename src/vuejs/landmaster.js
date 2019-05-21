@@ -17,6 +17,7 @@ new Vue({
             'company_name': "",
             'company_owner_or_requestor': "",
             'due_date': null,
+            'county_operator_details': "",
             'owner_name': "",
             'parcel_number': "",
             'account_number': "",
@@ -83,12 +84,12 @@ new Vue({
             'attachments': "",
             'status_of_dd': "",
             'leve_of_urgency': "",
-            'initial_due_diligence_completion': "",
-            'tax_data_completion': "",
-            'zoning_data_completion': "",
-            'utilities_data_completion': "",
-            'other_requests_completion': "",
-            'date_of_completion': "",
+            'initial_due_diligence_completion': null,
+            'tax_data_completion': null,
+            'zoning_data_completion': null,
+            'utilities_data_completion': null,
+            'other_requests_completion': null,
+            'date_of_completion': null,
             'operator_details_tax_data': "",
             'operator_details_zoning_data': "",
             'operator_details_utilities_data': "",
@@ -290,7 +291,6 @@ new Vue({
             }
             let htmlXML = this.generateXMLNS();
             let formattedTemplate = this.formatTemplate(htmlXML, context);
-
             let a = document.createElement('A');
             a.href = uri + this.base64(formattedTemplate);
             a.download = 'due-diligence-Report-' + Date.now() + '.xlsx';
