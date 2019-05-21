@@ -9,7 +9,7 @@ class DueDiligenceProfile(admin.ModelAdmin):
                     'company_name', 'parcel_number', 'project_manager', 'dd_va_assigned_initial_data',
                     'dd_va_assigned_call_outs_tax_data', 'dd_va_assigned_call_outs_zoning_data', 
                     'dd_va_assigned_call_outs_utilities_data', 'dd_va_assigned_call_outs_other_requests',
-                    'status_initial_data', 'status_tax_data', 'status_zoning_data', 'status_utilities_data',
+                    'level_of_urgency','status_initial_data', 'status_tax_data', 'status_zoning_data', 'status_utilities_data',
                     'status_other_requests', 'tax_data_completion', 'zoning_data_completion', 'utilities_data_completion',
                     'other_requests_completion', 'date_of_completion')
     list_filter = ('date_requested', 'due_date',
@@ -137,11 +137,13 @@ class DueDiligenceProfile(admin.ModelAdmin):
         }),
         ("Due Diligence Statuses", {
             'fields': (
+                'level_of_urgency',
                 'status_initial_data',
                 'status_tax_data',
                 'status_zoning_data',
                 'status_utilities_data',
                 'status_other_requests',
+                'status_of_dd',
             )
         })
     )

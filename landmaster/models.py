@@ -21,6 +21,11 @@ class DueDiligence(TimeStampedModel):
         ('Sewer', 'Sewer'),
         ('Septic', 'Septic'),
     )
+    URGENCY = (
+        ('High', 'High'),
+        ('Average', 'Average'),
+        ('Low', 'Low'),
+    )
     STATUS = (
         ('Sent to Project Manager', 'Sent to Project Manager'),
         ('Project Managers Review', 'Project Managers Review'),
@@ -117,11 +122,11 @@ class DueDiligence(TimeStampedModel):
     project_manager = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)
     total_minutes_hours_duration = models.CharField(max_length=150, null=True, blank=True, verbose_name="Total Minutes/hours duration")
     attachments = models.URLField(null=True, blank=True)
-    initial_due_diligence_completion = models.DateField(default=now, null=True, blank=True, verbose_name="Date of Completion – Initial Data")
-    tax_data_completion = models.DateField(default=now, null=True, blank=True, verbose_name="Date of Completion – Tax Data")
-    zoning_data_completion = models.DateField(default=now, null=True, blank=True, verbose_name="Date of Completion – Zoning Data")
-    utilities_data_completion = models.DateField(default=now, null=True, blank=True, verbose_name="Date of Completion – Utilities Data")
-    other_requests_completion = models.DateField(default=now, null=True, blank=True, verbose_name="Date of Completion – Other Requests")
+    initial_due_diligence_completion = models.DateField(null=True, blank=True, verbose_name="Date of Completion – Initial Data")
+    tax_data_completion = models.DateField(null=True, blank=True, verbose_name="Date of Completion – Tax Data")
+    zoning_data_completion = models.DateField(null=True, blank=True, verbose_name="Date of Completion – Zoning Data")
+    utilities_data_completion = models.DateField(null=True, blank=True, verbose_name="Date of Completion – Utilities Data")
+    other_requests_completion = models.DateField(null=True, blank=True, verbose_name="Date of Completion – Other Requests")
     date_of_completion = models.DateField(null=True, blank=True, help_text="Date of Completion Submitted to the Client- Overall Due Diligence")
     operator_details_tax_data = models.TextField(null=True, blank=True, verbose_name="County Operator Details - Tax Data")
     operator_details_zoning_data = models.TextField(null=True, blank=True, verbose_name="County Operator Details - Zoning Data")
@@ -132,7 +137,8 @@ class DueDiligence(TimeStampedModel):
     status_zoning_data = models.CharField(max_length=150, null=True, blank=True, verbose_name="Due Diligence Status for Zoning Data")
     status_utilities_data = models.CharField(max_length=150, null=True, blank=True, verbose_name="Due Diligence Status for Utilities Data")
     status_other_requests = models.CharField(max_length=150, null=True, blank=True, verbose_name="Due Diligence Status for Other Requests")
-
+    status_of_dd = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Due Diligence Status")
+    level_of_urgency = models.CharField(max_length=150, choices=URGENCY, null=True, blank=True)
 
 
     class Meta:
