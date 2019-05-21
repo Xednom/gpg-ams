@@ -90,7 +90,6 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
         return queryset
 
     def perform_create(self, serializer):
-        notify.send(actor=self.request.user.staffs.full_name, recipient=self.request.user.clients.full_name, verb='A Due Diligence work has been updated!')
         return serializer.save(company_name=self.request.user.clients.company_name)
 
 

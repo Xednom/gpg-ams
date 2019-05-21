@@ -541,6 +541,16 @@ GPG System | Due Diligence
                                 {% if request.user.is_client %}
                                 <div class="form-row">
                                     <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Level of Urgency</label>
+                                        <div class="col-md-4 col-sm-12">
+                                            <select class="form-control" v-model="newDueDiligence.level_of_urgency">
+                                                <option>High</option>
+                                                <option>Average</option>
+                                                <option>Low</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label class="col-sm-2 col-form-label">Notes from the Client</label>
                                         <div class="col-md-10 col-sm-12">
                                             <textarea cols="30" rows="10" class="form-control" v-model="newDueDiligence.notes_from_the_client"
@@ -965,6 +975,12 @@ GPG System | Due Diligence
                                         <label class="col-sm-2 col-form-label">Notes:</label>
                                         <div class="col-md-2 col-sm-12">
                                             <label>[[ newDueDiligence.notes_from_the_client ]]</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 col-form-label">Level of Urgency:</label>
+                                        <div class="col-md-2 col-sm-12">
+                                            <label>[[ newDueDiligence.level_of_urgency ]]</label>
                                         </div>
                                     </div>
                                     <!-- save -->

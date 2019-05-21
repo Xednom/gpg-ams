@@ -82,6 +82,23 @@ new Vue({
             'project_manager': "",
             'attachments': "",
             'status_of_dd': "",
+            'leve_of_urgency': "",
+            'initial_due_diligence_completion': "",
+            'tax_data_completion': "",
+            'zoning_data_completion': "",
+            'utilities_data_completion': "",
+            'other_requests_completion': "",
+            'date_of_completion': "",
+            'operator_details_tax_data': "",
+            'operator_details_zoning_data': "",
+            'operator_details_utilities_data': "",
+            'operator_details_other_requests': "",
+            'status_initial_data': "",
+            'status_tax_data': "",
+            'status_zoning_data': "",
+            'status_utilities_data': "",
+            'status_other_requests': "",
+            'status_tax_data': "",
         },
         // for pagination
         currentPage: 1,
@@ -172,7 +189,7 @@ new Vue({
                         buttons: "Ok",
                     })
                     this.errorduediligence = err.body;
-                    console.log(err.bodyText);
+                    console.log(err);
                 })
         },
         updateDueDiligence: function () {

@@ -9,7 +9,9 @@ class DueDiligenceProfile(admin.ModelAdmin):
                     'company_name', 'parcel_number', 'project_manager', 'dd_va_assigned_initial_data',
                     'dd_va_assigned_call_outs_tax_data', 'dd_va_assigned_call_outs_zoning_data', 
                     'dd_va_assigned_call_outs_utilities_data', 'dd_va_assigned_call_outs_other_requests',
-                    'status_of_dd', 'date_completed')
+                    'level_of_urgency','status_initial_data', 'status_tax_data', 'status_zoning_data', 'status_utilities_data',
+                    'status_other_requests', 'tax_data_completion', 'zoning_data_completion', 'utilities_data_completion',
+                    'other_requests_completion', 'date_of_completion')
     list_filter = ('date_requested', 'due_date',
                    'company_owner_or_requestor', 'owner_name',
                    ('date_requested', DateRangeFilter))
@@ -105,11 +107,26 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'dd_va_assigned_call_outs_other_requests',
             )
         }),
+        ("County Operator Details", {
+            'fields': (
+                'operator_details_tax_data',
+                'operator_details_zoning_data',
+                'operator_details_utilities_data',
+                'operator_details_other_requests',
+            )
+        }),
+        ("Date Of Completions", {
+            'fields': (
+                'initial_due_diligence_completion',
+                'tax_data_completion',
+                'zoning_data_completion',
+                'utilities_data_completion',
+                'other_requests_completion',
+                'date_of_completion',
+            )
+        }),
         ("Notes", {
             'fields': (
-                'county_operator_details',
-                'date_completed',
-                'status_of_dd',
                 'notes_from_the_client',
                 'notes_from_the_quality_specialist',
                 'notes_from_the_virtual_assistant',
@@ -118,6 +135,17 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'notes_on_tax',
             )
         }),
+        ("Due Diligence Statuses", {
+            'fields': (
+                'level_of_urgency',
+                'status_initial_data',
+                'status_tax_data',
+                'status_zoning_data',
+                'status_utilities_data',
+                'status_other_requests',
+                'status_of_dd',
+            )
+        })
     )
 
 
