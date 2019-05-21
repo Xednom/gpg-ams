@@ -41,6 +41,7 @@ class DueDiligence(TimeStampedModel):
     company_name = models.CharField(max_length=250, null=True, blank=True)
     company_owner_or_requestor = models.CharField(max_length=250, null=True, blank=True)
     due_date = models.DateField(null=True, blank=True)
+    county_operator_details = models.CharField(max_length=250, null=True, blank=True, help_text="County Operator's Details")
     owner_name = models.CharField(max_length=250, null=True, blank=True, verbose_name="Owner's name")
     parcel_number = models.CharField(max_length=250, null=True, blank=True)
     account_number = models.CharField(max_length=259, null=True, blank=True)
