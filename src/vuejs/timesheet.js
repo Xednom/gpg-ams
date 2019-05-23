@@ -5,7 +5,9 @@ new Vue({
     data: {
         timesheets: [],
         paymentmade: [],
+        errortimesheet: [],
         loading: false,
+        errored: false,
         currentTimeSheet: {},
         message: null,
         newTimeSheet: {
@@ -74,6 +76,20 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
+                    console.log(err);
+                })
+        },
+        viewTimeSheet: function (id) {
+            this.loading = true;
+            this.$http.get(`/api/v1/timesheet/${id}`)
+                .then((response) => {
+                    this.loading = false;
+                    this.currentTimeSheet = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    this.errored = true;
+                    this.errortimesheet = err.body;
                     console.log(err);
                 })
         },
