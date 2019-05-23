@@ -8,6 +8,10 @@ from fillables.models import VirtualAssistant
 
 
 class TimeSheet(models.Model):
+    STATUS = (
+        ('Approved', 'Approved'),
+        ('Not Approved', 'Not Approved')
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company_tagging = models.CharField(max_length=150, null=True, blank=True)
     shift_date = models.DateField(default=now, null=True, blank=True)
@@ -26,6 +30,7 @@ class TimeSheet(models.Model):
     tax_fee = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True)
     total_tax_fee = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True)
     total_amount_due = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    status = models.CharField(max_length=50, choices=STATUS, default=STATUS[1][1])
 
     class Meta:
         verbose_name = "Client TimeSheet"

@@ -11,7 +11,7 @@ from . models import TimeSheet, PaymentMade
 class TimeSheetProfile(ModelAdminTotals):
     list_display = ('company_tagging', 'shift_date', 'month_to_date', 'clients_full_name',
                     'title_job_request', 'time_in', 'time_out', 'duration', 'hourly_rate',
-                    'total_tax_fee', 'total_amount_due')
+                    'total_tax_fee', 'total_amount_due', 'status')
     list_filter = ('company_tagging', 'shift_date', ('shift_date', DateRangeFilter), 'clients_full_name')
     list_totals = [('total_tax_fee', Sum), ('total_amount_due', Sum), ('duration', Sum)]
     search_fields = ('company_tagging', 'clients_full_name', 'shift_date', 'month_to_date',
@@ -36,7 +36,8 @@ class TimeSheetProfile(ModelAdminTotals):
                 'amount_charge',
                 'tax_fee',
                 'total_tax_fee',
-                'total_amount_due'
+                'total_amount_due',
+                'status',
             )
         }),
     )
