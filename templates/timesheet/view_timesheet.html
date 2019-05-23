@@ -76,9 +76,9 @@ GPG System | View Payroll
                                             <th>Time In</th>
                                             <th>Time Out</th>
                                             <th>Duration</th>
-                                            <th>Hourly Rate</th>
-                                            <th>Total Tax Fee</th>
+                                            <th>Job request assigned to</th>
                                             <th>Total Amount Due</th>
+                                            <th>Action</th>
                                         </thead>
                                         <tbody>
                                             <tr>
@@ -95,9 +95,13 @@ GPG System | View Payroll
                                                 <td>[[ timesheets.time_in ]]</td>
                                                 <td>[[ timesheets.time_out ]]</td>
                                                 <td>[[ timesheets.duration ]]</td>
-                                                <td>[[ timesheets.hourly_rate ]]</td>
-                                                <td>[[ timesheets.total_tax_fee ]]</td>
+                                                <td>[[ timesheets.assigned_job_request_to ]]</td>
                                                 <td>[[ timesheets.total_amount_due ]]</td>
+                                                <td><button class="btn btn-primary" type="button" data-toggle="modal"
+                                                        data-target="#viewModal" data-placement="top"
+                                                        title="View Information for this work"
+                                                        v-on:click="viewTimeSheet(timesheets.id)"><i
+                                                            class="fa fa-eye"></i></button>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -187,6 +191,31 @@ GPG System | View Payroll
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Time sheet information for [[
+                                    currentTimeSheet.title_job_request ]]</h4>
+                            </div>
+                            <div class="modal-body">
+                                {% include 'timesheet/timesheet_info.html' %}
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
             </div>
         </div>
     </div>
