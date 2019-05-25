@@ -21,7 +21,7 @@ DEBUG = False
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-ALLOWED_HOSTS = ['.pythonanywhere.com']
+ALLOWED_HOSTS = ['.pythonanywhere.com', 'www.gpgcorp.com']
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
