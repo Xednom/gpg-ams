@@ -5,6 +5,7 @@ new Vue({
     data: {
         payrolls: [],
         cashouts: [],
+        buttonsLoading: [],
         loading: false,
         currentPayroll: {},
         message: null,
@@ -127,7 +128,26 @@ new Vue({
                     this.endPage = this.currentPage + maxPagesAfterCurrentPage;
                 }
             }
-        }
+        },
+        generatePDF: function (id, buttonNumber) {
+                this.loadButton(buttonNumber);
+
+                let link = document.createElement('a');
+                link.href = `/payroll/${id}/payroll-report.pdf`;
+                link.download = 'payroll-Report-' + Date.now();
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            },
+            loadButton: function (buttonNumber) {
+                Vue.set(this.buttonsLoading, buttonNumber, 1);
+
+                let self = this;
+
+                setTimeout(function () {
+                    Vue.set(self.buttonsLoading, buttonNumber, 0);
+                }, 8000);
+            }
     },
     watch: {
         payrolls: function (newPayrollRecords, oldPayrollRecords) {

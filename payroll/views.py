@@ -6,10 +6,12 @@ from decimal import Decimal
 from django_filters.rest_framework import FilterSet
 from django_filters import DateRangeFilter, DateFilter, CharFilter, NumberFilter
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.template.loader import get_template, render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, View, ListView
 from django.views.generic.edit import CreateView
+from django.utils import timezone
 
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -23,6 +25,11 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.db.models import Sum, Q, F
 
+from weasyprint import HTML, default_url_fetcher
+
+from settings import base
+
+from .render import Render, render_to_pdf
 from .models import VaPayroll, VaCashOut
 from .forms import PayrollCreateForm
 from .serializers import VaPayrollSerializer, VaCashOutSerializer
@@ -131,3 +138,40 @@ class PayrollCashOutViewSet(viewsets.ModelViewSet):
         queryset = VaCashOut.objects.filter(Q(name__name=self.request.user.staffs.full_name),
                                             Q(date_release__year=current_year))
         return queryset
+
+
+class PdfCurrentPayroll(View):
+   def get(self, request):
+        current_month = datetime.date.today().month
+        payrolls = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name),
+                                            Q(date__month=current_month))
+        total_salary = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name),
+                                                Q(date__month=current_month)).aggregate(Sum('salary'))
+        today = timezone.now()
+        params = {
+            'today': today,
+            'payrolls': payrolls,
+            'total_salary': total_salary,
+            'request': request
+        }
+        return Render.render('payroll/payroll_pdf.html', params)
+
+
+class PdfPreviousPayroll(View):
+   def get(self, request):
+        today = datetime.date.today()
+        last_month = today.month - 1
+        payrolls = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name),
+                                            Q(date__month=last_month),
+                                            Q(status='APPROVED-BY-THE-MANAGER'))
+        total_salary = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name),
+                                                Q(date__month=last_month),
+                                                Q(status='APPROVED-BY-THE-MANAGER')).aggregate(Sum('salary'))
+        today = timezone.now()
+        params = {
+            'today': today,
+            'payrolls': payrolls,
+            'total_salary': total_salary,
+            'request': request
+        }
+        return Render.render('payroll/payroll_pdf.html', params)
