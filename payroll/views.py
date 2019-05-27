@@ -144,9 +144,11 @@ class PdfCurrentPayroll(View):
    def get(self, request):
         current_month = datetime.date.today().month
         payrolls = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name),
-                                            Q(date__month=current_month))
+                                            Q(date__month=current_month),
+                                            Q(status='APPROVED-BY-THE-MANAGER'))
         total_salary = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name),
-                                                Q(date__month=current_month)).aggregate(Sum('salary'))
+                                                Q(date__month=current_month),
+                                                Q(status='APPROVED-BY-THE-MANAGER')).aggregate(Sum('salary'))
         today = timezone.now()
         params = {
             'today': today,
