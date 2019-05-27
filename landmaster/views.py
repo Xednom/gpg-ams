@@ -2,6 +2,8 @@ from django import template
 from django.db.models import Q
 
 from notifications.signals import notify
+from django.http import HttpResponse
+from django.template.loader import get_template, render_to_string
 from django.views.generic import View, ListView, TemplateView
 from django.views.generic.edit import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -15,6 +17,10 @@ from rest_framework.permissions import IsAuthenticated
 from .models import DueDiligence, DueDiligencesCleared
 
 from .serializers import DueDiligenceSerializer, DueDiligenceClearedSerializer
+
+from weasyprint import HTML, default_url_fetcher
+
+from settings import base
 
 register = template.Library()
 
@@ -106,3 +112,25 @@ class DueDiligenceTrackerViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         return serializer.save(customer_service_representative=self.request.user.staffs.full_name)
+
+
+class PdfLandmaster(View):
+
+    def get(self, request, duediligence_id):
+        duediligence = DueDiligence.objects.filter(id=duediligence_id).first()
+        params = {
+            'duediligence': duediligence,
+            'request': request
+        }
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = "inline; filename=Carrier-Report.pdf"
+
+        html = render_to_string('landmaster/duediligence_pdf.html', params)
+        css = [
+            base.BASE_DIR + '/src/css/bootstrap3/css/bootstrap.min.css'
+        ]
+
+        HTML(string=html).write_pdf(response, stylesheets=css)
+        return response
+        # return Render.render('carrier/carrier_print.html', params)
