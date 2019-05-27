@@ -57,6 +57,7 @@ GPG System | View Due Diligence
                                         <th>Date Of Completion</th>
                                         {% endif %}
                                         <th>Action</th>
+                                        <th>PDF</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -106,7 +107,14 @@ GPG System | View Due Diligence
                                                 data-placement="top" title="View Team Assigned"
                                                 v-on:click="viewDueDiligence(dueDiligences.id)"><i
                                                     class="fa fa-users"></i></button>
-                                            {% endif %}
+                                            {% endif %} </td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-success"
+                                                v-on:click="generatePDF(dueDiligences.id, i)">
+                                                <i v-if="buttonsLoading[i]" class="fa fa-spinner fa-spin"></i>
+                                                <i v-else class="fa fa-print filter"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

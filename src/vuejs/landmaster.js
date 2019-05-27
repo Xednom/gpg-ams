@@ -11,6 +11,7 @@ new Vue({
         virtualAssistants: [],
         projectManagers: [],
         currentDueDiligence: [],
+        buttonsLoading: [],
         errorduediligence: [],
         newDueDiligence: {
             'date_requested': null,
@@ -863,7 +864,7 @@ new Vue({
             this.loadButton(buttonNumber);
 
             let link = document.createElement('a');
-            link.href = `/duediligence/${id}/duediligence-report.pdf`;
+            link.href = `/land-master/${id}/duediligence-report.pdf`;
             link.download = 'duediligence-Report-' + Date.now();
             document.body.appendChild(link);
             link.click();

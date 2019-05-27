@@ -1,0 +1,833 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>duediligence Report</title>
+    <style type="text/css">
+        @page {
+            size: A4;
+            margin: 1cm;
+        }
+
+        span,
+        label,
+        textarea {
+            font-size: 12px;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }
+
+        .row {
+            margin-bottom: 15px;
+        }
+
+        main {
+            width: 720px;
+            margin-left: 0px;
+        }
+
+        span {
+            text-decoration: underline;
+        }
+
+        label {
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <section class="row">
+            <h4>Due Diligence Information for Parcel Number {{ duediligence.parcel_number }}</h4>
+        </section>
+        <hr>
+        <section class="row">
+            <h4>Due Diligence Information</h4>
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-4">
+                <label>Date Requested:</label>
+                <div>
+                    <span>
+                        {% if duediligence.date_requested %}
+                        {{ duediligence.date_requested }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Due Date:</label>
+                <div>
+                    <span>
+                        {% if duediligence.due_date %}
+                        {{ duediligence.due_date }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Company Name:</label>
+                <div>
+                    <span>
+                        {% if duediligence.company_name %}
+                        {{ duediligence.company_name }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-4">
+                <label>Company owner or Requestor:</label>
+                <div>
+                    <span>
+                        {% if duediligence.company_owner_or_requestor %}
+                        {{ duediligence.company_owner_or_requestor }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-4">
+                <label>Test Choice:</label>
+                <div>
+                    <span>
+                        {% if duediligence.type_of_test %}
+                        {{ duediligence.type_of_test }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Agent:</label>
+                <div>
+                    <span>
+                        {% if duediligence.agent %}
+                        {{ duediligence.agent }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Telemed Name:</label>
+                <div class="">
+                    <span>
+                        {% if duediligence.telemed_name %}
+                        {{ duediligence.telemed_name }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-12">
+                <label>Notes:</label>
+                <div>
+                    <span>{{ duediligence.notes }}</span>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="row">
+            <h4>Land Data Information</h4>
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-4">
+                <label>Owner's Name:</label>
+                <div>
+                    <span>
+                        {% if duediligence.owner_name %}
+                        {{ duediligence.owner_name }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Parcel Number:</label>
+                <div>
+                    <span>
+                        {% if duediligence.parcel_number %}
+                        {{ duediligence.parcel_number }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Account Number:</label>
+                <div>
+                    <span>
+                        {% if duediligence.account_number %}
+                        {{ duediligence.account_number }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-4">
+                <label>Property Address:</label>
+                <div>
+                    <span>
+                        {% if duediligence.property_address %}
+                        {{ duediligence.property_address }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>County:</label>
+                <div>
+                    <span>
+                        {% if duediligence.county %}
+                        {{ duediligence.county }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Lot Number:</label>
+                <div>
+                    <span>
+                        {% if duediligence.lot_number %}
+                        {{ duediligence.lot_number }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-4">
+                <label>Legal Description:</label>
+                <div>
+                    <span>
+                        {% if duediligence.legal_description %}
+                        {{ duediligence.legal_description }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Parcel Size:</label>
+                <div>
+                    <span>
+                        {% if duediligence.parcel_size %}
+                        {{ duediligence.parcel_size }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>GPS Coordinates:</label>
+                <div>
+                    <span>
+                        {% if duediligence.gps_coordinates %}
+                        {{ duediligence.gps_coordinates }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-4">
+                <label>GPS Coordinates 4 corners:</label>
+                <div>
+                    <span>
+                        {% if duediligence.gps_coordinates_4_corners %}
+                        {{ duediligence.gps_coordinates_4_corners }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Google Map Link:</label>
+                <div>
+                    <span>
+                        {% if duediligence.google_map_link %}
+                        {{ duediligence.google_map_link }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Elevation:</label>
+                <div>
+                    <span>
+                        {% if duediligence.elevation %}
+                        {{ duediligence.elevation }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-4">
+                <label>Assessed Value:</label>
+                <div>
+                    <span>
+                        {% if duediligence.assessed_value %}
+                        {{ duediligence.assessed_value }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Access to Property:</label>
+                <div>
+                    <span>
+                        {% if duediligence.access_to_property %}
+                        {{ duediligence.access_to_property }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="row">
+            Additional Data Informations
+        </section>
+
+        <section class="row duediligence-information">
+            <div class="col-xs-4">
+                <label>Closest Major City:</label>
+                <div>
+                    <span>
+                        {% if duediligence.closest_major_city %}
+                        {{ duediligence.closest_major_city }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Closest minor town:</label>
+                <div>
+                    <span>
+                        {% if duediligence.closest_small_town %}
+                        {{ duediligence.closest_small_town }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Nearby Attractions:</label>
+                <div>
+                    <span>
+                        {% if duediligence.nearby_attractions %}
+                        {{ duediligence.nearby_attractions }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="row">
+            County Data Informations
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-4">
+                <label>Assessor Website:</label>
+                <div>
+                    <span>
+                        {% if duediligence.assessor_website %}
+                        {{ duediligence.assessor_website }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Treasurer Website:</label>
+                <div>
+                    <span>
+                        {% if duediligence.treasurer_website %}
+                        {{ duediligence.treasurer_website }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Recorder/Clerk Website:</label>
+                <div>
+                    <span>
+                        {% if duediligence.reorder_clerk_website %}
+                        {{ duediligence.reorder_clerk_website }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-4">
+                <label>Zoning Department Website:</label>
+                <div>
+                    <span>
+                        {% if duediligence.zoning_department_website %}
+                        {{ duediligence.zoning_department_website }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>GIS Website:</label>
+                <div>
+                    <span>
+                        {% if duediligence.zoning_department_website %}
+                        {{ duediligence.zoning_department_website }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>CAD Website:</label>
+                <div>
+                    <span>
+                        {% if duediligence.cad_website %}
+                        {{ duediligence.cad_website }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-4">
+                <label>Planning Department Website:</label>
+                <div>
+                    <span>
+                        {% if duediligence.planning_department_contact %}
+                        {{ duediligence.planning_department_contact }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Recorder/Clerk Contact:</label>
+                <div>
+                    <span>
+                        {% if duediligence.recorder_clerk_contact %}
+                        {{ duediligence.recorder_clerk_contact }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="row">
+            Tax Data Information
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-4">
+                <label>Back Taxes owed? If so, amount owed:</label>
+                <div>
+                    <span>
+                        {% if duediligence.back_taxes %}
+                        {{ duediligence.back_taxes }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Tax Liens? If so, amount owed:</label>
+                <div>
+                    <span>
+                        {% if duediligence.tax_liens %}
+                        {{ duediligence.tax_liens }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Annual Property Taxes:</label>
+                <div>
+                    <span>
+                        {% if duediligence.annual_property_taxes %}
+                        {{ duediligence.annual_property_taxes }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-4">
+                <label>Is property part of an HOA:</label>
+                <div>
+                    <span>
+                        {% if duediligence.is_property_part_of_an_hoa %}
+                        {{ duediligence.is_property_part_of_an_hoa }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Is so how much are the dues:</label>
+                <div>
+                    <span>
+                        {% if duediligence.how_much_dues %}
+                        {{ duediligence.how_much_dues }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="row">
+            Zoning Data Information
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-4">
+                <label>Zoning:</label>
+                <div>
+                    <span>
+                        {% if duediligence.zoning %}
+                        {{ duediligence.zoning }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Terrain Type:</label>
+                <div>
+                    <span>
+                        {% if duediligence.terrain_type %}
+                        {{ duediligence.terrain_type }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Property use code:</label>
+                <div>
+                    <span>
+                        {% if duediligence.property_use_code %}
+                        {{ duediligence.property_use_code }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-4">
+                <label>What can be built on the property:</label>
+                <div>
+                    <span>
+                        {% if duediligence.what_can_be_built %}
+                        {{ duediligence.what_can_be_built }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Time limit to build:</label>
+                <div>
+                    <span>
+                        {% if duediligence.time_limit_to_build %}
+                        {{ duediligence.time_limit_to_build }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Can you camp on the property:</label>
+                <div>
+                    <span>
+                        {% if duediligence.can_camp %}
+                        {{ duediligence.can_camp }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-informations"> 
+            <div class="col-xs-4">
+                <label>RV's allowed on the property:</label>
+                <div>
+                    <span>
+                        {% if duediligence.rv_allowed %}
+                        {{ duediligence.rv_allowed }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Mobile homes allowed on property:</label>
+                <div>
+                    <span>
+                        {% if duediligence.mobile_homes %}
+                        {{ duediligence.mobile_homes }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Is the property in the flood zone area:</label>
+                <div>
+                    <span>
+                        {% if duediligence.is_property_flood_zone_area %}
+                        {{ duediligence.is_property_flood_zone_area }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="row duediligence-informations">
+            <div class="col-xs-12">
+                <label>Notes on mobile homes:</label>
+                <div>
+                    <span>
+                        {% if duediligence.notes_on_mobile_homes %}
+                        {{ duediligence.notes_on_mobile_homes }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-12">
+                <label>Notes on Camping:</label>
+                <div>
+                    <span>
+                        {% if duediligence.notes_on_camping %}
+                        {{ duediligence.notes_on_camping }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-12">
+                <label>Note's on RV's:</label>
+                <div>
+                    <span>
+                        {% if duediligence.note_on_rv %}
+                        {{ duediligence.note_on_rv }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-12">
+                <label>Client Instructions:</label>
+                <div>
+                    <span>
+                        {% if duediligence.notes_from_the_client %}
+                        {{ duediligence.notes_from_the_client }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="row">
+            Data on Utilities Informations
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-4">
+                <label>Water:</label>
+                <div>
+                    <span>
+                        {% if duediligence.water %}
+                        {{ duediligence.water }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Sewer or Septic:</label>
+                <div>
+                    <span>
+                        {% if duediligence.sewer_or_septic %}
+                        {{ duediligence.sewer_or_septic }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Power(Electricity):</label>
+                <div>
+                    <span>
+                        {% if duediligence.power %}
+                        {{ duediligence.power }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <section class="row duediligence-informations">
+            <div class="col-xs-4">
+                <label>Gas:</label>
+                <div>
+                    <span>
+                        {% if duediligence.gas %}
+                        {{ duediligence.gas }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label>Waste:</label>
+                <div>
+                    <span>
+                        {% if duediligence.waste %}
+                        {{ duediligence.waste }}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+
+</html>
