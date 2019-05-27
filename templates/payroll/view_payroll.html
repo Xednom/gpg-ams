@@ -74,6 +74,17 @@ GPG System | View Payroll
                                 </div>
                                 <div style="overflow-x:auto;">
                                 <h4 class="pull-right">Total salary: [[ totalSalary ]]</h4>
+                                <div class="pull-left">
+                                    <a href="{% url 'payroll:pdf_current_payroll' %}" class="btn btn-success">
+                                        <i class="fa fa-print filter"></i>
+                                        Export current month of payroll
+                                    </a>
+                                    &nbsp;
+                                    <a href="{% url 'payroll:pdf_previous_payroll' %}" class="btn btn-success">
+                                        <i class="fa fa-print filter"></i>
+                                        Export previous month of payroll
+                                    </a>
+                                </div>
                                     <table class="table table-bordered table-hover table-responsive">
                                         <thead>
                                             <th>Date</th>
