@@ -208,8 +208,8 @@ class DueDiligencesCleared(models.Model):
     customer_service_representative = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
-        verbose_name = 'Due Diligences Cleared Information'
-        verbose_name_plural = 'Due Diligences Cleared Informations'
+        verbose_name = 'Due Diligence Call Tracking Report'
+        verbose_name_plural = 'Due Diligence Call Tracking Reports'
         ordering=['-date_of_call']
 
     def calculate_total_hours(self):
