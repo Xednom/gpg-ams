@@ -141,55 +141,11 @@ class DueDiligence(TimeStampedModel):
     status_of_dd = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Due Diligence Status")
     level_of_urgency = models.CharField(max_length=150, choices=URGENCY, null=True, blank=True)
 
-
     class Meta:
         ordering = ('date_requested',)
 
     def __str__(self):
         return str(self.company_name)
-
-    # to do: will completely remove below lines of codes when the revisions are good to go without it.
-
-    # def calculate_initial_time(self):
-    #     initial_time = (self.date_completed_initial_dd_time_out - self.date_completed_initial_dd_time_in).total_seconds() / 60 / 60
-    #     total_time = Decimal(initial_time)
-    #     return total_time
-    
-    # def calculate_tax_time(self):
-    #     tax_time = (self.date_completed_tax_data_time_out - self.date_completed_tax_data_time_in).total_seconds() / 60 / 60
-    #     total_time = Decimal(tax_time)
-    #     return total_time
-    
-    # def calculate_zoning_time(self):
-    #     zoning_time = (self.date_completed_zoning_data_time_out - self.date_completed_zoning_data_time_in).total_seconds() / 60 / 60
-    #     total_time = Decimal(zoning_time)
-    #     return total_time
-    
-    # def calculate_utilities_time(self):
-    #     utilities_time = (self.date_completed_utilities_time_out - self.date_completed_utilities_time_in).total_seconds() / 60 / 60
-    #     total_time = Decimal(utilities_time)
-    #     return total_time
-    
-    # def calculate_other_time(self):
-    #     other_time = (self.date_completed_other_requests_time_out - self.date_completed_other_requests_time_in).total_seconds() / 60 / 60
-    #     total_time = Decimal(other_time)
-    #     return total_time
-    
-    # def calculate_duration(self):
-    #     duration = self.date_completed_initial_dd_total_time + \
-    #         self.date_completed_tax_data_total_time + \
-    #         self.date_completed_zoning_data_total_time + self.date_completed_utilities_total_time + \
-    #         self.date_completed_other_requests_total_time
-    #     return duration
-    
-    # def save(self, *args, **kwargs):
-    #     self.date_completed_initial_dd_total_time = self.calculate_initial_time()
-    #     self.date_completed_tax_data_total_time = self.calculate_tax_time()
-    #     self.date_completed_zoning_data_total_time = self.calculate_zoning_time()
-    #     self.date_completed_utilities_total_time = self.calculate_zoning_time()
-    #     self.date_completed_other_requests_total_time = self.calculate_other_time()
-    #     self.total_duration = self.calculate_duration()
-    #     super().save(*args, **kwargs)
 
 
 class DueDiligencesCleared(models.Model):
