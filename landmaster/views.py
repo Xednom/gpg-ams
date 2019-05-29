@@ -124,7 +124,7 @@ class PdfLandmaster(View):
         }
 
         response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = "inline; filename=Carrier-Report.pdf"
+        response['Content-Disposition'] = "inline; filename=DueDiligence-Report.pdf"
 
         html = render_to_string('landmaster/duediligence_pdf.html', params)
         css = [
