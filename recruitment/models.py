@@ -16,7 +16,7 @@ class Resume(models.Model):
     technical_skills_assessment = models.CharField(max_length=150, null=True, blank=True)
     other_skills = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    attachment = models.FileField(null=True, blank=True)
+    attachment = models.FileField(upload_to="resume/", max_length=1000, null=True, blank=True)
     date_created = models.DateField(auto_now_add=True)
 
     class Meta:
