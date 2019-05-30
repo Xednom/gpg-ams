@@ -139,6 +139,13 @@ class ClientProfile(admin.ModelAdmin):
                 'company_name',
                 'client_control_number',
                 'referral',
+                'internal_folder_link',
+            )
+        }),
+        ('GPG Employee assigned to you', {
+            'fields': (
+                'assigned_va',
+                'assigned_pm',
             )
         }),
         ('Important Information', {

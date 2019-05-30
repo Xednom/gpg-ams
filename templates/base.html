@@ -72,6 +72,7 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
+                        <li><a href="{% url 'users:profile' %}"><i class="fa fa-user fa-fw"></i> Profile</a>
                       {% if request.user.is_staffs %}
                         <li><a href="{% url 'logins:login' %}"><i class="fa fa-list fa-fw"></i> Assigned logins</a>
                           {% endif %}
