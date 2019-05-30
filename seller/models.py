@@ -108,6 +108,8 @@ class OfficeFlowersValleyProperties(models.Model):
     average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
     additional_comments = models.TextField(null=True, blank=True)
     additional_notes = models.TextField(null=True, blank=True)
+    opening_spiel = models.TextField(null=True, blank=True)
+    closing_spiel = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Office Flowers Valley Seller Data"
@@ -249,7 +251,7 @@ class LynkCapital(models.Model):
     access_to_property = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True,
                                           blank=True, help_text="Is there a road access to the property? Y/N")
     paved_or_dirt = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True,
-                                     blank=True, help_text="Is there a road access to the property? Y/N")
+                                     blank=True, help_text="Is the road Paved or Dirt? Y/N")
     structure_on_property = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True,
                                              blank=True, help_text="Is there a structure on the property? Y/N")
     property_listed_on_realtor = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True,
@@ -267,7 +269,7 @@ class LynkCapital(models.Model):
     inherited_from = models.CharField(max_length=250, null=True, blank=True,
                                       help_text="If Inherited, from Who (full name)")
     currently_listed = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True, blank=True,
-                                        help_text="Are you the person that is currently listed on the deed as the owner on the county records? Y/N")
+                                        help_text="Are you the person that is currently listed on the deed as the owner on the county records? Y/N (Just enter the callers answer in answer field.)")
     if_not_then_who = models.CharField(max_length=250, null=True, blank=True, help_text="If not, then who?")
     hoa = models.CharField(max_length=10, choices=YES_NO_CHOICES, null=True, blank=True,
                            help_text="Are there HOA fees? Y/N")
@@ -469,7 +471,7 @@ class Alevi(models.Model):
     owned_the_property = models.CharField(max_length=150, null=True, blank=True,
                                           help_text="How long have you owned the property?")
     back_taxes = models.CharField(max_length=150, null=True, blank=True,
-                                  help_text="How long have you owned the property?")
+                                  help_text="And do you own it free and clear or are there any back taxes on it? (if there are back taxes ask if they know the amount)")
     owners_association = models.CharField(max_length=150, null=True, blank=True,
                                           help_text="Is the property part of a home owners association? (if yes, please ask for the name of the home owners association and annual fees)")
     listed_with_real_estate_agent = models.CharField(max_length=150, null=True, blank=True,
@@ -478,6 +480,9 @@ class Alevi(models.Model):
                                      help_text="(word for word – last question): So at this point – what are you trying to do – are you trying to get rid of it or do you have a number in mind what you wanted to get for the property? (write down their comments and ideally an expected number) ")
     average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
     additional_notes = models.TextField(null=True, blank=True)
+    opening_spiel = models.TextField(null=True, blank=True)
+    optional_comments = models.TextField(null=True, blank=True)
+    closing_spiel = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Alevi Seller Data"
@@ -513,6 +518,8 @@ class AffordaleLandInvestment(models.Model):
                                          help_text="If we were to pay all cash and close within the next 10 days, what is the least you would accept for your property?")
     average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
     additional_notes = models.TextField(null=True, blank=True)
+    opening_spiel = models.TextField(null=True, blank=True)
+    closing_spiel = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Affordable Land Investment Seller Data"

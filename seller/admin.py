@@ -108,6 +108,12 @@ class OfficeFlowersVallerPropertiesProfile(admin.ModelAdmin):
                 
             )
         }),
+        ("Spiel", {
+            'fields': (
+                'opening_spiel',
+                'closing_spiel',
+            )
+        }),
         ("Date & Time Information", {
             'fields': (
                 'call_date',
@@ -470,6 +476,13 @@ class AleviProfile(admin.ModelAdmin):
                 'last_question',
             )
         }),
+        ("Spiel", {
+            'fields': (
+                'opening_spiel',
+                'optional_comments',
+                'closing_spiel',
+            )
+        }),
         ("Date & Time Information", {
             'fields': (
                 'call_date',
@@ -506,6 +519,12 @@ class AffordableLandInvestmentProfile(admin.ModelAdmin):
                 'email_address',
                 'listed_in_letter_or_postcard',
                 'for_your_property',
+            )
+        }),
+        ("Spiel", {
+            'fields': (
+                'opening_spiel',
+                'closing_spiel',
             )
         }),
         ("Date & Time Information", {
