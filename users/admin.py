@@ -60,11 +60,14 @@ class StaffProfile(admin.ModelAdmin):
     list_filter = ('full_name', 'position', 'status')
     search_fields = ('full_name', 'position', 'SSS_number',
                      'TIN_number', 'pag_ibig_number')
+    readonly_fields = ('total_employer', 'total_employee')
     fieldsets = (
         ('Staff Informations', {
             'fields': (
                 'username',
                 'full_name',
+                'actual_date_hired',
+                'date_hired_in_contract',
                 'phone_number',
                 'SSS_number',
                 'TIN_number',
@@ -94,6 +97,24 @@ class StaffProfile(admin.ModelAdmin):
                 'bank_account_name',
                 'bank_type',
                 'bank_account_number',
+            )
+        }),
+        ('Employer Share', {
+            'fields': (
+                'employer_share_sss',
+                'employer_share_ec_sss',
+                'employer_share_philhealth',
+                'employer_share_pag_ibig',
+                'total_employer',
+            )
+        }),
+        ('Employee Share', {
+            'fields':(
+                'employee_share_sss',
+                'employee_share_ec_sss',
+                'employee_share_philhealth',
+                'employee_share_pag_ibig',
+                'total_employee',
             )
         }),
     )
