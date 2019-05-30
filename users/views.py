@@ -65,6 +65,13 @@ class HomeView(LoginRequiredMixin, ListView):
         return queryset
 
 
+class VaProfile(ListView):
+    template_name = 'users/profile.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+
 def client_status_data(request):
     dataset = Client.objects \
         .values('status') \
