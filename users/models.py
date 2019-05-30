@@ -33,15 +33,18 @@ class Staffs(models.Model):
         ('Senior Operations Managers', 'Senior Operations Managers'),
         ('Project Managers', 'Project Managers'),
         ('Team Leads', 'Team Leads'),
-        ('General Administrative Support', 'General Administrative Support')
+        ('General Administrative Support', 'General Administrative Support'),
+        ('Executive Assistant', 'Executive Assistant'),
+        ('Human Resource Specialists', 'Human Resource Specialists')
     )
     username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='staffs')
     full_name = models.CharField(max_length=250, default="My Name")
+    middle_name = models.CharField(max_length=150, null=True, blank=True, default="middle name")
     phone_number = models.CharField(max_length=100, null=True, blank=True)
     SSS_number = models.CharField(max_length=250, null=True, blank=True)
     TIN_number = models.CharField(max_length=250, null=True, blank=True)
     pag_ibig_number = models.CharField(max_length=250, null=True, blank=True)
-    philhealth = models.CharField(max_length=250, null=True, blank=True)
+    philhealth = models.CharField(max_length=250, null=True, blank=True, verbose_name="Philhealth Number")
     position = models.CharField(max_length=150, choices=JOB_POSITION, null=True, blank=True)
     id_number = models.CharField(max_length=250, null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
@@ -58,6 +61,21 @@ class Staffs(models.Model):
     bank_account_name = models.CharField(max_length=150, null=True, blank=True)
     bank_type = models.CharField(max_length=150, null=True, blank=True)
     bank_account_number = models.CharField(max_length=150, null=True, blank=True)
+    base_pay = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True)
+    hourly_rate = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True)
+    employer_share_sss = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employer share(SSS)")
+    employer_share_ec_sss = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employer share EC(SSS)")
+    employer_share_philhealth = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True,verbose_name="Employer share(PHILHEALTH)")
+    employer_share_pag_ibig = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employer share(PAG-IBIG)")
+    total_employer = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Total")
+    employee_share_sss = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employee share(SSS)")
+    employee_share_ec_sss = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employee share EC(SSS)")
+    employee_share_philhealth = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employee share(PHILHEALTH)")
+    employee_share_pag_ibig = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employee share(PAG-IBIG)")
+    total_employee = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Total")
+    actual_date_hired = models.DateField(default=now, null=True, blank=True)
+    date_hired_in_contract = models.DateField(default=now, null=True, blank=True)
+
 
     class Meta:
         verbose_name = "List of Staff"
@@ -66,6 +84,13 @@ class Staffs(models.Model):
 
     def __str__(self):
         return self.full_name
+
+    def save(self, *args, **kwargs):
+        self.total_employer = self.employer_share_sss + self.employer_share_ec_sss + self.employer_share_philhealth \
+            + self.employer_share_pag_ibig
+        self.total_employee = self.employee_share_sss + self.employee_share_ec_sss + self.employee_share_philhealth \
+            + self.employee_share_pag_ibig
+        super().save(*args, **kwargs)
 
 
 class Clients(models.Model):
