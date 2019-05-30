@@ -183,6 +183,12 @@ class NewLeafInvestorsProfile(admin.ModelAdmin):
                 'state_and_county',
             )
         }),
+        ("Spiel", {
+            'fields': (
+                'opening_spiel',
+                'closing_spiel',
+            )
+        }),
         ("Date & Time Information", {
             'fields': (
                 'call_date',
@@ -289,6 +295,19 @@ class LynkCapitalProfile(admin.ModelAdmin):
             'fields': (
                 'call_date',
                 'average_handling_time',
+            )
+        }),
+        ("Spiel", {
+            'fields': (
+                'opening_spiel',
+                'received_a_letter_spiel',
+                'before_spiel',
+                'closing_spiel',
+            )
+        }),
+        ("Frequently Asked Questions", {
+            'fields': (
+                'faq',
             )
         }),
         ("Other Information", {
@@ -561,6 +580,12 @@ class FranklinManagementProfile(admin.ModelAdmin):
                 'closing_date',
                 'other_properties',
                 'know_about_the_property',
+            )
+        }),
+        ("Spiel", {
+            'fields': (
+                'opening_spiel',
+                'closing_spiel',
             )
         }),
         ("Date & Time Information", {

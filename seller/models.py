@@ -169,6 +169,8 @@ class NewLeafInvestors(models.Model):
                                         help_text="What State and County is the property in? - Enter their response in the Call Notes")
     average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
     additional_notes = models.TextField(null=True, blank=True)
+    opening_spiel = models.TextField(null=True, blank=True)
+    closing_spiel = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "New Leaf Investors Seller Data"
@@ -287,10 +289,16 @@ class LynkCapital(models.Model):
                                            help_text="What is the best number to call you back?")
     average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
     additional_notes = models.TextField(null=True, blank=True)
+    opening_spiel = models.TextField(null=True, blank=True)
+    received_a_letter_spiel = models.TextField(null=True, blank=True)
+    before_spiel = models.TextField(null=True, blank=True)
+    handover_spiel = models.TextField(null=True, blank=True)
+    closing_spiel = models.TextField(null=True, blank=True)
+    faq = models.TextField(null=True, blank=True, verbose_name="FAQ")
 
     class Meta:
-        verbose_name = "Lnyk Capital Seller Data"
-        verbose_name_plural = "Lnyk Capital Seller Datas"
+        verbose_name = "Lynk Capital Seller Data"
+        verbose_name_plural = "Lynk Capital Seller Datas"
 
     def __str__(self):
         return str(self.customer_care_specialist)
@@ -574,6 +582,8 @@ class FranklinManagement(models.Model):
                                                help_text="Anything else we should know about the property?")
     average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
     additional_notes = models.TextField(null=True, blank=True)
+    opening_spiel = models.TextField(null=True, blank=True)
+    closing_spiel = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Franklin Management Seller Data"
