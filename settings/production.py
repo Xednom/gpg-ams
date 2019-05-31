@@ -51,8 +51,8 @@ DATABASES = {
          'NAME': 'gpg$gpg',
          'USER': 'gpg',
          'PASSWORD': 'admin12345',
-         'HOST': env('DATABASE_HOST'),
-         'PORT': env('DATABASE_PORT'),
+         'HOST': 'gpg.mysql.pythonanywhere-services.com',
+         'PORT': '3306',
          'OPTIONS': {
              'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
          },
