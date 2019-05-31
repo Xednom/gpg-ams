@@ -65,7 +65,7 @@ class HomeView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class VaProfile(ListView):
+class VaProfile(LoginRequiredMixin, ListView):
     template_name = 'users/profile.html'
 
     def get(self, request):
