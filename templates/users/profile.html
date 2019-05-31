@@ -23,140 +23,194 @@ GPG Admin - Profile
 </ol>
 
 <div id="content-wrapper">
-    {% if request.user.is_client %}
-    <div class="row container">
+    <div class="container-fluid">
+        {% if request.user.is_client %}
         <div class="col-md-12 col-sm-12">
-            <h4>Personal Informations</h4>
-            <br>
-            <label>Name:</label>&nbsp;{{ request.user.clients.full_name }}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Personal Informations
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12 col-sm-12">
+                        <label>Name:</label>&nbsp;{{ request.user.clients.full_name }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Company Name:</label>&nbsp;{{ request.user.clients.company_name }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Date Signed up:</label>&nbsp;{{ request.user.clients.date_signed_up }}
+                    </div>
+                    <div class="co-md-12 col-sm-12">
+                        <label>Assigned Virtual Assistant for you:</label>&nbsp;{{ request.user.clients.assigned_va }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Assigned Project Manager for you:</label>&nbsp;{{ request.user.clients.assigned_pm }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Internal Folder Link:</label>&nbsp;<a
+                            href="{{ request.user.clients.internal_folder_link }}" target="_blank">Your
+                            internal folder link</a>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    Panel Footer
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <h4>Personal Informations</h4>
+                <br>
+                <label>Name:</label>&nbsp;{{ request.user.clients.full_name }}
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <label>Company Name:</label>&nbsp;{{ request.user.clients.company_name }}
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <label>Date Signed up:</label>&nbsp;{{ request.user.clients.date_signed_up }}
+            </div>
+            <div class="co-md-12 col-sm-12">
+                <label>Assigned Virtual Assistant for you:</label>&nbsp;{{ request.user.clients.assigned_va }}
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <label>Assigned Project Manager for you:</label>&nbsp;{{ request.user.clients.assigned_pm }}
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <label>Internal Folder Link:</label>&nbsp;<a href="{{ request.user.clients.internal_folder_link }}"
+                    target="_blank">Your
+                    internal folder link</a>
+            </div>
+
         </div>
+        {% elif request.user.is_staffs %}
         <div class="col-md-12 col-sm-12">
-            <label>Company Name:</label>&nbsp;{{ request.user.clients.company_name }}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Personal Informations
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6 col-sm-12">
+                        <label>Name:</label>&nbsp;{{ request.user.staffs.full_name }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Phone number:</label>&nbsp;{{ request.user.staffs.phone_number }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>SSS number:</label>&nbsp;{{ request.user.staffs.SSS_number }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>TIN number:</label>&nbsp;{{ request.user.staffs.TIN_number }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>PAG-IBIG number:</label>&nbsp;{{ request.user.staffs.pag_ibig_number }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Philhealth number:</label>&nbsp;{{ request.user.staffs.philhealth }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Date of Birth:</label>&nbsp;{{ request.user.staffs.date_of_birth }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Blood Type:</label>&nbsp;{{ request.user.staffs.blood_type }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Mother's Maiden Name:</label>&nbsp;{{ request.user.staffs.mother_full_maiden_name }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Father's Name:</label>&nbsp;{{ request.user.staffs.father_full_name }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Emergency Contact Name:</label>&nbsp;{{ request.user.staffs.emergency_contact_name }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Emergency Contact Number:</label>&nbsp;{{ request.user.staffs.emergency_contact_number }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Relationship to the emergency contact
+                            person:</label>&nbsp;{{ request.user.staffs.relationship_to_the_emergency_contact_person }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Residential Address:</label>&nbsp;{{ request.user.staffs.residential_address }}
+                    </div>
+                </div>
+            </div>
         </div>
+        <hr>
         <div class="col-md-12 col-sm-12">
-            <label>Date Signed up:</label>&nbsp;{{ request.user.clients.date_signed_up }}   
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Employee Informations
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6 col-sm-12">
+                        <label>Position:</label>&nbsp;{{request.user.staffs.position}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>ID Number:</label>&nbsp;{{request.user.staffs.id_number}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Basic Pay:</label>&nbsp;{{request.user.staffs.base_pay}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Hourly Rate:</label>&nbsp;{{request.user.staffs.hourly_rate}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Date Hired in Contract:</label>&nbsp;{{request.user.staffs.date_hired_in_contract}}
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="co-md-12 col-sm-12">
-            <label>Assigned Virtual Assistant for you:</label>&nbsp;{{ request.user.clients.assigned_va }}
-        </div>
+        <hr>
         <div class="col-md-12 col-sm-12">
-            <label>Assigned Project Manager for you:</label>&nbsp;{{ request.user.clients.assigned_pm }}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Employee Share
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6 col-sm-12">
+                        <label>SSS:</label>&nbsp;{{request.user.staffs.employee_share_sss}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>EC SSS:</label>&nbsp;{{request.user.staffs.employee_share_ec_sss}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Philhealth:</label>&nbsp;{{request.user.staffs.employee_share_philhealth}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>PAG-IBIG:</label>&nbsp;{{request.user.staffs.employee_share_pag_ibig}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Total Share of the Employee:</label>&nbsp;{{request.user.staffs.total_employee}}
+                    </div>
+                </div>
+            </div>
+
         </div>
+        <hr>
         <div class="col-md-12 col-sm-12">
-            <label>Internal Folder Link:</label>&nbsp;<a href="{{ request.user.clients.internal_folder_link }}" target="_blank">Your
-                internal folder link</a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Employer Share
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6 col-sm-12">
+                        <label>SSS:</label>&nbsp;{{request.user.staffs.employer_share_sss}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>EC SSS:</label>&nbsp;{{request.user.staffs.employer_share_ec_sss}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Philhealth:</label>&nbsp;{{request.user.staffs.employer_share_philhealth}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>PAG-IBIG:</label>&nbsp;{{request.user.staffs.employer_share_pag_ibig}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Total Share of the Employer:</label>&nbsp;{{request.user.staffs.total_employer}}
+                    </div>
+                </div>
+            </div>
         </div>
-        
+        {% endif %}
     </div>
-    {% elif request.user.is_staffs %}
-    <div class="row container">
-        <h4>Personal Informations</h4>
-        <br>
-        <div class="col-md-6 col-sm-12">
-            <label>Name:</label>&nbsp;{{ request.user.staffs.full_name }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Phone number:</label>&nbsp;{{ request.user.staffs.phone_number }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>SSS number:</label>&nbsp;{{ request.user.staffs.SSS_number }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>TIN number:</label>&nbsp;{{ request.user.staffs.TIN_number }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>PAG-IBIG number:</label>&nbsp;{{ request.user.staffs.pag_ibig_number }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Philhealth number:</label>&nbsp;{{ request.user.staffs.philhealth }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Date of Birth:</label>&nbsp;{{ request.user.staffs.date_of_birth }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Blood Type:</label>&nbsp;{{ request.user.staffs.blood_type }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Mother's Maiden Name:</label>&nbsp;{{ request.user.staffs.mother_full_maiden_name }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Father's Name:</label>&nbsp;{{ request.user.staffs.father_full_name }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Emergency Contact Name:</label>&nbsp;{{ request.user.staffs.emergency_contact_name }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Emergency Contact Number:</label>&nbsp;{{ request.user.staffs.emergency_contact_number }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Relationship to the emergency contact
-                person:</label>&nbsp;{{ request.user.staffs.relationship_to_the_emergency_contact_person }}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Residential Address:</label>&nbsp;{{ request.user.staffs.residential_address }}
-        </div>
-    </div>
-    <hr>
-    <div class="row container">
-        <h4>Employee Informations</h4>
-        <br>
-        <div class="col-md-6 col-sm-12">
-            <label>Position:</label>&nbsp;{{request.user.staffs.position}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>ID Number:</label>&nbsp;{{request.user.staffs.id_number}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Basic Pay:</label>&nbsp;{{request.user.staffs.base_pay}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Hourly Rate:</label>&nbsp;{{request.user.staffs.hourly_rate}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Date Hired in Contract:</label>&nbsp;{{request.user.staffs.date_hired_in_contract}}
-        </div>
-    </div>
-    <hr>
-    <div class="row container">
-        <h4>Employee Share</h4>
-        <br>
-        <div class="col-md-6 col-sm-12">
-            <label>SSS:</label>&nbsp;{{request.user.staffs.employee_share_sss}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>EC SSS:</label>&nbsp;{{request.user.staffs.employee_share_ec_sss}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Philhealth:</label>&nbsp;{{request.user.staffs.employee_share_philhealth}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>PAG-IBIG:</label>&nbsp;{{request.user.staffs.employee_share_pag_ibig}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Total Share of the Employee:</label>&nbsp;{{request.user.staffs.total_employee}}
-        </div>
-    </div>
-    <hr>
-    <div class="row container">
-        <h4>Employer Share</h4>
-        <br>
-        <div class="col-md-6 col-sm-12">
-            <label>SSS:</label>&nbsp;{{request.user.staffs.employer_share_sss}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>EC SSS:</label>&nbsp;{{request.user.staffs.employer_share_ec_sss}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Philhealth:</label>&nbsp;{{request.user.staffs.employer_share_philhealth}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>PAG-IBIG:</label>&nbsp;{{request.user.staffs.employer_share_pag_ibig}}
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <label>Total Share of the Employer:</label>&nbsp;{{request.user.staffs.total_employer}}
-        </div>
-    </div>
-    {% endif %}
 </div>
 
 {% endblock %}
