@@ -52,33 +52,7 @@ GPG Admin - Profile
                             internal folder link</a>
                     </div>
                 </div>
-                <div class="panel-footer">
-                    Panel Footer
-                </div>
             </div>
-            <div class="col-md-12 col-sm-12">
-                <h4>Personal Informations</h4>
-                <br>
-                <label>Name:</label>&nbsp;{{ request.user.clients.full_name }}
-            </div>
-            <div class="col-md-12 col-sm-12">
-                <label>Company Name:</label>&nbsp;{{ request.user.clients.company_name }}
-            </div>
-            <div class="col-md-12 col-sm-12">
-                <label>Date Signed up:</label>&nbsp;{{ request.user.clients.date_signed_up }}
-            </div>
-            <div class="co-md-12 col-sm-12">
-                <label>Assigned Virtual Assistant for you:</label>&nbsp;{{ request.user.clients.assigned_va }}
-            </div>
-            <div class="col-md-12 col-sm-12">
-                <label>Assigned Project Manager for you:</label>&nbsp;{{ request.user.clients.assigned_pm }}
-            </div>
-            <div class="col-md-12 col-sm-12">
-                <label>Internal Folder Link:</label>&nbsp;<a href="{{ request.user.clients.internal_folder_link }}"
-                    target="_blank">Your
-                    internal folder link</a>
-            </div>
-
         </div>
         {% elif request.user.is_staffs %}
         <div class="col-md-12 col-sm-12">
