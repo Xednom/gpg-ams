@@ -37,7 +37,6 @@ new Vue({
         paginatedRecords: [],
     },
     mounted: function () {
-        this.getAffordableLandInvestment();
         this.getCustomerCareSpecialist();
     },
     methods: {
@@ -64,18 +63,6 @@ new Vue({
                 .then((response) => {
                     this.customerCareSpecialist = response.data;
                     this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false;
-                    console.log(err);
-                })
-        },
-        searchMonthCashOut: function () {
-            this.loading = true;
-            this.$http.get(`/api/v1/cashout/?date_release__month=${this.search_month}`)
-                .then((response) => {
-                    this.loading = false;
-                    this.cashouts = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
