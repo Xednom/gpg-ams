@@ -29,6 +29,7 @@ GPG System | Affordable Land Investment
         <div class="alert alert-info text-center">
             {{ spiel.opening_spiel }}
         </div>
+        {% endfor %}
         <div id="gpg-seller" v-cloak>
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -142,6 +143,7 @@ GPG System | Affordable Land Investment
                 </form>
             </div>
         </div>
+        {% for spiel in spiels %}
         <div class="alert alert-warning text-center">
             {{ spiel.closing_spiel }}
         </div>
