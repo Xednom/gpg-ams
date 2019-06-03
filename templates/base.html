@@ -148,6 +148,14 @@
                         </li>
                         {% endif %}
                         <li>
+                          <a href="#"><span class="fa fa-money"></span> Seller Details(CallMe) <span class="fa arrow"></span></a>
+                          <ul class="nav nav-third-level">
+                            <li>
+                              <a href="{% url 'seller:affordable-land' %}"> <i class="fa fa-money"></i> Affordable Land Investment</a>
+                            <li>
+                          </ul>
+                        </li>
+                        <li>
                           <a href="#">Land Master <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                               {% if request.user.is_client %}
@@ -492,6 +500,7 @@
           <script src="{% static 'vuejs/logins.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/payroll.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/timesheet.js' %}" type="text/javascript"></script>
+          <script src="{% static 'vuejs/callme.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/cashout.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/reminders.js' %}" type="text/javascript"></script>
 </body>

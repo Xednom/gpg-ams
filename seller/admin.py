@@ -13,6 +13,7 @@ from .models import (
     LandRapid,
     Alevi,
     AffordaleLandInvestment,
+    AffordableLandSpiels,
     LGPropertyVentures,
     FranklinManagement,
 )
@@ -521,12 +522,6 @@ class AffordableLandInvestmentProfile(admin.ModelAdmin):
                 'for_your_property',
             )
         }),
-        ("Spiel", {
-            'fields': (
-                'opening_spiel',
-                'closing_spiel',
-            )
-        }),
         ("Date & Time Information", {
             'fields': (
                 'call_date',
@@ -536,6 +531,18 @@ class AffordableLandInvestmentProfile(admin.ModelAdmin):
         ("Other Information", {
             'fields': (
                 'additional_notes',
+            )
+        }),
+    )
+
+
+class AffordableLandSpielsProfile(admin.ModelAdmin):
+    list_display = ('opening_spiel', 'closing_spiel')
+    fieldsets = (
+        ("Spiel Informations for Affordable Land Investments", {
+            'fields': (
+                'opening_spiel',
+                'closing_spiel',
             )
         }),
     )
@@ -633,6 +640,7 @@ admin.site.register(LandQuestPro, LandQuestProProfile)
 admin.site.register(LandRapid, LandRapidProfile)
 admin.site.register(Alevi, AleviProfile)
 admin.site.register(AffordaleLandInvestment, AffordableLandInvestmentProfile)
+admin.site.register(AffordableLandSpiels, AffordableLandSpielsProfile)
 admin.site.register(LGPropertyVentures, LGPropertyVenturesProfile)
 admin.site.register(FranklinManagement, FranklinManagementProfile)
 

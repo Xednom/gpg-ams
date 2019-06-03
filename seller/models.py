@@ -518,8 +518,6 @@ class AffordaleLandInvestment(models.Model):
                                          help_text="If we were to pay all cash and close within the next 10 days, what is the least you would accept for your property?")
     average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
     additional_notes = models.TextField(null=True, blank=True)
-    opening_spiel = models.TextField(null=True, blank=True)
-    closing_spiel = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Affordable Land Investment Seller Data"
@@ -527,6 +525,17 @@ class AffordaleLandInvestment(models.Model):
 
     def __str__(self):
         return str(self.customer_care_specialist)
+
+
+class AffordableLandSpiels(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    opening_spiel = models.TextField(null=True, blank=True)
+    closing_spiel = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-opening_spiel']
+        verbose_name = 'Affordable Land Investment Spiel'
+        verbose_name_plural = 'Affordable Land Investment Spiels'
 
 
 class LGPropertyVentures(models.Model):
