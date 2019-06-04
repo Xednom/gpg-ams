@@ -15,7 +15,10 @@ from .models import (
         PaypalEmail, 
         WebsiteUrl, 
         ClientProfiling,
-        TrainingUrl
+        TrainingUrl,
+        TypeOfTaskRequest,
+        ChannelOfCommunications,
+        NotesAfterTraining,
     )
 
 
@@ -49,6 +52,20 @@ class WebsiteInline(admin.TabularInline):
 
 class TrainingUrlInline(admin.TabularInline):
     model = TrainingUrl
+    extra = 1
+
+
+class TypeOfTaskRequestInline(admin.TabularInline):
+    model = TypeOfTaskRequest
+    extra = 1
+
+
+class ChanngelOfCommunicationsInline(admin.TabularInline):
+    model = ChannelOfCommunications
+    extra = 1
+
+class NotesAfterTrainingInline(admin.TabularInline):
+    model = NotesAfterTraining
     extra = 1
 
 
@@ -116,7 +133,17 @@ class StaffProfile(admin.ModelAdmin):
                 'employee_share_ec_sss',
                 'employee_share_philhealth',
                 'employee_share_pag_ibig',
+                'employee_tax',
                 'total_employee',
+            )
+        }),
+        ('Total Shares', {
+            'fields': (
+                'total_share_sss',
+                'total_share_ec_sss',
+                'total_share_philhealth',
+                'total_share_pag_ibig',
+                'overall_total_share',
             )
         }),
     )
@@ -127,11 +154,13 @@ class ClientProfile(admin.ModelAdmin):
         EmailInline,
         PaypalEmailInline,
         WebsiteInline,
-        TrainingUrlInline
+        TrainingUrlInline,
+        TypeOfTaskRequestInline,
+        ChanngelOfCommunicationsInline,
+        NotesAfterTrainingInline,
     ]
     list_display = ('username','full_name', 'company_name')
     list_filter = ['company_name']
-    readonly_fields = ['date_signed_up']
     search_fields = ('username', 'full_name', 'company_name')
     fieldsets = (
         ('Client Informations', {
@@ -139,8 +168,10 @@ class ClientProfile(admin.ModelAdmin):
                 'username',
                 'full_name',
                 'company_name',
+                'phone_number',
                 'client_control_number',
-                'referral',
+                'referred_by',
+                'lead_source',
                 'internal_folder_link',
             )
         }),

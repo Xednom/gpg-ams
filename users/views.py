@@ -1,7 +1,7 @@
 import datetime
 import json
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, View
+from django.views.generic import ListView, View, TemplateView
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 
@@ -65,7 +65,7 @@ class HomeView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class VaProfile(LoginRequiredMixin, ListView):
+class VaProfile(LoginRequiredMixin, TemplateView):
     template_name = 'users/profile.html'
 
     def get(self, request):
