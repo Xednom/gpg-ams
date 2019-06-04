@@ -120,7 +120,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 	print('****', created)
 	if instance.is_staffs:
 		Staffs.objects.get_or_create(username=instance)
-	else:
+	elif instance.is_client:
 		Clients.objects.get_or_create(username=instance)
 
 
@@ -130,7 +130,7 @@ def save_user_profile(sender, instance, **kwargs):
 	# print(instance.internprofile.bio, instance.internprofile.location)
 	if instance.is_staffs:
 		    instance.staffs.save()
-	else:
+	elif instance.is_client:
             Clients.objects.get_or_create(username=instance)
 
 

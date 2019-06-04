@@ -68,6 +68,8 @@ class StaffProfile(admin.ModelAdmin):
                 'full_name',
                 'actual_date_hired',
                 'date_hired_in_contract',
+                'base_pay',
+                'hourly_rate',
                 'phone_number',
                 'SSS_number',
                 'TIN_number',
@@ -154,6 +156,10 @@ class ClientProfile(admin.ModelAdmin):
             )
         }),
     )
+
+# def get_queryset(self, request):
+#     queryset = super(ClientProfile, self).get_queryset(request)
+#     return queryset.filter(is_client=True)
 
 
 class ClientProfilingInfo(admin.ModelAdmin):
