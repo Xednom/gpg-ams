@@ -89,6 +89,7 @@ class Staffs(models.Model):
     actual_date_hired = models.DateField(default=now, null=True, blank=True)
     date_hired_in_contract = models.DateField(default=now, null=True, blank=True)
     category = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
 
     class Meta:
         verbose_name = "List of Staff"
@@ -112,7 +113,7 @@ class Staffs(models.Model):
         self.total_employer = self.employer_share_sss + self.employer_share_ec_sss + self.employer_share_philhealth \
             + self.employer_share_pag_ibig
         self.total_employee = self.employee_share_sss + self.employee_share_ec_sss + self.employee_share_philhealth \
-            + self.employee_share_pag_ibig
+            + self.employee_share_pag_ibig + self.employee_tax
         self.overall_total_share = self.compute_total_share()
         super().save(*args, **kwargs)
 

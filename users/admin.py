@@ -70,7 +70,7 @@ class NotesAfterTrainingInline(admin.TabularInline):
 
 
 class StaffProfile(admin.ModelAdmin):
-    list_display = ('username', 'full_name',
+    list_display = ('username', 'full_name', 'email',
                     'phone_number', 'SSS_number',
                     'TIN_number', 'pag_ibig_number',
                     'philhealth', 'position', 'status',
@@ -84,6 +84,7 @@ class StaffProfile(admin.ModelAdmin):
             'fields': (
                 'username',
                 'full_name',
+                'email',
                 'actual_date_hired',
                 'date_hired_in_contract',
                 'base_pay',
