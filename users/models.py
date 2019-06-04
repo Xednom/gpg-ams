@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from decimal import Decimal
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now
@@ -36,6 +37,12 @@ class Staffs(models.Model):
         ('General Administrative Support', 'General Administrative Support'),
         ('Executive Assistant', 'Executive Assistant'),
         ('Human Resource Specialists', 'Human Resource Specialists')
+    )
+    CATEGORY = (
+        ('Office Based', 'Office Based'),
+        ('Part-timers', 'Part-timers'),
+        ('Home Based', 'Home Based'),
+        ('Freelance', 'Freelance'),
     )
     username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='staffs')
     full_name = models.CharField(max_length=250, default="My Name")
@@ -72,10 +79,16 @@ class Staffs(models.Model):
     employee_share_ec_sss = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employee share EC(SSS)")
     employee_share_philhealth = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employee share(PHILHEALTH)")
     employee_share_pag_ibig = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Employee share(PAG-IBIG)")
+    employee_tax = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True)
     total_employee = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True, verbose_name="Total")
+    total_share_sss = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True)
+    total_share_ec_sss = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True)
+    total_share_philhealth = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True)
+    total_share_pag_ibig = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True)
+    overall_total_share = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, null=True, blank=True)
     actual_date_hired = models.DateField(default=now, null=True, blank=True)
     date_hired_in_contract = models.DateField(default=now, null=True, blank=True)
-
+    category = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
 
     class Meta:
         verbose_name = "List of Staff"
@@ -85,11 +98,22 @@ class Staffs(models.Model):
     def __str__(self):
         return self.full_name
 
+    def compute_total_share(self):
+        self.total_share_sss = self.employee_share_sss + self.employer_share_sss
+        self.total_share_ec_sss = self.employee_share_ec_sss + self.employer_share_ec_sss
+        self.total_share_philhealth = self.employee_share_philhealth + self.employer_share_philhealth
+        self.total_share_pag_ibig = self.employee_share_pag_ibig + self.employer_share_pag_ibig
+        self.overall_total_share = self.total_share_sss + \
+            self.total_share_ec_sss + self.total_share_philhealth + self.total_share_pag_ibig
+        total_share = Decimal(self.overall_total_share)
+        return total_share
+
     def save(self, *args, **kwargs):
         self.total_employer = self.employer_share_sss + self.employer_share_ec_sss + self.employer_share_philhealth \
             + self.employer_share_pag_ibig
         self.total_employee = self.employee_share_sss + self.employee_share_ec_sss + self.employee_share_philhealth \
             + self.employee_share_pag_ibig
+        self.overall_total_share = self.compute_total_share()
         super().save(*args, **kwargs)
 
 
@@ -99,13 +123,14 @@ class Clients(models.Model):
     company_name = models.CharField(max_length=150)
     date_signed_up = models.DateTimeField(default=now, null=True, blank=True)
     client_control_number = models.CharField(max_length=150, null=True, blank=True)
-    referral = models.CharField(max_length=150, null=True, blank=True)
-    assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
-    assigned_pm = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)
+    referred_by = models.CharField(max_length=150, null=True, blank=True)
+    lead_source = models.CharField(max_length=150, null=True, blank=True)
+    assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, verbose_name="Assigned VA", on_delete=models.PROTECT)
+    assigned_pm = models.ForeignKey(ProjectManager, null=True, blank=True, verbose_name="Assigned PM", on_delete=models.PROTECT)
     task_enroute = models.CharField(max_length=150, null=True, blank=True)
     type_of_task = models.TextField(null=True, blank=True)
     internal_folder_link = models.URLField(null=True, blank=True)
-
+    phone_number = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
         verbose_name = 'List of Client'
@@ -172,3 +197,34 @@ class WebsiteUrl(models.Model):
 class TrainingUrl(models.Model):
     name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
     url = models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return self.url
+
+
+class TypeOfTaskRequest(models.Model):
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    name_of_task = models.CharField(max_length=150, null=True, blank=True)
+
+    def __str__(self):
+        return self.name_of_task
+
+
+class ChannelOfCommunications(models.Model):
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    name_of_channel = models.CharField(max_length=150, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Channel of Communication"
+        verbose_name_plural = "Channel of Communications"
+    
+    def __str__(self):
+        return self.name_of_channel
+
+
+class NotesAfterTraining(models.Model):
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.notes
