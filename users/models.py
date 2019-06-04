@@ -131,7 +131,9 @@ class Clients(models.Model):
     assigned_pm = models.ForeignKey(ProjectManager, null=True, blank=True, verbose_name="Assigned PM", on_delete=models.PROTECT)
     task_enroute = models.CharField(max_length=150, null=True, blank=True)
     type_of_task = models.TextField(null=True, blank=True)
-    internal_folder_link = models.URLField(null=True, blank=True)
+    internal_folder_link_1 = models.URLField(null=True, blank=True)
+    internal_folder_link_2 = models.URLField(null=True, blank=True)
+    internal_folder_link_3 = models.URLField(null=True, blank=True)
     phone_number = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
