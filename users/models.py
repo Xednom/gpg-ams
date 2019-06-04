@@ -106,7 +106,7 @@ class Staffs(models.Model):
         self.total_share_pag_ibig = self.employee_share_pag_ibig + self.employer_share_pag_ibig
         self.overall_total_share = self.total_share_sss + \
             self.total_share_ec_sss + self.total_share_philhealth + \
-            self.total_share_pag_ibig + self.employee_tax
+            self.total_share_pag_ibig
         total_share = Decimal(self.overall_total_share)
         return total_share
 
@@ -114,7 +114,7 @@ class Staffs(models.Model):
         self.total_employer = self.employer_share_sss + self.employer_share_ec_sss + self.employer_share_philhealth \
             + self.employer_share_pag_ibig
         self.total_employee = self.employee_share_sss + self.employee_share_ec_sss + self.employee_share_philhealth \
-            + self.employee_share_pag_ibig
+            + self.employee_share_pag_ibig + self.employee_tax
         self.overall_total_share = self.compute_total_share()
         super().save(*args, **kwargs)
 
