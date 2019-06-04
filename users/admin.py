@@ -162,7 +162,8 @@ class ClientProfile(admin.ModelAdmin):
         ChanngelOfCommunicationsInline,
         NotesAfterTrainingInline,
     ]
-    list_display = ('username','full_name', 'company_name')
+    list_display = ('client_control_number', 'username', 'full_name', 'company_name',
+                    'assigned_va', 'assigned_pm')
     list_filter = ['company_name']
     search_fields = ('username', 'full_name', 'company_name')
     fieldsets = (
