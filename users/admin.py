@@ -73,7 +73,8 @@ class StaffProfile(admin.ModelAdmin):
     list_display = ('username', 'full_name',
                     'phone_number', 'SSS_number',
                     'TIN_number', 'pag_ibig_number',
-                    'philhealth', 'position', 'status')
+                    'philhealth', 'position', 'status',
+                    'category')
     list_filter = ('full_name', 'position', 'status')
     search_fields = ('full_name', 'position', 'SSS_number',
                      'TIN_number', 'pag_ibig_number')
@@ -95,6 +96,7 @@ class StaffProfile(admin.ModelAdmin):
                 'position',
                 'id_number',
                 'status',
+                'category',
                 'notes',
             )
         }),
