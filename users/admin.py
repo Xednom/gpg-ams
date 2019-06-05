@@ -162,7 +162,7 @@ class ClientProfile(admin.ModelAdmin):
         ChanngelOfCommunicationsInline,
         NotesAfterTrainingInline,
     ]
-    list_display = ('client_control_number', 'username', 'full_name', 'company_name',
+    list_display = ('company_category', 'client_control_number', 'username', 'full_name', 'company_name',
                     'assigned_va', 'assigned_pm', 'phone_number', 'internal_folder_link_1',
                     'internal_folder_link_2', 'internal_folder_link_3')
     list_filter = ['company_name']
