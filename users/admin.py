@@ -170,6 +170,7 @@ class ClientProfile(admin.ModelAdmin):
     fieldsets = (
         ('Client Informations', {
             'fields': (
+                'company_category',
                 'username',
                 'full_name',
                 'company_name',

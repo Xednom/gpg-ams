@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .serializers import AffordableLandSerializer
 
@@ -19,9 +19,10 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
         return  # To not perform the csrf check previously happening
 
 
-class AffordableLandView(LoginRequiredMixin, TemplateView):
+class AffordableLandView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "callme/affordableland/landinvestment.html"
     model = AffordableLandSpiels
+    permission_required = ('seller.view_seller',)
 
     def get(self, request, *args, **kwargs):
         spiels = AffordableLandSpiels.objects.all()

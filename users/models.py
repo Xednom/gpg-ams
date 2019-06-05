@@ -120,6 +120,14 @@ class Staffs(models.Model):
 
 
 class Clients(models.Model):
+    COMPANY_CATEGORY = (
+        ('landmaster.us', 'landmaster.us'),
+        ('gpgcorporations.com', 'gpgcorporations.com'),
+        ('callme.com.ph', 'callme.com.ph'),
+        ('virtualExpressServices.com', 'virtualExpressServices.com'),
+        ('creatif-designs.com', 'creatif-designs.com'),
+        ('vacantpropertiesglobal.com', 'vacantpropertiesglobal.com')
+    )
     username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='clients')
     full_name = models.CharField(max_length=150)
     company_name = models.CharField(max_length=150)
@@ -135,6 +143,7 @@ class Clients(models.Model):
     internal_folder_link_2 = models.URLField(null=True, blank=True)
     internal_folder_link_3 = models.URLField(null=True, blank=True)
     phone_number = models.CharField(max_length=150, null=True, blank=True)
+    company_category = models.CharField(max_length=150, choices=COMPANY_CATEGORY, null=True, blank=True)
 
     class Meta:
         verbose_name = 'List of Client'
