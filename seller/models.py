@@ -492,7 +492,7 @@ class Alevi(models.Model):
         return str(self.customer_care_specialist)
 
 
-class AffordaleLandInvestment(models.Model):
+class AffordableLandInvestment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     call_date = models.DateField(null=True, blank=True, default=datetime.date.today)
     customer_care_specialist = models.ForeignKey(CustomerCareSpecialist, null=True, blank=True, on_delete=models.PROTECT)
