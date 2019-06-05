@@ -30,124 +30,134 @@ GPG System | Affordable Land Investment
             {{ spiel.opening_spiel }}
         </div>
         {% endfor %}
-        <div id="gpg-seller" v-cloak>
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Seller Information for Affordable Land Investments
+        <div class="col-md-6 col-md-offset-3">
+            <div id="gpg-seller" v-cloak>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Seller Information for Affordable Land Investments
+                    </div>
+                    <form v-on:submit.prevent="addAffordableLand">
+                        <div class="panel-body">
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Call Date</label>
+                                    <input type="date" class="form-control" v-model="newAffordableLands.call_date">
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Customer Care Specialist</label>
+                                    <select class="form-control" v-model="newAffordableLands.customer_care_specialist">
+                                        <option v-for="cc in customerCareSpecialist">[[ cc.name ]]</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Contact Information</label>
+                                    <input type="text" class="form-control"
+                                        v-model="newAffordableLands.contact_information" autocomplete="off">
+                                    <p class="help-block">Have you provided the office of Adam Harrison with your
+                                        contact
+                                        information? (if yes, skip questions below, and take a brief message)</p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" v-model="newAffordableLands.name"
+                                        autocomplete="off">
+                                    <p class="help-block">What is your name?</p>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>State and County</label>
+                                    <input type="text" class="form-control" v-model="newAffordableLands.state_county"
+                                        autocomplete="off">
+                                    <p class="help-block">
+                                        What state and county is your property located in?</p>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Parcel Number</label>
+                                    <input type="text" class="form-control" v-model="newAffordableLands.parcel_number">
+                                    <p class="help-block">
+                                        Do you know what the parcel number of the property is, it is located on the
+                                        second page
+                                        of the letter if you got a letter
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Property Owner</label>
+                                    <input type="text" class="form-control" v-model="newAffordableLands.property_owner">
+                                    <p class="help-block">
+                                        Are you the property owner listed on the deed?
+                                    </p>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Other Owners</label>
+                                    <input type="text" class="form-control" v-model="newAffordableLands.other_owners">
+                                    <p class="help-block">
+                                        Are there any other owners listed on the deed?(If others on the deed, ask the
+                                        following
+                                        question)
+                                    </p>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Sell the Property</label>
+                                    <input type="text" class="form-control"
+                                        v-model="newAffordableLands.sell_the_property">
+                                    <p class="help-block">
+                                        Have you and the others on the deed all decided to sell the property?
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Phone Number</label>
+                                    <input type="text" class="form-control" v-model="newAffordableLands.phone_number">
+                                    <p class="help-block">
+                                        What is your phone number?
+                                    </p>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Email Address</label>
+                                    <input type="email" class="form-control" v-model="newAffordableLands.email_address">
+                                    <p class="help-block">
+                                        What is your email address?
+                                    </p>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Listed in letter or postcard</label>
+                                    <input type="text" class="form-control"
+                                        v-model="newAffordableLands.listed_in_letter_or_postcard">
+                                    <p class="help-block">
+                                        Do you want to sell at the price listed on the letter or the postcard you
+                                        received? (
+                                        If they say no to this question ask them the following:)
+                                    </p>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>For your property</label>
+                                    <input type="text" class="form-control"
+                                        v-model="newAffordableLands.for_your_property">
+                                    <p class="help-block">
+                                        If we were to pay all cash and close within the next 10 days, what is the least
+                                        you
+                                        would accept for your property?
+                                    </p>
+                                </div>
+                            </div>
+                            <button class="btn btn-info btn-save btn-outline pull-right" type="submit"
+                                :disabled="saving == true">Submit</button>
+                        </div>
+                    </form>
                 </div>
-                <form v-on:submit.prevent="addAffordableLand">
-                <div class="panel-body">
-                    <div class="form-group row">
-                        <div class="form-group col-md-2 col-sm-12">
-                            <label>Call Date</label>
-                            <input type="date" class="form-control" v-model="newAffordableLands.call_date">
-                        </div>
-                        <div class="form-group col-md-3 col-sm-12">
-                            <label>Customer Care Specialist</label>
-                            <select class="form-control" v-model="newAffordableLands.customer_care_specialist">
-                                <option v-for="cc in customerCareSpecialist">[[ cc.name ]]</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-7 col-sm-12">
-                            <label>Contact Information</label>
-                            <input type="text" class="form-control" v-model="newAffordableLands.contact_information"
-                                autocomplete="off">
-                            <p class="help-block">Have you provided the office of Adam Harrison with your contact
-                                information? (if yes, skip questions below, and take a brief message)</p>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="form-group col-md-3 col-sm-12">
-                            <label>Name</label>
-                            <input type="text" class="form-control" v-model="newAffordableLands.name"
-                                autocomplete="off">
-                            <p class="help-block">What is your name?</p>
-                        </div>
-                        <div class="form-group col-md-4 col-sm-12">
-                            <label>State and County</label>
-                            <input type="text" class="form-control" v-model="newAffordableLands.state_county"
-                                autocomplete="off">
-                            <p class="help-block">
-                                What state and county is your property located in?</p>
-                        </div>
-                        <div class="form-group col-md-5 col-sm-12">
-                            <label>Parcel Number</label>
-                            <input type="text" class="form-control" v-model="newAffordableLands.parcel_number">
-                            <p class="help-block">
-                                Do you know what the parcel number of the property is, it is located on the second page
-                                of the letter if you got a letter
-                            </p>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="form-group col-md-4 col-sm-12">
-                            <label>Property Owner</label>
-                            <input type="text" class="form-control" v-model="newAffordableLands.property_owner">
-                            <p class="help-block">
-                                Are you the property owner listed on the deed?
-                            </p>
-                        </div>
-                        <div class="form-group col-md-4 col-sm-12">
-                            <label>Other Owners</label>
-                            <input type="text" class="form-control" v-model="newAffordableLands.other_owners">
-                            <p class="help-block">
-                                Are there any other owners listed on the deed?(If others on the deed, ask the following
-                                question)
-                            </p>
-                        </div>
-                        <div class="form-group col-md-4 col-sm-12">
-                            <label>Sell the Property</label>
-                            <input type="text" class="form-control" v-model="newAffordableLands.sell_the_property">
-                            <p class="help-block">
-                                Have you and the others on the deed all decided to sell the property?
-                            </p>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="form-group col-md-2 col-sm-12">
-                            <label>Phone Number</label>
-                            <input type="text" class="form-control" v-model="newAffordableLands.phone_number">
-                            <p class="help-block">
-                                What is your phone number?
-                            </p>
-                        </div>
-                        <div class="form-group col-md-2 col-sm-12">
-                            <label>Email Address</label>
-                            <input type="email" class="form-control" v-model="newAffordableLands.email_address">
-                            <p class="help-block">
-                                What is your email address?
-                            </p>
-                        </div>
-                        <div class="form-group col-md-4 col-sm-12">
-                            <label>Listed in letter or postcard</label>
-                            <input type="text" class="form-control" v-model="newAffordableLands.listed_in_letter_or_postcard">
-                            <p class="help-block">
-                                Do you want to sell at the price listed on the letter or the postcard you received? (
-                                If they say no to this question ask them the following:)
-                            </p>
-                        </div>
-                        <div class="form-group col-md-4 col-sm-12">
-                            <label>For your property</label>
-                            <input type="text" class="form-control"
-                                v-model="newAffordableLands.for_your_property">
-                            <p class="help-block">
-                                If we were to pay all cash and close within the next 10 days, what is the least you
-                                would accept for your property?
-                            </p>
-                        </div>
-                    </div>
-                    <button class="btn btn-info btn-save btn-outline pull-right" type="submit"
-                        :disabled="saving == true">Submit</button>
-                </div>
-                    
-                </form>
             </div>
         </div>
-        {% for spiel in spiels %}
-        <div class="alert alert-warning text-center">
-            {{ spiel.closing_spiel }}
+        <div class="col-md-12 col-sm-12">
+            {% for spiel in spiels %}
+            <div class="alert alert-warning text-center">
+                {{ spiel.closing_spiel }}
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}

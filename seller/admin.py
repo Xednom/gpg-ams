@@ -12,7 +12,7 @@ from .models import (
     LandQuestPro,
     LandRapid,
     Alevi,
-    AffordaleLandInvestment,
+    AffordableLandInvestment,
     AffordableLandSpiels,
     LGPropertyVentures,
     FranklinManagement,
@@ -639,7 +639,7 @@ admin.site.register(DreamCloudBuyLand, DreamCloudBuyLandProfile)
 admin.site.register(LandQuestPro, LandQuestProProfile)
 admin.site.register(LandRapid, LandRapidProfile)
 admin.site.register(Alevi, AleviProfile)
-admin.site.register(AffordaleLandInvestment, AffordableLandInvestmentProfile)
+admin.site.register(AffordableLandInvestment, AffordableLandInvestmentProfile)
 admin.site.register(AffordableLandSpiels, AffordableLandSpielsProfile)
 admin.site.register(LGPropertyVentures, LGPropertyVenturesProfile)
 admin.site.register(FranklinManagement, FranklinManagementProfile)

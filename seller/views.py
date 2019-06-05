@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from .serializers import AffordableLandSerializer
 
-from .models import AffordaleLandInvestment, AffordableLandSpiels
+from .models import AffordableLandInvestment, AffordableLandSpiels
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -21,7 +21,7 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 
 class AffordableLandView(LoginRequiredMixin, TemplateView):
     template_name = "callme/affordableland/landinvestment.html"
-    model = AffordableLandSpiels
+    model = AffordableLandInvestment
 
     def get(self, request, *args, **kwargs):
         spiels = AffordableLandSpiels.objects.all()
@@ -37,5 +37,5 @@ class AffordableLandViewSet(viewsets.ModelViewSet):
     serializer_class = (AffordableLandSerializer)
 
     def get_queryset(self):
-        queryset = AffordaleLandInvestment.objects.all()
+        queryset = AffordableLandInvestment.objects.all()
         return queryset
