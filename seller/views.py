@@ -19,10 +19,9 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
         return  # To not perform the csrf check previously happening
 
 
-class AffordableLandView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+class AffordableLandView(LoginRequiredMixin, TemplateView):
     template_name = "callme/affordableland/landinvestment.html"
     model = AffordableLandSpiels
-    permission_required = ('seller.view_seller',)
 
     def get(self, request, *args, **kwargs):
         spiels = AffordableLandSpiels.objects.all()
