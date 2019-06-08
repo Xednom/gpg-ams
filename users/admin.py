@@ -166,7 +166,7 @@ class ClientProfile(admin.ModelAdmin):
                     'assigned_va', 'assigned_pm', 'phone_number', 'internal_folder_link_1',
                     'internal_folder_link_2', 'internal_folder_link_3')
     list_filter = ['company_name']
-    search_fields = ('username', 'full_name', 'company_name')
+    search_fields = ('username__username', 'full_name', 'company_name')
     fieldsets = (
         ('Client Informations', {
             'fields': (
