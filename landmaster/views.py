@@ -71,33 +71,24 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
     serializer_class = DueDiligenceSerializer
 
     def get_queryset(self):
-        position = self.request.user.staffs.position
         is_staff = self.request.user.is_staffs
         is_client = self.request.user.is_client
         if is_client:
             queryset = DueDiligence.objects.filter(company_name=self.request.user.clients.company_name)
             return queryset
         elif is_staff:
-            if position == 'General Administrative Support':
-                queryset = DueDiligence.objects.filter(Q(dd_va_assigned_initial_data__name=self.request.user.staffs.full_name) |
-                                                        Q(dd_va_assigned_call_outs_tax_data__name=self.request.user.staffs.full_name) |
-                                                        Q(dd_va_assigned_call_outs_zoning_data__name=self.request.user.staffs.full_name) |
-                                                        Q(dd_va_assigned_call_outs_utilities_data__name=self.request.user.staffs.full_name) |
-                                                        Q(dd_va_assigned_call_outs_other_requests__name=self.request.user.staffs.full_name) |
-                                                        Q(status_of_dd="Sent to Project Manager") |
-                                                        Q(status_of_dd="Project Managers Review") |
-                                                        Q(status_of_dd="Sent to VA") |
-                                                        Q(status_of_dd="VA Processing") |
-                                                        Q(status_of_dd="Sent to Quality Specialist"))
-                return queryset
-            elif position == 'Project Managers':
-                queryset = DueDiligence.objects.filter(Q(project_manager__project_manager=self.request.user.staffs.full_name),
-                                                       Q(status_of_dd="Sent to Project Manager") |
-                                                       Q(status_of_dd="Project Managers Review") |
-                                                       Q(status_of_dd="Sent to VA") |
-                                                       Q(status_of_dd="VA Processing") |
-                                                       Q(status_of_dd="Sent to Quality Specialist"))
-                return queryset
+            queryset = DueDiligence.objects.filter(Q(project_manager__project_manager=self.request.user.staffs.full_name),
+                                                    Q(dd_va_assigned_initial_data__name=self.request.user.staffs.full_name) |
+                                                    Q(dd_va_assigned_call_outs_tax_data__name=self.request.user.staffs.full_name) |
+                                                    Q(dd_va_assigned_call_outs_zoning_data__name=self.request.user.staffs.full_name) |
+                                                    Q(dd_va_assigned_call_outs_utilities_data__name=self.request.user.staffs.full_name) |
+                                                    Q(dd_va_assigned_call_outs_other_requests__name=self.request.user.staffs.full_name) |
+                                                    Q(status_of_dd="Sent to Project Manager") |
+                                                    Q(status_of_dd="Project Managers Review") |
+                                                    Q(status_of_dd="Sent to VA") |
+                                                    Q(status_of_dd="VA Processing") |
+                                                    Q(status_of_dd="Sent to Quality Specialist"))
+            return queryset
 
     def perform_create(self, serializer):
         return serializer.save(company_name=self.request.user.clients.company_name)
