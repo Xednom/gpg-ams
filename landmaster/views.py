@@ -97,7 +97,7 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
                                                     Q(status_of_dd="Sent to Quality Specialist"))
                 return queryset
         elif is_client:
-            queryset = DueDiligence.objects.filter(company_owner_or_requestor=self.request.user.clients.full_name)
+            queryset = DueDiligence.objects.filter(company_name=self.request.user.clients.company_name)
             return queryset
 
     def perform_create(self, serializer):

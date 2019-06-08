@@ -4,9 +4,11 @@ new Vue({
     delimiters: ['[[', ']]'],
     data: {
         affordablelands: [],
+        franklinmanagements: [],
         loading: false,
         saving: false,
         currentAffordableLands: {},
+        currentFranklinManagements: {},
         customerCareSpecialist: [],
         message: null,
         newAffordableLands: {
@@ -26,6 +28,29 @@ new Vue({
             'average_handling_time': null,
             'additional_notes': '',
         },
+        newFranklinManagements: {
+            'call_date': null,
+            'customer_care_specialist': '',
+            'name': '',
+            'property_owner': '',
+            'other_owner': '',
+            'phone_number': '',
+            'email_address': '',
+            'road_access': '',
+            'property_currently_listed': '',
+            'utilities': '',
+            'consider_selling_it': '',
+            'improvements': '',
+            'hoa_poa': '',
+            'back_taxes': '',
+            'liens_in_property': '',
+            'lowest_number': '',
+            'closing_date': '',
+            'other_properties': '',
+            'know_about_the_property': '',
+            'average_handling_time': null,
+            'additional_notes': '',
+        },
         search_month: '',
 
         // for pagination
@@ -40,9 +65,14 @@ new Vue({
         this.getCustomerCareSpecialist();
     },
     methods: {
-        reset: function () {
+        resetAffordableLands: function () {
             Object.keys(this.newAffordableLands).forEach(key => {
                 this.newAffordableLands[key] = ""
+            })
+        },
+        resetFranklinManagements: function () {
+            Object.keys(this.newFranklinManagements).forEach(key => {
+                this.newFranklinManagements[key] = ""
             })
         },
         getAffordableLandInvestment: function () {
@@ -51,6 +81,18 @@ new Vue({
                 .then((response) => {
                     this.loading = false;
                     this.affordablelands = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        getFranklineManagement: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/franklin-management/`)
+                .then((response) => {
+                    this.loading = false;
+                    this.franklinmanagements = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
@@ -81,7 +123,32 @@ new Vue({
                         buttons: false,
                         timer: 2000
                     })
-                    this.reset();
+                    this.resetAffordableLands();
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    swal({
+                        title: "GPG System",
+                        text: JSON.stringify(err.body),
+                        icon: "error",
+                        buttons: "Ok",
+                    });
+                    console.log(err);
+                })
+        },
+        addFranklin: function () {
+            this.saving = true;
+            this.$http.post('/api/v1/franklin-management/', this.newFranklinManagements)
+                .then((response) => {
+                    this.saving = false;
+                    swal({
+                        title: "GPG System",
+                        text: "Franklin Management data has been added successfully",
+                        icon: "success",
+                        buttons: false,
+                        timer: 2000
+                    })
+                    this.resetFranklinManagements();
                 })
                 .catch((err) => {
                     this.loading = false;

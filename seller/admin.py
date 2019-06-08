@@ -16,6 +16,7 @@ from .models import (
     AffordableLandSpiels,
     LGPropertyVentures,
     FranklinManagement,
+    FranklinSpiels,
 )
 
 
@@ -608,12 +609,6 @@ class FranklinManagementProfile(admin.ModelAdmin):
                 'know_about_the_property',
             )
         }),
-        ("Spiel", {
-            'fields': (
-                'opening_spiel',
-                'closing_spiel',
-            )
-        }),
         ("Date & Time Information", {
             'fields': (
                 'call_date',
@@ -623,6 +618,18 @@ class FranklinManagementProfile(admin.ModelAdmin):
         ("Other Information", {
             'fields': (
                 'additional_notes',
+            )
+        }),
+    )
+
+
+class FranklinSpielProfile(admin.ModelAdmin):
+    list_display = ('opening_spiel', 'closing_spiel')
+    fieldsets = (
+        ("Spiel Informations", {
+            'fields': (
+                'opening_spiel',
+                'closing_spiel',
             )
         }),
     )
@@ -643,4 +650,4 @@ admin.site.register(AffordableLandInvestment, AffordableLandInvestmentProfile)
 admin.site.register(AffordableLandSpiels, AffordableLandSpielsProfile)
 admin.site.register(LGPropertyVentures, LGPropertyVenturesProfile)
 admin.site.register(FranklinManagement, FranklinManagementProfile)
-
+admin.site.register(FranklinSpiels, FranklinSpielProfile)

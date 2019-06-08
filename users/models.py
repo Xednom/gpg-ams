@@ -128,6 +128,16 @@ class Clients(models.Model):
         ('creatif-designs.com', 'creatif-designs.com'),
         ('vacantpropertiesglobal.com', 'vacantpropertiesglobal.com')
     )
+    STATUS = (
+        ('New', 'New'),
+        ('Active', 'Active'),
+        ('Inactive within 30 days', 'Inactive within 30 days'),
+        ('Inactive within 90 days', 'Inactive within 90 days'),
+        ('Inactive within 120 days', 'Inactive within 120 days'),
+        ('Sign out', 'Sign out'),
+        ('Terminated', 'Terminated'),
+        ('Others', 'Others')
+    )
     username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='clients')
     full_name = models.CharField(max_length=150)
     company_name = models.CharField(max_length=150)
@@ -144,6 +154,7 @@ class Clients(models.Model):
     internal_folder_link_3 = models.URLField(null=True, blank=True)
     phone_number = models.CharField(max_length=150, null=True, blank=True)
     company_category = models.CharField(max_length=150, choices=COMPANY_CATEGORY, null=True, blank=True)
+    status = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, default='New')
 
     class Meta:
         verbose_name = 'List of Client'
@@ -155,7 +166,7 @@ class Clients(models.Model):
 
 @receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
-	print('****', created)
+	print('user profile created', created)
 	if instance.is_staffs:
 		Staffs.objects.get_or_create(username=instance)
 	elif instance.is_client:
@@ -164,7 +175,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
-	print('_-----')
+	print('user profile saved')
 	# print(instance.internprofile.bio, instance.internprofile.location)
 	if instance.is_staffs:
 		    instance.staffs.save()
