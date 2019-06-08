@@ -149,16 +149,21 @@
                           <a href="{% url 'timesheet:view_timesheet' %}"><i class="fa fa-clock-o"></i> Timesheet</a>
                         </li>
                         {% endif %}
-                        {% if perms.seller.view_affordablelandinvestment %}
                         <li>
                           <a href="#"><span class="fa fa-money"></span> Seller Details(CallMe) <span class="fa arrow"></span></a>
                           <ul class="nav nav-third-level">
+                          {% if perms.seller.view_affordablelandinvestment %}
                             <li>
                               <a href="{% url 'seller:affordable-land' %}"> <i class="fa fa-money"></i> Affordable Land Investment</a>
                             <li>
+                          {% endif %}
+                          {% if perms.seller.view_franklinmanagement %}
+                          <li>
+                            <a href="{% url 'seller:franklin-management' %}">Franklin Management</a>
+                          </li>
+                          {% endif %}
                           </ul>
                         </li>
-                        {% endif %}
                         <li>
                           <a href="#">Land Master <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">

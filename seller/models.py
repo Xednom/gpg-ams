@@ -598,8 +598,6 @@ class FranklinManagement(models.Model):
                                                help_text="Anything else we should know about the property?")
     average_handling_time = models.FloatField(null=True, blank=True, default=0.00)
     additional_notes = models.TextField(null=True, blank=True)
-    opening_spiel = models.TextField(null=True, blank=True)
-    closing_spiel = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Franklin Management Seller Data"
@@ -607,3 +605,15 @@ class FranklinManagement(models.Model):
 
     def __str__(self):
         return str(self.customer_care_specialist)
+
+
+class FranklinSpiels(models.Model):
+    opening_spiel = models.TextField(null=True, blank=True)
+    closing_spiel = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Franklin Management Spiel'
+        verbose_name_plural = 'Franklin Management Spiels'
+
+    def __str__(self):
+        return "Opening Spiel - " + self.opening_spiel + "; Closing Spiel - " + self.closing_spiel

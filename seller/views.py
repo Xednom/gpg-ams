@@ -8,9 +8,14 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from .serializers import AffordableLandSerializer
+from .serializers import AffordableLandSerializer, FranklinSerializer
 
-from .models import AffordableLandInvestment, AffordableLandSpiels
+from .models import (
+    AffordableLandInvestment, 
+    AffordableLandSpiels,
+    FranklinManagement,
+    FranklinSpiels,
+    )
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -38,4 +43,25 @@ class AffordableLandViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = AffordableLandInvestment.objects.all()
+        return queryset
+
+
+class FranklinManagementView(LoginRequiredMixin, TemplateView):
+    template_name = 'callme/franklinmanagement/franklinmanagement.html'
+    
+    def get(self, request, *args, **kwargs):
+        spiels = FranklinSpiels.objects.all()
+        context = {
+            'spiels': spiels,
+        }
+        return render(request, self.template_name, context)
+
+
+class FranklinManagementViewSet(viewsets.ModelViewSet):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = (FranklinSerializer)
+
+    def get_queryset(self):
+        queryset = FranklinManagement.objects.all()
         return queryset
