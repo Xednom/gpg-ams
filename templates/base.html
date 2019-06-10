@@ -35,6 +35,14 @@
     <!-- Custom Fonts -->
     <link href="{% static '/vendor/font-awesome/css/font-awesome.min.cs' %}s" rel="stylesheet" type="text/css">
 
+    <!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+    <!-- Fengyuan Chen's Datepicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -453,44 +461,19 @@
     //   });
     // });
     $(function () {
-      $('#datetimepickertaxtimein').datetimepicker({
-        format: "YYYY-MM-DD HH:mm"
-      });
+    $("#id_call_in").datetimepicker({
+    format: 'd-m-Y H:i',
+    });
     });
     $(function () {
-      $('#datetimepickertaxtimeout').datetimepicker({
-        format: "YYYY-MM-DD HH:mm"
-      });
+    $("#id_call_out").datetimepicker({
+    format: 'd-m-Y H:i',
+    });
     });
     $(function () {
-      $('#datetimepickerzoningtimein').datetimepicker({
-        format: "YYYY-MM-DD HH:mm"
-      });
+    $("#id_date_of_call").datepicker({
+    format:'yyyy-mm-dd',
     });
-    $(function () {
-      $('#datetimepickerzoningtimeout').datetimepicker({
-        format: "YYYY-MM-DD HH:mm"
-      });
-    });
-    $(function () {
-      $('#datetimepickerutilitiestimein').datetimepicker({
-        format: "YYYY-MM-DD HH:mm"
-      });
-    });
-    $(function () {
-      $('#datetimepickerutilitiestimeout').datetimepicker({
-        format: "YYYY-MM-DD HH:mm"
-      });
-    });
-    $(function () {
-      $('#datetimepickerothertimein').datetimepicker({
-        format: "YYYY-MM-DD HH:mm"
-      });
-    });
-    $(function () {
-      $('#datetimepickerothertimeout').datetimepicker({
-        format: "YYYY-MM-DD HH:mm"
-      });
     });
   </script>
 
