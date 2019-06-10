@@ -28,7 +28,7 @@ class Client(models.Model):
     clients_count_number = models.IntegerField(null=True, blank=True)
     status = models.CharField(max_length=100, choices=STATUS_CHOICES)
     VA_assigned = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        settings.STAFFS,
         on_delete=models.PROTECT,
         null=True, blank=True
         )
