@@ -2,6 +2,7 @@ import uuid
 
 from decimal import Decimal
 from django.db import models
+from django.conf import settings
 
 from fillables.models import CompanyName, VirtualAssistant, ProjectManager
 from django.utils.timezone import now
@@ -110,15 +111,15 @@ class DueDiligence(TimeStampedModel):
     notes_on_zoning = models.TextField(null=True, blank=True, verbose_name="Zoning Memo")
     notes_on_utilities = models.TextField(null=True, blank=True, verbose_name="Utilities Memo") 
     notes_on_tax = models.TextField(null=True, blank=True, verbose_name="Tax Memo")
-    dd_va_assigned_initial_data = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+    dd_va_assigned_initial_data = models.ForeignKey(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT,
                                             verbose_name="VA - Initial Data", related_name="initial")
-    dd_va_assigned_call_outs_tax_data = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+    dd_va_assigned_call_outs_tax_data = models.ForeignKey(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT,
                                             verbose_name="VA - Tax Data", related_name='tax')
-    dd_va_assigned_call_outs_zoning_data = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+    dd_va_assigned_call_outs_zoning_data = models.ForeignKey(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT,
                                             verbose_name="VA - Zoning Data", related_name='zoning')
-    dd_va_assigned_call_outs_utilities_data = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+    dd_va_assigned_call_outs_utilities_data = models.ForeignKey(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT,
                                             verbose_name="VA - Utilities Data", related_name='utilities')
-    dd_va_assigned_call_outs_other_requests = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT,
+    dd_va_assigned_call_outs_other_requests = models.ForeignKey(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT,
                                         verbose_name="VA - Other Requests", related_name='other')
     project_manager = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)
     total_minutes_hours_duration = models.CharField(max_length=150, null=True, blank=True, verbose_name="Total Minutes/hours duration")

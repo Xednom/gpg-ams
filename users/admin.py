@@ -84,6 +84,7 @@ class StaffProfile(admin.ModelAdmin):
             'fields': (
                 'username',
                 'full_name',
+                'middle_name',
                 'email',
                 'actual_date_hired',
                 'date_hired_in_contract',

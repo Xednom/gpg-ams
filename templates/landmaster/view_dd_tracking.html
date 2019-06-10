@@ -33,8 +33,10 @@
                                     <th>Client Name</th>
                                     <th>Client Company Name</th>
                                     <th>APN</th>
+                                    {% if request.user.is_staffs %}
                                     <th>Call In</th>
                                     <th>Call Out</th>
+                                    {% endif %}
                                     <th>Total Hours</th>
                                     <th>Department Calling About</th>
                                     <th>Contact Number</th>
@@ -52,8 +54,10 @@
                                         <td>[[ duediligencestracking.client_full_name ]]</td>
                                         <td>[[ duediligencestracking.client_company_name ]]</td>
                                         <td>[[ duediligencestracking.apn ]]</td>
+                                        {% if request.user.is_staffs %}
                                         <td>[[ duediligencestracking.call_in ]]</td>
                                         <td>[[ duediligencestracking.call_out ]]</td>
+                                        {% endif %}
                                         <td>[[ duediligencestracking.total_hours ]]</td>
                                         <td>[[ duediligencestracking.department_calling_about ]]</td>
                                         <td>[[ duediligencestracking.contact_number ]]</td>
@@ -108,6 +112,7 @@
                                                     v-model="currentDueDiligencesTracking.apn"
                                                     {% if request.user.is_client %}disabled{% else %}{% endif %}>
                                             </div>
+                                            {% if request.user.is_staffs %}
                                             <div class="form-group col-md-4 col-sm-12">
                                                 <label>Call In</label>
                                                 <input type="datetime" class="form-control"
@@ -120,6 +125,7 @@
                                                     v-model="currentDueDiligencesTracking.call_out"
                                                     {% if request.user.is_client %}disabled{% else %}{% endif %}>
                                             </div>
+                                            {% endif %}
                                             <div class="form-group col-md-2 col-sm-12">
                                                 <label>Total Hours</label>
                                                 <input type="text" class="form-control"

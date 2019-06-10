@@ -45,7 +45,7 @@ class Staffs(models.Model):
         ('Freelance', 'Freelance'),
     )
     username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='staffs')
-    full_name = models.CharField(max_length=250, default="My Name")
+    full_name = models.CharField(max_length=500, default="My Name")
     middle_name = models.CharField(max_length=150, null=True, blank=True, default="middle name")
     phone_number = models.CharField(max_length=100, null=True, blank=True)
     SSS_number = models.CharField(max_length=250, null=True, blank=True)

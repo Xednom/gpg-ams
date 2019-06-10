@@ -61,6 +61,8 @@ THIRD_PARTY_APPS = (
 INSTALLED_APPS = ADMIN_APPS + DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 AUTH_USER_MODEL = 'users.CustomUser'
+STAFFS = 'users.staffs'
+CLIENTS = 'users.clients'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
