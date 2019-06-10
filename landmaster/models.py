@@ -181,4 +181,4 @@ class DueDiligencesCleared(models.Model):
         return reverse('')
 
     def __str__(self):
-        return self.client_full_name + " of " + self.client_company_name
+        return str(self.client_full_name)
