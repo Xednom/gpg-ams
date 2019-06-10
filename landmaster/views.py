@@ -108,10 +108,19 @@ class DueDiligenceTrackerViewSet(viewsets.ModelViewSet):
     serializer_class = (DueDiligenceClearedSerializer)
 
     def get_queryset(self):
-        queryset = DueDiligencesCleared.objects.filter(Q(client_full_name=self.request.user.clients.full_name) &
-                                                       Q(client_company_name=self.request.user.clients.company_name) &
-                                                       Q(customer_service_representative=self.request.user.staffs.full_name))
-        return queryset
+        is_staff = self.request.user.is_staffs
+        is_client = self.request.user.is_client
+        if is_client:
+            queryset = DueDiligencesCleared.objects.filter(Q(client_full_name=self.request.user.clients.full_name),
+                                                           Q(client_company_name=self.request.user.clients.company_name))
+            return queryset
+        elif is_staff:
+            if self.request.user.staffs.position == 'General Administrative Support':
+                queryset = DueDiligencesCleared.objects.filter(Q(customer_service_representative=self.request.user.staffs.full_name))
+                return queryset
+            elif self.request.user.staffs.position == 'Project Managers':
+                queryset = DueDiligencesCleared.objects.filter(Q(customer_service_representative=self.request.user.staffs.full_name))
+                return queryset
     
     def perform_create(self, serializer):
         return serializer.save(customer_service_representative=self.request.user.staffs.full_name)
