@@ -24,7 +24,7 @@ class Logins(models.Model):
     user_name = models.CharField(max_length=150, null=True, blank=True)
     password = models.CharField(max_length=150, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    give_access_to = models.ForeignKey(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT)
+    give_access_to = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
     date_created = models.DateField(auto_now_add=True)
     added_by = models.CharField(max_length=150, null=True, blank=True)
     updated_by = models.CharField(max_length=150, null=True, blank=True)
