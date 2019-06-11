@@ -15,7 +15,6 @@ class Logins(models.Model):
         ('vacantpropertiesglobal.com', 'vacantpropertiesglobal.com')
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    date_added = models.DateField(auto_now_add=True)
     client_full_name = models.ForeignKey(settings.CLIENTS, null=True, blank=True, on_delete=models.PROTECT)
     company_name = models.CharField(max_length=150, null=True, blank=True)
     company_category = models.CharField(max_length=150, choices=COMPANY_CATEGORY, null=True, blank=True)
