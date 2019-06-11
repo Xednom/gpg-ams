@@ -184,8 +184,27 @@ def save_user_profile(sender, instance, **kwargs):
 
 
 class ClientProfiling(models.Model):
+    CATEGORY = (
+        ('High', 'High'),
+        ('Average', 'Average'),
+        ('Low', 'Low'),
+    )
     kind_of_client = models.CharField(max_length=150)
-    client_name = models.ForeignKey(Clients, null=True, blank=True, on_delete=models.PROTECT)
+    client_name = models.ForeignKey(settings.CLIENTS, null=True, blank=True, on_delete=models.PROTECT)
+    category = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
+    influence = models.CharField(max_length=250, null=True, blank=True)
+    current_job_position = models.CharField(max_length=150, null=True, blank=True)
+    facebook_url = models.URLField(null=True, blank=True)
+    skype_account = models.CharField(max_length=150, null=True, blank=True)
+    whatsapp = models.CharField(max_length=150, null=True, blank=True)
+    viber = models.CharField(max_length=150, null=True, blank=True)
+    line = models.CharField(max_length=150, null=True, blank=True)
+    others = models.CharField(max_length=150, null=True, blank=True)
+    qualified_for_testimony = models.BooleanField(default=False)
+    notes_on_disputes = models.TextField(null=True, blank=True)
+    testimony_notes = models.TextField(null=True, blank=True)
+    feedback_in_operation = models.TextField(null=True, blank=True)
+    feedback_in_quality = models.TextField(null=True, blank=True)
     notes = models.TextField()
     
     class Meta:
@@ -246,7 +265,7 @@ class ChannelOfCommunications(models.Model):
         return self.name_of_channel
 
 
-class NotesAfterTraining(models.Model):
+class Notes(models.Model):
     name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
 

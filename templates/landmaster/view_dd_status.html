@@ -24,8 +24,17 @@
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Due Diligence Status for Initial Data</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.status_initial_data"
+        <select class="form-control" v-model="currentDueDiligence.status_initial_data"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Due Diligence Status for Tax Data</label>
@@ -33,19 +42,60 @@
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
-        <label>Due Diligence Status for Zoning Data</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.status_zoning_data"
+        <label>Due Diligence Status for Tax Data</label>
+        <select class="form-control" v-model="currentDueDiligence.status_tax_data"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Due Diligence Status for Zoning Data</label>
+        <select class="form-control" v-model="currentDueDiligence.status_zoning_data"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Due Diligence Status for Utilities Data</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.status_utilities_data"
+        <select class="form-control" v-model="currentDueDiligence.status_utilities_data"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Due Diligence Status for Other Requests</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.status_other_requests"
+        <select class="form-control" v-model="currentDueDiligence.status_other_requests"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
     </div>
     <hr>
     <div class="form-group col-md-4 col-sm-12">
