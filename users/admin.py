@@ -18,7 +18,7 @@ from .models import (
         TrainingUrl,
         TypeOfTaskRequest,
         ChannelOfCommunications,
-        NotesAfterTraining,
+        Notes,
     )
 
 
@@ -64,13 +64,13 @@ class ChanngelOfCommunicationsInline(admin.TabularInline):
     model = ChannelOfCommunications
     extra = 1
 
-class NotesAfterTrainingInline(admin.TabularInline):
-    model = NotesAfterTraining
+class NotesInline(admin.TabularInline):
+    model = Notes
     extra = 1
 
 
 class StaffProfile(admin.ModelAdmin):
-    list_display = ('username', 'full_name', 'email',
+    list_display = ('username', 'full_name', 'middle_name', 'email',
                     'phone_number', 'SSS_number',
                     'TIN_number', 'pag_ibig_number',
                     'philhealth', 'position', 'status',
@@ -161,7 +161,7 @@ class ClientProfile(admin.ModelAdmin):
         TrainingUrlInline,
         TypeOfTaskRequestInline,
         ChanngelOfCommunicationsInline,
-        NotesAfterTrainingInline,
+        NotesInline,
     ]
     list_display = ('company_category', 'status', 'client_control_number', 'username', 'full_name', 'company_name',
                     'assigned_va', 'assigned_pm', 'phone_number', 'internal_folder_link_1',
@@ -204,17 +204,41 @@ class ClientProfile(admin.ModelAdmin):
 
 
 class ClientProfilingInfo(admin.ModelAdmin):
-    list_display = ('client_name', 'kind_of_client')
-    list_filter = ('client_name', 'kind_of_client')
-    search_fields = ('client_name', 'kind_of_client')
+    list_display = ('client_name', 'category', 'current_job_position',
+                    'facebook_url', 'skype_account', 'whatsapp',
+                    'viber', 'line', 'others', 'qualified_for_testimony')
+    list_filter = ('client_name', 'kind_of_client', 'category', 'qualified_for_testimony')
+    search_fields = ('client_name',)
     fieldsets = (
         ('Client Profiling', {
             'fields': (
                 'client_name',
                 'kind_of_client',
-                'notes',
+                'category',
+                'influence',
+                'current_job_position',
+                'qualified_for_testimony',
             )
         }),
+        ("Social Media Accounts", {
+            'fields': (
+                'facebook_url',
+                'skype_account',
+                'whatsapp',
+                'viber',
+                'line',
+                'others',
+            )
+        }),
+        ("Notes", {
+            'fields': (
+                'notes',
+                'notes_on_disputes',
+                'testimony_notes',
+                'feedback_in_operation',
+                'feedback_in_quality',
+            )
+        })
     )
     
 

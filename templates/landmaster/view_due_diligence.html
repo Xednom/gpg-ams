@@ -84,32 +84,32 @@ GPG System | View Due Diligence
                                             <td>[[ dueDiligences.status_of_dd ]]</td>
                                             <td>[[ dueDiligences.date_completed ]]</td>
                                         {% endif %}
-                                        <td><button class="btn btn-primary" type="button" data-toggle="modal"
+                                        <td><button class="btn btn-primary btn-sm" type="button" data-toggle="modal"
                                                 data-target="#editModal"
                                                 data-placement="top" title="View Information for this work"
                                                 v-on:click="viewDueDiligence(dueDiligences.id)"><i class="fa fa-eye"></i></button>
                                             {% if request.user.is_client %}    
-                                            <button class="btn btn-success" type="button" data-toggle="modal"
+                                            <button class="btn btn-success btn-sm" type="button" data-toggle="modal"
                                                 data-target="#otherModal"
                                                 data-placement="top" title="View Other Information"
                                                 v-on:click="viewDueDiligence(dueDiligences.id)"><i
                                                     class="fa fa-info"></i></button>
-                                           <button class="btn btn-info" type="button" data-toggle="modal"
+                                           <button class="btn btn-info btn-sm" type="button" data-toggle="modal"
                                                 data-target="#operatorModal" data-placement="top" title="View Operator Details"
                                                 v-on:click="viewDueDiligence(dueDiligences.id)"><i
                                                     class="fa fa-user"></i></button>
-                                            <button class="btn btn-info" type="button" data-toggle="modal"
+                                            <button class="btn btn-info btn-sm" type="button" data-toggle="modal"
                                                 data-target="#statusModal" data-placement="top" title="View Statuses"
                                                 v-on:click="viewDueDiligence(dueDiligences.id)"><i
                                                     class="fa fa-cog"></i></button>
-                                            <button class="btn btn-info" type="button" data-toggle="modal"
+                                            <button class="btn btn-info btn-sm" type="button" data-toggle="modal"
                                                 data-target="#teamModal"
                                                 data-placement="top" title="View Team Assigned"
                                                 v-on:click="viewDueDiligence(dueDiligences.id)"><i
                                                     class="fa fa-users"></i></button>
                                             {% endif %} </td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-success"
+                                            <button type="button" class="btn btn-success btn-sm"
                                                 v-on:click="generatePDF(dueDiligences.id, i)">
                                                 <i v-if="buttonsLoading[i]" class="fa fa-spinner fa-spin"></i>
                                                 <i v-else class="fa fa-print filter"></i>
