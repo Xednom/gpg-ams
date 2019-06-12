@@ -1,6 +1,8 @@
 import datetime
 
 from django.shortcuts import render
+from django.views.generic import TemplateView, View, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 
 from django_filters.rest_framework import FilterSet
 from django_filters import DateFilter, CharFilter, NumberFilter
@@ -19,6 +21,14 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     def enforce_csrf(self, request):
         return  # To not perform the csrf check previously happening
+
+
+class ReminderView(LoginRequiredMixin, TemplateView):
+    template_name = 'reminder/reminder.html'
+
+
+class AddReminder(LoginRequiredMixin, TemplateView):
+    template_name = 'reminder/add_reminder.html'
 
 
 class ReminderFilters(FilterSet):
@@ -42,4 +52,7 @@ class ReminderViewSet(viewsets.ModelViewSet):
         queryset = ManagerReminders.objects.filter(Q(date__year=current_date), 
                                                    Q(manager_under=self.request.user.staffs.full_name))
         return queryset
+    
+    def perform_create(self, serializer):
+        return serializer.save(manager_under=self.request.user.staffs.full_name)
 

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}
+GPG System | Add Reminder
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div id="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <h2 class="page-header">
+                    Add your reminder!
+                </h2>
+            </div>
+        </div>
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'users:home' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Add your reminder</li>
+        </ol>
+        <div class="col-md-6 col-md-offset-3">
+            <div id="gpg-reminders" v-cloak>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Reminder Form
+                    </div>
+                    <form v-on:submit.prevent="addReminder">
+                        <div class="panel-body">
+                            <div class="form-group row">
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Due Date</label>
+                                    <input type="date" class="form-control" v-model="newReminder.due_date">
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Status</label>
+                                    <input type="text" class="form-control" v-model="newReminder.status">
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Description</label>
+                                    <textarea class="form-control"
+                                    cols="30" rows="10"
+                                    v-model="newReminder.description"></textarea>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Notes from the Company</label>
+                                    <textarea class="form-control" cols="30" rows="10"
+                                        v-model="newReminder.notes_from_company"></textarea>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Notes from the Manager</label>
+                                    <textarea class="form-control" cols="30" rows="10"
+                                        v-model="newReminder.notes_from_manager"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

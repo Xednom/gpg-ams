@@ -35,6 +35,7 @@ urlpatterns = [
     path('payroll/', include('payroll.urls')),
     path('timesheet/', include('clienttimesheet.urls')),
     path('reporting/', include('reporting.urls')),
+    path('reminder/', include('reminders.urls')),
     path('seller/', include('seller.urls')),
     path('inbox/notifications', include(notifications.urls, namespace='notifications'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
