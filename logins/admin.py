@@ -33,12 +33,12 @@ class LoginsProfile(admin.ModelAdmin):
         })
     )
 
-    def save_model(self, request, obj, form, change):
-        if not change:
-            # the object is being created, save the user who will add this
-            obj.added_by = request.user.staffs.full_name
-        elif change:
-            obj.updated_by = request.user.staffs.full_name
-        obj.save()
+    # def save_model(self, request, obj, form, change):
+    #     if not change:
+    #         # the object is being created, save the user who will add this
+    #         obj.added_by = request.user
+    #     elif change:
+    #         obj.updated_by = request.user
+    #     obj.save()
 
 admin.site.register(Logins, LoginsProfile)

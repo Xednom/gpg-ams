@@ -44,7 +44,7 @@ class Staffs(models.Model):
         ('Home Based', 'Home Based'),
         ('Freelance', 'Freelance'),
     )
-    username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='staffs')
+    username = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='staffs')
     full_name = models.CharField(max_length=500, default="My Name")
     middle_name = models.CharField(max_length=150, null=True, blank=True, default="middle name")
     phone_number = models.CharField(max_length=100, null=True, blank=True)
@@ -138,7 +138,7 @@ class Clients(models.Model):
         ('Terminated', 'Terminated'),
         ('Others', 'Others')
     )
-    username = models.OneToOneField(CustomUser, on_delete=models.PROTECT, related_name='clients')
+    username = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='clients')
     full_name = models.CharField(max_length=150)
     company_name = models.CharField(max_length=150)
     date_signed_up = models.DateTimeField(default=now, null=True, blank=True)

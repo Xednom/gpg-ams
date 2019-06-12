@@ -6,8 +6,7 @@ new Vue({
         reminders: [],
         loading: false,
         message: null,
-        newClient: {
-            'date': null,
+        newReminder: {
             'description': null,
             'manager_under': null,
             'due_date': null,
@@ -30,6 +29,11 @@ new Vue({
         this.getreminders();
     },
     methods: {
+        resetFields: function () {
+            Object.keys(this.newReminder).forEach(key => {
+                this.newReminder[key] = ""
+            })
+        },
         setCurrentMonth: function () {
             let currentMonth = moment(new Date()).format("MM");
             this.search_month = currentMonth;
@@ -61,6 +65,68 @@ new Vue({
                     this.loading = false;
                     console.log(err);
                 })
+        },
+        addReminder: function () {
+            this.saving = true;
+            this.$http.post('/api/v1/reminders/', this.newReminder)
+                .then((response) => {
+                    this.saving = false;
+                    swal({
+                        title: "GPG System",
+                        text: "Reminder has been added successfully! You can add another one.",
+                        icon: "success",
+                        buttons: false,
+                        timer: 3000
+                    })
+                    this.resetFields();
+                })
+                .catch((err) => {
+                    this.saving = false;
+                    this.errored = true;
+                    swal({
+                        title: "GPG System",
+                        text: "Please check the summaries of your request. If the problem persist, please contact the admin.",
+                        icon: "error",
+                        buttons: "Ok",
+                    })
+                    this.errorduediligence = err.body;
+                    console.log(err);
+                })
+        },
+        deleteReminder: function (id) {
+            swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this data!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        this.loading = true;
+                        this.$http.delete(`/api/v1/reminders/${id}`)
+                            .then((response) => {
+                                this.loading = false;
+                                this.getreminders();
+                            })
+                            .catch((err) => {
+                                this.loading = false;
+                                console.log(err);
+                            })
+                        swal("Poof! Your data file has been deleted!", {
+                            icon: "success",
+                            button: false,
+                            timer: 1500
+                        });
+                    } else {
+                        swal({
+                            text: "Your data is safe.",
+                            icon: "success",
+                            button: false,
+                            timer: 1500
+                        });
+                    }
+                });
         },
         getPaginatedRecords: function () {
             const startIndex = this.startIndex;
