@@ -35,27 +35,33 @@ GPG System | Add Reminder
                             <div class="form-group row">
                                 <div class="form-group col-md-4 col-sm-12">
                                     <label>Due Date</label>
-                                    <input type="date" class="form-control" v-model="newReminder.due_date">
+                                    <input type="date" class="form-control" v-model="newReminder.due_date" required>
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Requestee</label>
+                                    {% if request.user.is_client %}
+                                    <select class="form-control" v-model="newReminder.requestee">
+                                        <option v-for="requestee in requesteestaffs">[[ requestee.full_name ]]</option>
+                                    </select>
+                                    {% elif request.user.is_staffs %}
+                                    <select class="form-control" v-model="newReminder.requestee">
+                                        <option v-for="requestee in requesteeclients">[[ requestee.full_name ]]</option>
+                                    </select>
+                                    {% endif %}
                                 </div>
                                 <div class="form-group col-md-4 col-sm-12">
                                     <label>Status</label>
-                                    <input type="text" class="form-control" v-model="newReminder.status">
+                                    <select class="form-control" v-model="newReminder.status">
+                                        <option>New</option>
+                                        <option>Processing</option>
+                                        <option>In Review</option>
+                                        <option>Completed</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-12 col-sm-12">
-                                    <label>Description</label>
-                                    <textarea class="form-control"
-                                    cols="30" rows="10"
-                                    v-model="newReminder.description"></textarea>
-                                </div>
-                                <div class="form-group col-md-12 col-sm-12">
-                                    <label>Notes from the Company</label>
+                                    <label>Memo from requestor</label>
                                     <textarea class="form-control" cols="30" rows="10"
-                                        v-model="newReminder.notes_from_company"></textarea>
-                                </div>
-                                <div class="form-group col-md-12 col-sm-12">
-                                    <label>Notes from the Manager</label>
-                                    <textarea class="form-control" cols="30" rows="10"
-                                        v-model="newReminder.notes_from_manager"></textarea>
+                                        v-model="newReminder.memo_from_requestor"></textarea>
                                 </div>
                             </div>
                         </div>

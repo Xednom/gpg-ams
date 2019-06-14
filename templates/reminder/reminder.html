@@ -23,7 +23,7 @@ GPG System | Reminders
                 <a href="{% url 'users:home' %}">Dashboard</a>
             </li>
             <li class="breadcrumb-item active">Reminders Tab</li>
-            <li class="breadcrumb-item"><a href="{% url 'reminders:add-reminders' %}">Add reminder</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'reminders:add-reminders' %}">Add reminder </a></li>
         </ol>
         <div id="gpg-reminders" v-cloak>
             <div>
@@ -31,13 +31,17 @@ GPG System | Reminders
                     You have no reminder for today, try <strong><a href="{% url 'reminders:add-reminders' %}"
                             class="alert-link">adding</a></strong> some reminders!
                 </div>
+                {% include 'messages/messages.html' %}                
             </div>
             <div v-for="reminder in reminders">
                 <div class="col-md-4 col-sm-12">
+                    <form v-on:submit.prevent="updateReminder">
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             Your reminders for date <strong>[[ reminder.date ]]</strong>
                             <div class="pull-right">
+                                <button type="button" class="btn btn-warning btn-sm fa fa-edit" data-toggle="modal"
+                                    data-target="#editModal" v-on:click="viewReminder(reminder.id)"></button>
                                 <button type="button" class="btn btn-danger btn-sm fa fa-trash"
                                     v-on:click="deleteReminder(reminder.id)"></button>
                             </div>
@@ -45,22 +49,23 @@ GPG System | Reminders
                         <div class="panel-body">
                             <h4>Status</h4>
                             <p class="text-info">[[ reminder.status ]]</p>
-                            <h4>Description</h4>
+                            <h4>Memo from the requestor: <strong>[[ reminder.requestor ]]</strong></h4> 
                             <blockquote>
                                 <textarea class="form-control" cols="30" rows="5"
-                                    disabled>[[ reminder.description ]]</textarea>
+                                    disabled>[[ reminder.memo_from_requestor ]]</textarea>
                             </blockquote>
-                            <h4>Notes from the Company</h4>
-                            <blockquote>
-                                <textarea class="form-control" cols="30" rows="5"
-                                    disabled>[[ reminder.notes_from_company ]]</textarea>
-                            </blockquote>
-                            <h4>Notes from the Manager</h4>
+                            <h4>Memo from requestee</h4>
                             <blockquote>
                                 <textarea class="form-control"
-                                cols="30" rows="5" disabled>[[ reminder.notes_from_manager ]]</textarea>
-                                
+                                cols="30" rows="5" disabled>[[ reminder.memo_from_requestee ]]</textarea>
                             </blockquote>
+                            <!-- <h4>Additional comment from requestee</h4>
+                            <blockquote>
+                                <textarea cols="30" rows="05"
+                                class="form-control"
+                                disabled>[[ reminder.additional_comment ]]</textarea>
+                                </textarea>
+                            </blockquote> -->
                         </div>
                         <!-- /.panel-body -->
                         <div class="panel-footer">
@@ -68,9 +73,72 @@ GPG System | Reminders
                         </div>
                     </div>
                     <!-- /.panel -->
+                    </form>
                 </div>
                 <!-- /.col-lg-4 -->
             </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                        </div>
+                        <form v-on:submit.prevent="updateReminder">
+                        <div class="modal-body">
+                            {% for reminder in staffs_reminders %}
+                                {% if reminder.requestee == request.user.staffs.full_name %}
+                                    <label>Memo from the Requestee</label>
+                                    <textarea cols="30" rows="05" class="form-control"
+                                        v-model="currentreminders.memo_from_requestee"></textarea>
+                                    </textarea>
+                                {% endif %}
+                                {% if reminder.requestor == request.user.staffs.full_name %}
+                                <label>Status</label>
+                                <select class="form-control" v-model="currentreminders.status">
+                                    <option>New</option>
+                                    <option>Processing</option>
+                                    <option>In Review</option>
+                                    <option>Completed</option>
+                                </select>
+                                {% endif %}
+                            {% endfor %}
+                            {% for reminder in clients_reminders %}
+                                {% if reminder.requestee == request.user.clients.full_name %}
+                                    <label>Memo from the Requestee</label>
+                                    <textarea cols="30" rows="05" class="form-control"
+                                        v-model="currentreminders.memo_from_requestee"></textarea>
+                                    </textarea>
+                                {% endif %}
+                                {% if reminder.requestor == request.user.clients.full_name %}
+                                <label>Status</label>
+                                <select class="form-control" v-model="currentreminders.status">
+                                    <option>New</option>
+                                    <option>Processing</option>
+                                    <option>In Review</option>
+                                    <option>Completed</option>
+                                </select>
+                                {% endif %}
+                            {% endfor %}
+                            <!-- <label>Additional Comment from the requestee</label>
+                            <textarea cols="30" rows="05" class="form-control"
+                                v-model="currentreminders.additional_comment"></textarea>
+                            </textarea> -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
         </div>
     </div>
 </div>

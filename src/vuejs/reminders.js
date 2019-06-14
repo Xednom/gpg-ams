@@ -6,13 +6,17 @@ new Vue({
         reminders: [],
         loading: false,
         message: null,
+        requesteeclients: [],
+        requesteestaffs: [],
+        currentreminders: [],
         newReminder: {
             'description': null,
-            'manager_under': null,
             'due_date': null,
             'status': null,
-            'notes_from_company': null,
-            'notes_from_manager': null,
+            'requestor': null,
+            'requestee': null,
+            'memo_from_requestor': null,
+            'memo_from_requestee': null,
         },
         search_term: '',
         search_month: '',
@@ -27,6 +31,8 @@ new Vue({
     },
     mounted: function () {
         this.getreminders();
+        this.getclients();
+        this.getstaffs();
     },
     methods: {
         resetFields: function () {
@@ -66,6 +72,32 @@ new Vue({
                     console.log(err);
                 })
         },
+        getstaffs: function () {
+            let api_url = '/api/v1/staffs/';
+            this.loading = true;
+            this.$http.get(api_url)
+                .then((response) => {
+                    this.requesteestaffs = response.data;
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        getclients: function () {
+            let api_url = '/api/v1/clients/';
+            this.loading = true;
+            this.$http.get(api_url)
+                .then((response) => {
+                    this.requesteeclients = response.data;
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
         addReminder: function () {
             this.saving = true;
             this.$http.post('/api/v1/reminders/', this.newReminder)
@@ -89,7 +121,39 @@ new Vue({
                         icon: "error",
                         buttons: "Ok",
                     })
-                    this.errorduediligence = err.body;
+                    console.log(err);
+                })
+        },
+        viewReminder: function (id) {
+            this.loading = true;
+            this.$http.get(`/api/v1/reminders/${id}/`)
+                .then((response) => {
+                    this.loading = false;
+                    this.currentreminders = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        updateReminder: function () {
+            this.loading = true;
+            this.$http.put(`/api/v1/reminders/${this.currentreminders.id}/`, this.currentreminders)
+                .then((response) => {
+                    this.loading = false;
+                    this.currentreminders = response.data;
+                    swal({
+                        title: "GPG system",
+                        text: "Successfully updated the reminder!",
+                        icon: "success",
+                        button: false,
+                        timer: 1500
+                    })
+                    $("#editModal").modal('hide')
+                    this.getreminders();
+                })
+                .catch((err) => {
+                    this.loading = false;
                     console.log(err);
                 })
         },

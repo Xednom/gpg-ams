@@ -11,8 +11,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q
 
+from rest_framework import viewsets, filters
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 from client.models import Client
 from jobrequest.models import JobRequest
+from users.models import Clients, Staffs
+
+from .serializers import ClientSerializer, StaffSerializer
 
 
 class LoginView(AuthenticationForm, View):
@@ -70,6 +77,18 @@ class VaProfile(LoginRequiredMixin, TemplateView):
 
     def get(self, request):
         return render(request, self.template_name)
+
+
+class ClientViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Clients.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ClientSerializer
+
+
+class StaffViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Staffs.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = StaffSerializer
 
 
 def client_status_data(request):
