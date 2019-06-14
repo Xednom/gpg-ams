@@ -4,7 +4,7 @@ from .models import ManagerReminders
 
 
 class ManagerRemindersProfile(admin.ModelAdmin):
-    list_display = ('date', 'due_date', 'status')
+    list_display = ('date', 'due_date', 'requestor', 'requestee', 'status')
     list_filter = ['date', 'status']
     search_fields = ('manager_under', 'status')
     readonly_fields = ['date']
