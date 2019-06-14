@@ -30,6 +30,6 @@ class ManagerReminders(models.Model):
         return reverse('reminders:view-reminders')
 
     class Meta:
-        verbose_name = 'Manager Reminder'
-        verbose_name_plural = 'Manager Reminders'
+        verbose_name = 'General Reminder'
+        verbose_name_plural = 'General Reminders'
         ordering=['-date']
