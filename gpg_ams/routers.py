@@ -20,6 +20,7 @@ from seller.views import (
     FranklinManagementViewSet,
     )
 from buyer.views import CustomerCareViewSet
+from users.views import ClientViewSet, StaffViewSet
 
 
 router = routers.DefaultRouter()
@@ -44,3 +45,5 @@ router.register(r'reminders', ReminderViewSet, base_name='ManagerReminders')
 router.register(r'affordable-land', AffordableLandViewSet, base_name='affordableland')
 router.register(r'franklin-management', FranklinManagementViewSet, base_name='franklinmanagement')
 router.register(r'customer-care-specialist', CustomerCareViewSet, base_name='customercare')
+router.register(r'clients', ClientViewSet)
+router.register(r'staffs', StaffViewSet)

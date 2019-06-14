@@ -276,7 +276,6 @@
                     <!-- <div id="container-client" class="col-sm-6 " data-url="{% url 'users:client_status_data' %}"></div>
                     <div id="container-jobrequest" class="col-sm-6 " data-url="{% url 'users:job_request_status_data' %}"></div> -->
                   </div>
-                  {% if request.user.is_staffs %}
                   <div id="gpg-reminders" v-cloak>
                     <!-- reminder -->
                     <div class="col-md-6 col-sm-12">
@@ -362,7 +361,7 @@
                       </div>
                     </div>
                   </div>
-                  {% elif request.user.is_client %}
+                  {% if request.user.is_client %}
                     <div id="gpg-land-master" v-cloak>
                       <div class="col-md-6 col-sm-12">
                         <div class="panel panel-primary">
@@ -472,6 +471,11 @@
     });
     $(function () {
     $("#id_date_of_call").datepicker({
+    format:'yyyy-mm-dd',
+    });
+    });
+    $(function () {
+    $("#id_due_date").datepicker({
     format:'yyyy-mm-dd',
     });
     });
