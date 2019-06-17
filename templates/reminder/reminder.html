@@ -85,18 +85,23 @@ GPG System | Reminders
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                            <h4 class="modal-title" id="myModalLabel">Update your reminder</h4>
                         </div>
                         <form v-on:submit.prevent="updateReminder">
                         <div class="modal-body">
-                            {% for reminder in staffs_reminders %}
-                                {% if reminder.requestee == request.user.staffs.full_name %}
+                                {% if requestor_reminders %}
+                                    <label>Memo from the Requestor</label>
+                                    <textarea cols="30" rows="05" class="form-control"
+                                        v-model="currentreminders.memo_from_requestor"></textarea>
+                                    </textarea>
+                                {% endif %}
+                                {% if requestee_reminders %}
                                     <label>Memo from the Requestee</label>
                                     <textarea cols="30" rows="05" class="form-control"
                                         v-model="currentreminders.memo_from_requestee"></textarea>
                                     </textarea>
                                 {% endif %}
-                                {% if reminder.requestor == request.user.staffs.full_name %}
+                                {% if requestee_reminders %}
                                 <label>Status</label>
                                 <select class="form-control" v-model="currentreminders.status">
                                     <option>New</option>
@@ -105,24 +110,6 @@ GPG System | Reminders
                                     <option>Completed</option>
                                 </select>
                                 {% endif %}
-                            {% endfor %}
-                            {% for reminder in clients_reminders %}
-                                {% if reminder.requestee == request.user.clients.full_name %}
-                                    <label>Memo from the Requestee</label>
-                                    <textarea cols="30" rows="05" class="form-control"
-                                        v-model="currentreminders.memo_from_requestee"></textarea>
-                                    </textarea>
-                                {% endif %}
-                                {% if reminder.requestor == request.user.clients.full_name %}
-                                <label>Status</label>
-                                <select class="form-control" v-model="currentreminders.status">
-                                    <option>New</option>
-                                    <option>Processing</option>
-                                    <option>In Review</option>
-                                    <option>Completed</option>
-                                </select>
-                                {% endif %}
-                            {% endfor %}
                             <!-- <label>Additional Comment from the requestee</label>
                             <textarea cols="30" rows="05" class="form-control"
                                 v-model="currentreminders.additional_comment"></textarea>

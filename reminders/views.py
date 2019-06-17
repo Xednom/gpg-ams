@@ -18,6 +18,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 
 from .models import ManagerReminders
+from users.models import Clients, Staffs
 from .serializers import ReminderSerializer
 
 
@@ -32,20 +33,19 @@ class ReminderView(LoginRequiredMixin, ListView):
     model = ManagerReminders
 
     def get(self, request, *args, **kwargs):
+        reminders = ManagerReminders.objects.all()
         if self.request.user.is_client:
-            clients_reminders = ManagerReminders.objects.filter(Q(requestee=self.request.user.clients.full_name) |
-                                                                Q(requestor=self.request.user.clients.full_name))
-            context = {
-                'clients_reminders': clients_reminders
-            }
-            return render(request, self.template_name, context)
+            requestee_reminders = reminders.filter(Q(requestee__icontains=self.request.user.clients.full_name))
+            requestor_reminders = reminders.filter(Q(requestor__icontains=self.request.user.clients.full_name))
         elif self.request.user.is_staffs:
-            staffs_reminders = ManagerReminders.objects.filter(Q(requestee=self.request.user.staffs.full_name) |
-                                                               Q(requestor=self.request.user.staffs.full_name))
-            context = {
-                'staffs_reminders': staffs_reminders
-            }
-            return render(request, self.template_name, context)
+            requestee_reminders = reminders.filter(Q(requestee__icontains=self.request.user.staffs.full_name))
+            requestor_reminders = reminders.filter(Q(requestor__icontains=self.request.user.staffs.full_name))
+        context = {
+            'requestee_reminders': requestee_reminders,
+            'requestor_reminders': requestor_reminders
+        }
+        return render(request, self.template_name, context)
+
 
 
 class AddReminder(LoginRequiredMixin, TemplateView):
@@ -70,15 +70,18 @@ class ReminderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         current_date = datetime.date.today().year
+        reminders = ManagerReminders.objects.all()
         if self.request.user.is_client:
-            queryset = ManagerReminders.objects.filter(Q(date__year=current_date),
+            queryset = reminders.filter(Q(date__year=current_date),
                                                        Q(requestee=self.request.user.clients.full_name) |
                                                        Q(requestor=self.request.user.clients.full_name))
+            queryset = reminders.exclude(status='Completed')
             return queryset
         elif self.request.user.is_staffs:
-            queryset = ManagerReminders.objects.filter(Q(date__year=current_date),
+            queryset = reminders.filter(Q(date__year=current_date),
                                                        Q(requestee=self.request.user.staffs.full_name) |
                                                        Q(requestor=self.request.user.staffs.full_name))
+            queryset = reminders.exclude(status='Completed')
             return queryset
     
     def perform_create(self, serializer):
