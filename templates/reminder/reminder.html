@@ -49,12 +49,12 @@ GPG System | Reminders
                         <div class="panel-body">
                             <h4>Status</h4>
                             <p class="text-info">[[ reminder.status ]]</p>
-                            <h4>Memo from the requestor: <strong>[[ reminder.requestor ]]</strong></h4> 
+                            <h4>Memo from the requestor: [[ reminder.requestor ]]</h4> 
                             <blockquote>
                                 <textarea class="form-control" cols="30" rows="5"
                                     disabled>[[ reminder.memo_from_requestor ]]</textarea>
                             </blockquote>
-                            <h4>Memo from requestee</h4>
+                            <h4>Memo from requestee: [[ reminder.requestee ]]</h4>
                             <blockquote>
                                 <textarea class="form-control"
                                 cols="30" rows="5" disabled>[[ reminder.memo_from_requestee ]]</textarea>
@@ -96,7 +96,7 @@ GPG System | Reminders
                                     </textarea>
                                 {% endif %}
                                 {% if requestee_reminders %}
-                                    <label>Memo from the Requestee</label>
+                                    <label>Memo from the Requestee:</label>
                                     <textarea cols="30" rows="05" class="form-control"
                                         v-model="currentreminders.memo_from_requestee"></textarea>
                                     </textarea>
