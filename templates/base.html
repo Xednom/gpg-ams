@@ -127,12 +127,12 @@
                                                     class="fa fa-pencil"></i>Update Job Request</a>
                                             </li>
                                             {% elif request.user.is_staffs %}
-                                              {% if perms.jobrequest.view_jobrequest %}
+                                              
                                               <li>
                                                   <a href="{% url 'jobrequest:update_job_request' %}"><i
                                                       class="fa fa-pencil"></i> Update Job Request</a>
                                               </li>
-                                              {% endif %}
+                                              
                                             {% endif %}
                                         </ul>
                                         <!-- /.nav-third-level -->
