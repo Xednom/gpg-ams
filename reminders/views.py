@@ -54,7 +54,7 @@ class AddReminder(LoginRequiredMixin, TemplateView):
 
 class ReminderFilters(FilterSet):
     date__month = NumberFilter(field_name='date', lookup_expr='icontains')
-    name = CharFilter(field_name='manager_under', lookup_expr='icontains')
+    name = CharFilter(field_name='requestor', lookup_expr='icontains')
 
     class Meta:
         model = ManagerReminders
@@ -70,19 +70,15 @@ class ReminderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         current_date = datetime.date.today().year
-        reminders = ManagerReminders.objects.all()
         if self.request.user.is_client:
-            queryset = reminders.filter(Q(date__year=current_date),
-                                                       Q(requestee=self.request.user.clients.full_name) |
-                                                       Q(requestor=self.request.user.clients.full_name))
-            queryset = reminders.exclude(status='Completed')
-            return queryset
+            queryset = ManagerReminders.objects.filter(Q(date__year=current_date),
+            Q(requestor=self.request.user.clients.full_name) or
+            Q(requestee=self.request.user.clients.full_name))
         elif self.request.user.is_staffs:
-            queryset = reminders.filter(Q(date__year=current_date),
-                                                       Q(requestee=self.request.user.staffs.full_name) |
-                                                       Q(requestor=self.request.user.staffs.full_name))
-            queryset = reminders.exclude(status='Completed')
-            return queryset
+            queryset = ManagerReminders.objects.filter(Q(date__year=current_date),
+                Q(requestee=self.request.user.staffs.full_name) or
+                Q(requestor=self.request.user.staffs.full_name))
+        return queryset
     
     def perform_create(self, serializer):
         if self.request.user.is_staffs:
