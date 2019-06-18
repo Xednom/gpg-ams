@@ -36,6 +36,7 @@ LOCAL_APPS = (
     'clienttimesheet',
     'inventory',
     'recruitment',
+    'callmemasterboard'
 )
 
 DJANGO_APPS = (
