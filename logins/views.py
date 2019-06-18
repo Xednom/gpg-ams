@@ -28,5 +28,5 @@ class LoginsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user.staffs.full_name
-        qs = Logins.objects.filter(give_access_to__name=user)
+        qs = Logins.objects.filter(give_access_to__full_name=user)
         return qs
