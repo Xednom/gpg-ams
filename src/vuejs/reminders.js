@@ -18,7 +18,7 @@ new Vue({
             'memo_from_requestor': null,
             'memo_from_requestee': null,
         },
-        search_term: '',
+        search_status: '',
         search_month: '',
 
         // for pagination
@@ -63,6 +63,18 @@ new Vue({
             let api_url = '/api/v1/reminders/';
             this.loading = true;
             this.$http.get(api_url)
+                .then((response) => {
+                    this.reminders = response.data;
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        getcompletedreminders: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/reminders/?status=${this.search_status}`)
                 .then((response) => {
                     this.reminders = response.data;
                     this.loading = false;

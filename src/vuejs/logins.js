@@ -9,7 +9,7 @@ new Vue({
         currentClientName: {},
         message: null,
         newClient: {
-            'date_added': null,
+            'date_created': null,
             'client_full_name': null,
             'company_name': null,
             'type_of_apps': null,

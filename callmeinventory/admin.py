@@ -3,22 +3,29 @@ from .models import inventory
 
 
 class InventoryProfile(admin.ModelAdmin):
-    list_display = ('date_of_call', 'category', 'client_full_name',
-                    'client_company_name', 'total_handling_time', 'total_time_transferring_leads', 'total_mins')
-    list_filter = ('category',)
-    search_fields = ('client_full_name', 'client_company_name')
+    list_display = ('type_of_form', 'client_full_name',
+                    'client_company_name', 'call_duration', 'total_time_transferring_leads', 'total_mins')
+    list_filter = ('type_of_form',)
+    search_fields = ('client_full_name', 'client_company_name', 'customer_representative__full_name')
     readonly_fields = ('total_mins',)
     fieldsets = (
         ("Call Me Inventory Informations", {
             'fields': (
-                'date_of_call',
-                'category',
+                'transferred_date',
+                'date_lead_received',
+                'type_of_form',
                 'client_full_name',
                 'client_company_name',
-                'mobile',
-                'total_handling_time',
+                'full_name_of_lead',
+                'phone_number',
+                'email',
+                'customer_representative',
+                'status',
+                'financial_status',
+                'call_duration',
                 'total_time_transferring_leads',
-                'total_mins'
+                'total_mins',
+                'notes'
             )
         }),
     )
