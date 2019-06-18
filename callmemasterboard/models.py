@@ -23,3 +23,6 @@ class MasterBoard(models.Model):
         verbose_name = 'CallMe Master Board'
         verbose_name_plural = 'CallMe Master Boards'
         ordering = ['-date_started']
+    
+    def __str__(self):
+        return str(self.client_name)
