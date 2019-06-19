@@ -34,7 +34,6 @@ LOCAL_APPS = (
     'callmeinventory',
     'companyexpenses',
     'clienttimesheet',
-    'inventory',
     'recruitment',
     'callmemasterboard'
 )

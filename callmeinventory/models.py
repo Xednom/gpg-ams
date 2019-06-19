@@ -2,10 +2,8 @@ import uuid
 
 from decimal import Decimal
 from django.db import models
-from django.conf import settings
 from django.db.models import F
 from django.utils.timezone import now
-
 
 
 class inventory(models.Model):
@@ -19,8 +17,8 @@ class inventory(models.Model):
         ('New', 'New'),
         ('Transferred to Podio - Personal Account', 'Transferred to Podio - Personal Account'),
         ('Transferred to Land Speed', 'Transferred to Land Speed'),
-        ('Transferred to Investment Dominator ', 'Transferred to Investment Dominator '),
-        ('Airtable ', 'Airtable '),
+        ('Transferred to Investment Dominator', 'Transferred to Investment Dominator'),
+        ('Airtable', 'Airtable'),
         ('Others', 'Others'),
     )
     FINANCIAL = (
@@ -37,12 +35,13 @@ class inventory(models.Model):
     full_name_of_lead = models.CharField(max_length=150, null=True, blank=True)
     phone_number = models.CharField(max_length=150, null=True,blank=True)
     email = models.EmailField(null=True, blank=True)
-    customer_representative = models.OneToOneField(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT)
+    customer_representative = models.CharField(max_length=150, null=True, blank=True)
     status = models.CharField(max_length=150, choices=STATUS, null=True, blank=True)
+    lead_transferred_by = models.CharField(max_length=150, null=True, blank=True)
     financial_status = models.CharField(max_length=150, choices=FINANCIAL, null=True, blank=True)
     call_duration = models.DecimalField(max_digits=6, decimal_places=2)
     total_time_transferring_leads = models.DecimalField(max_digits=6, decimal_places=2)
-    total_mins = models.DecimalField(max_digits=6, decimal_places=2)
+    total_mins = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
 
     class Meta:

@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+{% block title %}
+GPG System | CallMe Inventory
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div id="gpg-callme" v-cloak>
+<div id="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2 class="page-header">
+                    CallMe Inventory Informations
+                </h2>
+            </div>
+        </div>
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'users:home' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">CallMe Inventory</li>
+            <li class="breadcrumb-item"><a href="{% url 'inventory:add_inventory' %}">Add Inventory </a></li>
+        </ol>
+        <div class="col-md-12 col-sm-12">
+            <div class="alert alert-warning" v-if="!inventory.length">
+                You have no record of inventory, try <strong><a href="{% url 'inventory:add_inventory' %}"
+                        class="alert-link">adding</a></strong> an inventory!
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        Table of CallMe Inventory
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Transferred Date</th>
+                                        <th>Date Lead received</th>
+                                        <th>Type of Form</th>
+                                        <th>Client name</th>
+                                        <th>Client Company name</th>
+                                        <th>Name of Lead</th>
+                                        <th>Customer Representative</th>
+                                        <th>Financial Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="inventories in inventory">
+                                        <td>[[ inventories.transferred_date ]]</td>
+                                        <td>[[ inventories.date_lead_received ]]</td>
+                                        <td>[[ inventories.type_of_form ]]</td>
+                                        <td>[[ inventories.client_full_name ]]</td>
+                                        <td>[[ inventories.client_company_name ]]</td>
+                                        <td>[[ inventories.full_name_of_lead ]]</td>
+                                        <td>[[ inventories.customer_representative ]]</td>
+                                        <td>[[ inventories.financial_status ]]</td>
+                                        <td>
+                                            {% if request.user.is_staffs %}
+                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                                data-target="#editModal" v-on:click="viewInventory(inventories.id)">Edit
+                                            </button>
+                                            {% elif request.user.is_client %}
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                data-target="#editModal" v-on:click="viewInventory(inventories.id)">View
+                                            </button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- pagination -->
+                        <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                            <ul class="pagination justify-content-end">
+                                <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                    <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li v-for="pageNumber in pages"
+                                    v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                        [[ pageNumber ]]
+                                    </a>
+                                </li>
+                                <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- end of pagination -->
+                    </div>
+                    <div class="panel-footer">
+                        Total count: [[ inventory.length ]]
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form v-on:submit.prevent="updateInventory">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Inventory Informations for [[
+                            currentInventories.client_full_name ]]</h4>
+                    </div>
+                    <form v-on:submit.prevent="updateInventory">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Transferred Date</label>
+                                    <input type="date" class="form-control form-control-sm"
+                                        v-model="currentInventories.transferred_date" 
+                                        {% if request.user.is_client %} 
+                                        disabled
+                                        {% elif request.user.is_staffs %}
+                                        {% endif %}>
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Date Lead received</label>
+                                    <input type="date" class="form-control form-control-sm"
+                                        v-model="currentInventories.date_lead_received"
+                                        {% if request.user.is_client %}
+                                        disabled
+                                        {% elif request.user.is_staffs %}
+                                        {% endif %}>
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Type of Form</label>
+                                    <select class="form-control" v-model="currentInventories.type_of_form" 
+                                    {% if request.user.is_client %}
+                                    disabled
+                                    {% elif request.user.is_staffs %}
+                                    {% endif %}>
+                                        <option>Buyers</option>
+                                        <option>Sellers</option>
+                                        <option>General Call</option>
+                                        <option>Voicemail</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Client Full Name</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.client_full_name" {% if request.user.is_client %}
+                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Client Company Name</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.client_company_name" {% if request.user.is_client %}
+                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Name of the Lead</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.full_name_of_lead" {% if request.user.is_client %}
+                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Phone number</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.phone_number" {% if request.user.is_client %}
+                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.email" {% if request.user.is_client %} disabled
+                                        {% elif request.user.is_staffs %} {% endif %}>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Customer Representative</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.customer_representative" {% if request.user.is_client %}
+                                        disabled
+                                        {% elif request.user.is_staffs %} {% endif %}>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Status</label>
+                                    <select class="form-control" v-model="currentInventories.status"
+                                        {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                                        {% endif %}>
+                                        <option>New</option>
+                                        <option>Transferred to Podio - Personal Account</option>
+                                        <option>Transferred to Land Speed</option>
+                                        <option>Transferred to Investment Dominator</option>
+                                        <option>Airtable</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Lead Transferred By</label>
+                                    <select class="form-control" v-model="currentInventories.lead_transferred_by"
+                                        {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                                        {% endif %}>
+                                        <option v-for="csr in staffs">[[ csr.full_name ]]</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Financial Status</label>
+                                    <select class="form-control" v-model="currentInventories.financial_status"
+                                        {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                                        {% endif %}>
+                                        <option>Billed</option>
+                                        <option>Unbilled</option>
+                                        <option>Waived</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Call Duration</label>
+                                    <input type="number" step=".01" min="0" class="form-control form-control-sm"
+                                        @input="filterInput"
+                                        v-model="currentInventories.call_duration" {% if request.user.is_client %}
+                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Total Time</label>
+                                    <input type="number" step=".01" min="0" class="form-control form-control-sm"
+                                        @input="filterInput"
+                                        v-model="currentInventories.total_time_transferring_leads"
+                                        {% if request.user.is_client %} disabled
+                                        {% elif request.user.is_staffs %} {% endif %}>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Notes</label>
+                                    <textarea cols="30" rows="10" v-model="currentInventories.notes"
+                                    class="form-control"
+                                    {% if request.user.is_client %} disabled
+                                    {% elif request.user.is_staffs %} {% endif %}>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        {% if request.user.is_client %}
+                        <!-- no save button shall appear on the client -->
+                        {% elif request.user.is_staffs %}
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        {% endif %}
+                    </div>
+                </div>
+                </form>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+    </div>
+</div>
+</div>
+{% endblock %}

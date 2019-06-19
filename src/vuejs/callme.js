@@ -1,57 +1,31 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
 new Vue({
-    el: '#gpg-seller',
+    el: '#gpg-callme',
     delimiters: ['[[', ']]'],
     data: {
-        affordablelands: [],
-        franklinmanagements: [],
+        inventory: [],
+        staffs: [],
         loading: false,
         saving: false,
-        currentAffordableLands: {},
-        currentFranklinManagements: {},
-        customerCareSpecialist: [],
         message: null,
-        newAffordableLands: {
-            'call_date': null,
-            'customer_care_specialist': '',
-            'contact_information': '',
-            'name': '',
-            'state_county': '',
-            'parcel_number': '',
-            'property_owner': '',
-            'other_owners': '',
-            'sell_the_property': '',
-            'phone_number': '',
-            'email_address': '',
-            'listed_in_letter_or_postcard': '',
-            'for_your_property': '',
-            'average_handling_time': null,
-            'additional_notes': '',
+        currentInventories: [],
+        newInventory: {
+            'transferred_date': null,
+            'date_lead_received': null,
+            'type_of_form': null,
+            'client_full_name': null,
+            'client_company_name': null,
+            'full_name_of_lead': null,
+            'phone_number': null,
+            'email': null,
+            'customer_representative': null,
+            'status': null,
+            'financial_status': null,
+            'call_duration': null,
+            'total_time_transferring_leads': null,
+            'total_mins': null,
+            'notes': null,
         },
-        newFranklinManagements: {
-            'call_date': null,
-            'customer_care_specialist': '',
-            'name': '',
-            'property_owner': '',
-            'other_owner': '',
-            'phone_number': '',
-            'email_address': '',
-            'road_access': '',
-            'property_currently_listed': '',
-            'utilities': '',
-            'consider_selling_it': '',
-            'improvements': '',
-            'hoa_poa': '',
-            'back_taxes': '',
-            'liens_in_property': '',
-            'lowest_number': '',
-            'closing_date': '',
-            'other_properties': '',
-            'know_about_the_property': '',
-            'average_handling_time': null,
-            'additional_notes': '',
-        },
-        search_month: '',
 
         // for pagination
         currentPage: 1,
@@ -62,48 +36,61 @@ new Vue({
         paginatedRecords: [],
     },
     mounted: function () {
-        this.getCustomerCareSpecialist();
+        this.getStaffs();
+        this.getInventory();
     },
     methods: {
-        resetAffordableLands: function () {
-            Object.keys(this.newAffordableLands).forEach(key => {
-                this.newAffordableLands[key] = ""
+        filterKey(e) {
+            const key = e.key;
+
+            // If is '.' key, stop it
+            if (key === '.')
+                return e.preventDefault();
+
+            // OPTIONAL
+            // If is 'e' key, stop it
+            if (key === 'e')
+                return e.preventDefault();
+        },
+
+        // This can also prevent copy + paste invalid character
+        filterInput(e) {
+            e.target.value = e.target.value.replace(/[^0-9]+/g, '');
+        },
+        reset: function () {
+            Object.keys(this.newInventory).forEach(key => {
+                this.newInventory[key] = ""
             })
         },
-        resetFranklinManagements: function () {
-            Object.keys(this.newFranklinManagements).forEach(key => {
-                this.newFranklinManagements[key] = ""
-            })
-        },
-        getAffordableLandInvestment: function () {
+        getInventory: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/affordable-land/`)
+            this.$http.get(`/api/v1/callme-inventory/`)
                 .then((response) => {
                     this.loading = false;
-                    this.affordablelands = response.data;
+                    this.inventory = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
                     console.log(err);
                 })
         },
-        getFranklineManagement: function () {
+        viewInventory: function (id) {
             this.loading = true;
-            this.$http.get(`/api/v1/franklin-management/`)
+            this.$http.get(`/api/v1/callme-inventory/${id}/`)
                 .then((response) => {
                     this.loading = false;
-                    this.franklinmanagements = response.data;
+                    this.currentInventories = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
                     console.log(err);
                 })
         },
-        getCustomerCareSpecialist: function () {
+        getStaffs: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/customer-care-specialist/`)
+            this.$http.get(`/api/v1/staffs/`)
                 .then((response) => {
-                    this.customerCareSpecialist = response.data;
+                    this.staffs = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {
@@ -111,59 +98,56 @@ new Vue({
                     console.log(err);
                 })
         },
-        addAffordableLand: function () {
+        addInventory: function () {
             this.saving = true;
-            this.$http.post('/api/v1/affordable-land/', this.newAffordableLands)
+            this.$http.post('/api/v1/callme-inventory/', this.newInventory)
                 .then((response) => {
                     this.saving = false;
                     swal({
                         title: "GPG System",
-                        text: "Affordable Land Investment data has been added successfully",
+                        text: "Inventory informations has been added successfully! You can add another one.",
                         icon: "success",
                         buttons: false,
-                        timer: 2000
+                        timer: 3000
                     })
-                    this.resetAffordableLands();
+                    this.reset();
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.saving = false;
+                    this.errored = true;
                     swal({
                         title: "GPG System",
-                        text: JSON.stringify(err.body),
+                        text: "Please check the summaries of your request. If the problem persist, please contact the admin.",
                         icon: "error",
                         buttons: "Ok",
-                    });
+                    })
                     console.log(err);
                 })
         },
-        addFranklin: function () {
-            this.saving = true;
-            this.$http.post('/api/v1/franklin-management/', this.newFranklinManagements)
+        updateInventory: function () {
+            this.loading = true;
+            this.$http.put(`/api/v1/callme-inventory/${this.currentInventories.id}/`, this.currentInventories)
                 .then((response) => {
-                    this.saving = false;
+                    this.loading = false;
+                    this.currentInventories = response.data;
                     swal({
-                        title: "GPG System",
-                        text: "Franklin Management data has been added successfully",
+                        title: "GPG system",
+                        text: "Successfully updated the informations!",
                         icon: "success",
-                        buttons: false,
-                        timer: 2000
+                        button: false,
+                        timer: 1500
                     })
-                    this.resetFranklinManagements();
+                    $("#editModal").modal('hide')
+                    this.getInventory();
                 })
                 .catch((err) => {
                     this.loading = false;
-                    swal({
-                        title: "GPG System",
-                        text: JSON.stringify(err.body),
-                        icon: "error",
-                        buttons: "Ok",
-                    });
                     console.log(err);
                 })
         },
         getPaginatedRecords: function () {
             const startIndex = this.startIndex;
-            this.paginatedRecords = this.cashouts.slice().splice(startIndex, this.pageSize);
+            this.paginatedRecords = this.inventory.slice().splice(startIndex, this.pageSize);
         },
         goToPage: function (page) {
             if (page < 1) {
@@ -198,7 +182,7 @@ new Vue({
         }
     },
     watch: {
-        cashouts: function (newCashOutRecords, oldCashOutRecords) {
+        inventory: function (newInventoryRecords, oldInventoryRecords) {
             this.setPageGroup();
             this.getPaginatedRecords();
         },
@@ -209,7 +193,7 @@ new Vue({
     },
     computed: {
         totalItems: function () {
-            return this.cashouts.length;
+            return this.inventory.length;
         },
         totalPages: function () {
             return Math.ceil(this.totalItems / this.pageSize);

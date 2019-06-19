@@ -47,7 +47,6 @@ class ReminderView(LoginRequiredMixin, ListView):
         return render(request, self.template_name, context)
 
 
-
 class AddReminder(LoginRequiredMixin, TemplateView):
     template_name = 'reminder/add_reminder.html'
 
