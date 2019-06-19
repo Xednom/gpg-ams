@@ -180,6 +180,18 @@
                               {% endif %}
                             </ul>
                         </li>
+                        <li>
+                          <a href="#"><i class="fa fa-folder-o"></i> CallMe Inventory <span class="fa arrow"></span></a>
+                          <ul class="nav nav-third-level">
+                            <li>
+                              {% if request.user.is_staffs %}
+                              <a href="{% url 'inventory:add_inventory' %}"> <i class="fa fa-plus"></i> Add Inventory </a>
+                              {% else %}
+                              {% endif %}
+                              <a href="{% url 'inventory:view_inventory' %}"> <i class="fa fa-eye"></i> View Inventory </a>
+                            </li>
+                          </ul>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

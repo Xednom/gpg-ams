@@ -16,6 +16,7 @@ from payroll.views import PayrollViewSet, PayrollCashOutViewSet
 from clienttimesheet.views import TimeSheetViewSet, PaymentMadeViewSet
 from reminders.views import ReminderViewSet
 from users.views import ClientViewSet, StaffViewSet
+from callmeinventory.views import InventoryViewSet
 
 
 router = routers.DefaultRouter()
@@ -39,3 +40,4 @@ router.register(r'paymentmade', PaymentMadeViewSet, base_name='PaymentMade')
 router.register(r'reminders', ReminderViewSet, base_name='ManagerReminders')
 router.register(r'clients', ClientViewSet)
 router.register(r'staffs', StaffViewSet)
+router.register(r'callme-inventory', InventoryViewSet, base_name='inventory')

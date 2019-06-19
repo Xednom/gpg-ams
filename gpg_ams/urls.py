@@ -37,6 +37,7 @@ urlpatterns = [
     path('reporting/', include('reporting.urls')),
     path('reminder/', include('reminders.urls')),
     path('seller/', include('seller.urls')),
+    path('callme/', include('callmeinventory.urls')),
     path('inbox/notifications', include(notifications.urls, namespace='notifications'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
