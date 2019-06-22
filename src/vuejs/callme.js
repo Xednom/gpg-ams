@@ -4,11 +4,15 @@ new Vue({
     delimiters: ['[[', ']]'],
     data: {
         inventory: [],
+        masterboard: [],
         staffs: [],
+        clients: [],
         loading: false,
+        viewing: false,
         saving: false,
         message: null,
         currentInventories: [],
+        currentBoards: [],
         newInventory: {
             'transferred_date': null,
             'date_lead_received': null,
@@ -27,6 +31,20 @@ new Vue({
             'notes': null,
         },
 
+        newMasterBoard: {
+            'date_started': null,
+            'type_of_plan': null,
+            'type_of_crm': null,
+            'type_of_voip': null,
+            'client_name': null,
+            'company_name': null,
+            'url_buyer': null,
+            'url_seller': null,
+            'url_property_management': null,
+            'voicemail': null,
+            'general_calls': null,
+        },
+
         // for pagination
         currentPage: 1,
         pageSize: RECORDS_PER_PAGE,
@@ -37,7 +55,9 @@ new Vue({
     },
     mounted: function () {
         this.getStaffs();
+        this.getClients();
         this.getInventory();
+        this.getBoard();
     },
     methods: {
         filterKey(e) {
@@ -74,15 +94,39 @@ new Vue({
                     console.log(err);
                 })
         },
-        viewInventory: function (id) {
+        getBoard: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/callme-inventory/${id}/`)
+            this.$http.get(`/api/v1/callme-masterboard/`)
                 .then((response) => {
                     this.loading = false;
-                    this.currentInventories = response.data;
+                    this.masterboard = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
+                    console.log(err);
+                })
+        },
+        viewInventory: function (id) {
+            this.viewing = true;
+            this.$http.get(`/api/v1/callme-inventory/${id}/`)
+                .then((response) => {
+                    this.viewing = false;
+                    this.currentInventories = response.data;
+                })
+                .catch((err) => {
+                    this.viewing = false;
+                    console.log(err);
+                })
+        },
+        viewBoard: function (id) {
+            this.viewing = true;
+            this.$http.get(`/api/v1/callme-masterboard/${id}/`)
+                .then((response) => {
+                    this.viewing = false;
+                    this.currentBoards = response.data;
+                })
+                .catch((err) => {
+                    this.viewing = false;
                     console.log(err);
                 })
         },
@@ -98,6 +142,18 @@ new Vue({
                     console.log(err);
                 })
         },
+        getClients: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/clients/`)
+                .then((response) => {
+                    this.clients = response.data;
+                    this.loading = false;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
         addInventory: function () {
             this.saving = true;
             this.$http.post('/api/v1/callme-inventory/', this.newInventory)
@@ -106,6 +162,32 @@ new Vue({
                     swal({
                         title: "GPG System",
                         text: "Inventory informations has been added successfully! You can add another one.",
+                        icon: "success",
+                        buttons: false,
+                        timer: 3000
+                    })
+                    this.reset();
+                })
+                .catch((err) => {
+                    this.saving = false;
+                    this.errored = true;
+                    swal({
+                        title: "GPG System",
+                        text: "Please check the summaries of your request. If the problem persist, please contact the admin.",
+                        icon: "error",
+                        buttons: "Ok",
+                    })
+                    console.log(err);
+                })
+        },
+        addBoard: function () {
+            this.saving = true;
+            this.$http.post('/api/v1/callme-masterboard/', this.newMasterBoard)
+                .then((response) => {
+                    this.saving = false;
+                    swal({
+                        title: "GPG System",
+                        text: "Master Board informations has been added successfully! You can add another one.",
                         icon: "success",
                         buttons: false,
                         timer: 3000
@@ -142,6 +224,27 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
+                    console.log(err);
+                })
+        },
+        updateBoard: function () {
+            this.saving = true;
+            this.$http.put(`/api/v1/callme-masterboard/${this.currentBoards.id}/`, this.currentBoards)
+                .then((response) => {
+                    this.saving = false;
+                    this.currentBoards = response.data;
+                    swal({
+                        title: "GPG system",
+                        text: "Successfully updated the informations!",
+                        icon: "success",
+                        button: false,
+                        timer: 1500
+                    })
+                    $("#editModal").modal('hide')
+                    this.getBoard();
+                })
+                .catch((err) => {
+                    this.saving = false;
                     console.log(err);
                 })
         },
