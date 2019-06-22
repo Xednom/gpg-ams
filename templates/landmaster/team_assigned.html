@@ -2,7 +2,10 @@
     <div class="form-group col-md-6 col-sm-12">
         <label>Project Manager</label>
         <select class="form-control" v-model="currentDueDiligence.project_manager"
-            {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' %}{% else %}disabled{% endif %}
+            {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' or request.user.is_client %}
+            {% else %}
+                disabled
+            {% endif %}
             required>
             <option v-for="pm in projectManagers">[[
                 pm.project_manager ]]</option>

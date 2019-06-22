@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from decimal import Decimal
-from django.utils import timezone as tz
+from django.utils.timezone import now
 
 from fillables.models import (
     ProjectManager, 
@@ -70,9 +70,9 @@ class JobRequest(models.Model):
     project_status = models.CharField(max_length=150, choices=PROJECT_STATUS_CHOICES, null=True, blank=True)
     url_training_videos = models.URLField(null=True, blank=True)
     assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
-    time_in = models.DateTimeField(default=tz.now, null=True, blank=True)
-    time_out = models.DateTimeField(default=tz.now, null=True, blank=True)
-    total_minutes_hours = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    time_in = models.DateTimeField(default=now, null=True, blank=True)
+    time_out = models.DateTimeField(default=now, null=True, blank=True)
+    total_minutes_hours = models.DecimalField(max_digits=5, decimal_places=2, default=0.00, null=True, blank=True)
     manager_notes = models.TextField(null=True, blank=True)
     client_notes = models.TextField(null=True, blank=True)
     va_notes = models.TextField(null=True, blank=True)

@@ -74,7 +74,8 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
         is_staff = self.request.user.is_staffs
         is_client = self.request.user.is_client
         if is_client:
-            queryset = DueDiligence.objects.filter(company_name=self.request.user.clients.company_name)
+            queryset = DueDiligence.objects.filter(Q(company_name=self.request.user.clients.company_name),
+                                                   Q(company_owner_or_requestor=self.request.user.clients.full_name))
             return queryset
         elif is_staff:
             if self.request.user.staffs.position == "Project Managers":
