@@ -18,11 +18,11 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
         return # To not perform the csrf check previously happening
 
 
-class MasterBoardView(TemplateView):
+class MasterBoardView(LoginRequiredMixin, TemplateView):
     template_name = 'callme/masterboard/view_masterboard.html'
 
 
-class AddMasterBoardView(TemplateView):
+class AddMasterBoardView(LoginRequiredMixin, TemplateView):
     template_name = 'callme/masterboard/add_masterboard.html'
 
 
