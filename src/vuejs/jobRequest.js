@@ -164,7 +164,8 @@ new Vue({
             this.loading = false;
             swal({
               title: "GPG System",
-              text: JSON.stringify(err.body),
+              text: "Please try again later, and if the error persist. Please contact the admin.",
+              // text: JSON.stringify(err.body), this is a sample stack trace for furture reference
               icon: "error",
               buttons: "Ok",
             });

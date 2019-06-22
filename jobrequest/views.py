@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+from django.utils.timezone import now
 
 from rest_framework import viewsets, filters
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -60,7 +61,8 @@ class JobRequestViewSet(viewsets.ModelViewSet):
             return queryset
 
     def perform_create(self, serializer):
-        return serializer.save(requestors_name=self.request.user.clients.full_name, company_name=self.request.user.clients.company_name)
+        return serializer.save(requestors_name=self.request.user.clients.full_name, 
+        company_name=self.request.user.clients.company_name)
 
 
 class JobRequestTitleViewSet(viewsets.ModelViewSet):
