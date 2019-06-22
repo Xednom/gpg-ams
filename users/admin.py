@@ -208,7 +208,7 @@ class ClientProfilingInfo(admin.ModelAdmin):
                     'facebook_url', 'skype_account', 'whatsapp',
                     'viber', 'line', 'others', 'qualified_for_testimony')
     list_filter = ('client_name', 'kind_of_client', 'category', 'qualified_for_testimony')
-    search_fields = ('client_name',)
+    search_fields = ('client_name__full_name',)
     fieldsets = (
         ('Client Profiling', {
             'fields': (
