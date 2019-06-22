@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}
+GPG System | Add Master Board records
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div id="gpg-callme" v-cloak>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2 class="page-header">
+                    Add CallMe Master Board
+                </h2>
+            </div>
+        </div>
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'users:home' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Add CallMe Master Board</li>
+        </ol>
+        <div class="col-md-6 col-md-offset-3">
+            <form v-on:submit.prevent="addBoard">
+                {% csrf_token %}
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Please fill up the informations below
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Date Started</label>
+                                <input type="date" class="form-control" v-model="newMasterBoard.date_started"
+                                    >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Type of Plan</label>
+                                <input type="date" class="form-control" v-model="newMasterBoard.type_of_plan"
+                                    >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Type of CRM</label>
+                                <input type="text" class="form-control" v-model="newMasterBoard.type_of_crm">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Type of VIOP</label>
+                                <input type="text" class="form-control" v-model="newMasterBoard.type_of_voip"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Client Name</label>
+                                <select class="form-control" v-model="newMasterBoard.client_name">
+                                    <option v-for="client in clients">[[ client.full_name ]]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Client Company Name</label>
+                                <input type="text" class="form-control" v-model="newMasterBoard.company_name"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>URL Buyer</label>
+                                <input type="URL" class="form-control" v-model="newMasterBoard.url_buyer">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>URL Seller</label>
+                                <input type="url" class="form-control" v-model="newMasterBoard.url_seller">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>URL Property management</label>
+                                <input type="url" class="form-control" v-model="newMasterBoard.url_property_management">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Voicemail</label>
+                                <input type="text" class="form-control" v-model="newMasterBoard.voicemail">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>General Calls</label>
+                                <input type="text" class="form-control" v-model="newMasterBoard.general_calls">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

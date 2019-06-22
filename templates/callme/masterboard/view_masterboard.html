@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% block title %}
+GPG System | CallMe Master Board
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div id="gpg-callme" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2 class="page-header">
+                        CallMe Master Board
+                    </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">CallMe Master Board</li>
+                <li class="breadcrumb-item"><a href="#">Add Master Board </a></li>
+            </ol>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            Table of CallMe Master board
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date started</th>
+                                            <th>Type of Plan</th>
+                                            <th>Type of CRM</th>
+                                            <th>Type of VOIP</th>
+                                            <th>Client name</th>
+                                            <th>Company Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <template v-if="loading">
+                                                <td colspan="15" class="text-center bg-warning" v-if="loading">
+                                                    Fetching data...
+                                                </td>
+                                            </template>
+                                            <template v-else-if="!masterboard.length">
+                                                <td colspan="15" class="text-center bg-warning" v-if="loading">
+                                                    No records found.
+                                                </td>
+                                            </template>
+                                        </tr>
+                                        <tr v-for="boards in masterboard">
+                                            <td>[[ boards.date_started ]]</td>
+                                            <td>[[ boards.type_of_plan ]]</td>
+                                            <td>[[ boards.type_of_crm ]]</td>
+                                            <td>[[ boards.type_of_voip ]]</td>
+                                            <td>[[ boards.client_name ]]</td>
+                                            <td>[[ boards.company_name ]]</td>
+                                            <td>
+                                                {% if request.user.is_staffs %}
+                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                                    data-target="#editModal"
+                                                    v-on:click="viewBoard(boards.id)">Edit
+                                                </button>
+                                                {% elif request.user.is_client %}
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#editModal"
+                                                    v-on:click="viewBoard(boards.id)">View
+                                                </button>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- pagination -->
+                            <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                <ul class="pagination justify-content-end">
+                                    <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                        <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                            Previous
+                                        </a>
+                                    </li>
+                                    <li v-for="pageNumber in pages"
+                                        v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                        <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                            [[ pageNumber ]]
+                                        </a>
+                                    </li>
+                                    <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                        <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                            Next
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- end of pagination -->
+                        </div>
+                        <div class="panel-footer">
+                            Total count: [[ masterboard.length ]]
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Information based on [[ currentBoards.client_name ]]</h4>
+                </div>
+                <form v-on:submit.prevent="updateBoard">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-12">
+                            <label>Date started</label>
+                            <input type="date" class="form-control form-control-sm"
+                                v-model="currentBoards.date_started" {% if request.user.is_client %} disabled
+                                {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                        <div class="form-group col-md-8 col-sm-12">
+                            <label>Type of Plan</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.type_of_plan" {% if request.user.is_client %} disabled
+                                {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Type of CRM</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.type_of_crm" {% if request.user.is_client %} disabled
+                                {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Type of VIOP</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.type_of_voip" {% if request.user.is_client %} disabled
+                                {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Client name</label>
+                            <select class="form-control" v-model="currentBoards.client_name"
+                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                                <option v-for="client in clients">[[ client.full_name ]]</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Company name</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.company_name" {% if request.user.is_client %} disabled
+                                {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>URL Buyer</label>
+                            <input type="url" class="form-control form-control-sm" v-model="currentBoards.url_buyer"
+                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>URL Seller</label>
+                            <input type="url" class="form-control form-control-sm" v-model="currentBoards.url_seller"
+                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>URL Property Management</label>
+                            <input type="url" class="form-control form-control-sm"
+                                v-model="currentBoards.url_property_management"
+                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Voicemail</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.voicemail" {% if request.user.is_client %} disabled
+                                {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>General Calls</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.general_calls"
+                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <template v-if="saving">
+                        <button type="submit" class="btn btn-primary" disabled>Save changes</button>
+                    </template>
+                    <template v-else>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </template>
+                </div>
+            </div>
+        </form>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+</div>
+{% endblock %}

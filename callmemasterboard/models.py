@@ -11,7 +11,7 @@ class MasterBoard(models.Model):
     type_of_plan = models.CharField(max_length=150, null=True, blank=True)
     type_of_crm = models.CharField(max_length=150, null=True, blank=True)
     type_of_voip = models.CharField(max_length=150, null=True, blank=True)
-    client_name = models.OneToOneField(settings.CLIENTS, on_delete=models.PROTECT)
+    client_name = models.CharField(max_length=150, null=True, blank=True)
     company_name = models.CharField(max_length=150, null=True, blank=True)
     url_buyer = models.URLField(null=True, blank=True)
     url_seller = models.URLField(null=True, blank=True)

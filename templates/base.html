@@ -158,7 +158,7 @@
                         </li>
                         {% endif %}
                         <li>
-                          <a href="#">Land Master <span class="fa arrow"></span></a>
+                          <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                               {% if request.user.is_client %}
                               <li>
@@ -189,6 +189,20 @@
                               {% else %}
                               {% endif %}
                               <a href="{% url 'inventory:view_inventory' %}"> <i class="fa fa-eye"></i> View Inventory </a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>
+                          <a href="#"><i class="fa fa-clipboard"></i> CallMe Master Board <span class="fa arrow"></span></a>
+                          <ul class="nav nav-third-level">
+                            <li>
+                              {% if request.user.is_staffs %}
+                              <a href="{% url 'masterboard:add_masterboard' %}"> <i class="fa fa-plus"></i> Add Record
+                              </a>
+                              {% else %}
+                              {% endif %}
+                              <a href="{% url 'masterboard:view_masterboard' %}"> <i class="fa fa-eye"></i> View Board
+                              </a>
                             </li>
                           </ul>
                         </li>
