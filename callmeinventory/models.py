@@ -12,6 +12,8 @@ class inventory(models.Model):
         ('Sellers', 'Sellers'),
         ('General Call', 'General Call'),
         ('Voicemail', 'Voicemail'),
+        ('Property Management', 'Property Management'),
+        ('Others', 'Others'),
     )
     STATUS = (
         ('New', 'New'),

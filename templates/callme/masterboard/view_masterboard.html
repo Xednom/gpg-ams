@@ -38,10 +38,13 @@ GPG System | CallMe Master Board
                                     <thead>
                                         <tr>
                                             <th>Date started</th>
-                                            <th>Type of CRM</th>
-                                            <th>Type of VOIP</th>
                                             <th>Client name</th>
                                             <th>Company Name</th>
+                                            <th>URL Buyer</th>
+                                            <th>URL Seller</th>
+                                            <th>URL Property Management</th>
+                                            <th>Voice Mail</th>
+                                            <th>General Calls</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -59,10 +62,13 @@ GPG System | CallMe Master Board
                                         </tr>
                                         <tr v-for="boards in masterboard">
                                             <td>[[ boards.date_started ]]</td>
-                                            <td>[[ boards.type_of_crm ]]</td>
-                                            <td>[[ boards.type_of_voip ]]</td>
                                             <td>[[ boards.client_name ]]</td>
                                             <td>[[ boards.company_name ]]</td>
+                                            <td>[[ boards.url_buyer ]]</td>
+                                            <td>[[ boards.url_seller ]]</td>
+                                            <td>[[ boards.url_property_management ]]</td>
+                                            <td>[[ boards.voicemail ]]</td>
+                                            <td>[[ boards.general_calls ]]</td>
                                             <td>
                                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                     data-target="#editModal"
