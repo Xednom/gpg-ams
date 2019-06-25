@@ -15,7 +15,7 @@ from logins.views import LoginsViewSet
 from payroll.views import PayrollViewSet, PayrollCashOutViewSet
 from clienttimesheet.views import TimeSheetViewSet, PaymentMadeViewSet
 from reminders.views import ReminderViewSet
-from users.views import ClientViewSet, StaffViewSet
+from users.views import ClientViewSet, ClientCallMeViewSet, StaffViewSet
 from callmeinventory.views import InventoryViewSet
 from callmemasterboard.views import MasterBoardViewSets
 
@@ -39,6 +39,7 @@ router.register(r'timesheet', TimeSheetViewSet, base_name='TimeSheet')
 router.register(r'paymentmade', PaymentMadeViewSet, base_name='PaymentMade')
 router.register(r'reminders', ReminderViewSet, base_name='ManagerReminders')
 router.register(r'clients', ClientViewSet)
+router.register(r'clients-callme', ClientCallMeViewSet, base_name="client")
 router.register(r'staffs', StaffViewSet)
 router.register(r'callme-inventory', InventoryViewSet, base_name='inventory')
 router.register(r'callme-masterboard', MasterBoardViewSets, base_name='masterboard')

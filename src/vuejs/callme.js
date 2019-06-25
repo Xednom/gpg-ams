@@ -144,7 +144,7 @@ new Vue({
         },
         getClients: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/clients/`)
+            this.$http.get(`/api/v1/clients-callme/`)
                 .then((response) => {
                     this.clients = response.data;
                     this.loading = false;
@@ -207,10 +207,10 @@ new Vue({
                 })
         },
         updateInventory: function () {
-            this.loading = true;
+            this.saving = true;
             this.$http.put(`/api/v1/callme-inventory/${this.currentInventories.id}/`, this.currentInventories)
                 .then((response) => {
-                    this.loading = false;
+                    this.saving = false;
                     this.currentInventories = response.data;
                     swal({
                         title: "GPG system",

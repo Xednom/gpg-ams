@@ -25,12 +25,6 @@ GPG System | CallMe Inventory
             <li class="breadcrumb-item active">CallMe Inventory</li>
             <li class="breadcrumb-item"><a href="{% url 'inventory:add_inventory' %}">Add Inventory </a></li>
         </ol>
-        <div class="col-md-12 col-sm-12">
-            <div class="alert alert-warning" v-if="!inventory.length">
-                You have no record of inventory, try <strong><a href="{% url 'inventory:add_inventory' %}"
-                        class="alert-link">adding</a></strong> an inventory!
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="panel panel-green">
@@ -54,6 +48,18 @@ GPG System | CallMe Inventory
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>
+                                        <template v-if="loading">
+                                            <td colspan="15" class="text-center bg-warning" v-if="loading">
+                                                Fetching data...
+                                            </td>
+                                        </template>
+                                        <template v-else-if="!inventory.length">
+                                            <td colspan="15" class="text-center bg-warning" v-if="loading">
+                                                No records found.
+                                            </td>
+                                        </template>
+                                    </tr>
                                     <tr v-for="inventories in inventory">
                                         <td>[[ inventories.transferred_date ]]</td>
                                         <td>[[ inventories.date_lead_received ]]</td>
@@ -64,15 +70,9 @@ GPG System | CallMe Inventory
                                         <td>[[ inventories.customer_representative ]]</td>
                                         <td>[[ inventories.financial_status ]]</td>
                                         <td>
-                                            {% if request.user.is_staffs %}
-                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
-                                                data-target="#editModal" v-on:click="viewInventory(inventories.id)">Edit
-                                            </button>
-                                            {% elif request.user.is_client %}
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#editModal" v-on:click="viewInventory(inventories.id)">View
                                             </button>
-                                            {% endif %}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -127,74 +127,93 @@ GPG System | CallMe Inventory
                                     <label>Transferred Date</label>
                                     <input type="date" class="form-control form-control-sm"
                                         v-model="currentInventories.transferred_date" 
-                                        {% if request.user.is_client %} 
+                                        {% if perms.inventory.change_callme %}
+                                        {% else %}
                                         disabled
-                                        {% elif request.user.is_staffs %}
                                         {% endif %}>
                                 </div>
                                 <div class="form-group col-md-4 col-sm-12">
                                     <label>Date Lead received</label>
                                     <input type="date" class="form-control form-control-sm"
                                         v-model="currentInventories.date_lead_received"
-                                        {% if request.user.is_client %}
+                                        {% if perms.inventory.change_callme %}
+                                        {% else %}
                                         disabled
-                                        {% elif request.user.is_staffs %}
                                         {% endif %}>
                                 </div>
                                 <div class="form-group col-md-4 col-sm-12">
                                     <label>Type of Form</label>
                                     <select class="form-control" v-model="currentInventories.type_of_form" 
-                                    {% if request.user.is_client %}
-                                    disabled
-                                    {% elif request.user.is_staffs %}
-                                    {% endif %}>
+                                    {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
                                         <option>Buyers</option>
                                         <option>Sellers</option>
                                         <option>General Call</option>
                                         <option>Voicemail</option>
+                                        <option>Property Management</option>
+                                        <option>Others</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Client Full Name</label>
-                                    <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.client_full_name" {% if request.user.is_client %}
-                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                    <select class="form-control"{% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
+                                        <option v-for="client in clients">[[ client.full_name ]]</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Client Company Name</label>
                                     <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.client_company_name" {% if request.user.is_client %}
-                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                        v-model="currentInventories.client_company_name" {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Name of the Lead</label>
                                     <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.full_name_of_lead" {% if request.user.is_client %}
-                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                        v-model="currentInventories.full_name_of_lead" {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Phone number</label>
                                     <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.phone_number" {% if request.user.is_client %}
-                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                        v-model="currentInventories.phone_number" {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Email</label>
                                     <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.email" {% if request.user.is_client %} disabled
-                                        {% elif request.user.is_staffs %} {% endif %}>
+                                        v-model="currentInventories.email" {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Customer Representative</label>
-                                    <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.customer_representative" {% if request.user.is_client %}
+                                    <select class="form-control"
+                                        v-model="currentInventories.customer_representative"
+                                        {% if perms.inventory.change_callme %}
+                                        {% else %}
                                         disabled
-                                        {% elif request.user.is_staffs %} {% endif %}>
+                                        {% endif %}>
+                                    <option v-for="staff in staffs">[[ staff.full_name ]]</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Status</label>
                                     <select class="form-control" v-model="currentInventories.status"
-                                        {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                                        {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
                                         {% endif %}>
                                         <option>New</option>
                                         <option>Transferred to Podio - Personal Account</option>
@@ -205,54 +224,63 @@ GPG System | CallMe Inventory
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
+                                    <label>Transferred Date</label>
+                                    <input type="date" class="form-control form-control-sm"
+                                        v-model="currentInventories.transferred_date" {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
                                     <label>Lead Transferred By</label>
                                     <select class="form-control" v-model="currentInventories.lead_transferred_by"
-                                        {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                                        {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
                                         {% endif %}>
                                         <option v-for="csr in staffs">[[ csr.full_name ]]</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4 col-sm-12">
-                                    <label>Financial Status</label>
-                                    <select class="form-control" v-model="currentInventories.financial_status"
-                                        {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
-                                        {% endif %}>
-                                        <option>Billed</option>
-                                        <option>Unbilled</option>
-                                        <option>Waived</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4 col-sm-12">
+                                <div class="form-group col-md-6 col-sm-12">
                                     <label>Call Duration</label>
                                     <input type="number" step=".01" min="0" class="form-control form-control-sm"
                                         @input="filterInput"
-                                        v-model="currentInventories.call_duration" {% if request.user.is_client %}
-                                        disabled {% elif request.user.is_staffs %} {% endif %}>
+                                        v-model="currentInventories.call_duration" {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
                                 </div>
-                                <div class="form-group col-md-4 col-sm-12">
-                                    <label>Total Time</label>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Total Time in transferring Leads</label>
                                     <input type="number" step=".01" min="0" class="form-control form-control-sm"
                                         @input="filterInput"
                                         v-model="currentInventories.total_time_transferring_leads"
-                                        {% if request.user.is_client %} disabled
-                                        {% elif request.user.is_staffs %} {% endif %}>
+                                        {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
                                 </div>
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Notes</label>
                                     <textarea cols="30" rows="10" v-model="currentInventories.notes"
                                     class="form-control"
-                                    {% if request.user.is_client %} disabled
-                                    {% elif request.user.is_staffs %} {% endif %}>
+                                    {% if perms.inventory.change_callme %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}>
                                     </textarea>
                                 </div>
                             </div>
                         </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        {% if request.user.is_client %}
-                        <!-- no save button shall appear on the client -->
-                        {% elif request.user.is_staffs %}
+                        {% if perms.inventory.change_callme %}
+                        <template v-if="saving">
+                            <button type="submit" class="btn btn-primary" disabled>Save changes</button>
+                        </template>
+                        <template v-else>
                             <button type="submit" class="btn btn-primary">Save changes</button>
+                        </template>
                         {% endif %}
                     </div>
                 </div>
