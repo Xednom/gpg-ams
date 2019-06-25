@@ -21,7 +21,8 @@ class MasterBoardProfile(admin.ModelAdmin):
                 'url_seller',
                 'url_property_management',
                 'voicemail',
-                'general_calls'
+                'general_calls',
+                'notes'
             )
         }),
     )

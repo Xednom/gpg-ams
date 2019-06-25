@@ -25,12 +25,6 @@ GPG System | CallMe Inventory
             <li class="breadcrumb-item active">CallMe Inventory</li>
             <li class="breadcrumb-item"><a href="{% url 'inventory:add_inventory' %}">Add Inventory </a></li>
         </ol>
-        <div class="col-md-12 col-sm-12">
-            <div class="alert alert-warning" v-if="!inventory.length">
-                You have no record of inventory, try <strong><a href="{% url 'inventory:add_inventory' %}"
-                        class="alert-link">adding</a></strong> an inventory!
-            </div>
-        </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="panel panel-green">
@@ -54,6 +48,18 @@ GPG System | CallMe Inventory
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>
+                                        <template v-if="loading">
+                                            <td colspan="15" class="text-center bg-warning" v-if="loading">
+                                                Fetching data...
+                                            </td>
+                                        </template>
+                                        <template v-else-if="!inventory.length">
+                                            <td colspan="15" class="text-center bg-warning" v-if="loading">
+                                                No records found.
+                                            </td>
+                                        </template>
+                                    </tr>
                                     <tr v-for="inventories in inventory">
                                         <td>[[ inventories.transferred_date ]]</td>
                                         <td>[[ inventories.date_lead_received ]]</td>

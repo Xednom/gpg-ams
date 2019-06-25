@@ -144,7 +144,7 @@ new Vue({
         },
         getClients: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/clients/`)
+            this.$http.get(`/api/v1/clients-callme/`)
                 .then((response) => {
                     this.clients = response.data;
                     this.loading = false;

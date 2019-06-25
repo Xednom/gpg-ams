@@ -38,7 +38,6 @@ GPG System | CallMe Master Board
                                     <thead>
                                         <tr>
                                             <th>Date started</th>
-                                            <th>Type of Plan</th>
                                             <th>Type of CRM</th>
                                             <th>Type of VOIP</th>
                                             <th>Client name</th>
@@ -60,23 +59,15 @@ GPG System | CallMe Master Board
                                         </tr>
                                         <tr v-for="boards in masterboard">
                                             <td>[[ boards.date_started ]]</td>
-                                            <td>[[ boards.type_of_plan ]]</td>
                                             <td>[[ boards.type_of_crm ]]</td>
                                             <td>[[ boards.type_of_voip ]]</td>
                                             <td>[[ boards.client_name ]]</td>
                                             <td>[[ boards.company_name ]]</td>
                                             <td>
-                                                {% if request.user.is_staffs %}
-                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
-                                                    data-target="#editModal"
-                                                    v-on:click="viewBoard(boards.id)">Edit
-                                                </button>
-                                                {% elif request.user.is_client %}
                                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                     data-target="#editModal"
                                                     v-on:click="viewBoard(boards.id)">View
                                                 </button>
-                                                {% endif %}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -129,77 +120,118 @@ GPG System | CallMe Master Board
                         <div class="form-group col-md-4 col-sm-12">
                             <label>Date started</label>
                             <input type="date" class="form-control form-control-sm"
-                                v-model="currentBoards.date_started" {% if request.user.is_client %} disabled
-                                {% elif request.user.is_staffs %} {% endif %}>
+                                v-model="currentBoards.date_started"
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
                         </div>
                         <div class="form-group col-md-8 col-sm-12">
                             <label>Type of Plan</label>
                             <input type="text" class="form-control form-control-sm"
-                                v-model="currentBoards.type_of_plan" {% if request.user.is_client %} disabled
-                                {% elif request.user.is_staffs %} {% endif %}>
+                                v-model="currentBoards.type_of_plan" 
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %}
+                                disabled
+                                {% endif %}>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Type of CRM</label>
                             <input type="text" class="form-control form-control-sm"
-                                v-model="currentBoards.type_of_crm" {% if request.user.is_client %} disabled
-                                {% elif request.user.is_staffs %} {% endif %}>
+                                v-model="currentBoards.type_of_crm" {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Type of VIOP</label>
                             <input type="text" class="form-control form-control-sm"
-                                v-model="currentBoards.type_of_voip" {% if request.user.is_client %} disabled
-                                {% elif request.user.is_staffs %} {% endif %}>
+                                v-model="currentBoards.type_of_voip" {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Client name</label>
                             <select class="form-control" v-model="currentBoards.client_name"
-                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
                                 <option v-for="client in clients">[[ client.full_name ]]</option>
                             </select>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Company name</label>
                             <input type="text" class="form-control form-control-sm"
-                                v-model="currentBoards.company_name" {% if request.user.is_client %} disabled
-                                {% elif request.user.is_staffs %} {% endif %}>
+                                v-model="currentBoards.company_name" {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>URL Buyer</label>
                             <input type="url" class="form-control form-control-sm" v-model="currentBoards.url_buyer"
-                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>URL Seller</label>
                             <input type="url" class="form-control form-control-sm" v-model="currentBoards.url_seller"
-                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>URL Property Management</label>
                             <input type="url" class="form-control form-control-sm"
                                 v-model="currentBoards.url_property_management"
-                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Voicemail</label>
                             <input type="text" class="form-control form-control-sm"
-                                v-model="currentBoards.voicemail" {% if request.user.is_client %} disabled
-                                {% elif request.user.is_staffs %} {% endif %}>
+                                v-model="currentBoards.voicemail" {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
                         </div>
                         <div class="form-group col-md-12 col-sm-12">
                             <label>General Calls</label>
                             <input type="text" class="form-control form-control-sm" v-model="currentBoards.general_calls"
-                                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Notes</label>
+                            <textarea class="form-control"
+                            v-model="currentBoards.notes"
+                            cols="30" rows="10"
+                            {% if perms.callmemasterboard.change_masterboard %}
+                            {% else %}
+                            disabled
+                            {% endif %}></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    {% if perms.callmemasterboard.change_masterboard %}
                     <template v-if="saving">
                         <button type="submit" class="btn btn-primary" disabled>Save changes</button>
                     </template>
                     <template v-else>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </template>
+                    {% endif %}
                 </div>
             </div>
         </form>

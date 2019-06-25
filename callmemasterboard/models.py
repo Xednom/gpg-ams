@@ -18,6 +18,7 @@ class MasterBoard(models.Model):
     url_property_management = models.URLField(null=True, blank=True)
     voicemail = models.CharField(max_length=150, null=True, blank=True)
     general_calls = models.CharField(max_length=150, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'CallMe Master Board'

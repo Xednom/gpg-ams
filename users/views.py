@@ -85,6 +85,16 @@ class ClientViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ClientSerializer
 
 
+class ClientCallMeViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ClientSerializer
+
+    def get_queryset(self):
+        clients = Clients.objects.all()
+        callme_clients = clients.filter(company_category__icontains='callme.com.ph')
+        return callme_clients
+
+
 class StaffViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Staffs.objects.all()
     permission_classes = (IsAuthenticated,)
