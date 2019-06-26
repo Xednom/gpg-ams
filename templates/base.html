@@ -184,7 +184,7 @@
                           <a href="#"><i class="fa fa-folder-o"></i> CallMe Inventory <span class="fa arrow"></span></a>
                           <ul class="nav nav-third-level">
                             <li>
-                              {% if request.user.is_staffs %}
+                              {% if perms.callmeinventory.view_callme %}
                               <a href="{% url 'inventory:add_inventory' %}"> <i class="fa fa-plus"></i> Add Inventory </a>
                               {% else %}
                               {% endif %}
