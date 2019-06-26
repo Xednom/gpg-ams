@@ -42,4 +42,6 @@ class InventoryViewSet(viewsets.ModelViewSet):
         return queryset
     
     def perform_create(self, serializer):
-        return serializer.save(client_company_name=self.request.user.clients.company_name)
+        is_client = self.request.user.is_client
+        if is_client:
+            return serializer.save(client_company_name=self.request.user.clients.company_name)
