@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+
+{% block title %}
+GPG System | Add CallMe Inventory
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div id="gpg-marketing" v-cloak>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2 class="page-header">
+                    Add Marketing Sites Inventory
+                </h2>
+            </div>
+        </div>
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'users:home' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Add Marketing Sites Inventory</li>
+        </ol>
+        <div class="col-md-6 col-md-offset-3">
+            <form v-on:submit.prevent="addInventory">
+                {% csrf_token %}
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Please fill up the informations below
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Date Requested</label>
+                                <input type="date" class="form-control" v-model="newInventory.date_requested"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Date Completed</label>
+                                <input type="date" class="form-control" v-model="newInventory.date_completed" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Type of Marketing Sites</label>
+                                <select class="form-control" v-model="newInventory.type_of_form" required>
+                                    <option>LandModo</option>
+                                    <option>Zillow</option>
+                                    <option>Craigslist</option>
+                                    <option>Facebook MarketPlace</option>
+                                    <option>KSL.com</option>
+                                    <option>Ultimate Land Listings</option>
+                                    <option>LandCentury</option>
+                                    <option>Landhub</option>
+                                    <option>Lands of America</option>
+                                    <option>Landpin</option>
+                                    <option>Landwatch</option>
+                                    <option>Landflip</option>
+                                    <option>Others</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div v-if="newInventory.type_of_form == 'Others'">
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Please indicate if others</label>
+                                    <input type="text" class="form-control" v-model="newInventory.indicate_others">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Client Name</label>
+                                <select class="form-control" v-model="newInventory.client_full_name">
+                                    <option v-for="client in clients">[[ client.full_name ]]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Client Company Name</label>
+                                <input type="text" class="form-control" v-model="newInventory.client_company_name"
+                                    required>
+                            </div>
+                        </div> -->
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>APN</label>
+                                <input type="text" class="form-control" v-model="newInventory.apn"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Title of the Post</label>
+                                <input type="text" class="form-control" v-model="newInventory.title_of_the_post"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Description</label>
+                                <textarea class="form-control"
+                                v-model="newInventory.description"
+                                cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Price</label>
+                                <input type="number" step=".01" min="0" class="form-control" @input="filterInput"
+                                    v-model="newInventory.price"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Location</label>
+                                <input type="text" class="form-control" v-model="newInventory.location">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>URL Link</label>
+                                <input type="url" class="form-control" v-model="newInventory.url_link">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Marketing Associate</label>
+                                <select class="form-control" v-model="newInventory.marketing_associate" required>
+                                    <option v-for="associate in staffs">[[ associate.full_name ]]</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Duration</label>
+                                <input type="number" step=".01" min="0" class="form-control" @input="filterInput"
+                                    v-model="newInventory.duration">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Status</label>
+                                <select class="form-control" v-model="newInventory.status" required>
+                                    <option>In progress</option>
+                                    <option>Complete</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Additional Notes</label>
+                                <textarea cols="30" rows="10" class="form-control"
+                                    v-model="newInventory.additional_notes">
+                        </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Notes from the Client</label>
+                                <textarea cols="30" rows="10" class="form-control"
+                                    v-model="newInventory.notes_from_the_client">
+                        </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

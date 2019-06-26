@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+{% block title %}
+GPG System | View Marketing Sites Inventory records
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div id="gpg-marketing" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2 class="page-header">
+                        Marketing Sites Inventory records
+                    </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Marketing Sites Inventory</li>
+                <li class="breadcrumb-item"><a href="#">View Marketing Sites Inventory </a></li>
+            </ol>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            Table of Marketing Sites Inventory records
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Date Requested</th>
+                                            <th>Date Completed</th>
+                                            <th>APN</th>
+                                            <th>Type of Marketing Sites</th>
+                                            <th>Client Full name</th>
+                                            <th>Client Company Name</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <template v-if="loading">
+                                                <td colspan="15" class="text-center bg-warning" v-if="loading">
+                                                    Fetching data...
+                                                </td>
+                                            </template>
+                                            <template v-else-if="!inventory.length">
+                                                <td colspan="15" class="text-center bg-warning">
+                                                    No records found.
+                                                </td>
+                                            </template>
+                                        </tr>
+                                        <tr v-for="inventories in inventory">
+                                            <td>[[ inventories.date_requested ]]</td>
+                                            <td>[[ inventories.date_completed ]]</td>
+                                            <td>[[ inventories.apn ]]</td>
+                                            <td>[[ inventories.type_of_marketing_sites ]]</td>
+                                            <td>[[ inventories.client_full_name ]]</td>
+                                            <td>[[ inventories.client_company_name ]]</td>
+                                            <td>[[ inventories.status ]]</td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                data-target="#editModal"
+                                                v-on:click="viewInventory(inventories.id)">
+                                                View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- pagination -->
+                            <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                <ul class="pagination justify-content-end">
+                                    <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                        <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                            Previous
+                                        </a>
+                                    </li>
+                                    <li v-for="pageNumber in pages"
+                                        v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                        <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                            [[ pageNumber ]]
+                                        </a>
+                                    </li>
+                                    <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                        <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                            Next
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- end of pagination -->
+                        </div>
+                        <div class="panel-footer">
+                            Total count: [[ inventory.length ]]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Information based on [[ currentInventories.client_full_name ]]</h4>
+                </div>
+                <form v-on:submit.prevent="updateInventory">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Date Requested</label>
+                                <input type="date" class="form-control form-control-sm"
+                                    v-model="currentInventories.date_requested"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Date Completed</label>
+                                <input type="date" class="form-control form-control-sm"
+                                    v-model="currentInventories.date_completed"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Type of Marketing Sites</label>
+                                <input type="text" class="form-control form-control-sm"
+                                    v-model="currentInventories.type_of_marketing_sites"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </div>
+                            <div v-if="currentInventories.type_of_marketing_sites == 'Others'">
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>If others</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.indicate_others"
+                                        {% if perms.marketingsites.change_inventory %} {% else %} disabled
+                                        {% endif %}>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Client name</label>
+                                <select class="form-control" v-model="currentInventories.client_full_name"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                                    <option v-for="client in clients">[[ client.full_name ]]</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Company name</label>
+                                <input type="text" class="form-control form-control-sm"
+                                    v-model="currentInventories.client_company_name"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>APN</label>
+                                <input type="text" class="form-control form-control-sm" v-model="currentInventories.apn"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Title of the Post</label>
+                                <input type="url" class="form-control form-control-sm"
+                                    v-model="currentInventories.title_of_the_post"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Description</label>
+                                <textarea cols="30" rows="10" class="form-control"
+                                v-model="currentInventories.url_property_management"
+                                {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </textarea>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Price</label>
+                                <input type="number" step=".01" min="0" class="form-control" @input="filterInput"
+                                    v-model="currentInventories.price"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Location</label>
+                                <input type="text" class="form-control form-control-sm"
+                                    v-model="currentInventories.location"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>URL Link</label> 
+                                <input type="url" class="form-control" 
+                                v-model="currentInventories.url_link"
+                                {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Marketing Associate</label>
+                                <select class="form-control"
+                                v-model="currentInventories.marketing_associate"
+                                {% if perms.marketingsites.change_inventory %}
+                                {% else %} disabled {% endif %}>
+                                    <option v-for="associate in staffs">[[ associate.full_name ]]</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Duration</label>
+                                <input type="number" step=".01" min="0" class="form-control" @input="filterInput"
+                                    v-model="currentInventories.duration" {% if perms.marketingsites.change_inventory %}
+                                    {% else %} disabled {% endif %}>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Post for Approval</label>
+                                <select class="form-control"
+                                v-model="currentInventories.post_for_approval"
+                                {% if perms.marketingsites.change_inventory %}
+                                {% else %} disabled {% endif %}>
+                                    <option>Approved</option>
+                                    <option>Pending for Approval</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label>Status</label>
+                                <select class="form-control" v-model="currentInventories.status"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                                    <option>In progress</option>
+                                    <option>Complete</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Additional Notes</label>
+                                <textarea class="form-control" 
+                                v-model="currentInventories.additional_notes"
+                                {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}
+                                cols="30" rows="10"></textarea>
+                            </div>
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Notes from the client</label>
+                                <textarea class="form-control" v-model="currentInventories.notes_from_the_client"
+                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}
+                                    cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        {% if perms.marketingsites.change_inventory %}
+                        <template v-if="saving">
+                            <button type="submit" class="btn btn-primary" disabled>Save changes</button>
+                        </template>
+                        <template v-else>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </template>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+{% endblock %}
