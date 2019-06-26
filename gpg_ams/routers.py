@@ -18,6 +18,7 @@ from reminders.views import ReminderViewSet
 from users.views import ClientViewSet, ClientCallMeViewSet, StaffViewSet
 from callmeinventory.views import InventoryViewSet
 from callmemasterboard.views import MasterBoardViewSets
+from marketingsites.views import InventoryViewSet
 
 router = routers.DefaultRouter()
 
@@ -43,3 +44,4 @@ router.register(r'clients-callme', ClientCallMeViewSet, base_name="client")
 router.register(r'staffs', StaffViewSet)
 router.register(r'callme-inventory', InventoryViewSet, base_name='inventory')
 router.register(r'callme-masterboard', MasterBoardViewSets, base_name='masterboard')
+router.register(r'marketing-sites', InventoryViewSet, base_name='marketing')
