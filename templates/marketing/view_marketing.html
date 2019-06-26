@@ -136,9 +136,23 @@ GPG System | View Marketing Sites Inventory records
                             </div>
                             <div class="form-group col-md-6 col-sm-12">
                                 <label>Type of Marketing Sites</label>
-                                <input type="text" class="form-control form-control-sm"
-                                    v-model="currentInventories.type_of_marketing_sites"
-                                    {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                                <select class="form-control"
+                                v-model="currentInventories.type_of_marketing_sites"
+                                {% if perms.marketingsites.change_inventory %} {% else %} disabled {% endif %}>
+                                    <option>LandModo</option>
+                                    <option>Zillow</option>
+                                    <option>Craigslist</option>
+                                    <option>Facebook MarketPlace</option>
+                                    <option>KSL.com</option>
+                                    <option>Ultimate Land Listings</option>
+                                    <option>LandCentury</option>
+                                    <option>Landhub</option>
+                                    <option>Lands of America</option>
+                                    <option>Landpin</option>
+                                    <option>Landwatch</option>
+                                    <option>Landflip</option>
+                                    <option>Others</option>
+                                </select>
                             </div>
                             <div v-if="currentInventories.type_of_marketing_sites == 'Others'">
                                 <div class="form-group col-md-6 col-sm-12">
