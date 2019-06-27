@@ -42,7 +42,7 @@ class O20SmartPricing(models.Model):
     realtytrac = models.CharField(max_length=150, null=True, blank=True)
     encoder = models.CharField(max_length=150, null=True, blank=True)
     date_encoded = models.DateField(default=now, null=True, blank=True)
-    quality_check_status = models.CharField(max_length=25, choices=STATUS, null=True, blank=True)
+    quality_check_status = models.CharField(max_length=50, choices=STATUS, null=True, blank=True)
     quality_specialist = models.CharField(max_length=150, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
 
