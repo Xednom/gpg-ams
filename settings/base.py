@@ -37,6 +37,8 @@ LOCAL_APPS = (
     'recruitment',
     'callmemasterboard',
     'marketingsites',
+    'craigslist',
+    'landacademy',
 )
 
 DJANGO_APPS = (
