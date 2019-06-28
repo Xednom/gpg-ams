@@ -4,8 +4,8 @@ from .models import LandAcademyInventory, O20SmartPricing
 
 
 class InventoryProfile(admin.ModelAdmin):
-    list_display = ('invoice', 'date_requested', 'order_name', 'total_items_requested',
-                    'client_la_requestor', 'date_completed', 'status_of_order', 'payment_status')
+    list_display = ('invoice', 'date_requested', 'order_name', 'total_items_requested', 'total_items_charge',
+                    'total_pp_fee', 'total_charge', 'client_la_requestor', 'date_completed', 'status_of_order', 'payment_status')
     list_filter = ('status_of_order', 'payment_status')
     search_fields = ('invoice', 'pivot_table')
     readonly_fields = ['total_items_charge', 'total_pp_fee', 'total_charge']
