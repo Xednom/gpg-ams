@@ -24,7 +24,7 @@ class AddInventoryView(LoginRequiredMixin, TemplateView):
     template_name = 'callme/inventory/add_inventory.html'
 
 
-class InventoryViewSet(viewsets.ModelViewSet):
+class CallMeInventoryViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = InventorySerializer
