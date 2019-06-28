@@ -62,13 +62,20 @@ GPG System | View Due Diligence
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="14" class="text-center bg-warning" v-if="!dueDiligences.length">
-                                            {% if request.user.is_client %}
-                                            You have no Due Diligence work assigned to the Land Master Team.
-                                            {% elif request.user.is_staffs %}
-                                            No Due Diligence work assigned to you.
-                                            {% endif %}
-                                        </td>
+                                        <template v-if="loading">
+                                            <td colspan="15" class="text-center bg-warning" v-if="loading">
+                                                Fetching data...
+                                            </td>
+                                        </template>
+                                        <template v-else-if="!dueDiligences.length">
+                                            <td colspan="15" class="text-center bg-warning">
+                                                {% if request.user.is_client %}
+                                                You have no Due Diligence work assigned to the Land Master Team.
+                                                {% elif request.user.is_staffs %}
+                                                No Due Diligence work assigned to you.
+                                                {% endif %}
+                                            </td>
+                                        </template>
                                     </tr>
                                     <tr class="odd gradeX" v-for="(dueDiligences, i) in paginatedRecords">
                                         {% if request.user.is_staffs %}

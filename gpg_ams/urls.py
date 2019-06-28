@@ -40,6 +40,7 @@ urlpatterns = [
     path('callme/', include('callmeinventory.urls')),
     path('callme-masterboard/', include('callmemasterboard.urls')),
     path('marketing-sites/', include('marketingsites.urls')),
+    path('landacademy-inventory/', include('landacademy.urls')),
     path('inbox/notifications', include(notifications.urls, namespace='notifications'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% block title %}
+GPG System | View Land Academy Inventory Records
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div id="gpg-landacademy" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2 class="page-header">
+                        View Land Academy Inventory Records
+                    </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">View Land Academy Inventory Records</li>
+                <li class="breadcrumb-item"><a href="{% url 'landacademy:view_landacademy' %}">Add Inventory </a></li>
+            </ol>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Table of Land Academy Inventory
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice</th>
+                                            <th>Date Requested</th>
+                                            <th>Order Name</th>
+                                            <th>Client LA Requestor</th>
+                                            <th>Total Items Requested</th>
+                                            <th>Date Completed</th>
+                                            <th>Status of the Order</th>
+                                            <th>Payment Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <template v-if="loading">
+                                                <td colspan="15" class="text-center bg-warning">
+                                                    Fetching data...
+                                                </td>
+                                            </template>
+                                            <template v-else-if="!landacademy.length">
+                                                <td colspan="15" class="text-center bg-warning">
+                                                    No records found.
+                                                </td>
+                                            </template>
+                                        </tr>
+                                        <tr v-for="landacademys in landacademy">
+                                            <td>[[ landacademys.invoice ]]</td>
+                                            <td>[[ landacademys.date_requested ]]</td>
+                                            <td>[[ landacademys.order_name ]]</td>
+                                            <td>[[ landacademys.client_la_requestor ]]</td>
+                                            <td>[[ landacademys.total_items_requested ]]</td>
+                                            <td>[[ landacademys.date_completed ]]</td>
+                                            <td>[[ landacademys.status_of_order ]]</td>
+                                            <td>[[ landacademys.payment_status ]]</td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#editModal"
+                                                    v-on:click="viewLandAcademy(landacademys.id)">View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- pagination -->
+                            <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                <ul class="pagination justify-content-end">
+                                    <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                        <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                            Previous
+                                        </a>
+                                    </li>
+                                    <li v-for="pageNumber in pages"
+                                        v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                        <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                            [[ pageNumber ]]
+                                        </a>
+                                    </li>
+                                    <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                        <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                            Next
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- end of pagination -->
+                        </div>
+                        <div class="panel-footer">
+                            Total count: [[ landacademy.length ]]
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+            </div>
+
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <form v-on:submit.prevent="updateLandAcademy">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Inventory Informations for invoice [[currentLands.invoice ]]</h4>
+                            </div>
+                            <form v-on:submit.prevent="updateInventory">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Date Requested</label>
+                                            <input type="date" class="form-control form-control-sm"
+                                                v-model="currentLands.date_requested"
+                                                {% if perms.landacademy.change_landacademyinventory %} {% else %} disabled {% endif %}>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Date Completed</label>
+                                            <input type="date" class="form-control form-control-sm"
+                                                v-model="currentLands.date_completed"
+                                                {% if perms.landacademy.change_landacademyinventory %} {% else %}
+                                                disabled {% endif %}>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Order Name</label>
+                                            <input type="text" class="form-control"
+                                            v-model="currentLands.order_name"
+                                            {% if perms.landacademy.change_landacademyinventory %} {% else %}
+                                            disabled {% endif %}>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Client LA Requestor</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                v-model="currentLands.client_la_requestor"
+                                                {% if perms.landacademy.change_landacademyinventory %} {% else %} disabled {% endif %}>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Complete Order - URL Link</label>
+                                            <input type="url" class="form-control form-control-sm"
+                                                v-model="currentLands.complete_order"
+                                                {% if perms.landacademy.change_landacademyinventory %} {% else %} disabled {% endif %}>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Status of the Order</label>
+                                            <select class="form-control"
+                                            v-model="currentLands.status_of_order"
+                                            {% if perms.landacademy.change_landacademyinventory %} {% else %} disabled
+                                            {% endif %}>
+                                                <option>Completed</option>
+                                                <option>In Progress</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Payment Status</label>
+                                            <select class="form-control" v-model="currentLands.payment_status"
+                                                {% if perms.landacademy.change_landacademyinventory %} {% else %}
+                                                disabled {% endif %}>
+                                                <option>Paid</option>
+                                                <option>Unpaid</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Invoice</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                v-model="currentLands.invoice"
+                                                {% if perms.landacademy.change_landacademyinventory %} {% else %} disabled {% endif %}>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Total Items Requested</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                v-model="currentLands.total_items_requested"
+                                                {% if perms.landacademy.change_landacademyinventory %} {% else %}
+                                                disabled {% endif %}>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Total Items Charge</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                v-model="currentLands.total_items_charge"
+                                                disabled >
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Total PP Fee</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                v-model="currentLands.total_pp_fee"
+                                                disabled>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12">
+                                            <label>Total Charge</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                v-model="currentLands.total_charge"
+                                                disabled>
+                                        </div>
+                                        <div class="form-group col-md-12 col-sm-12">
+                                            <label>Notes</label>
+                                            <textarea cols="30" rows="10" v-model="currentLands.notes"
+                                                class="form-control" {% if perms.landacademy.change_landacademyinventory %} {% else %}
+                                                disabled {% endif %}>
+                                    </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    {% if perms.landacademy.change_landacademyinventory %}
+                                    <template v-if="saving">
+                                        <button type="submit" class="btn btn-primary" disabled>Save changes</button>
+                                    </template>
+                                    <template v-else>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </template>
+                                    {% endif %}
+                                </div>
+                        </div>
+                    </form>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

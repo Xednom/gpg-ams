@@ -1,35 +1,48 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
 new Vue({
-    el: '#gpg-marketing',
+    el: '#gpg-landacademy',
     delimiters: ['[[', ']]'],
     data: {
-        inventory: [],
+        landacademy: [],
+        smartpricing: [],
         staffs: [],
         clients: [],
         loading: false,
         viewing: false,
         saving: false,
         message: null,
-        currentInventories: [],
-        newInventory: {
+        currentLands: [],
+        currentPricings: [],
+        newLandAcademy: {
             'date_requested': null,
             'date_completed': null,
-            'type_of_marketing_sites': null,
-            'indicate_others': null,
-            'client_full_name': null,
-            'client_company_name': null,
-            'apn': null,
-            'title_of_the_post': null,
-            'description': null,
-            'price': null,
-            'location': null,
-            'url_link': null,
-            'marketing_associate': null,
-            'duration': null,
-            'post_for_approval': null,
-            'status': null,
-            'additional_notes': null,
-            'notes_from_the_client': null,
+            'date_payment_made': null,
+            'order_name': null,
+            'client_la_requestor': null,
+            'complete_order': null,
+            'status_of_order': null,
+            'payment_status': null,
+            'invoice': null,
+            'total_items_requested': null,
+            'notes': null,
+        },
+
+        newSmartPricing: {
+            'situs_address': null,
+            'trulia': null,
+            'zillow': null,
+            'redfin': null,
+            'realfor': null,
+            'realtytrac': null,
+            'order_name': null,
+            'requestor_full_name': null,
+            'date_requested': null,
+            'date_research': null,
+            'date_encoded': null,
+            'quality_check_status': null,
+            'quality_specialist': null,
+            'notes_from_researcher': null,
+            'notes_from_qa': null,
         },
 
         // for pagination
@@ -41,9 +54,9 @@ new Vue({
         paginatedRecords: [],
     },
     mounted: function () {
-        this.getInventory();
         this.getStaffs();
         this.getClients();
+        this.getLandAcademy();
     },
     methods: {
         filterKey(e) {
@@ -64,28 +77,52 @@ new Vue({
             e.target.value = e.target.value.replace(/[^0-9]+/g, '');
         },
         reset: function () {
-            Object.keys(this.newInventory).forEach(key => {
-                this.newInventory[key] = ""
+            Object.keys(this.newLandAcademy).forEach(key => {
+                this.newLandAcademy[key] = ""
             })
         },
-        getInventory: function () {
+        getLandAcademy: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/marketing-sites/`)
+            this.$http.get(`/api/v1/landacademy-inventory/`)
                 .then((response) => {
                     this.loading = false;
-                    this.inventory = response.data;
+                    this.landacademy = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
                     console.log(err);
                 })
         },
-        viewInventory: function (id) {
+        getSmartPricing: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/o2o-smart-pricing/`)
+                .then((response) => {
+                    this.loading = false;
+                    this.smartpricing = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        viewLandAcademy: function (id) {
             this.viewing = true;
-            this.$http.get(`/api/v1/marketing-sites/${id}/`)
+            this.$http.get(`/api/v1/landacademy-inventory/${id}/`)
                 .then((response) => {
                     this.viewing = false;
-                    this.currentInventories = response.data;
+                    this.currentLands = response.data;
+                })
+                .catch((err) => {
+                    this.viewing = false;
+                    console.log(err);
+                })
+        },
+        viewSmartPricing: function (id) {
+            this.viewing = true;
+            this.$http.get(`/api/v1/o2o-smartpricing/${id}/`)
+                .then((response) => {
+                    this.viewing = false;
+                    this.currentPricings = response.data;
                 })
                 .catch((err) => {
                     this.viewing = false;
@@ -106,7 +143,7 @@ new Vue({
         },
         getClients: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/clients/`)
+            this.$http.get(`/api/v1/clients-callme/`)
                 .then((response) => {
                     this.clients = response.data;
                     this.loading = false;
@@ -116,14 +153,14 @@ new Vue({
                     console.log(err);
                 })
         },
-        addInventory: function () {
+        addLandAcademy: function () {
             this.saving = true;
-            this.$http.post('/api/v1/marketing-sites/', this.newInventory)
+            this.$http.post('/api/v1/landacademy-inventory/', this.newLandAcademy)
                 .then((response) => {
                     this.saving = false;
                     swal({
                         title: "GPG System",
-                        text: "Inventory informations has been added successfully! You can add another one.",
+                        text: "Land Academy informations has been added successfully! You can add another one.",
                         icon: "success",
                         buttons: false,
                         timer: 3000
@@ -142,12 +179,38 @@ new Vue({
                     console.log(err);
                 })
         },
-        updateInventory: function () {
+        addSmartPricing: function () {
             this.saving = true;
-            this.$http.put(`/api/v1/marketing-sites/${this.currentInventories.id}/`, this.currentInventories)
+            this.$http.post('/api/v1/o2o-smartpricing/', this.newSmartPricing)
                 .then((response) => {
                     this.saving = false;
-                    this.currentInventories = response.data;
+                    swal({
+                        title: "GPG System",
+                        text: "O2O Smart Pricing informations has been added successfully! You can add another one.",
+                        icon: "success",
+                        buttons: false,
+                        timer: 3000
+                    })
+                    this.reset();
+                })
+                .catch((err) => {
+                    this.saving = false;
+                    this.errored = true;
+                    swal({
+                        title: "GPG System",
+                        text: "Please check the summaries of your request. If the problem persist, please contact the admin.",
+                        icon: "error",
+                        buttons: "Ok",
+                    })
+                    console.log(err);
+                })
+        },
+        updateLandAcademy: function () {
+            this.saving = true;
+            this.$http.put(`/api/v1/landacademy-inventory/${this.currentLands.id}/`, this.currentLands)
+                .then((response) => {
+                    this.saving = false;
+                    this.currentLands = response.data;
                     swal({
                         title: "GPG system",
                         text: "Successfully updated the informations!",
@@ -156,16 +219,37 @@ new Vue({
                         timer: 1500
                     })
                     $("#editModal").modal('hide')
-                    this.getInventory();
+                    this.getLandAcademy();
                 })
                 .catch((err) => {
                     this.loading = false;
                     console.log(err);
                 })
         },
+        updateBoard: function () {
+            this.saving = true;
+            this.$http.put(`/api/v1/o2o-smartpricing/${this.currentPricings.id}/`, this.currentPricings)
+                .then((response) => {
+                    this.saving = false;
+                    this.currentPricings = response.data;
+                    swal({
+                        title: "GPG system",
+                        text: "Successfully updated the informations!",
+                        icon: "success",
+                        button: false,
+                        timer: 1500
+                    })
+                    $("#editModal").modal('hide')
+                    this.getBoard();
+                })
+                .catch((err) => {
+                    this.saving = false;
+                    console.log(err);
+                })
+        },
         getPaginatedRecords: function () {
             const startIndex = this.startIndex;
-            this.paginatedRecords = this.inventory.slice().splice(startIndex, this.pageSize);
+            this.paginatedRecords = this.landacademy.slice().splice(startIndex, this.pageSize);
         },
         goToPage: function (page) {
             if (page < 1) {
@@ -200,7 +284,7 @@ new Vue({
         }
     },
     watch: {
-        inventory: function (newInventoryRecords, oldInventoryRecords) {
+        landacademy: function (newLandAcademyRecords, oldlandacademyRecords) {
             this.setPageGroup();
             this.getPaginatedRecords();
         },
@@ -211,7 +295,7 @@ new Vue({
     },
     computed: {
         totalItems: function () {
-            return this.inventory.length;
+            return this.landacademy.length;
         },
         totalPages: function () {
             return Math.ceil(this.totalItems / this.pageSize);

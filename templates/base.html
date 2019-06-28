@@ -157,6 +157,17 @@
                           <a href="{% url 'timesheet:view_timesheet' %}"><i class="fa fa-clock-o"></i> Timesheet</a>
                         </li>
                         {% endif %}
+                        {% if perms.landacademy.view_landacademyinventory %}
+                        <li>
+                          <a href="#"><i class="fa fa-home"></i> Land Academy Inventory <span class="fa arrow"></span> </a>
+                          <ul class="nav nav-third-level">
+                            <li>
+                              <a href="{% url 'landacademy:add_landacademy' %}"><i class="fa fa-plus"></i> Add Inventory </a>
+                              <a href="{% url 'landacademy:view_landacademy' %}"><i class="fa fa-eye"></i> View Inventory </a>
+                            </li>
+                          </ul>
+                        </li>
+                        {% endif %}
                         <li>
                           <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
@@ -528,6 +539,7 @@
           <script src="{% static 'vuejs/cashout.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/reminders.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/marketing.js' %}" type="text/javascript"></script>
+          <script src="{% static 'vuejs/landacademy.js' %}" type="text/javascript"></script>
 </body>
 
 </html>
