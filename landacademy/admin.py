@@ -52,10 +52,10 @@ class SmartPricingProfile(admin.ModelAdmin):
                 'date_research',
                 'researcher_name',
                 'quality_specialist',
-                'quality_check_status'
+                'quality_check_status',
                 'date_encoded',
                 'notes_from_researcher',
-                'notes_from_qa'
+                'notes_from_qa',
             )
         }),
     )
