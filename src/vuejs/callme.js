@@ -94,9 +94,14 @@ new Vue({
         filterInput(e) {
             e.target.value = e.target.value.replace(/[^0-9]+/g, '');
         },
-        reset: function () {
+        resetInventory: function () {
             Object.keys(this.newInventory).forEach(key => {
                 this.newInventory[key] = ""
+            })
+        },
+        resetBoard: function () {
+            Object.keys(this.newMasterBoard).forEach(key => {
+                this.newMasterBoard[key] = ""
             })
         },
         getInventory: function () {
@@ -183,7 +188,7 @@ new Vue({
                         buttons: false,
                         timer: 3000
                     })
-                    this.reset();
+                    this.resetInventory();
                 })
                 .catch((err) => {
                     this.saving = false;
@@ -210,7 +215,7 @@ new Vue({
                         buttons: false,
                         timer: 3000
                     })
-                    this.reset();
+                    this.resetBoard();
                 })
                 .catch((err) => {
                     this.saving = false;
