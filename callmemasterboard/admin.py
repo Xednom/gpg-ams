@@ -25,6 +25,8 @@ class MasterBoardProfile(admin.ModelAdmin):
                 'url_property_management',
                 'voicemail',
                 'general_calls',
+                'gs_integration',
+                'client_folder',
                 'notes'
             )
         }),
