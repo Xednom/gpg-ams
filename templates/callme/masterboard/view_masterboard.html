@@ -57,6 +57,11 @@ GPG System | CallMe Master Board
                                                     Fetching data...
                                                 </td>
                                             </template>
+                                            <template v-else-if="!masterboard.length">
+                                                <td colspan="15" class="text-center bg-warning">
+                                                    No records found.
+                                                </td>
+                                            </template>
                                         </tr>
                                         <tr v-for="(masterboard, i) in paginatedMasterBoardRecords" v-if="!loading">
                                             <td>[[ masterboard.date_started ]]</td>
@@ -73,13 +78,6 @@ GPG System | CallMe Master Board
                                                     v-on:click="viewBoard(masterboard.id)">View
                                                 </button>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <template v-else-if="!masterboard.length">
-                                                <td colspan="15" class="text-center bg-warning">
-                                                    No records found.
-                                                </td>
-                                            </template>
                                         </tr>
                                     </tbody>
                                 </table>
