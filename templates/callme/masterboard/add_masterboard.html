@@ -32,11 +32,27 @@ GPG System | Add Master Board records
                         Please fill up the informations below
                     </div>
                     <div class="panel-body">
+                        <div class="error" v-if="errorBoard.date_started">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>Date Started</label>
                                 <input type="date" class="form-control" v-model="newMasterBoard.date_started"
                                     >
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.type_of_plan">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -46,10 +62,26 @@ GPG System | Add Master Board records
                                     >
                             </div>
                         </div>
+                        <div class="error" v-if="errorBoard.type_of_crm">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>Type of CRM</label>
                                 <input type="text" class="form-control" v-model="newMasterBoard.type_of_crm">
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.type_of_voip">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -57,6 +89,14 @@ GPG System | Add Master Board records
                                 <label>Type of VIOP</label>
                                 <input type="text" class="form-control" v-model="newMasterBoard.type_of_voip"
                                 >
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.client_name">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -67,6 +107,14 @@ GPG System | Add Master Board records
                                 </select>
                             </div>
                         </div>
+                        <div class="error" v-if="errorBoard.company_name">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>Client Company Name</label>
@@ -74,22 +122,83 @@ GPG System | Add Master Board records
                                 >
                             </div>
                         </div>
+                        <div class="error" v-if="errorBoard.email">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Email</label>
+                                <input type="text" class="form-control"
+                                v-model="newMasterBoard.email">
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.phone">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Phone</label>
+                                <input type="text" class="form-control" v-model="newMasterBoard.phone">
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.url_buyer">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>URL Buyer</label>
-                                <input type="URL" class="form-control" v-model="newMasterBoard.url_buyer">
+                                <input type="text" class="form-control" v-model="newMasterBoard.url_buyer">
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.url_seller">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>URL Seller</label>
-                                <input type="url" class="form-control" v-model="newMasterBoard.url_seller">
+                                <input type="text" class="form-control" v-model="newMasterBoard.url_seller">
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.url_property_management">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>URL Property management</label>
-                                <input type="url" class="form-control" v-model="newMasterBoard.url_property_management">
+                                <input type="text" class="form-control" v-model="newMasterBoard.url_property_management">
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.voicemail">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -98,15 +207,74 @@ GPG System | Add Master Board records
                                 <input type="text" class="form-control" v-model="newMasterBoard.voicemail">
                             </div>
                         </div>
+                        <div class="error" v-if="errorBoard.general_calls">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>General Calls</label>
                                 <input type="text" class="form-control" v-model="newMasterBoard.general_calls">
                             </div>
                         </div>
+                        <div class="error" v-if="errorBoard.notes">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Notes</label>
+                                <textarea class="form-control"
+                                v-model="newMasterBoard.notes" 
+                                cols="30" rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.gs_integration">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>GS Integration</label>
+                                <input type="text" class="form-control"
+                                v-model="newMasterBoard.gs_integration">
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.client_folder">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Client's Folder</label>
+                                <input type="text" class="form-control" v-model="newMasterBoard.client_folder">
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-footer">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <template v-if="saving">
+                            <button type="submit" class="btn btn-succes" disabled><i class="fa fa-spinner fa-spin"></i> Saving </button>
+                        </template>
+
+                        <template v-else-if="!saving">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </template>
                     </div>
                 </div>
             </form>

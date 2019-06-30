@@ -25,7 +25,9 @@ class InventoryProfile(admin.ModelAdmin):
                 'call_duration',
                 'total_time_transferring_leads',
                 'total_mins',
-                'notes'
+                'notes',
+                'phone_login',
+                'crm_login'
             )
         }),
     )

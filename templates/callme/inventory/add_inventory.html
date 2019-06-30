@@ -32,16 +32,32 @@ GPG System | Add CallMe Inventory
                     Please fill up the informations below
                 </div>
                 <div class="panel-body">
+                    <div class="error" v-if="errorInventory.date_lead_received">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Date Lead Received</label>
-                            <input type="date" class="form-control" v-model="newInventory.date_lead_received" required>
+                            <input type="date" class="form-control" v-model="newInventory.date_lead_received" >
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.type_of_form">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid choice, if this error persist. Please contact the admin.</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Type of Form</label>
-                            <select class="form-control" v-model="newInventory.type_of_form" required>
+                            <select class="form-control" v-model="newInventory.type_of_form" >
                                 <option>Buyers</option>
                                 <option>Sellers</option>
                                 <option>General Call</option>
@@ -49,6 +65,14 @@ GPG System | Add CallMe Inventory
                                 <option>Property Management</option>
                                 <option>Others</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.client_full_name">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -60,42 +84,90 @@ GPG System | Add CallMe Inventory
                             </select>
                         </div>
                     </div>
+                    <div class="error" v-if="errorInventory.client_company_name">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Client Company Name</label>
-                            <input type="text" class="form-control" v-model="newInventory.client_company_name" required>
+                            <input type="text" class="form-control" v-model="newInventory.client_company_name" >
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.full_name_of_lead">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Full name of the Lead</label>
-                            <input type="text" class="form-control" v-model="newInventory.full_name_of_lead" required>
+                            <input type="text" class="form-control" v-model="newInventory.full_name_of_lead" >
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.phone_number">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Phone number</label>
-                            <input type="text" class="form-control" v-model="newInventory.phone_number" required>
+                            <input type="text" class="form-control" v-model="newInventory.phone_number" >
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.email">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid email, if this error persist. Please contact the admin.</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Email</label>
-                            <input type="text" class="form-control" v-model="newInventory.email" required>
+                            <input type="text" class="form-control" v-model="newInventory.email" >
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.customer_representative">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid choice, if this error persist. Please contact the admin.</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Customer Representative</label>
-                            <select class="form-control" v-model="newInventory.customer_representative" required>
+                            <select class="form-control" v-model="newInventory.customer_representative" >
                                 <option v-for="csr in staffs">[[ csr.full_name ]]</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.status">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid choice, if this error persist. Please contact the admin.</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Status</label>
-                            <select class="form-control" v-model="newInventory.status" required>
+                            <select class="form-control" v-model="newInventory.status" >
                                 <option>New</option>
                                 <option>Transferred to Podio - Personal Account</option>
                                 <option>Transferred to Land Speed</option>
@@ -104,43 +176,83 @@ GPG System | Add CallMe Inventory
                             </select>
                         </div>
                     </div>
+                    <div class="error" v-if="errorInventory.lead_transferred_by">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid choice, if this error persist. Please contact the admin.</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Lead Transferred By</label>
-                            <select class="form-control" v-model="newInventory.lead_transferred_by" required>
+                            <select class="form-control" v-model="newInventory.lead_transferred_by" >
                                 <option v-for="csr in staffs">[[ csr.full_name ]]</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.transferred_date">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid date, if this error persist. Please contact the admin.</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Transferred Date</label>
-                            <input type="date" class="form-control" v-model="newInventory.transferred_date" required>
+                            <input type="date" class="form-control" v-model="newInventory.transferred_date" >
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.financial_status">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Invalid choice, if this error persist. Please contact the admin.</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Financial Status</label>
-                            <select class="form-control" v-model="newInventory.financial_status" required>
+                            <select class="form-control" v-model="newInventory.financial_status" >
                                 <option>Billed</option>
                                 <option>Unbilled</option>
                                 <option>Waived</option>
                             </select>
                         </div>
                     </div>
+                    <div class="error" v-if="errorInventory.call_duration">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Please enter a valid Decimal number</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Call Duration</label>
-                            <input type="number" step=".01" min="0"
-                            class="form-control" @input="filterInput"
+                            <input type="text" @keypress="duration"
+                            class="form-control" @paste.prevent
                             v-model="newInventory.call_duration"
                             required>
+                        </div>
+                    </div>
+                    <div class="error" v-if="errorInventory.total_time_transferring_leads">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fa fa-times-circle"></i>
+                            <div class="text-center" >
+                                <label>Please enter a valid Decimal number</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Total Time transferring the Leads</label>
-                            <input type="number" step=".01" min="0" class="form-control" @input="filterInput"
+                            <input type="text" class="form-control" @keypress="duration" @paste.prevent
                                 v-model="newInventory.total_time_transferring_leads" required>
                         </div>
                     </div>

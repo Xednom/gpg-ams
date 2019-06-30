@@ -13,12 +13,16 @@ class MasterBoard(models.Model):
     type_of_voip = models.CharField(max_length=150, null=True, blank=True)
     client_name = models.CharField(max_length=150, null=True, blank=True)
     company_name = models.CharField(max_length=150, null=True, blank=True)
-    url_buyer = models.URLField(null=True, blank=True)
-    url_seller = models.URLField(null=True, blank=True)
-    url_property_management = models.URLField(null=True, blank=True)
+    url_buyer = models.CharField(max_length=250, null=True, blank=True)
+    url_seller = models.CharField(max_length=250, null=True, blank=True)
+    url_property_management = models.CharField(max_length=250, null=True, blank=True)
     voicemail = models.CharField(max_length=150, null=True, blank=True)
     general_calls = models.CharField(max_length=150, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
+    gs_integration = models.CharField(max_length=250, null=True, blank=True, verbose_name="GS Integration")
+    client_folder = models.CharField(max_length=250, null=True, blank=True, verbose_name="Clients's Folder")
+    email = models.CharField(max_length=250, null=True, blank=True)
+    phone = models.CharField(max_length=250, null=True, blank=True)
 
     class Meta:
         verbose_name = 'CallMe Master Board'
