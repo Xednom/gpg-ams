@@ -191,18 +191,25 @@
                               {% endif %}
                             </ul>
                         </li>
+                        {% if perms.callmeinventory.view_inventory %}
                         <li>
                           <a href="#"><i class="fa fa-folder-o"></i> CallMe Inventory <span class="fa arrow"></span></a>
                           <ul class="nav nav-third-level">
                             <li>
-                              {% if perms.callmeinventory.view_callme %}
-                              <a href="{% url 'inventory:add_inventory' %}"> <i class="fa fa-plus"></i> Add Inventory </a>
-                              {% else %}
+                              {% if perms.callmeinventory.add_inventory %}
+                              <a href="{% url 'callmeinventory:add_inventory' %}"> <i class="fa fa-plus"></i> Add
+                                Inventory </a>
                               {% endif %}
-                              <a href="{% url 'inventory:view_inventory' %}"> <i class="fa fa-eye"></i> View Inventory </a>
+                              {% if perms.callmeinventory.view_inventory %}
+                              <a href="{% url 'callmeinventory:view_inventory' %}"> <i class="fa fa-eye"></i> View
+                                Inventory
+                              </a>
+
+                              {% endif %}
                             </li>
                           </ul>
                         </li>
+                        {% endif %}
                         {% if perms.callmemasterboard.view_masterboard %}
                         <li>
                           <a href="#"><i class="fa fa-clipboard"></i> CallMe Master Board <span class="fa arrow"></span></a>
@@ -213,9 +220,10 @@
                                 <a href="{% url 'masterboard:add_masterboard' %}"> <i class="fa fa-plus"></i> Add Record
                                 </a>
                                 {% endif %}
-                              {% else %}
                               {% endif %}
+                              {% if perms.callmemasterboard.view_masterboard %}
                               <a href="{% url 'masterboard:view_masterboard' %}"> <i class="fa fa-eye"></i> View Board
+                              {% endif %}
                               </a>
                             </li>
                           </ul>

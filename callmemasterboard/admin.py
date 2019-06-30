@@ -18,6 +18,8 @@ class MasterBoardProfile(admin.ModelAdmin):
                 'type_of_voip',
                 'client_name',
                 'company_name',
+                'email',
+                'phone',
                 'url_buyer',
                 'url_seller',
                 'url_property_management',

@@ -8,6 +8,7 @@ GPG System | CallMe Master Board
 {% endblock %}
 
 {% block content %}
+{% if perms.callmemasterboard.view_masterboard %}
 <div id="gpg-callme" v-cloak>
     <div id="content-wrapper">
         <div class="container-fluid">
@@ -24,7 +25,9 @@ GPG System | CallMe Master Board
                     <a href="{% url 'users:home' %}">Dashboard</a>
                 </li>
                 <li class="breadcrumb-item active">CallMe Master Board</li>
-                <li class="breadcrumb-item"><a href="#">Add Master Board </a></li>
+                {% if perms.callmemasterboard.add_masterboard %}
+                <li class="breadcrumb-item"><a href="{% url 'masterboard:add_masterboard' %}">Add Master Board </a></li>
+                {% endif %}
             </ol>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -54,47 +57,50 @@ GPG System | CallMe Master Board
                                                     Fetching data...
                                                 </td>
                                             </template>
+                                        </tr>
+                                        <tr v-for="(masterboard, i) in paginatedMasterBoardRecords" v-if="!loading">
+                                            <td>[[ masterboard.date_started ]]</td>
+                                            <td>[[ masterboard.client_name ]]</td>
+                                            <td>[[ masterboard.company_name ]]</td>
+                                            <td>[[ masterboard.url_buyer ]]</td>
+                                            <td>[[ masterboard.url_seller ]]</td>
+                                            <td>[[ masterboard.url_property_management ]]</td>
+                                            <td>[[ masterboard.voicemail ]]</td>
+                                            <td>[[ masterboard.general_calls ]]</td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#editModal"
+                                                    v-on:click="viewBoard(masterboard.id)">View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <template v-else-if="!masterboard.length">
                                                 <td colspan="15" class="text-center bg-warning">
                                                     No records found.
                                                 </td>
                                             </template>
                                         </tr>
-                                        <tr v-for="boards in masterboard">
-                                            <td>[[ boards.date_started ]]</td>
-                                            <td>[[ boards.client_name ]]</td>
-                                            <td>[[ boards.company_name ]]</td>
-                                            <td>[[ boards.url_buyer ]]</td>
-                                            <td>[[ boards.url_seller ]]</td>
-                                            <td>[[ boards.url_property_management ]]</td>
-                                            <td>[[ boards.voicemail ]]</td>
-                                            <td>[[ boards.general_calls ]]</td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#editModal"
-                                                    v-on:click="viewBoard(boards.id)">View
-                                                </button>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <!-- pagination -->
-                            <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                            <nav class="pagination-wrapper pull-right" v-if="endMasterBoardPage > 1">
                                 <ul class="pagination justify-content-end">
-                                    <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
-                                        <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                    <li v-bind:class="[{disabled: currentMasterBoardPage === 1}, 'page-item']">
+                                        <a class="page-link" tabindex="-1" v-on:click="goToMasterBoardPage(currentMasterBoardPage - 1)">
                                             Previous
                                         </a>
                                     </li>
-                                    <li v-for="pageNumber in pages"
-                                        v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
-                                        <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                    <li v-for="pageNumber in pagesMasterBoard"
+                                        v-bind:class="[{active: pageNumber === currentMasterBoardPage}, 'page-item']">
+                                        <a class="page-link" v-on:click="goToMasterBoardPage(pageNumber)">
                                             [[ pageNumber ]]
                                         </a>
                                     </li>
-                                    <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
-                                        <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                    <li v-bind:class="[{disabled: (currentMasterBoardPage * 1) === totalMasterBoardPages}, 'page-item']">
+                                        <a class="page-link"
+                                            v-on:click="goToMasterBoardPage(currentMasterBoardPage + 1)">
                                             Next
                                         </a>
                                     </li>
@@ -176,6 +182,16 @@ GPG System | CallMe Master Board
                                 {% endif %}>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
+                            <label>Email</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.email"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Phone</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.phone"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
                             <label>URL Buyer</label>
                             <input type="url" class="form-control form-control-sm" v-model="currentBoards.url_buyer"
                                 {% if perms.callmemasterboard.change_masterboard %}
@@ -226,6 +242,16 @@ GPG System | CallMe Master Board
                             disabled
                             {% endif %}></textarea>
                         </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>GS Integration</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.gs_integration"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Client's Folder</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.client_folder"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled {% endif %}>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -248,4 +274,27 @@ GPG System | CallMe Master Board
     <!-- /.modal -->
 
 </div>
+{% else %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h2 class="page-header">
+                View Master Board Records
+            </h2>
+        </div>
+    </div>
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'users:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">View Master Board Records</li>
+    </ol>
+    <div>
+        <p>
+            You don't have any permissions to view this part of the system. Contact your admin regarding this issue.
+        </p>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

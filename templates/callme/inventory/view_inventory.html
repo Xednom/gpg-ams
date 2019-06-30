@@ -7,6 +7,7 @@ GPG System | CallMe Inventory
 {% endblock %}
 
 {% block content %}
+{% if perms.callmeinventory.view_inventory %}
 <div id="gpg-callme" v-cloak>
 <div id="content-wrapper">
     <div class="container-fluid">
@@ -23,7 +24,9 @@ GPG System | CallMe Inventory
                 <a href="{% url 'users:home' %}">Dashboard</a>
             </li>
             <li class="breadcrumb-item active">CallMe Inventory</li>
-            <li class="breadcrumb-item"><a href="{% url 'inventory:add_inventory' %}">Add Inventory </a></li>
+            {% if perms.callmeinventory.add_inventory %}
+            <li class="breadcrumb-item"><a href="{% url 'callmeinventory:add_inventory' %}">Add Inventory </a></li>
+            {% endif %}
         </ol>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
@@ -60,18 +63,18 @@ GPG System | CallMe Inventory
                                             </td>
                                         </template>
                                     </tr>
-                                    <tr v-for="inventories in inventory">
-                                        <td>[[ inventories.transferred_date ]]</td>
-                                        <td>[[ inventories.date_lead_received ]]</td>
-                                        <td>[[ inventories.type_of_form ]]</td>
-                                        <td>[[ inventories.client_full_name ]]</td>
-                                        <td>[[ inventories.client_company_name ]]</td>
-                                        <td>[[ inventories.full_name_of_lead ]]</td>
-                                        <td>[[ inventories.customer_representative ]]</td>
-                                        <td>[[ inventories.financial_status ]]</td>
+                                    <tr v-for="(inventory, i) in paginatedInventoryRecords">
+                                        <td>[[ inventory.transferred_date ]]</td>
+                                        <td>[[ inventory.date_lead_received ]]</td>
+                                        <td>[[ inventory.type_of_form ]]</td>
+                                        <td>[[ inventory.client_full_name ]]</td>
+                                        <td>[[ inventory.client_company_name ]]</td>
+                                        <td>[[ inventory.full_name_of_lead ]]</td>
+                                        <td>[[ inventory.customer_representative ]]</td>
+                                        <td>[[ inventory.financial_status ]]</td>
                                         <td>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                data-target="#editModal" v-on:click="viewInventory(inventories.id)">View
+                                                data-target="#editModal" v-on:click="viewInventory(inventory.id)">View
                                             </button>
                                         </td>
                                     </tr>
@@ -79,21 +82,22 @@ GPG System | CallMe Inventory
                             </table>
                         </div>
                         <!-- pagination -->
-                        <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                        <nav class="pagination-wrapper pull-right" v-if="endInventoryPage > 1">
                             <ul class="pagination justify-content-end">
-                                <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
-                                    <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                <li v-bind:class="[{disabled: currentInventoryPage === 1}, 'page-item']">
+                                    <a class="page-link" tabindex="-1" v-on:click="goToInventoryPage(currentInventoryPage - 1)">
                                         Previous
                                     </a>
                                 </li>
-                                <li v-for="pageNumber in pages"
-                                    v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
-                                    <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                <li v-for="pageNumber in pagesInventory"
+                                    v-bind:class="[{active: pageNumber === currentInventoryPage}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToInventoryPage(pageNumber)">
                                         [[ pageNumber ]]
                                     </a>
                                 </li>
-                                <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
-                                    <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                <li
+                                    v-bind:class="[{disabled: (currentInventoryPage * 1) === totalInventoryPages}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToInventoryPage(currentInventoryPage + 1)">
                                         Next
                                     </a>
                                 </li>
@@ -226,6 +230,9 @@ GPG System | CallMe Inventory
                                         <option>Others</option>
                                     </select>
                                 </div>
+                                <div class="error" v-if="errored">
+
+                                </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Call Duration</label>
                                     <input type="number" step=".01" min="0" class="form-control form-control-sm"
@@ -278,4 +285,27 @@ GPG System | CallMe Inventory
     </div>
 </div>
 </div>
+{% else %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h2 class="page-header">
+                View CallMe Inventory Records
+            </h2>
+        </div>
+    </div>
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'users:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">View CallMe Inventory Records</li>
+    </ol>
+    <div>
+        <p>
+            You don't have any permissions to view this part of the system. Contact your admin regarding this issue.
+        </p>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

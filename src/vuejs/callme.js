@@ -10,7 +10,10 @@ new Vue({
         loading: false,
         viewing: false,
         saving: false,
+        errored: false,
         message: null,
+        errorInventory: [],
+        errorBoard: [],
         currentInventories: [],
         currentBoards: [],
         newInventory: {
@@ -29,6 +32,8 @@ new Vue({
             'total_time_transferring_leads': null,
             'total_mins': null,
             'notes': null,
+            'phone_login': null,
+            'crm_login': null,
         },
 
         newMasterBoard: {
@@ -43,15 +48,26 @@ new Vue({
             'url_property_management': null,
             'voicemail': null,
             'general_calls': null,
+            'notes': null,
+            'gs_integration': null,
+            'client_folder': null,
+            'email': null,
+            'phone': null,
         },
 
         // for pagination
-        currentPage: 1,
-        pageSize: RECORDS_PER_PAGE,
-        startPage: 1,
-        endPage: null,
-        maxPages: RECORDS_PER_PAGE,
-        paginatedRecords: [],
+        currentInventoryPage: 1,
+        currentMasterBoardPage: 1,
+        pageInventorySize: RECORDS_PER_PAGE,
+        pageMasterBoardSize: RECORDS_PER_PAGE,
+        startInventoryPage: 1,
+        startMasterBoardPage: 1,
+        endInventoryPage: null,
+        endMasterBoardPage: null,
+        maxInventoryPages: RECORDS_PER_PAGE,
+        maxMasterBoardPages: RECORDS_PER_PAGE,
+        paginatedInventoryRecords: [],
+        paginatedMasterBoardRecords: [],
     },
     mounted: function () {
         this.getStaffs();
@@ -60,19 +76,20 @@ new Vue({
         this.getBoard();
     },
     methods: {
-        filterKey(e) {
-            const key = e.key;
+        duration($event) {
+            // console.log($event.keyCode); //keyCodes value
+            let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
 
-            // If is '.' key, stop it
-            if (key === '.')
-                return e.preventDefault();
+            // only allow number and one dot
+            if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46 || this.price.indexOf('.') != -1)) { // 46 is dot
+                $event.preventDefault();
+            }
 
-            // OPTIONAL
-            // If is 'e' key, stop it
-            if (key === 'e')
-                return e.preventDefault();
+            // restrict to 2 decimal places
+            if (this.price != null && this.price.indexOf(".") > -1 && (this.price.split('.')[1].length > 1)) {
+                $event.preventDefault();
+            }
         },
-
         // This can also prevent copy + paste invalid character
         filterInput(e) {
             e.target.value = e.target.value.replace(/[^0-9]+/g, '');
@@ -177,6 +194,7 @@ new Vue({
                         icon: "error",
                         buttons: "Ok",
                     })
+                    this.errorInventory = err.body;
                     console.log(err);
                 })
         },
@@ -203,6 +221,7 @@ new Vue({
                         icon: "error",
                         buttons: "Ok",
                     })
+                    this.errorBoard = err.body;
                     console.log(err);
                 })
         },
@@ -248,69 +267,129 @@ new Vue({
                     console.log(err);
                 })
         },
-        getPaginatedRecords: function () {
-            const startIndex = this.startIndex;
-            this.paginatedRecords = this.inventory.slice().splice(startIndex, this.pageSize);
+        getInventoryPaginatedRecords: function () {
+            const startInventoryIndex = this.startInventoryIndex;
+            this.paginatedInventoryRecords = this.inventory.slice().splice(startInventoryIndex, this.pageInventorySize);
         },
-        goToPage: function (page) {
+        getMasterBoardPaginatedRecords: function () {
+            const startMasterBoardIndex = this.startMasterBoardIndex;
+            this.paginatedMasterBoardRecords = this.masterboard.slice().splice(startMasterBoardIndex, this.pageMasterBoardSize);
+        },
+        goToInventoryPage: function (page) {
             if (page < 1) {
-                return this.currentPage = 1;
+                return this.currentInventoryPage = 1;
             }
-            if (page > this.totalPages) {
-                return this.currentPage = this.totalPages;
+            if (page > this.totalInventoryPages) {
+                return this.currentInventoryPage = this.totalInventoryPages;
             }
-            this.currentPage = page;
+            this.currentInventoryPage = page;
         },
-        setPageGroup: function () {
-            if (this.totalPages <= this.maxPages) {
-                this.startPage = 1;
-                this.endPage = Math.min(this.totalPages, this.maxPages);
+        goToMasterBoardPage: function (page) {
+            if (page < 1) {
+                return this.currentMasterBoardPage = 1;
+            }
+            if (page > this.totalMasterBoardPages) {
+                return this.currentMasterBoardPage = this.totalMasterBoardPages;
+            }
+            this.currentMasterBoardPage = page;
+        },
+        setInventoryPageGroup: function () {
+            if (this.totalInventoryPages <= this.maxInventoryPages) {
+                this.startInventoryPage = 1;
+                this.endInventoryPage = Math.min(this.totalInventoryPages, this.maxInventoryPages);
             } else {
-                let maxPagesBeforeCurrentPage = Math.floor(this.maxPages / 2);
-                let maxPagesAfterCurrentPage = Math.ceil(this.maxPages / 2) - 1;
-                if (this.currentPage <= maxPagesBeforeCurrentPage) {
+                let maxPagesBeforeCurrentPage = Math.floor(this.maxInventoryPages / 2);
+                let maxPagesAfterCurrentPage = Math.ceil(this.maxInventoryPages / 2) - 1;
+                if (this.currentInventoryPage <= maxPagesBeforeCurrentPage) {
                     // current page near the start
-                    this.startPage = 1;
-                    this.endPage = this.maxPages;
-                } else if (thiscurrentPage + maxPagesAfterCurrentPage >= this.totalPages) {
+                    this.startInventoryPage = 1;
+                    this.endInventoryPage = this.maxInventoryPages;
+                } else if (thiscurrentInventoryPage + maxPagesAfterCurrentPage >= this.totalInventoryPages) {
                     // current page near the end
-                    this.startPage = this.totalPages - this.maxPages + 1;
-                    this.endPage = this.totalPages;
+                    this.startInventoryPage = this.totalInventoryPages - this.maxInventoryPages + 1;
+                    this.endInventoryPage = this.totalInventoryPages;
                 } else {
                     // current page somewhere in the middle
-                    this.startPage = this.currentPage - maxPagesBeforeCurrentPage;
-                    this.endPage = this.currentPage + maxPagesAfterCurrentPage;
+                    this.startInventoryPage = this.currentInventoryPage - maxPagesBeforeCurrentPage;
+                    this.endInventoryPage = this.currentInventoryPage + maxPagesAfterCurrentPage;
                 }
             }
-        }
+        },
+        setMasterBoardPageGroup: function () {
+            if (this.totalMasterBoardPages <= this.maxMasterBoardPages) {
+                this.startMasterBoardPage = 1;
+                this.endMasterBoardPage = Math.min(this.totalMasterBoardPages, this.maxMasterBoardPages);
+            } else {
+                let maxPagesBeforeCurrentPage = Math.floor(this.maxMasterBoardPages / 2);
+                let maxPagesAfterCurrentPage = Math.ceil(this.maxMasterBoardPages / 2) - 1;
+                if (this.currentMasterBoardPage <= maxPagesBeforeCurrentPage) {
+                    // current page near the start
+                    this.startMasterBoardPage = 1;
+                    this.endMasterBoardPage = this.maxMasterBoardPages;
+                } else if (thiscurrentMasterBoardPage + maxPagesAfterCurrentPage >= this.totalMasterBoardPages) {
+                    // current page near the end
+                    this.startMasterBoardPage = this.totalMasterBoardPages - this.maxMasterBoardPages + 1;
+                    this.endMasterBoardPage = this.totalMasterBoardPages;
+                } else {
+                    // current page somewhere in the middle
+                    this.startMasterBoardPage = this.currentMasterBoardPage - maxPagesBeforeCurrentPage;
+                    this.endMasterBoardPage = this.currentMasterBoardPage + maxPagesAfterCurrentPage;
+                }
+            }
+        },
     },
     watch: {
-        inventory: function (newInventoryRecords, oldInventoryRecords) {
-            this.setPageGroup();
-            this.getPaginatedRecords();
+        masterboard: function (newMasterBoardRecords, oldMasterBoardRecords) {
+            this.setMasterBoardPageGroup();
+            this.getMasterBoardPaginatedRecords();
         },
-        currentPage: function (newCurrenPage, oldCurrentPage) {
-            this.setPageGroup();
-            this.getPaginatedRecords();
+        inventory: function (newInventoryRecords, oldInventoryRecords) {
+            this.setInventoryPageGroup();
+            this.getInventoryPaginatedRecords();
+        },
+        currentInventoryPage: function (newCurrentInventoryPage, oldCurrentInventoryPage) {
+            this.setInventoryPageGroup();
+            this.getInventoryPaginatedRecords();
+        },
+        currentMasterBoardPage: function (newCurrentMasterBoardPage, oldCurrentMasterBoardPage) {
+            this.setMasterBoardPageGroup();
+            this.getMasterBoardPaginatedRecords();
         },
     },
     computed: {
-        totalItems: function () {
+        totalMasterBoardItems: function () {
+            return this.masterboard.length;
+        },
+        totalInventoryItems: function () {
             return this.inventory.length;
         },
-        totalPages: function () {
-            return Math.ceil(this.totalItems / this.pageSize);
+        totalMasterBoardPages: function () {
+            return Math.ceil(this.totalMasterBoardItems / this.pageMasterBoardSize);
         },
-        startIndex: function () {
-            return (this.currentPage - 1) * this.pageSize;
+        totalInventoryPages: function () {
+            return Math.ceil(this.totalInventoryItems / this.pageInventorySize);
         },
-        endIndex: function () {
-            return Math.min(this.startIndex + this.pageSize - 1, this.totalItems - 1);
+        startMasterBoardIndex: function () {
+            return (this.currentMasterBoardPage - 1) * this.pageMasterBoardSize;
         },
-        pages: function () {
-            let pages = [];
-            for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
-            return pages;
+        startInventoryIndex: function () {
+            return (this.currentInventoryPage - 1) * this.pageInventorySize;
+        },
+        endMasterBoardIndex: function () {
+            return Math.min(this.startMasterBoardIndex + this.pageMasterBoardSize - 1, this.totalMasterBoardItems - 1);
+        },
+        endInventoryIndex: function () {
+            return Math.min(this.startInventoryIndex + this.pageInventorySize - 1, this.totalInventoryItems - 1);
+        },
+        pagesMasterBoard: function () {
+            let pagesMasterBoard = [];
+            for (let i = this.startMasterBoardPage; i <= this.endMasterBoardPage; i++) pagesMasterBoard.push(i);
+            return pagesMasterBoard;
+        },
+        pagesInventory: function () {
+            let pagesInventory = [];
+            for (let i = this.startInventoryPage; i <= this.endInventoryPage; i++) pagesInventory.push(i);
+            return pagesInventory;
         },
     }
 });
