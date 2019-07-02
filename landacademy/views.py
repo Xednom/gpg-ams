@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from django_filters import CharFilter, DateFilter
+from django_filters.rest_framework import FilterSet
 from django.db.models import Q
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
@@ -34,10 +36,26 @@ class AddSmartPricingView(LoginRequiredMixin, TemplateView):
     template_name = 'landacademy/smartpricing/add_pricing.html'
 
 
+class InventoryFilterSet(FilterSet):
+    date_requested = DateFilter(field_name='date_requested', lookup_expr='contains')
+    date_completed = DateFilter(field_name='date_completed', lookup_expr='contains')
+    date_payment_made = DateFilter(field_name='date_payment_made', lookup_expr='contains')
+    client_la_requestor = CharFilter(field_name='client_la_requestor', lookup_expr='icontains')
+    status_of_order = CharFilter(field_name='status_of_order', lookup_expr='contains')
+    payment_status = CharFilter(field_name='payment_status', lookup_expr='contains')
+    order_name = CharFilter(field_name='order_name', lookup_expr='icontains')
+
+    class Meta:
+        model = LandAcademyInventory
+        fields = ('date_requested', 'date_completed',
+                  'date_payment_made', 'client_la_requestor', 'status_of_order', 'payment_status', 'order_name')
+
+
 class LandAcademyViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = LandAcademySerializer
+    filter_class = (InventoryFilterSet)
 
     def get_queryset(self):
         land_academy_data = LandAcademyInventory.objects.all()

@@ -10,6 +10,7 @@ new Vue({
         loading: false,
         viewing: false,
         saving: false,
+        searching: false,
         message: null,
         currentLands: [],
         currentPricings: [],
@@ -44,6 +45,19 @@ new Vue({
             'notes_from_researcher': null,
             'notes_from_qa': null,
         },
+        
+        // for normal search
+        search_client_name: '',
+
+
+        // for advanced search
+        advance_search_date_requested: '',
+        advance_search_date_completed: '',
+        advance_search_date_payment_made: '',
+        advance_search_order_name: '',
+        advance_search_client_la_requestor: '',
+        advance_search_status_of_order: '',
+        advance_search_payment_status: '',
 
         // for pagination
         currentPage: 1,
@@ -244,6 +258,30 @@ new Vue({
                 })
                 .catch((err) => {
                     this.saving = false;
+                    console.log(err);
+                })
+        },
+        normalSearchLandAcademy: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/landacademy-inventory/?client_la_requestor=${this.search_client_name}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.landacademy = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err);
+                })
+        },
+        advanceSearchLandAcademy: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/landacademy-inventory/?date_requested=${this.advance_search_date_requested}&date_completed=${this.advance_search_date_completed}&date_payment_made=${this.advance_search_date_payment_made}&client_la_requestor=${this.advance_search_client_la_requestor}&status_of_order=${this.advance_search_status_of_order}&payment_status=${this.advance_search_payment_status}&order_name=${this.advance_search_order_name}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.landacademy = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
                     console.log(err);
                 })
         },
