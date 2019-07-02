@@ -37,6 +37,12 @@ body {
 .due{
   color: red;
 }
+a.first::after {
+  content: '...'
+}
+a.last::before {
+  content: '...'
+}
 .tab-pane{
   padding: 15px;
 }
