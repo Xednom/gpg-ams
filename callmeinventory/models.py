@@ -36,7 +36,7 @@ class inventory(models.Model):
     client_company_name = models.CharField(max_length=150, null=True, blank=True)
     full_name_of_lead = models.CharField(max_length=150, null=True, blank=True)
     phone_number = models.CharField(max_length=150, null=True,blank=True)
-    email = models.EmailField(null=True, blank=True)
+    email = models.CharField(max_length=150, null=True, blank=True)
     customer_representative = models.CharField(max_length=150, null=True, blank=True)
     status = models.CharField(max_length=150, choices=STATUS, null=True, blank=True)
     lead_transferred_by = models.CharField(max_length=150, null=True, blank=True)

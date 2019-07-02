@@ -9,6 +9,7 @@ new Vue({
         loading: false,
         viewing: false,
         saving: false,
+        searching: false,
         message: null,
         currentInventories: [],
         newInventory: {
@@ -32,6 +33,20 @@ new Vue({
             'notes_from_the_client': null,
         },
 
+        // for normal search
+        search_client_full_name: '',
+
+        // for advance search
+        advance_date_requested: '',
+        advance_date_completed: '',
+        advance_type_of_marketing_sites: '',
+        advance_client_full_name: '',
+        advance_client_company_name: '',
+        advance_apn: '',
+        advance_status: '',
+        advance_post_for_approval: '',
+
+        
         // for pagination
         currentPage: 1,
         pageSize: RECORDS_PER_PAGE,
@@ -160,6 +175,30 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
+                    console.log(err);
+                })
+        },
+        normalSearchInventory: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/marketing-sites/?client_full_name=${this.search_client_full_name}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.inventory = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err);
+                })
+        },
+        advanceSearchInventory: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/marketing-sites/?date_requested=${this.advance_date_requested}&date_completed=${this.advance_date_completed}&type_of_marketing_sites=${this.advance_type_of_marketing_sites}&client_full_name=${this.advance_client_full_name}&client_company_name=${this.advance_client_company_name}&apn=${this.advance_apn}&status=${this.advance_status}&post_for_approval=${this.advance_post_for_approval}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.inventory = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
                     console.log(err);
                 })
         },

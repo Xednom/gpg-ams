@@ -10,6 +10,7 @@ new Vue({
         loading: false,
         viewing: false,
         saving: false,
+        searching: false,
         errored: false,
         message: null,
         errorInventory: [],
@@ -17,7 +18,7 @@ new Vue({
         currentInventories: [],
         currentBoards: [],
         newInventory: {
-            'transferred_date': null,
+            'transferred_date': '',
             'date_lead_received': null,
             'type_of_form': null,
             'client_full_name': null,
@@ -28,8 +29,8 @@ new Vue({
             'customer_representative': null,
             'status': null,
             'financial_status': null,
-            'call_duration': null,
-            'total_time_transferring_leads': null,
+            'call_duration': 0.00,
+            'total_time_transferring_leads': 0.00,
             'total_mins': null,
             'notes': null,
             'phone_login': null,
@@ -54,6 +55,28 @@ new Vue({
             'email': null,
             'phone': null,
         },
+
+        // for normal search inventory
+        inventory_client_name: '',
+
+        // for normal search masterboard
+        masterboard_client_name: '',
+
+
+        // for advanced search inventory
+        search_client_name_inventory: '',
+        search_client_company_inventory: '',
+        search_csr: '',
+        search_status: '',
+        search_transferred_by: '',
+
+        // for advanced search masterboard
+        search_plan: '',
+        search_crm: '',
+        search_voip: '',
+        search_client_name_board: '',
+        search_company_name_board: '',
+        search_date_started: '',
 
         // for pagination
         currentInventoryPage: 1,
@@ -98,6 +121,8 @@ new Vue({
             Object.keys(this.newInventory).forEach(key => {
                 this.newInventory[key] = ""
             })
+            this.newInventory.call_duration = 0.00;
+            this.newInventory.total_time_transferring_leads = 0.00;
         },
         resetBoard: function () {
             Object.keys(this.newMasterBoard).forEach(key => {
@@ -269,6 +294,54 @@ new Vue({
                 })
                 .catch((err) => {
                     this.saving = false;
+                    console.log(err);
+                })
+        },
+        normalSearchInventory: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/callme-inventory/?client_full_name=${this.inventory_client_name}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.inventory = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err);
+                })
+        },
+        normalSearchBoard: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/callme-masterboard/?client_name=${this.masterboard_client_name}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.masterboard = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err);
+                })
+        },
+        advancedSearchBoard: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/callme-masterboard/?date_started=${this.search_date_started}&type_of_plan=${this.search_plan}&type_of_crm=${this.search_crm}&type_of_voip=${this.search_voip}&client_name=${this.search_client_name_board}&company_name=${this.search_company_name_board}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.masterboard = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err);
+                })
+        },
+        advancedSearchInventory: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/callme-inventory/?client_full_name=${this.search_client_name}&client_company_name=${this.search_client_company}&customer_representative=${this.search_csr}&status=${this.search_status}&lead_transferred_by=${this.search_transferred_by}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.inventory = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
                     console.log(err);
                 })
         },

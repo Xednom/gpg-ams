@@ -8,7 +8,7 @@ class ClientSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Clients
-        fields = ('full_name',)
+        fields = ('full_name', 'company_name')
 
 
 class StaffSerializer(serializers.ModelSerializer):

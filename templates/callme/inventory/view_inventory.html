@@ -30,12 +30,80 @@ GPG System | CallMe Inventory
         </ol>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="collapse multi-collapse" id="CollapseSearchCarrier">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Advanced search
+                        </div>
+                        <div class="panel-body">
+                            <form method="GET">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Client full name:</label>
+                                    <input class="form-control form-control-sm" type="text"
+                                        v-model="search_client_name_inventory">
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Client company name:</label>
+                                    <input class="form-control form-control-sm" type="text"
+                                        v-model="search_client_company_inventory">
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Customer Representative:</label>
+                                    <input class="form-control form-control-sm" type="text"
+                                        v-model="search_csr">
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Status:</label>
+                                    <select class="form-control" v-model="search_status">
+                                        <option>New</option>
+                                        <option>Transferred to Podio - Personal Account</option>
+                                        <option>Transferred to Land Speed</option>
+                                        <option>Transferred to Investment Dominator</option>
+                                        <option>Airtable</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Lead Transferred By:</label>
+                                    <input class="form-control form-control-sm" type="text"
+                                        v-model="search_transferred_by">
+                                </div>
+                                <div class="col-md-12 col-sm-12 pull-right">
+                                <button class="btn btn-primary" type="submit"
+                                v-on:click.prevent="advancedSearchInventory"><i class="fa fa-search"></i>
+                                    Search</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         Table of CallMe Inventory
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
+                            <div class="col-md-2 col-sm-12" v-if="!loading">
+                                <!-- <form action="GET"> -->
+                                <div class="form-group input-group">
+                                    <input type="text" class="form-control" placeholder="Search..."
+                                    v-model="inventory_client_name"
+                                    @keyup.enter="normalSearchInventory">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"
+                                        v-on:click.prevent="normalSearchInventory"><i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                <!-- </form> -->
+                            </div>
+                            <div class="pull-right">
+                                <a href="#CollapseSearchCarrier" data-toggle="collapse" role="button"
+                                    aria-expanded="false" aria-controls="CollapseSearchCarrier" v-if="!loading">advanced
+                                    search</a>
+                            </div>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -53,17 +121,22 @@ GPG System | CallMe Inventory
                                 <tbody>
                                     <tr>
                                         <template v-if="loading">
-                                            <td colspan="15" class="text-center bg-warning" v-if="loading">
-                                                Fetching data...
+                                            <td colspan="15" class="text-center bg-warning">
+                                               <i class="fa fa-spinner fa-spin"></i> Fetching data...
                                             </td>
                                         </template>
-                                        <template v-else-if="!inventory.length">
+                                        <template v-else-if="searching">
                                             <td colspan="15" class="text-center bg-warning">
+                                                <i class="fa fa-spinner fa-spin"></i> Searching                                                
+                                            </td>
+                                        </template>
+                                        <template v-else-if="!loading">
+                                            <td colspan="15" class="text-center bg-warning" v-if="!inventory.length">
                                                 No records found.
                                             </td>
                                         </template>
                                     </tr>
-                                    <tr v-for="(inventory, i) in paginatedInventoryRecords">
+                                    <tr v-for="(inventory, i) in paginatedInventoryRecords" v-if="!loading">
                                         <td>[[ inventory.transferred_date ]]</td>
                                         <td>[[ inventory.date_lead_received ]]</td>
                                         <td>[[ inventory.type_of_form ]]</td>
