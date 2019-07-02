@@ -335,7 +335,7 @@ new Vue({
         },
         advancedSearchInventory: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/callme-inventory/?client_full_name=${this.search_client_name}&client_company_name=${this.search_client_company}&customer_representative=${this.search_csr}&status=${this.search_status}&lead_transferred_by=${this.search_transferred_by}`)
+            this.$http.get(`/api/v1/callme-inventory/?client_full_name=${this.search_client_name_inventory}&client_company_name=${this.search_client_company_inventory}&customer_representative=${this.search_csr}&status=${this.search_status}&lead_transferred_by=${this.search_transferred_by}`)
                 .then((response) => {
                     this.searching = false;
                     this.inventory = response.data;

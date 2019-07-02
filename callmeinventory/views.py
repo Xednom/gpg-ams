@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from django_filters import CharFilter
+from django_filters import CharFilter, ChoiceFilter
 from django_filters.rest_framework import FilterSet
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
@@ -27,10 +27,18 @@ class AddInventoryView(LoginRequiredMixin, TemplateView):
 
 
 class InventoryFilters(FilterSet):
+    STATUS = (
+        ('New', 'New'),
+        ('Transferred to Podio - Personal Account', 'Transferred to Podio - Personal Account'),
+        ('Transferred to Land Speed', 'Transferred to Land Speed'),
+        ('Transferred to Investment Dominator', 'Transferred to Investment Dominator'),
+        ('Airtable', 'Airtable'),
+        ('Others', 'Others'),
+    )
     client_full_name = CharFilter(field_name='client_full_name', lookup_expr='icontains')
     client_company_name = CharFilter(field_name='client_company_name', lookup_expr='icontains')
     customer_representative = CharFilter(field_name='customer_representative', lookup_expr='icontains')
-    status = CharFilter(field_name='status', lookup_expr='icontains')
+    status = ChoiceFilter(choices=STATUS)
     lead_transferred_by = CharFilter(field_name='lead_transferred_by', lookup_expr='icontains')
 
     class Meta:
