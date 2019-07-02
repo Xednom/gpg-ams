@@ -56,6 +56,7 @@ GPG System | CallMe Inventory
                                 <div class="form-group col-md-2 col-sm-12">
                                     <label>Status:</label>
                                     <select class="form-control" v-model="search_status">
+                                        <option>-----</option>
                                         <option>New</option>
                                         <option>Transferred to Podio - Personal Account</option>
                                         <option>Transferred to Land Speed</option>
@@ -204,7 +205,7 @@ GPG System | CallMe Inventory
                                     <label>Date Lead received</label>
                                     <input type="date" class="form-control form-control-sm"
                                         v-model="currentInventories.date_lead_received"
-                                        {% if perms.inventory.change_callme %}
+                                        {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -212,7 +213,7 @@ GPG System | CallMe Inventory
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Type of Form</label>
                                     <select class="form-control" v-model="currentInventories.type_of_form" 
-                                    {% if perms.inventory.change_callme %}
+                                    {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -226,7 +227,7 @@ GPG System | CallMe Inventory
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Client Full Name</label>
-                                    <select class="form-control"{% if perms.inventory.change_callme %}
+                                    <select class="form-control"{% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -236,7 +237,7 @@ GPG System | CallMe Inventory
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Client Company Name</label>
                                     <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.client_company_name" {% if perms.inventory.change_callme %}
+                                        v-model="currentInventories.client_company_name" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -244,7 +245,7 @@ GPG System | CallMe Inventory
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Name of the Lead</label>
                                     <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.full_name_of_lead" {% if perms.inventory.change_callme %}
+                                        v-model="currentInventories.full_name_of_lead" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -252,7 +253,7 @@ GPG System | CallMe Inventory
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Phone number</label>
                                     <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.phone_number" {% if perms.inventory.change_callme %}
+                                        v-model="currentInventories.phone_number" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -260,7 +261,7 @@ GPG System | CallMe Inventory
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Email</label>
                                     <input type="text" class="form-control form-control-sm"
-                                        v-model="currentInventories.email" {% if perms.inventory.change_callme %}
+                                        v-model="currentInventories.email" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -269,7 +270,7 @@ GPG System | CallMe Inventory
                                     <label>Customer Representative</label>
                                     <select class="form-control"
                                         v-model="currentInventories.customer_representative"
-                                        {% if perms.inventory.change_callme %}
+                                        {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -279,14 +280,14 @@ GPG System | CallMe Inventory
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Lead Transferred By</label>
                                     <select class="form-control" v-model="currentInventories.lead_transferred_by"
-                                        {% if perms.inventory.change_callme %} {% else %} disabled {% endif %}>
+                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}>
                                         <option v-for="csr in staffs">[[ csr.full_name ]]</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Transferred Date</label>
                                     <input type="date" class="form-control form-control-sm"
-                                        v-model="currentInventories.transferred_date" {% if perms.inventory.change_callme %}
+                                        v-model="currentInventories.transferred_date" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -294,7 +295,7 @@ GPG System | CallMe Inventory
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Status</label>
                                     <select class="form-control" v-model="currentInventories.status"
-                                        {% if perms.inventory.change_callme %} {% else %} disabled {% endif %}>
+                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}>
                                         <option>New</option>
                                         <option>Transferred to Podio - Personal Account</option>
                                         <option>Transferred to Land Speed</option>
@@ -310,7 +311,7 @@ GPG System | CallMe Inventory
                                     <label>Call Duration</label>
                                     <input type="number" step=".01" min="0" class="form-control form-control-sm"
                                         @input="filterInput"
-                                        v-model="currentInventories.call_duration" {% if perms.inventory.change_callme %}
+                                        v-model="currentInventories.call_duration" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -320,7 +321,7 @@ GPG System | CallMe Inventory
                                     <input type="number" step=".01" min="0" class="form-control form-control-sm"
                                         @input="filterInput"
                                         v-model="currentInventories.total_time_transferring_leads"
-                                        {% if perms.inventory.change_callme %}
+                                        {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
                                         {% endif %}>
@@ -329,9 +330,23 @@ GPG System | CallMe Inventory
                                     <label>Notes</label>
                                     <textarea cols="30" rows="10" v-model="currentInventories.notes"
                                     class="form-control"
-                                    {% if perms.inventory.change_callme %}
+                                    {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
+                                        {% endif %}>
+                                    </textarea>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Phone System - Log In Information:</label>
+                                    <textarea cols="30" rows="10" v-model="currentInventories.phone_login"
+                                        class="form-control" {% if perms.callmeinventory.change_inventory %} {% else %} disabled
+                                        {% endif %}>
+                                    </textarea>
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>CRM System - Log In Information:</label>
+                                    <textarea cols="30" rows="10" v-model="currentInventories.crm_login"
+                                        class="form-control" {% if perms.callmeinventory.change_inventory %} {% else %} disabled
                                         {% endif %}>
                                     </textarea>
                                 </div>
@@ -339,7 +354,7 @@ GPG System | CallMe Inventory
                         </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        {% if perms.inventory.change_callme %}
+                        {% if perms.callmeinventory.change_inventory %}
                         <template v-if="saving">
                             <button type="submit" class="btn btn-primary" disabled>Save changes</button>
                         </template>
