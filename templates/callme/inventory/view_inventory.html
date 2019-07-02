@@ -172,9 +172,9 @@ GPG System | CallMe Inventory
                                 <li v-for="pageNumber in pagesInventory"
                                     v-bind:class="[{active: pageNumber === currentInventoryPage}, 'page-item']"
                                     v-if="Math.abs(pageNumber - currentInventoryPage) < 3 || pageNumber == totalInventoryPages - 1 || pageNumber == 0">
-                                    <a href="#" @click="setPage(pageNumber)"
-                                        :class="{current: currentInventoryPage === pageNumber, last: (pageNumber == totalInventoryPages - 1 && Math.abs(pageNumber - currentInventoryPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentInventoryPage) > 3)}"
-                                        v-on:click="goToInventoryPage(pageNumber)">[[ pageNumber ]]</a>
+                                    <a href="#" v-on:click="goToInventoryPage(pageNumber)"
+                                        :class="{current: currentInventoryPage === pageNumber, last:(pageNumber == totalInventoryPages - 1 && Math.abs(pageNumber - currentInventoryPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentInventoryPage) > 3)}">
+                                        [[ pageNumber ]]</a>
                                 </li>
                                 <li
                                     v-bind:class="[{disabled: (currentInventoryPage * 1) === totalInventoryPages}, 'page-item']">
