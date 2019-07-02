@@ -18,7 +18,7 @@ new Vue({
         currentInventories: [],
         currentBoards: [],
         newInventory: {
-            'transferred_date': null,
+            'transferred_date': '',
             'date_lead_received': null,
             'type_of_form': null,
             'client_full_name': null,
@@ -121,6 +121,8 @@ new Vue({
             Object.keys(this.newInventory).forEach(key => {
                 this.newInventory[key] = ""
             })
+            this.newInventory.call_duration = 0.00;
+            this.newInventory.total_time_transferring_leads = 0.00;
         },
         resetBoard: function () {
             Object.keys(this.newMasterBoard).forEach(key => {
