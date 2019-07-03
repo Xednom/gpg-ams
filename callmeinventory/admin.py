@@ -3,15 +3,16 @@ from .models import inventory
 
 
 class InventoryProfile(admin.ModelAdmin):
-    list_display = ('type_of_form', 'client_full_name',
-                    'client_company_name', 'call_duration', 'total_time_transferring_leads', 'total_mins')
-    list_filter = ('type_of_form',)
-    search_fields = ('client_full_name', 'client_company_name', 'customer_representative')
+    list_display = ('date_lead_received', 'type_of_form',
+                    'client_full_name', 'client_company_name', 'status', 'financial_status',
+                    'call_duration', 'total_time_transferring_leads', 'total_mins')
+    list_filter = ('type_of_form', 'status', 'financial_status')
+    search_fields = ('client_full_name', 'client_company_name',
+                     'customer_representative', 'type_of_form', 'status', 'financial_status')
     readonly_fields = ('total_mins',)
     fieldsets = (
         ("Call Me Inventory Informations", {
             'fields': (
-                'transferred_date',
                 'date_lead_received',
                 'type_of_form',
                 'client_full_name',
@@ -20,14 +21,14 @@ class InventoryProfile(admin.ModelAdmin):
                 'phone_number',
                 'email',
                 'customer_representative',
+                'lead_transferred_by',
+                'transferred_date',
                 'status',
                 'financial_status',
                 'call_duration',
                 'total_time_transferring_leads',
                 'total_mins',
                 'notes',
-                'phone_login',
-                'crm_login'
             )
         }),
     )

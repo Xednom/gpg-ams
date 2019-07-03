@@ -33,8 +33,6 @@ new Vue({
             'total_time_transferring_leads': 0.00,
             'total_mins': null,
             'notes': null,
-            'phone_login': null,
-            'crm_login': null,
         },
 
         newMasterBoard: {
@@ -54,6 +52,8 @@ new Vue({
             'client_folder': null,
             'email': null,
             'phone': null,
+            'phone_login': null,
+            'crm_login': null,
         },
 
         // for normal search inventory
@@ -68,6 +68,8 @@ new Vue({
         search_client_company_inventory: '',
         search_csr: '',
         search_status: '',
+        search_financial_status: '',
+        search_type_of_form: '',
         search_transferred_by: '',
 
         // for advanced search masterboard
@@ -77,6 +79,11 @@ new Vue({
         search_client_name_board: '',
         search_company_name_board: '',
         search_date_started: '',
+        search_url_buyer: '',
+        search_url_seller: '',
+        search_url_property_management: '',
+        search_general_calls: '',
+        search_voicemail: '',        
 
         // for pagination
         currentInventoryPage: 1,
@@ -323,7 +330,7 @@ new Vue({
         },
         advancedSearchBoard: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/callme-masterboard/?date_started=${this.search_date_started}&type_of_plan=${this.search_plan}&type_of_crm=${this.search_crm}&type_of_voip=${this.search_voip}&client_name=${this.search_client_name_board}&company_name=${this.search_company_name_board}`)
+            this.$http.get(`/api/v1/callme-masterboard/?date_started=${this.search_date_started}&type_of_crm=${this.search_crm}&type_of_voip=${this.search_voip}&client_name=${this.search_client_name_board}&company_name=${this.search_client_name_board}&url_buyer=${this.search_url_buyer}&url_seller${this.search_url_buyer}=&url_property_management=${this.search_url_property_management}&general_calls=${this.search_general_calls}&voicemail=${this.search_voicemail}`)
                 .then((response) => {
                     this.searching = false;
                     this.masterboard = response.data;
@@ -335,7 +342,7 @@ new Vue({
         },
         advancedSearchInventory: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/callme-inventory/?client_full_name=${this.search_client_name_inventory}&client_company_name=${this.search_client_company_inventory}&customer_representative=${this.search_csr}&status=${this.search_status}&lead_transferred_by=${this.search_transferred_by}`)
+            this.$http.get(`/api/v1/callme-inventory/?client_full_name=${this.search_client_name_inventory}&client_company_name=${this.search_client_company_inventory}&type_of_form=${this.search_type_of_form}&financial_status=${this.search_financial_status}&customer_representative=${this.search_csr}&status=${this.search_status}&lead_transferred_by=${this.search_transferred_by}`)
                 .then((response) => {
                     this.searching = false;
                     this.inventory = response.data;
