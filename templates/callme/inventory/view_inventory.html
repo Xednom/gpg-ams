@@ -38,25 +38,48 @@ GPG System | CallMe Inventory
                         <div class="panel-body">
                             <form method="GET">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {% if request.user.is_staffs %}
                                 <div class="form-group col-md-2 col-sm-12">
                                     <label>Client full name:</label>
-                                    <input class="form-control form-control-sm" type="text"
-                                        v-model="search_client_name_inventory">
+                                    <select v-model="search_client_name_inventory"
+                                    class="form-control">
+                                        <option v-for="client in clients">[[ client.full_name ]]</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-2 col-sm-12">
                                     <label>Client company name:</label>
-                                    <input class="form-control form-control-sm" type="text"
-                                        v-model="search_client_company_inventory">
+                                    <select v-model="search_client_company_inventory" class="form-control">
+                                        <option v-for="client in clients">[[ client.company_name ]]</option>
+                                    </select>
                                 </div>
+                                {% endif %}
+                                {% if request.user.is_client %}
                                 <div class="form-group col-md-2 col-sm-12">
                                     <label>Customer Representative:</label>
-                                    <input class="form-control form-control-sm" type="text"
-                                        v-model="search_csr">
+                                    <select v-model="search_csr"
+                                    class="form-control">
+                                        <option v-for="csr in staffs">[[ csr.full_name ]]</option>
+                                    </select>
                                 </div>
+                                {% endif %}
+                                {% if request.user.is_staffs %}
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Type of Form:</label>
+                                    <select class="form-control" v-model="search_type_of_form">
+                                        <option></option>
+                                        <option>Buyers</option>
+                                        <option>Sellers</option>
+                                        <option>General Call</option>
+                                        <option>Voicemail</option>
+                                        <option>Property Management</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                                {% endif %}
                                 <div class="form-group col-md-2 col-sm-12">
                                     <label>Status:</label>
                                     <select class="form-control" v-model="search_status">
-                                        <option>-----</option>
+                                        <option></option>
                                         <option>New</option>
                                         <option>Transferred to Podio - Personal Account</option>
                                         <option>Transferred to Land Speed</option>
@@ -66,10 +89,21 @@ GPG System | CallMe Inventory
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2 col-sm-12">
+                                    <label>Financial Status:</label>
+                                    <select class="form-control" v-model="search_financial_status">
+                                        <option></option>
+                                        <option>Billed</option>
+                                        <option>Unbilled</option>
+                                        <option>Waived</option>
+                                    </select>
+                                </div>
+                                {% if request.user.is_client %}
+                                <div class="form-group col-md-2 col-sm-12">
                                     <label>Lead Transferred By:</label>
                                     <input class="form-control form-control-sm" type="text"
                                         v-model="search_transferred_by">
                                 </div>
+                                {% endif %}
                                 <div class="col-md-12 col-sm-12 pull-right">
                                 <button class="btn btn-primary" type="submit"
                                 v-on:click.prevent="advancedSearchInventory"><i class="fa fa-search"></i>
@@ -108,13 +142,13 @@ GPG System | CallMe Inventory
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Transferred Date</th>
                                         <th>Date Lead received</th>
                                         <th>Type of Form</th>
                                         <th>Client name</th>
                                         <th>Client Company name</th>
-                                        <th>Name of Lead</th>
                                         <th>Customer Representative</th>
+                                        <th>Transferred Date</th>
+                                        <th>Status</th>
                                         <th>Financial Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -138,13 +172,13 @@ GPG System | CallMe Inventory
                                         </template>
                                     </tr>
                                     <tr v-for="(inventory, i) in paginatedInventoryRecords" v-if="!loading">
-                                        <td>[[ inventory.transferred_date ]]</td>
                                         <td>[[ inventory.date_lead_received ]]</td>
                                         <td>[[ inventory.type_of_form ]]</td>
                                         <td>[[ inventory.client_full_name ]]</td>
                                         <td>[[ inventory.client_company_name ]]</td>
-                                        <td>[[ inventory.full_name_of_lead ]]</td>
                                         <td>[[ inventory.customer_representative ]]</td>
+                                        <td>[[ inventory.transferred_date ]]</td>
+                                        <td>[[ inventory.status ]]</td>
                                         <td>[[ inventory.financial_status ]]</td>
                                         <td>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
@@ -215,7 +249,8 @@ GPG System | CallMe Inventory
                                         {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Type of Form</label>
@@ -223,7 +258,8 @@ GPG System | CallMe Inventory
                                     {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                         <option>Buyers</option>
                                         <option>Sellers</option>
                                         <option>General Call</option>
@@ -237,7 +273,8 @@ GPG System | CallMe Inventory
                                     <select class="form-control"{% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                         <option v-for="client in clients">[[ client.full_name ]]</option>
                                     </select>
                                 </div>
@@ -247,7 +284,8 @@ GPG System | CallMe Inventory
                                         v-model="currentInventories.client_company_name" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Name of the Lead</label>
@@ -255,7 +293,8 @@ GPG System | CallMe Inventory
                                         v-model="currentInventories.full_name_of_lead" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Phone number</label>
@@ -263,7 +302,8 @@ GPG System | CallMe Inventory
                                         v-model="currentInventories.phone_number" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Email</label>
@@ -271,7 +311,8 @@ GPG System | CallMe Inventory
                                         v-model="currentInventories.email" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Customer Representative</label>
@@ -280,14 +321,16 @@ GPG System | CallMe Inventory
                                         {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                     <option v-for="staff in staffs">[[ staff.full_name ]]</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Lead Transferred By</label>
                                     <select class="form-control" v-model="currentInventories.lead_transferred_by"
-                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}>
+                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                         <option v-for="csr in staffs">[[ csr.full_name ]]</option>
                                     </select>
                                 </div>
@@ -297,12 +340,14 @@ GPG System | CallMe Inventory
                                         v-model="currentInventories.transferred_date" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Status</label>
                                     <select class="form-control" v-model="currentInventories.status"
-                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}>
+                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                         <option>New</option>
                                         <option>Transferred to Podio - Personal Account</option>
                                         <option>Transferred to Land Speed</option>
@@ -316,22 +361,25 @@ GPG System | CallMe Inventory
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Call Duration</label>
-                                    <input type="number" step=".01" min="0" class="form-control form-control-sm"
-                                        @input="filterInput"
+                                    <input type="text" class="form-control form-control-sm"
+                                        @keypress="duration" @paste.prevent
                                         v-model="currentInventories.call_duration" {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'"
+                                        :disabled="currentInventories.status !== 'New'">
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Total Time in transferring Leads</label>
-                                    <input type="number" step=".01" min="0" class="form-control form-control-sm"
-                                        @input="filterInput"
+                                    <input type="text" class="form-control form-control-sm"
+                                        @keypress="duration" @paste.prevent
                                         v-model="currentInventories.total_time_transferring_leads"
                                         {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                 </div>
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Notes</label>
@@ -340,21 +388,8 @@ GPG System | CallMe Inventory
                                     {% if perms.callmeinventory.change_inventory %}
                                         {% else %}
                                         disabled
-                                        {% endif %}>
-                                    </textarea>
-                                </div>
-                                <div class="form-group col-md-12 col-sm-12">
-                                    <label>Phone System - Log In Information:</label>
-                                    <textarea cols="30" rows="10" v-model="currentInventories.phone_login"
-                                        class="form-control" {% if perms.callmeinventory.change_inventory %} {% else %} disabled
-                                        {% endif %}>
-                                    </textarea>
-                                </div>
-                                <div class="form-group col-md-12 col-sm-12">
-                                    <label>CRM System - Log In Information:</label>
-                                    <textarea cols="30" rows="10" v-model="currentInventories.crm_login"
-                                        class="form-control" {% if perms.callmeinventory.change_inventory %} {% else %} disabled
-                                        {% endif %}>
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
                                     </textarea>
                                 </div>
                             </div>

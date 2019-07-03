@@ -29,16 +29,20 @@ class AddMasterBoardView(LoginRequiredMixin, TemplateView):
 
 class MasterBoardFilters(FilterSet):
     date_started = DateFilter(field_name='date_started', lookup_expr='icontains')
-    type_of_plan = CharFilter(field_name='type_of_plan', lookup_expr='icontains')
     type_of_crm = CharFilter(field_name='type_of_crm', lookup_expr='icontains')
     type_of_voip = CharFilter(field_name='type_of_voip', lookup_expr='icontains')
     client_name = CharFilter(field_name='client_name', lookup_expr='icontains')
     company_name = CharFilter(field_name='company_name', lookup_expr='icontains')
+    url_buyer = CharFilter(field_name='url_buyer', lookup_expr='contains')
+    url_seller = CharFilter(field_name='url_seller', lookup_expr='contains')
+    url_property_management = CharFilter(field_name='url_property_management', lookup_expr='contains')
+    general_calls = CharFilter(field_name='general_calls', lookup_expr='icontains')
+    voicemail = CharFilter(field_name='voicemail', lookup_expr='icontains')
 
     class Meta:
         model = MasterBoard
-        fields = ('date_started', 'type_of_plan',
-                  'type_of_crm', 'type_of_voip', 'client_name', 'company_name')
+        fields = ('date_started', 'type_of_crm', 'type_of_voip', 'client_name', 'company_name',
+                  'url_buyer', 'url_seller', 'url_property_management', 'general_calls', 'voicemail')
 
 
 class MasterBoardViewSets(viewsets.ModelViewSet):

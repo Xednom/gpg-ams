@@ -45,8 +45,6 @@ class inventory(models.Model):
     total_time_transferring_leads = models.DecimalField(max_digits=6, decimal_places=2)
     total_mins = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    phone_login = models.TextField(null=True, blank=True, verbose_name="Phone System - Log In Information")
-    crm_login = models.TextField(null=True, blank=True, verbose_name="CRM System - Log In Information")
 
     class Meta:
         verbose_name = 'Call Me Inventory'

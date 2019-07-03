@@ -38,12 +38,14 @@ class InventoryFilters(FilterSet):
     client_full_name = CharFilter(field_name='client_full_name', lookup_expr='icontains')
     client_company_name = CharFilter(field_name='client_company_name', lookup_expr='icontains')
     customer_representative = CharFilter(field_name='customer_representative', lookup_expr='icontains')
+    type_of_form = CharFilter(field_name='type_of_form', lookup_expr='icontains')
+    financial_status = CharFilter(field_name='financial_status', lookup_expr='contains')
     status = ChoiceFilter(choices=STATUS)
     lead_transferred_by = CharFilter(field_name='lead_transferred_by', lookup_expr='icontains')
 
     class Meta:
         model = inventory
-        fields = ('client_full_name', 'client_company_name',
+        fields = ('client_full_name', 'client_company_name', 'type_of_form', 'financial_status',
                   'customer_representative', 'status', 'lead_transferred_by')
 
 

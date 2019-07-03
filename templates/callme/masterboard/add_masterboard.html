@@ -58,7 +58,7 @@ GPG System | Add Master Board records
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>Type of Plan</label>
-                                <input type="date" class="form-control" v-model="newMasterBoard.type_of_plan"
+                                <input type="text" class="form-control" v-model="newMasterBoard.type_of_plan"
                                     >
                             </div>
                         </div>
@@ -221,22 +221,6 @@ GPG System | Add Master Board records
                                 <input type="text" class="form-control" v-model="newMasterBoard.general_calls">
                             </div>
                         </div>
-                        <div class="error" v-if="errorBoard.notes">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Notes</label>
-                                <textarea class="form-control"
-                                v-model="newMasterBoard.notes" 
-                                cols="30" rows="10"></textarea>
-                            </div>
-                        </div>
                         <div class="error" v-if="errorBoard.gs_integration">
                             <div class="alert alert-danger" role="alert">
                                 <i class="fa fa-times-circle"></i>
@@ -248,8 +232,7 @@ GPG System | Add Master Board records
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>GS Integration</label>
-                                <input type="text" class="form-control"
-                                v-model="newMasterBoard.gs_integration">
+                                <input type="text" class="form-control" v-model="newMasterBoard.gs_integration">
                             </div>
                         </div>
                         <div class="error" v-if="errorBoard.client_folder">
@@ -264,6 +247,52 @@ GPG System | Add Master Board records
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>Client's Folder</label>
                                 <input type="text" class="form-control" v-model="newMasterBoard.client_folder">
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.phone_login">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Phone System - Log In Information</label>
+                                <textarea class="form-control" v-model="newMasterBoard.phone_login" cols="30"
+                                    rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.crm_login">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>CRM System - Log In Information</label>
+                                <textarea class="form-control" v-model="newMasterBoard.crm_login" cols="30"
+                                    rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.notes">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Notes</label>
+                                <textarea class="form-control"
+                                v-model="newMasterBoard.notes" 
+                                cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>

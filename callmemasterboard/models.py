@@ -23,7 +23,9 @@ class MasterBoard(models.Model):
     client_folder = models.CharField(max_length=250, null=True, blank=True, verbose_name="Clients's Folder")
     email = models.CharField(max_length=250, null=True, blank=True)
     phone = models.CharField(max_length=250, null=True, blank=True)
-
+    phone_login = models.TextField(null=True, blank=True, verbose_name="Phone System - Log In Information")
+    crm_login = models.TextField(null=True, blank=True, verbose_name="CRM System - Log In Information")
+    
     class Meta:
         verbose_name = 'CallMe Master Board'
         verbose_name_plural = 'CallMe Master Boards'
