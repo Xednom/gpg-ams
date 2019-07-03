@@ -330,7 +330,7 @@ new Vue({
         },
         advancedSearchBoard: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/callme-masterboard/?date_started=${this.search_date_started}&type_of_crm=${this.search_crm}&type_of_voip=${this.search_voip}&client_name=${this.search_client_name_board}&company_name=${this.search_client_name_board}&url_buyer=${this.search_url_buyer}&url_seller${this.search_url_buyer}=&url_property_management=${this.search_url_property_management}&general_calls=${this.search_general_calls}&voicemail=${this.search_voicemail}`)
+            this.$http.get(`/api/v1/callme-masterboard/?date_started=${this.search_date_started}&type_of_crm=${this.search_crm}&type_of_voip=${this.search_voip}&client_name=${this.search_client_name_board}&company_name=${this.search_company_name_board}&url_buyer=${this.search_url_buyer}&url_seller${this.search_url_buyer}=&url_property_management=${this.search_url_property_management}&general_calls=${this.search_general_calls}&voicemail=${this.search_voicemail}`)
                 .then((response) => {
                     this.searching = false;
                     this.masterboard = response.data;
