@@ -43,6 +43,9 @@ a.first::after {
 a.last::before {
   content: '...'
 }
+th {
+  cursor: pointer;
+}
 .tab-pane{
   padding: 15px;
 }

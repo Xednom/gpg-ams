@@ -116,14 +116,14 @@ GPG System | View Land Academy Inventory Records
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Invoice</th>
-                                            <th>Date Requested</th>
-                                            <th>Order Name</th>
-                                            <th>Client LA Requestor</th>
-                                            <th>Total Items Requested</th>
-                                            <th>Date Completed</th>
-                                            <th>Status of the Order</th>
-                                            <th>Payment Status</th>
+                                            <th @click="sort('invoice')">Invoice</th>
+                                            <th @click="sort('date_requested')">Date Requested</th>
+                                            <th @click="sort('order_name')">Order Name</th>
+                                            <th @click="sort('client_la_requestor')">Client LA Requestor</th>
+                                            <th @click="sort('total_items_requested')">Total Items Requested</th>
+                                            <th @click="sort('date_completed')">Date Completed</th>
+                                            <th @click="sort('status_of_order')">Status of the Order</th>
+                                            <th @click="sort('payment_status')">Payment Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -145,15 +145,15 @@ GPG System | View Land Academy Inventory Records
                                                 </td>
                                             </template>
                                         </tr>
-                                        <tr v-for="landacademys in landacademy">
-                                            <td>[[ landacademys.invoice ]]</td>
-                                            <td>[[ landacademys.date_requested ]]</td>
-                                            <td>[[ landacademys.order_name ]]</td>
-                                            <td>[[ landacademys.client_la_requestor ]]</td>
-                                            <td>[[ landacademys.total_items_requested ]]</td>
-                                            <td>[[ landacademys.date_completed ]]</td>
-                                            <td>[[ landacademys.status_of_order ]]</td>
-                                            <td>[[ landacademys.payment_status ]]</td>
+                                        <tr v-for="landacademy in sortedLandAcademy">
+                                            <td>[[ landacademy.invoice ]]</td>
+                                            <td>[[ landacademy.date_requested ]]</td>
+                                            <td>[[ landacademy.order_name ]]</td>
+                                            <td>[[ landacademy.client_la_requestor ]]</td>
+                                            <td>[[ landacademy.total_items_requested ]]</td>
+                                            <td>[[ landacademy.date_completed ]]</td>
+                                            <td>[[ landacademy.status_of_order ]]</td>
+                                            <td>[[ landacademy.payment_status ]]</td>
                                             <td>
                                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                     data-target="#editModal"
@@ -168,18 +168,21 @@ GPG System | View Land Academy Inventory Records
                             <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
                                 <ul class="pagination justify-content-end">
                                     <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
-                                        <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                        <a class="page-link" tabindex="-1" v-on:click="prevPage">
                                             Previous
                                         </a>
                                     </li>
-                                    <li v-for="pageNumber in pages"
-                                        v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
-                                        <a class="page-link" v-on:click="goToPage(pageNumber)">
-                                            [[ pageNumber ]]
-                                        </a>
+                                    <li v-for="pageNumber in totalPages"
+                                        v-bind:class="[{active: pageNumber === currentPage}, 'page-item']"
+                                        v-if="Math.abs(pageNumber - currentPage) < 3 || pageNumber == totalPages - 1 || pageNumber == 0">
+                                        <a v-on:click="goToPage(pageNumber)"
+                                            :class="{current: currentPage === pageNumber, last:(pageNumber == totalPages - 1 && Math.abs(pageNumber - currentPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentPage) > 3)}">
+                                            [[ pageNumber ]]</a>
                                     </li>
-                                    <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
-                                        <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                    <li
+                                        v-bind:class="[{disabled: (currentPage * 1) === totalPages},
+                                        'page-item']">
+                                        <a class="page-link" v-on:click="nextPage">
                                             Next
                                         </a>
                                     </li>

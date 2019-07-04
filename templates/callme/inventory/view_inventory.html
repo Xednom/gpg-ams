@@ -142,14 +142,14 @@ GPG System | CallMe Inventory
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Date Lead received</th>
-                                        <th>Type of Form</th>
-                                        <th>Client name</th>
-                                        <th>Client Company name</th>
-                                        <th>Customer Representative</th>
-                                        <th>Transferred Date</th>
-                                        <th>Status</th>
-                                        <th>Financial Status</th>
+                                        <th @click="sort('date_lead_received')">Date Lead received</th>
+                                        <th @click="sort('type_of_form')">Type of Form</th>
+                                        <th @click="sort('client_full_name')">Client name</th>
+                                        <th @click="sort('client_company_name')">Client Company name</th>
+                                        <th @click="sort('customer_representative')">Customer Representative</th>
+                                        <th @click="sort('transferred_date')">Transferred Date</th>
+                                        <th @click="sort('status')">Status</th>
+                                        <th @click="sort('financial_status')">Financial Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -171,7 +171,7 @@ GPG System | CallMe Inventory
                                             </td>
                                         </template>
                                     </tr>
-                                    <tr v-for="(inventory, i) in paginatedInventoryRecords" v-if="!loading">
+                                    <tr v-for="inventory in sortedInventories" v-if="!loading">
                                         <td>[[ inventory.date_lead_received ]]</td>
                                         <td>[[ inventory.type_of_form ]]</td>
                                         <td>[[ inventory.client_full_name ]]</td>

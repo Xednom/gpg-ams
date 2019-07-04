@@ -130,14 +130,14 @@ GPG System | CallMe Master Board
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Date started</th>
-                                            <th>Client name</th>
-                                            <th>Company Name</th>
-                                            <th>Email</th>
-                                            <th>Phone number</th>
-                                            <th>Type of Plan</th>
-                                            <th>Type of CRM</th>
-                                            <th>Type of VIOP</th>
+                                            <th @click="sort('date_started')">Date Started</th>
+                                            <th @click="sort('client_name')">Client name</th>
+                                            <th @click="sort('company_name')">Company Name</th>
+                                            <th @click="sort('email')">Email</th>
+                                            <th @click="sort('phone')">Phone number</th>
+                                            <th @click="sort('type_of_plan')">Type of Plan</th>
+                                            <th @click="sort('type_of_crm')">Type of CRM</th>
+                                            <th @click="sort('type_of_voip')">Type of VIOP</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -158,7 +158,7 @@ GPG System | CallMe Master Board
                                                 </td>
                                             </template>
                                         </tr>
-                                        <tr v-for="(masterboard, i) in paginatedMasterBoardRecords" v-if="!loading">
+                                        <tr v-for="masterboard in sortedMasterBoards" v-if="!loading">
                                             <td>[[ masterboard.date_started ]]</td>
                                             <td>[[ masterboard.client_name ]]</td>
                                             <td>[[ masterboard.company_name ]]</td>
@@ -178,31 +178,34 @@ GPG System | CallMe Master Board
                                 </table>
                             </div>
                             <!-- pagination -->
-                            <nav class="pagination-wrapper pull-right" v-if="endMasterBoardPage > 1">
-                                <ul class="pagination justify-content-end">
-                                    <li v-bind:class="[{disabled: currentMasterBoardPage === 1}, 'page-item']">
-                                        <a class="page-link" tabindex="-1" v-on:click="goToMasterBoardPage(currentMasterBoardPage - 1)">
-                                            Previous
-                                        </a>
-                                    </li>
-                                    <li v-for="pageNumber in pagesMasterBoard"
-                                        v-bind:class="[{active: pageNumber === currentMasterBoardPage}, 'page-item']">
-                                        <a class="page-link" v-on:click="goToMasterBoardPage(pageNumber)">
-                                            [[ pageNumber ]]
-                                        </a>
-                                    </li>
-                                    <li v-bind:class="[{disabled: (currentMasterBoardPage * 1) === totalMasterBoardPages}, 'page-item']">
-                                        <a class="page-link"
-                                            v-on:click="goToMasterBoardPage(currentMasterBoardPage + 1)">
-                                            Next
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <!-- end of pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endMasterBoardPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentMasterBoardPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="prevBoardPage">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in totalMasterBoardPages"
+                                            v-bind:class="[{active: pageNumber === currentMasterBoardPage}, 'page-item']"
+                                            v-if="Math.abs(pageNumber - currentMasterBoardPage) < 3 || pageNumber == totalMasterBoardPages - 1 || pageNumber == 0">
+                                            <a v-on:click="goToMasterBoardPage(pageNumber)"
+                                                :class="{current: pageNumber === currentMasterBoardPage, last:(pageNumber == totalMasterBoardPages - 1 && Math.abs(pageNumber - currentMasterBoardPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentMasterBoardPage) > 3)}">
+                                                [[ pageNumber ]]</a>
+                                        </li>
+                                        <li
+                                            v-bind:class="[{disabled: (currentMasterBoardPage * 1) === totalMasterBoardPages}, 'page-item']">
+                                            <a class="page-link" v-on:click="nextBoardPage">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
                         </div>
                         <div class="panel-footer">
                             Total count: [[ masterboard.length ]]
+                            Debug: sort=[[currentSort]], dir=[[currentSortDir]]
+
                         </div>
                     </div>
                     <!-- /.col-lg-4 -->

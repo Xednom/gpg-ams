@@ -14,6 +14,8 @@ new Vue({
         message: null,
         currentLands: [],
         currentPricings: [],
+        currentSort: '',
+        currentSortDir: 'desc',
         newLandAcademy: {
             'date_requested': null,
             'date_completed': null,
@@ -73,6 +75,19 @@ new Vue({
         this.getLandAcademy();
     },
     methods: {
+        nextPage: function () {
+                if ((this.currentPage * this.pageSize) < this.landacademy.length) this.currentMasterBoardPage++;
+            },
+            prevPage: function () {
+                if (this.currentPage > 1) this.currentPage--;
+            },
+            sort: function (s) {
+                //if s == current sort, reverse
+                if (s === this.currentSort) {
+                    this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+                }
+                this.currentSort = s;
+            },
         filterKey(e) {
             const key = e.key;
 
@@ -349,5 +364,18 @@ new Vue({
             for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
             return pages;
         },
+        sortedLandAcademy: function () {
+            return this.landacademy.sort((a, b) => {
+                let modifier = 1;
+                if (this.currentSortDir === 'desc') modifier = -1;
+                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            }).filter((row, index) => {
+                let start = (this.currentPage - 1) * this.pageSize;
+                let end = this.currentPage * this.pageSize;
+                if (index >= start && index < end) return true;
+            });
+        }
     }
 });
