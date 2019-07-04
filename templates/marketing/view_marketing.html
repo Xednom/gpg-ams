@@ -132,13 +132,13 @@ GPG System | View Marketing Sites Inventory records
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Date Requested</th>
-                                            <th>Date Completed</th>
-                                            <th>APN</th>
-                                            <th>Type of Marketing Sites</th>
-                                            <th>Client Full name</th>
-                                            <th>Client Company Name</th>
-                                            <th>Status</th>
+                                            <th @click="sort('date_requested')">Date Requested</th>
+                                            <th @click="sort('date_completed')">Date Completed</th>
+                                            <th @click="sort('apn')">APN</th>
+                                            <th @click="sort('type_of_marketing_sites')">Type of Marketing Sites</th>
+                                            <th @click="sort('client_full_name')">Client Full name</th>
+                                            <th @click="sort('client_company_name')">Client Company Name</th>
+                                            <th @click="sort('status')">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -159,14 +159,14 @@ GPG System | View Marketing Sites Inventory records
                                                 </td>
                                             </template>
                                         </tr>
-                                        <tr v-for="inventories in inventory">
-                                            <td>[[ inventories.date_requested ]]</td>
-                                            <td>[[ inventories.date_completed ]]</td>
-                                            <td>[[ inventories.apn ]]</td>
-                                            <td>[[ inventories.type_of_marketing_sites ]]</td>
-                                            <td>[[ inventories.client_full_name ]]</td>
-                                            <td>[[ inventories.client_company_name ]]</td>
-                                            <td>[[ inventories.status ]]</td>
+                                        <tr v-for="inventory in sortedMarketing">
+                                            <td>[[ inventory.date_requested ]]</td>
+                                            <td>[[ inventory.date_completed ]]</td>
+                                            <td>[[ inventory.apn ]]</td>
+                                            <td>[[ inventory.type_of_marketing_sites ]]</td>
+                                            <td>[[ inventory.client_full_name ]]</td>
+                                            <td>[[ inventory.client_company_name ]]</td>
+                                            <td>[[ inventory.status ]]</td>
                                             <td>
                                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#editModal"

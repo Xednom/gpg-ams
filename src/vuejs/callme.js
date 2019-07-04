@@ -12,11 +12,14 @@ new Vue({
         saving: false,
         searching: false,
         errored: false,
+        reverse: false,
         message: null,
         errorInventory: [],
         errorBoard: [],
         currentInventories: [],
         currentBoards: [],
+        currentSort: '',
+        currentSortDir: 'desc',
         newInventory: {
             'transferred_date': '',
             'date_lead_received': null,
@@ -106,6 +109,19 @@ new Vue({
         this.getBoard();
     },
     methods: {
+        nextBoardPage: function () {
+            if ((this.currentMasterBoardPage * this.pageMasterBoardSize) < this.masterboard.length) this.currentMasterBoardPage++;
+        },
+        prevBoardPage: function () {
+            if (this.currentMasterBoardPage > 1) this.currentMasterBoardPage--;
+        },
+        sort: function (s) {
+            //if s == current sort, reverse
+            if (s === this.currentSort) {
+                this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+            }
+            this.currentSort = s;
+        },
         duration($event) {
             // console.log($event.keyCode); //keyCodes value
             let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
@@ -476,5 +492,31 @@ new Vue({
             for (let i = this.startInventoryPage; i <= this.endInventoryPage; i++) pagesInventory.push(i);
             return pagesInventory;
         },
+        sortedMasterBoards: function () {
+            return this.masterboard.sort((a, b) => {
+                let modifier = 1;
+                if (this.currentSortDir === 'desc') modifier = -1;
+                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            }).filter((row, index) => {
+                let start = (this.currentMasterBoardPage - 1) * this.pageMasterBoardSize;
+                let end = this.currentMasterBoardPage * this.pageMasterBoardSize;
+                if (index >= start && index < end) return true;
+            });
+        },
+        sortedInventories: function () {
+            return this.inventory.sort((a, b) => {
+                let modifier = 1;
+                if (this.currentSortDir === 'desc') modifier = -1;
+                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            }).filter((row, index) => {
+                let start = (this.currentInventoryPage - 1) * this.pageInventorySize;
+                let end = this.currentInventoryPage * this.pageInventorySize;
+                if (index >= start && index < end) return true;
+            });
+        }
     }
 });
