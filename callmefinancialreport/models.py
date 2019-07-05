@@ -14,7 +14,7 @@ class FinancialReport(models.Model):
         ('Waived', 'Waived'),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    client_full_name = models.OneToOneField(settings.CLIENTS, on_delete=models.PROTECT)
+    client_full_name = models.ForeignKey(settings.CLIENTS, on_delete=models.PROTECT)
     client_company_name = models.CharField(max_length=150)
     date_signed_up = models.DateField(null=True, blank=True)
     first_day_of_call = models.DateField(null=True, blank=True)
