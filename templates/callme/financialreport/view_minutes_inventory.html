@@ -15,7 +15,7 @@ GPG System | View CallMe Financial Report
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <h2 class="page-header">
-                        View CallMe Payment Made Reports
+                        View CallMe Minutes Inventory Reports
                     </h2>
                 </div>
             </div>
@@ -73,15 +73,12 @@ GPG System | View CallMe Financial Report
                                         <tr>
                                             <th @click="sort('client_full_name')">Client name</th>
                                             <th @click="sort('client_company_name')">Client Company name</th>
-                                            <th @click="sort('first_day_of_call')">First day of call</th>
                                             <th @click="sort('first_billing_cycle')">First Billing Cycle</th>
                                             <th @click="sort('last_billing_cycle')">Last Billing Cycle</th>
                                             <th @click="sort('type_of_plan')">Type of Plan</th>
-                                            <th @click="sort('payment_made')">Payment Made</th>
-                                            <th @click="sort('date_paid')">Date Paid</th>
-                                            <th @click="sort('transaction_number')">Transaction Number</th>
-                                            <th @click="sort('status')">Status</th>
-                                            <th @click="sort('notes_payment_made')">Notes</th>
+                                            <th @click="sort('total_minutes_used')">Total Minutes Used</th>
+                                            <th @click="sort('excess_minutes')">Excess Minutes</th>
+                                            <th @click="sort('notes_inventory')">Notes</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -103,18 +100,15 @@ GPG System | View CallMe Financial Report
                                                 </td>
                                             </template>
                                         </tr>
-                                        <tr v-for="financial in sortedFinancial" v-if="!loading">
+                                        <tr v-for="financial in sortedMinutes" v-if="!loading">
                                             <td>[[ financial.client_full_name ]]</td>
                                             <td>[[ financial.client_company_name ]]</td>
-                                            <td>[[ financial.first_day_of_call ]]</td>
                                             <td>[[ financial.first_billing_cycle ]]</td>
                                             <td>[[ financial.last_billing_cycle ]]</td>
                                             <td>[[ financial.type_of_plan ]]</td>
-                                            <td>[[ financial.payment_made ]]</td>
-                                            <td>[[ financial.date_paid ]]</td>
-                                            <td>[[ financial.transaction_number ]]</td>
-                                            <td>[[ financial.status ]]</td>
-                                            <td>[[ financial.notes_payment_made ]]</td>
+                                            <td>[[ financial.total_minutes_used ]]</td>
+                                            <td>[[ financial.excess_minutes ]]</td>
+                                            <td>[[ financial.notes_inventory ]]</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -148,7 +142,8 @@ GPG System | View CallMe Financial Report
                             Total count: [[ financial.length ]]
                             <div class="pull-right">
                                 Total Plan: <strong>[[ totalTypePlan ]]</strong>;
-                                Payment Made: <strong>[[ totalPaymentMade ]]</strong>;
+                                Total Minutes used: <strong>[[ totalMinutesUsed ]]</strong>;
+                                Total Excess Minutes: <strong>[[ totalExcessMinutes ]]</strong>;
                             </div>
                         </div>
                     </div>
@@ -172,7 +167,7 @@ GPG System | View CallMe Financial Report
         <li class="breadcrumb-item">
             <a href="{% url 'users:home' %}">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">View CallMe Payment Made Reports</li>
+        <li class="breadcrumb-item active">View CallMe Minutes Inventory Reports</li>
     </ol>
     <div>
         <p>

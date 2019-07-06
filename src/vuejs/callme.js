@@ -585,8 +585,21 @@ new Vue({
                 if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
                 return 0;
             }).filter((row, index) => {
-                let start = (this.currentInventoryPage - 1) * this.pageInventorySize;
-                let end = this.currentInventoryPage * this.pageInventorySize;
+                let start = (this.currentFinancialPage - 1) * this.pageFinancialSize;
+                let end = this.currentFinancialPage * this.pageFinancialSize;
+                if (index >= start && index < end) return true;
+            });
+        },
+        sortedMinutes: function () {
+            return this.financial.sort((a, b) => {
+                let modifier = 1;
+                if (this.currentSortDir === 'desc') modifier = -1;
+                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            }).filter((row, index) => {
+                let start = (this.currentFinancialPage - 1) * this.pageFinancialSize;
+                let end = this.currentFinancialPage * this.pageFinancialSize;
                 if (index >= start && index < end) return true;
             });
         },
@@ -598,6 +611,16 @@ new Vue({
         totalPaymentMade: function () {
             return this.financial.reduce(function (sum, financial) {
                 return sum + parseFloat(financial.payment_made);
+            }, 0);
+        },
+        totalMinutesUsed: function () {
+            return this.financial.reduce(function (sum, financial) {
+                return sum + parseFloat(financial.total_minutes_used);
+            }, 0);
+        },
+        totalExcessMinutes: function () {
+            return this.financial.reduce(function (sum, financial) {
+                return sum + parseFloat(financial.excess_minutes);
             }, 0);
         }
     }
