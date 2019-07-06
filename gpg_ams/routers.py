@@ -18,6 +18,7 @@ from reminders.views import ReminderViewSet
 from users.views import ClientViewSet, ClientCallMeViewSet, StaffViewSet
 from callmeinventory.views import CallMeInventoryViewSet
 from callmemasterboard.views import MasterBoardViewSets
+from callmefinancialreport.views import FinancialViewSet
 from marketingsites.views import InventoryViewSet
 from landacademy.views import LandAcademyViewSet, SmartPricingViewSet
 
@@ -45,6 +46,7 @@ router.register(r'clients-callme', ClientCallMeViewSet, base_name="client")
 router.register(r'staffs', StaffViewSet)
 router.register(r'callme-inventory', CallMeInventoryViewSet, base_name='inventory')
 router.register(r'callme-masterboard', MasterBoardViewSets, base_name='masterboard')
+router.register(r'callme-financial-report', FinancialViewSet, base_name='financial')
 router.register(r'marketing-sites', InventoryViewSet, base_name='marketing')
 router.register(r'landacademy-inventory', LandAcademyViewSet, base_name='landacademy')
 router.register(r'o2o-smart-pricing', SmartPricingViewSet, base_name='smartpricing')

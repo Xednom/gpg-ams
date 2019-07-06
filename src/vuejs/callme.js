@@ -5,6 +5,7 @@ new Vue({
     data: {
         inventory: [],
         masterboard: [],
+        financial: [],
         staffs: [],
         clients: [],
         loading: false,
@@ -65,6 +66,9 @@ new Vue({
         // for normal search masterboard
         masterboard_client_name: '',
 
+        //search and load based on the current month
+        search_month: '',
+
 
         // for advanced search inventory
         search_client_name_inventory: '',
@@ -91,12 +95,15 @@ new Vue({
         // for pagination
         currentInventoryPage: 1,
         currentMasterBoardPage: 1,
+        currentFinancialPage: 1,
         pageInventorySize: RECORDS_PER_PAGE,
         pageMasterBoardSize: RECORDS_PER_PAGE,
+        pageFinancialSize: RECORDS_PER_PAGE,
         startInventoryPage: 1,
         startMasterBoardPage: 1,
         endInventoryPage: null,
         endMasterBoardPage: null,
+        endFinancialPage: null,
         maxInventoryPages: RECORDS_PER_PAGE,
         maxMasterBoardPages: RECORDS_PER_PAGE,
         paginatedInventoryRecords: [],
@@ -106,14 +113,27 @@ new Vue({
         this.getStaffs();
         this.getClients();
         this.getInventory();
+        this.getFinancial();
         this.getBoard();
+        this.setCurrentMonth();
+        this.searchMonth();
     },
     methods: {
+        setCurrentMonth: function () {
+            let currentMonth = moment(new Date()).format("MM");
+            this.search_month = currentMonth;
+        },
         nextBoardPage: function () {
             if ((this.currentMasterBoardPage * this.pageMasterBoardSize) < this.masterboard.length) this.currentMasterBoardPage++;
         },
+        nextFinancialPage: function () {
+            if ((this.currentFinancialPage * this.pageFinancialSize) < this.financial.length) this.currentFinancialPage++;
+        },
         prevBoardPage: function () {
             if (this.currentMasterBoardPage > 1) this.currentMasterBoardPage--;
+        },
+        prevFinancialPage: function () {
+            if (this.currentFinancialPage > 1) this.currentFinancialPage--;
         },
         sort: function (s) {
             //if s == current sort, reverse
@@ -139,6 +159,18 @@ new Vue({
         // This can also prevent copy + paste invalid character
         filterInput(e) {
             e.target.value = e.target.value.replace(/[^0-9]+/g, '');
+        },
+        searchMonth: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/callme-financial-report/?date__month=${this.search_month}`)
+                .then((response) => {
+                    this.loading = false;
+                    this.financial = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
         },
         resetInventory: function () {
             Object.keys(this.newInventory).forEach(key => {
@@ -170,6 +202,18 @@ new Vue({
                 .then((response) => {
                     this.loading = false;
                     this.masterboard = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        getFinancial: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/callme-financial-report/`)
+                .then((response) => {
+                    this.loading = false;
+                    this.financial = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
@@ -394,6 +438,15 @@ new Vue({
             }
             this.currentMasterBoardPage = page;
         },
+        goToFinancialPage: function (page) {
+            if (page < 1) {
+                return this.currentFinancialPage = 1;
+            }
+            if (page > this.totalFinancialPages) {
+                return this.currentFinancialPage = this.totalFinancialPages;
+            }
+            this.currentFinancialPage = page;
+        },
         setInventoryPageGroup: function () {
             if (this.totalInventoryPages <= this.maxInventoryPages) {
                 this.startInventoryPage = 1;
@@ -464,11 +517,17 @@ new Vue({
         totalInventoryItems: function () {
             return this.inventory.length;
         },
+        totalFinancialItems: function () {
+            return this.inventory.length;
+        },
         totalMasterBoardPages: function () {
             return Math.ceil(this.totalMasterBoardItems / this.pageMasterBoardSize);
         },
         totalInventoryPages: function () {
             return Math.ceil(this.totalInventoryItems / this.pageInventorySize);
+        },
+        totalFinancialPages: function () {
+            return Math.ceil(this.totalFinancialItems / this.pageFinancialSize);
         },
         startMasterBoardIndex: function () {
             return (this.currentMasterBoardPage - 1) * this.pageMasterBoardSize;
@@ -517,6 +576,29 @@ new Vue({
                 let end = this.currentInventoryPage * this.pageInventorySize;
                 if (index >= start && index < end) return true;
             });
+        },
+        sortedFinancial: function () {
+            return this.financial.sort((a, b) => {
+                let modifier = 1;
+                if (this.currentSortDir === 'desc') modifier = -1;
+                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            }).filter((row, index) => {
+                let start = (this.currentInventoryPage - 1) * this.pageInventorySize;
+                let end = this.currentInventoryPage * this.pageInventorySize;
+                if (index >= start && index < end) return true;
+            });
+        },
+        totalTypePlan: function () {
+            return this.financial.reduce(function (sum, financial) {
+                return sum + parseFloat(financial.type_of_plan);
+            }, 0);
+        },
+        totalPaymentMade: function () {
+            return this.financial.reduce(function (sum, financial) {
+                return sum + parseFloat(financial.payment_made);
+            }, 0);
         }
     }
 });

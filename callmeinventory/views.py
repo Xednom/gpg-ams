@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import inventory
 from .serializers import InventorySerializer
 
+
 class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     def enforce_csrf(self, request):
