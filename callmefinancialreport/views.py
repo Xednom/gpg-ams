@@ -26,6 +26,10 @@ class FinancialReportView(LoginRequiredMixin, TemplateView):
     template_name = 'callme/financialreport/view_financial.html'
 
 
+class MinutesReportView(LoginRequiredMixin, TemplateView):
+    template_name = 'callme/financialreport/view_minutes_inventory.html'
+
+
 class FinancialFilters(FilterSet):
     date__month = NumberFilter(field_name='date_created', lookup_expr='month')
 
