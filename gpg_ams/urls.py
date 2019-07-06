@@ -39,6 +39,7 @@ urlpatterns = [
     path('seller/', include('seller.urls')),
     path('callme-inventory/', include('callmeinventory.urls')),
     path('callme-masterboard/', include('callmemasterboard.urls')),
+    path('callme-financial-report/', include('callmefinancialreport.urls')),
     path('marketing-sites/', include('marketingsites.urls')),
     path('landacademy-inventory/', include('landacademy.urls')),
     path('inbox/notifications', include(notifications.urls, namespace='notifications'))
