@@ -66,6 +66,9 @@ new Vue({
         // for normal search masterboard
         masterboard_client_name: '',
 
+        //search and load based on the current month
+        search_month: '',
+
 
         // for advanced search inventory
         search_client_name_inventory: '',
@@ -112,8 +115,14 @@ new Vue({
         this.getInventory();
         this.getFinancial();
         this.getBoard();
+        this.setCurrentMonth();
+        this.searchMonth();
     },
     methods: {
+        setCurrentMonth: function () {
+            let currentMonth = moment(new Date()).format("MM");
+            this.search_month = currentMonth;
+        },
         nextBoardPage: function () {
             if ((this.currentMasterBoardPage * this.pageMasterBoardSize) < this.masterboard.length) this.currentMasterBoardPage++;
         },
@@ -150,6 +159,18 @@ new Vue({
         // This can also prevent copy + paste invalid character
         filterInput(e) {
             e.target.value = e.target.value.replace(/[^0-9]+/g, '');
+        },
+        searchMonth: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/callme-financial-report/?date__month=${this.search_month}`)
+                .then((response) => {
+                    this.loading = false;
+                    this.financial = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
         },
         resetInventory: function () {
             Object.keys(this.newInventory).forEach(key => {

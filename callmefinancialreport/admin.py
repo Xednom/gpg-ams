@@ -23,6 +23,7 @@ class FinancialReportProfile(ModelAdminTotals):
     fieldsets = (
         ('CallMe Payment Made', {
             'fields': (
+                'date_created',
                 'client_full_name',
                 'client_company_name',
                 'date_signed_up',
