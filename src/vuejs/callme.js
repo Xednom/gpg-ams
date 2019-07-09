@@ -30,6 +30,7 @@ new Vue({
             'full_name_of_lead': null,
             'phone_number': null,
             'email': null,
+            'lead_conversion': null,
             'customer_representative': null,
             'status': null,
             'financial_status': null,
@@ -58,6 +59,8 @@ new Vue({
             'phone': null,
             'phone_login': null,
             'crm_login': null,
+            'call_forwarding_details': null,
+            'email_form_forwarding': null
         },
 
         // for normal search inventory

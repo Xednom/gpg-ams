@@ -28,6 +28,12 @@ class inventory(models.Model):
         ('Unbilled', 'Unbilled'),
         ('Waived', 'Waived')
     )
+    LEAD = (
+        ('Interested', 'Interested'),
+        ('Not Interested', 'Not Interested'),
+        ('Dead Lead', 'Dead Lead'),
+        ('Others', 'Others')
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     transferred_date = models.DateField(default=now, null=True, blank=True)
     date_lead_received = models.DateField(default=now, null=True, blank=True)
@@ -45,6 +51,7 @@ class inventory(models.Model):
     total_time_transferring_leads = models.DecimalField(max_digits=6, decimal_places=2)
     total_mins = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
+    lead_conversion = models.CharField(max_length=150, choices=LEAD, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Call Me Inventory'
