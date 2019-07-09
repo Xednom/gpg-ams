@@ -8,11 +8,11 @@ from .models import inventory
 
 class InventoryProfile(ModelAdminTotals):
     list_display = ('date_lead_received', 'type_of_form',
-                    'client_full_name', 'client_company_name',
-                    'full_name_of_lead', 'phone_number', 'status', 'financial_status',
+                    'client_full_name', 'client_company_name', 'full_name_of_lead', 
+                    'phone_number', 'status', 'lead_conversion', 'financial_status',
                     'call_duration', 'total_time_transferring_leads', 'total_mins')
     list_filter = ('type_of_form', 'status', 'financial_status', 
-                   'client_full_name', 'client_company_name',
+                   'client_full_name', 'client_company_name', 'lead_conversion',
                    ('transferred_date', DateRangeFilter),
                    ('date_lead_received', DateRangeFilter))
     list_totals = [('call_duration', Sum), ('total_time_transferring_leads', Sum),
