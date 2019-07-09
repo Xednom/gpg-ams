@@ -30,6 +30,8 @@ class MasterBoardProfile(admin.ModelAdmin):
                 'client_folder',
                 'phone_login',
                 'crm_login',
+                'call_forwarding_details',
+                'email_form_forwarding',
                 'notes'
             )
         }),

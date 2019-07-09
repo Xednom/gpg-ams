@@ -47,5 +47,4 @@ class FinancialReportProfile(ModelAdminTotals):
         })
     )
 
-
 admin.site.register(FinancialReport, FinancialReportProfile)

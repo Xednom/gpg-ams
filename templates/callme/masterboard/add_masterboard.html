@@ -104,6 +104,7 @@ GPG System | Add Master Board records
                                 <label>Client Name</label>
                                 <select class="form-control" v-model="newMasterBoard.client_name">
                                     <option v-for="client in clients">[[ client.full_name ]]</option>
+                                    
                                 </select>
                             </div>
                         </div>
@@ -118,8 +119,7 @@ GPG System | Add Master Board records
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>Client Company Name</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.company_name"
-                                >
+                                <input type="text" class="form-control" v-model="newMasterBoard.company_name">
                             </div>
                         </div>
                         <div class="error" v-if="errorBoard.email">
@@ -277,6 +277,37 @@ GPG System | Add Master Board records
                                 <label>CRM System - Log In Information</label>
                                 <textarea class="form-control" v-model="newMasterBoard.crm_login" cols="30"
                                     rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.call_forwarding_details">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Call Forwarding details</label>
+                                <textarea class="form-control" v-model="newMasterBoard.call_forwarding_details"
+                                    cols="30"
+                                    rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="error" v-if="errorBoard.email_form_forwarding">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa fa-times-circle"></i>
+                                <div class="text-center">
+                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-12 col-sm-12">
+                                <label>Email/Form forwarding</label>
+                                <textarea class="form-control" v-model="newMasterBoard.email_form_forwarding"
+                                    cols="30" rows="10"></textarea>
                             </div>
                         </div>
                         <div class="error" v-if="errorBoard.notes">
