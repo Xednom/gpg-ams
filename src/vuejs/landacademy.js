@@ -52,7 +52,7 @@ new Vue({
         search_client_name: '',
 
 
-        // for advanced search
+        // for advanced search inventory
         advance_search_date_requested: '',
         advance_search_date_completed: '',
         advance_search_date_payment_made: '',
@@ -60,6 +60,13 @@ new Vue({
         advance_search_client_la_requestor: '',
         advance_search_status_of_order: '',
         advance_search_payment_status: '',
+
+        //for advanced search smart pricing
+        search_date_requested: '',
+        search_date_research: '',
+        search_date_encoded: '',
+        search_requestor: '',
+        search_quality_check: '',
 
         // for pagination
         currentPage: 1,
@@ -73,6 +80,7 @@ new Vue({
         this.getStaffs();
         this.getClients();
         this.getLandAcademy();
+        this.getSmartPricing();
     },
     methods: {
         nextPage: function () {
@@ -108,6 +116,11 @@ new Vue({
         reset: function () {
             Object.keys(this.newLandAcademy).forEach(key => {
                 this.newLandAcademy[key] = ""
+            })
+        },
+        reseto2o: function () {
+            Object.keys(this.newSmartPricing).forEach(key => {
+                this.newSmartPricing[key] = ""
             })
         },
         getLandAcademy: function () {
@@ -148,7 +161,7 @@ new Vue({
         },
         viewSmartPricing: function (id) {
             this.viewing = true;
-            this.$http.get(`/api/v1/o2o-smartpricing/${id}/`)
+            this.$http.get(`/api/v1/o2o-smart-pricing/${id}/`)
                 .then((response) => {
                     this.viewing = false;
                     this.currentPricings = response.data;
@@ -210,7 +223,7 @@ new Vue({
         },
         addSmartPricing: function () {
             this.saving = true;
-            this.$http.post('/api/v1/o2o-smartpricing/', this.newSmartPricing)
+            this.$http.post('/api/v1/o2o-smart-pricing/', this.newSmartPricing)
                 .then((response) => {
                     this.saving = false;
                     swal({
@@ -220,7 +233,7 @@ new Vue({
                         buttons: false,
                         timer: 3000
                     })
-                    this.reset();
+                    this.reseto2o();
                 })
                 .catch((err) => {
                     this.saving = false;
@@ -255,9 +268,9 @@ new Vue({
                     console.log(err);
                 })
         },
-        updateBoard: function () {
+        updateSmartPricing: function () {
             this.saving = true;
-            this.$http.put(`/api/v1/o2o-smartpricing/${this.currentPricings.id}/`, this.currentPricings)
+            this.$http.put(`/api/v1/o2o-smart-pricing/${this.currentPricings.id}/`, this.currentPricings)
                 .then((response) => {
                     this.saving = false;
                     this.currentPricings = response.data;
@@ -288,12 +301,36 @@ new Vue({
                     console.log(err);
                 })
         },
+        normalSearchSmartPricing: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/o2o-smart-pricing/?requestor_full_name=${this.search_requestor}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.smartpricing = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err);
+                })
+        },
         advanceSearchLandAcademy: function () {
             this.searching = true;
             this.$http.get(`/api/v1/landacademy-inventory/?date_requested=${this.advance_search_date_requested}&date_completed=${this.advance_search_date_completed}&date_payment_made=${this.advance_search_date_payment_made}&client_la_requestor=${this.advance_search_client_la_requestor}&status_of_order=${this.advance_search_status_of_order}&payment_status=${this.advance_search_payment_status}&order_name=${this.advance_search_order_name}`)
                 .then((response) => {
                     this.searching = false;
                     this.landacademy = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err);
+                })
+        },
+        advanceSearchSmartPricing: function () {
+            this.searching = true;
+            this.$http.get(`/api/v1/o2o-smart-pricing/?date_requested=${this.search_date_requested}&date_research=${this.search_date_research}&date_encoded=${this.search_date_encoded}&requestor_full_name=${this.search_requestor}&quality_check_status=${this.search_quality_check}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.smartpricing = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
@@ -366,6 +403,19 @@ new Vue({
         },
         sortedLandAcademy: function () {
             return this.landacademy.sort((a, b) => {
+                let modifier = 1;
+                if (this.currentSortDir === 'desc') modifier = -1;
+                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            }).filter((row, index) => {
+                let start = (this.currentPage - 1) * this.pageSize;
+                let end = this.currentPage * this.pageSize;
+                if (index >= start && index < end) return true;
+            });
+        },
+        sortedSmartPricing: function () {
+            return this.smartpricing.sort((a, b) => {
                 let modifier = 1;
                 if (this.currentSortDir === 'desc') modifier = -1;
                 if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;

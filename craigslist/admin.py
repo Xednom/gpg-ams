@@ -23,5 +23,4 @@ class CraiglistProfile(admin.ModelAdmin):
         }),
     )
 
-
 admin.site.register(CraiglistInventory, CraiglistProfile)
