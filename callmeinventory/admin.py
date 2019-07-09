@@ -11,7 +11,8 @@ class InventoryProfile(ModelAdminTotals):
                     'client_full_name', 'client_company_name',
                     'full_name_of_lead', 'phone_number', 'status', 'financial_status',
                     'call_duration', 'total_time_transferring_leads', 'total_mins')
-    list_filter = ('type_of_form', 'status', 'financial_status',
+    list_filter = ('type_of_form', 'status', 'financial_status', 
+                   'client_full_name', 'client_company_name',
                    ('transferred_date', DateRangeFilter),
                    ('date_lead_received', DateRangeFilter))
     list_totals = [('call_duration', Sum), ('total_time_transferring_leads', Sum),
