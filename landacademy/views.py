@@ -51,6 +51,19 @@ class InventoryFilterSet(FilterSet):
                   'date_payment_made', 'client_la_requestor', 'status_of_order', 'payment_status', 'order_name')
 
 
+class SmartPricingFilterSet(FilterSet):
+    date_requested = DateFilter(field_name='date_requested', lookup_expr='icontains')
+    date_research = DateFilter(field_name='date_research', lookup_expr='icontains')
+    date_encoded = DateFilter(field_name='date_encoded', lookup_expr='icontains')
+    requestor_full_name = CharFilter(field_name='requestor_full_name', lookup_expr='icontains')
+    quality_check_status = CharFilter(field_name='quality_check_status', lookup_expr='icontains')
+
+    class Meta:
+        model = O20SmartPricing
+        fields = ('date_requested', 'date_research',
+                  'date_encoded', 'requestor_full_name', 'quality_check_status')
+
+
 class LandAcademyViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
@@ -66,6 +79,7 @@ class SmartPricingViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = SmartPricingSerializer
+    filter_class = (SmartPricingFilterSet)
 
     def get_queryset(self):
         qs = O20SmartPricing.objects.all()

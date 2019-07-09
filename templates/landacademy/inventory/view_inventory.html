@@ -7,7 +7,7 @@ GPG System | View Land Academy Inventory Records
 {% endblock %}
 
 {% block content %}
-{% if perms.landacademy.view_landacademyinventory %}
+{% if perms.landacademy.view_landacademyinventory or request.user.is_staffs %}
 
 <div id="gpg-landacademy" v-cloak>
     <div id="content-wrapper">
@@ -157,7 +157,7 @@ GPG System | View Land Academy Inventory Records
                                             <td>
                                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                     data-target="#editModal"
-                                                    v-on:click="viewLandAcademy(landacademys.id)">View
+                                                    v-on:click="viewLandAcademy(landacademy.id)">View
                                                 </button>
                                             </td>
                                         </tr>

@@ -8,7 +8,7 @@ GPG System | Add Land Academy Inventory Records
 {% endblock %}
 
 {% block content %}
-{% if perms.landacademy.view_landacademyinventory %}
+{% if perms.landacademy.view_landacademyinventory or request.user.is_staffs %}
 
 <div id="gpg-landacademy" v-cloak>
     <div class="container-fluid">

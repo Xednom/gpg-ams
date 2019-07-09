@@ -159,15 +159,85 @@
                         {% endif %}
                         {% if perms.landacademy.view_landacademyinventory %}
                         <li>
-                          <a href="#"><i class="fa fa-home"></i> Land Academy Inventory <span class="fa arrow"></span> </a>
-                          <ul class="nav nav-third-level">
+                          <a href="#"><i class="fa fa-tasks fa-fw"></i> Land Academy Apps:<span class="fa arrow"></span></a>
+                          <ul class="nav nav-second-level">
+                            {% if perms.callmeinventory.view_inventory %}
                             <li>
-                              <a href="{% url 'landacademy:add_landacademy' %}"><i class="fa fa-plus"></i> Add Inventory </a>
-                              <a href="{% url 'landacademy:view_landacademy' %}"><i class="fa fa-eye"></i> View Inventory </a>
+                              <a href="#"><i class="fa fa-folder-o"></i> Inventory <span
+                                  class="fa arrow"></span></a>
+                              <ul class="nav nav-third-level">
+                                <li>
+                                  {% if perms.landacademy.add_landacademyinventory %}
+                                  <a href="{% url 'landacademy:add_landacademy' %}"> <i class="fa fa-plus"></i> Add
+                                    Inventory </a>
+                                  {% endif %}
+                                  {% if perms.landacademy.view_landacademyinventory %}
+                                  <a href="{% url 'landacademy:view_landacademy' %}"> <i class="fa fa-eye"></i> View
+                                    Inventory
+                                  </a>
+                                  {% endif %}
+                                </li>
+                              </ul>
                             </li>
+                            {% endif %}
+                            {% if perms.landacademy.view_o20smartpricing %}
+                              <li>
+                                <a href="#"><i class="fa fa-folder-o"></i> O2O Smart Pricing <span class="fa arrow"></span></a>
+                                <ul class="nav nav-third-level">
+                                  <li>
+                                    {% if perms.landacademy.add_o20smartpricing %}
+                                    <a href="{% url 'landacademy:add_o2o' %}"> <i class="fa fa-plus"></i> Add
+                                      Inventory </a>
+                                    {% endif %}
+                                    {% if perms.landacademy.view_o20smartpricing %}
+                                    <a href="{% url 'landacademy:view_o2o' %}"> <i class="fa fa-eye"></i> View
+                                      Inventory
+                                    </a>
+                                    {% endif %}
+                                  </li>
+                                </ul>
+                              </li>
+                            {% endif %}
                           </ul>
+                          <!-- /.nav-second-level -->
                         </li>
                         {% endif %}
+                        <!-- start for staff land academy -->
+                        {% if request.user.is_staffs %}
+                        <li>
+                          <a href="#"><i class="fa fa-tasks fa-fw"></i> Land Academy Apps:<span
+                              class="fa arrow"></span></a>
+                          <ul class="nav nav-second-level">
+                            <li>
+                              <a href="#"><i class="fa fa-folder-o"></i> Inventory <span class="fa arrow"></span></a>
+                              <ul class="nav nav-third-level">
+                                <li>
+                                  <a href="{% url 'landacademy:add_landacademy' %}"> <i class="fa fa-plus"></i> Add
+                                    Inventory </a>
+                                  <a href="{% url 'landacademy:view_landacademy' %}"> <i class="fa fa-eye"></i> View
+                                    Inventory
+                                  </a>
+                                  {% endif %}
+                                </li>
+                              </ul>
+                            </li>
+                            <li>
+                              <a href="#"><i class="fa fa-folder-o"></i> O2O Smart Pricing <span
+                                  class="fa arrow"></span></a>
+                              <ul class="nav nav-third-level">
+                                <li>
+                                  <a href="{% url 'landacademy:add_o2o' %}"> <i class="fa fa-plus"></i> Add
+                                    Inventory </a>
+                                  <a href="{% url 'landacademy:view_o2o' %}"> <i class="fa fa-eye"></i> View
+                                    Inventory
+                                  </a>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                          <!-- /.nav-second-level -->
+                        </li>
+                        <!-- end for staffs land academy -->
                         <li>
                           <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">

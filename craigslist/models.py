@@ -1,6 +1,8 @@
 import uuid
 
+from django.utils.timezone import now
 from django.db import models
+from django.conf import settings
 
 
 class CraiglistInventory(models.Model):
