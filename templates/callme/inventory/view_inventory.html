@@ -151,6 +151,7 @@ GPG System | CallMe Inventory
                                         <th @click="sort('customer_representative')">Customer Representative</th>
                                         <th @click="sort('transferred_date')">Transferred Date</th>
                                         <th @click="sort('status')">Status</th>
+                                        <th @click="sort('lead_conversion')">Lead Conversion</th>
                                         <th @click="sort('financial_status')">Financial Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -183,6 +184,7 @@ GPG System | CallMe Inventory
                                         <td>[[ inventory.customer_representative ]]</td>
                                         <td>[[ inventory.transferred_date ]]</td>
                                         <td>[[ inventory.status ]]</td>
+                                        <td>[[ inventory.lead_conversion ]]</td>
                                         <td>[[ inventory.financial_status ]]</td>
                                         <td>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
@@ -360,8 +362,16 @@ GPG System | CallMe Inventory
                                         <option>Others</option>
                                     </select>
                                 </div>
-                                <div class="error" v-if="errored">
-
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Lead Conversion</label>
+                                    <select class="form-control" v-model="currentInventories.lead_conversion"
+                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                        <option>Interested</option>
+                                        <option>Not Interested</option>
+                                        <option>Dead Lead</option>
+                                        <option>Others</option>
+                                    </select>
                                 </div>
                                 <div class="form-group col-md-6 col-sm-12">
                                     <label>Call Duration</label>
