@@ -158,7 +158,7 @@ GPG System | CallMe Inventory
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <template v-if="loading">
+                                        <template v-if="loading || inventory.length">
                                             <td colspan="15" class="text-center bg-warning">
                                                <i class="fa fa-spinner fa-spin"></i> Fetching data...
                                             </td>
@@ -168,8 +168,8 @@ GPG System | CallMe Inventory
                                                 <i class="fa fa-spinner fa-spin"></i> Searching                                                
                                             </td>
                                         </template>
-                                        <template v-else-if="!loading">
-                                            <td colspan="15" class="text-center bg-warning" v-if="!inventory.length">
+                                        <template v-else-if="!inventory.length">
+                                            <td colspan="15" class="text-center bg-warning" >
                                                 No records found.
                                             </td>
                                         </template>

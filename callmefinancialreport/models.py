@@ -36,3 +36,12 @@ class FinancialReport(models.Model):
 
     def __str__(self):
         return str(self.client_full_name)
+
+    def calculate_excess_mins(self):
+        excess_mins = (self.type_of_plan - self.total_minutes_used)
+        total_excess = Decimal(excess_mins)
+        return excess_mins
+    
+    def save(self, *args, **kwargs):
+        self.excess_minutes = self.calculate_excess_mins()
+        super().save(*args, **kwargs)
