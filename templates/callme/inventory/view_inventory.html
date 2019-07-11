@@ -158,7 +158,7 @@ GPG System | CallMe Inventory
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <template v-if="loading || !inventory.length">
+                                        <template v-if="loading">
                                             <td colspan="15" class="text-center bg-warning">
                                                <i class="fa fa-spinner fa-spin"></i> Fetching data...
                                             </td>
@@ -168,13 +168,8 @@ GPG System | CallMe Inventory
                                                 <i class="fa fa-spinner fa-spin"></i> Searching                                                
                                             </td>
                                         </template>
-                                        <template v-else-if="!loading && !inventory.length">
-                                            <td colspan="15" class="text-center bg-warning" >
-                                                No records found.
-                                            </td>
-                                        </template>
                                     </tr>
-                                    <tr v-for="inventory in sortedInventories" v-if="!loading && inventory.length">
+                                    <tr v-for="inventory in sortedInventories" v-if="!loading">
                                         <td>[[ inventory.date_lead_received ]]</td>
                                         <td>[[ inventory.type_of_form ]]</td>
                                         <td>[[ inventory.client_full_name ]]</td>
@@ -190,6 +185,9 @@ GPG System | CallMe Inventory
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#editModal" v-on:click="viewInventory(inventory.id)">View
                                             </button>
+                                        </td>
+                                        <td colspan="15" class="text-center bg-warning" v-else-if="!inventory.length">
+                                            No records found.
                                         </td>
                                     </tr>
                                 </tbody>
