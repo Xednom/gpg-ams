@@ -158,18 +158,18 @@ GPG System | CallMe Inventory
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <template v-if="loading">
+                                        <template v-if="loading || !inventory">
                                             <td colspan="15" class="text-center bg-warning">
                                                <i class="fa fa-spinner fa-spin"></i> Fetching data...
                                             </td>
                                         </template>
                                         <template v-else-if="searching">
                                             <td colspan="15" class="text-center bg-warning">
-                                                <i class="fa fa-spinner fa-spin"></i> Searching                                                
+                                                <i class="fa fa-spinner fa-spin"></i> Searching...                                       
                                             </td>
                                         </template>
                                     </tr>
-                                    <tr v-for="inventory in sortedInventories" v-if="!loading">
+                                    <tr v-for="inventory in sortedInventories" v-if="!loading && !searching || inventory.length">
                                         <td>[[ inventory.date_lead_received ]]</td>
                                         <td>[[ inventory.type_of_form ]]</td>
                                         <td>[[ inventory.client_full_name ]]</td>
@@ -186,7 +186,9 @@ GPG System | CallMe Inventory
                                                 data-target="#editModal" v-on:click="viewInventory(inventory.id)">View
                                             </button>
                                         </td>
-                                        <td colspan="15" class="text-center bg-warning" v-else-if="!inventory.length">
+                                    </tr>
+                                    <tr v-if="!inventory.length && !loading">
+                                        <td colspan="15" class="text-center bg-warning">
                                             No records found.
                                         </td>
                                     </tr>
