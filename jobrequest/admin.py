@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import JobRequest
+from .models import JobRequest, JobRequestTimeSheet
 
 
 class JobRequestProfile(admin.ModelAdmin):
@@ -7,7 +7,6 @@ class JobRequestProfile(admin.ModelAdmin):
                     'assigned_project_managers', 'project_status']
     list_filter = ['project_status']
     list_per_page = 15
-    readonly_fields = ['total_minutes_hours']
     # change_list_template = 'jobrequest/change_list_graph.html'
     search_fields = (
         'requestors_name', 'company_name', 'assigned_project_managers__project_manager', 'project_status',
@@ -17,10 +16,8 @@ class JobRequestProfile(admin.ModelAdmin):
             'fields': (
                 'date_requested', 
                 'due_date', 
-                'month', 
-                'time_in', 
-                'time_out', 
-                'total_minutes_hours')
+                'month',
+                )
         }),
         ('Job Request informations', {
             'fields': (
@@ -48,4 +45,27 @@ class JobRequestProfile(admin.ModelAdmin):
     )
 
 
+class JobTimeSheetProfile(admin.ModelAdmin):
+    list_display = ['created_at', 'job_title', 'staff', 'time_in',
+                    'time_out', 'total_minutes_hours']
+    list_filter = ['job_title', 'staff']
+    list_per_page = 15
+    readonly_fields = ('created_at', 'updated_at', 'total_minutes_hours')
+    search_fields = ('staff', 'job_title__job_title')
+    fieldsets = (
+        ('Time Sheet Informations', {
+            'fields': (
+                'staff',
+                'job_title',
+                'created_at',
+                'updated_at',
+                'time_in',
+                'time_out',
+                'total_minutes_hours'
+            )
+        }),
+    )
+
+
 admin.site.register(JobRequest, JobRequestProfile)
+admin.site.register(JobRequestTimeSheet, JobTimeSheetProfile)

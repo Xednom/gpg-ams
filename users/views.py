@@ -101,6 +101,24 @@ class StaffViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = StaffSerializer
 
 
+class VaViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = StaffSerializer
+
+    def get_queryset(self):
+        vas = Staffs.objects.filter(position__icontains='General Administrative Support')
+        return vas
+
+
+class PmViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = StaffSerializer
+
+    def get_queryset(self):
+        pms = Staffs.objects.filter(position__icontains='Project Managers')
+        return pms
+
+
 def client_status_data(request):
     dataset = Client.objects \
         .values('status') \

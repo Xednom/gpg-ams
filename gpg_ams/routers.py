@@ -7,6 +7,10 @@ from client.views import (
             SeniorManagerViewSet,
             VirtualAssistantViewSet
         )
+from users.views import (
+    ClientViewSet, ClientCallMeViewSet, 
+    StaffViewSet, VaViewSet, PmViewSet
+    )
 from landmaster.views import DueDiligenceViewSet, DueDiligenceTrackerViewSet
 
 from jobrequest.views import JobRequestViewSet, JobRequestTitleViewSet
@@ -15,7 +19,6 @@ from logins.views import LoginsViewSet
 from payroll.views import PayrollViewSet, PayrollCashOutViewSet
 from clienttimesheet.views import TimeSheetViewSet, PaymentMadeViewSet
 from reminders.views import ReminderViewSet
-from users.views import ClientViewSet, ClientCallMeViewSet, StaffViewSet
 from callmeinventory.views import CallMeInventoryViewSet
 from callmemasterboard.views import MasterBoardViewSets
 from callmefinancialreport.views import FinancialViewSet
@@ -44,6 +47,8 @@ router.register(r'reminders', ReminderViewSet, base_name='ManagerReminders')
 router.register(r'clients', ClientViewSet)
 router.register(r'clients-callme', ClientCallMeViewSet, base_name="client")
 router.register(r'staffs', StaffViewSet)
+router.register(r'vas', VaViewSet, base_name="vas")
+router.register(r'pms', PmViewSet, base_name="pms")
 router.register(r'callme-inventory', CallMeInventoryViewSet, base_name='inventory')
 router.register(r'callme-masterboard', MasterBoardViewSets, base_name='masterboard')
 router.register(r'callme-financial-report', FinancialViewSet, base_name='financial')
