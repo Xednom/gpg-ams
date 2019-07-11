@@ -174,7 +174,7 @@ GPG System | CallMe Inventory
                                                 </td>
                                         </template>
                                     </tr>
-                                    <tr v-for="inventory in sortedInventories" v-if="!loading && !searching || inventory.length">
+                                    <tr v-for="inventory in sortedInventories">
                                         <td>[[ inventory.date_lead_received ]]</td>
                                         <td>[[ inventory.type_of_form ]]</td>
                                         <td>[[ inventory.client_full_name ]]</td>
