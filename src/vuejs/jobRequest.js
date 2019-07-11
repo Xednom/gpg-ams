@@ -14,9 +14,11 @@ new Vue({
     saving: false,
     currentJobRequest: {},
     message: null,
+    result2: null,
     newJobRequest: {
       'category': null,
       'date_requested': null,
+      'due_date': null,
       'month': null,
       'requestors_name': null,
       'company_name': null,
@@ -30,7 +32,6 @@ new Vue({
       'assigned_va': null,
       'time_in': null,
       'time_out': null,
-      'total_minutes_hours': null,
       'manager_notes': null,
       'client_notes': null,
       'va_notes': null,
@@ -50,11 +51,23 @@ new Vue({
   mounted: function() {
     this.getJobRequests();
     //this.getStatusOfJobRequest();
+    this.setDefaultDates();
     this.getProjectManagers();
     this.getJobRequestTitles();
+    // this.setDefaultTimeInAndOut();
     this.getVAs();
   },
   methods: {
+    setDefaultDates: function () {
+      let currentDate = moment(new Date()).format("YYYY-MM-DD");
+      this.newJobRequest.date_requested = currentDate;
+      this.newJobRequest.due_date = currentDate;
+    },
+    setDefaultTimeInAndOut: function () {
+      let currentDate = moment(new Date()).format("YYYY-MM-DD hh:mm A");
+      this.currentJobRequest.time_in = currentDate;
+      this.currentJobRequest.time_out = currentDate;
+    },
     reset: function() {
       Object.keys(this.newJobRequest).forEach(key => {
         this.newJobRequest[key] = ""
@@ -111,7 +124,7 @@ new Vue({
     },
     getProjectManagers: function() {
       this.loading = true;
-      this.$http.get(`/api/v1/project-manager/`)
+      this.$http.get(`/api/v1/pms/`)
           .then((response) => {
             this.projectManagers = response.data;
             this.loading = false;
@@ -123,7 +136,7 @@ new Vue({
     },
     getVAs: function () {
       this.loading = true;
-      this.$http.get(`/api/v1/virtual-assistant/`)
+      this.$http.get(`/api/v1/vas/`)
         .then((response) => {
           this.virtualAssistants = response.data;
           this.loading = false;
