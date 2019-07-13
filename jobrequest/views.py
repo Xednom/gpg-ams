@@ -1,8 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import View, ListView
+from django.views.generic.edit import CreateView
+
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, AccessMixin
 from django.core.paginator import Paginator
 from django.db.models import Q
+
+from django.urls import reverse_lazy
 
 from django.utils.timezone import now
 
@@ -11,7 +16,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
-from .models import JobRequest
+from .models import JobRequest, JobRequestTimeSheet
 from fillables.models import JobTitleRequest
 from .serializers import JobRequestSerializer, JobTitleRequestSerializer
 
@@ -79,3 +84,20 @@ class JobRequestTitleViewSet(viewsets.ModelViewSet):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('title',)
+
+
+class JobRequestTimeSheet(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    template_name = 'jobrequest/add_timesheet.html'
+    model = JobRequestTimeSheet
+    fields = [
+        'job_title', 'staff', 'time_in', 'time_out', 'notes'
+    ]
+    success_message = "Successfully added a time sheet!"
+
+    def form_valid(self, form):
+        form.instance.staff = self.request.user.staffs.full_name
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy("jobrequest:add_time_sheet")
+

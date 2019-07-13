@@ -92,6 +92,7 @@ class JobRequestTimeSheet(models.Model):
     time_in = models.DateTimeField(default=now, null=True, blank=True)
     time_out = models.DateTimeField(default=now, null=True, blank=True)
     total_minutes_hours = models.DecimalField(max_digits=5, decimal_places=2)
+    notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
