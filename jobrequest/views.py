@@ -119,17 +119,10 @@ class JobRequestTimeSheetViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        is_client = self.request.user.is_client
-        is_staff = self.request.user.is_staff
         time_sheet = jst.objects.all()
-        qs = time_sheet.filter(Q(staff__full_name=self.request.user.staffs.full_name))
         if self.request.user.is_client:
             qs = time_sheet.filter(Q(client__full_name=self.request.user.clients.full_name))
             return qs
-        return qs
-        # if is_staff:
-        #     qs = time_sheet.filter(Q(staff__full_name=self.request.user.staffs.full_name))
-        #     return qs
-        # elif is_client:
-        #     qs = time_sheet.filter(Q(client__full_name__icontains=self.request.user.clients.full_name))
-        #     return qs
+        elif self.request.user.is_staffs:
+            qs = time_sheet.filter(Q(staff__full_name=self.request.user.staffs.full_name))
+            return qs
