@@ -5,6 +5,7 @@ new Vue({
   data: {
     jobRequests: [],
     timesheets: [],
+    clients: [],
     statusOfTheJobRequests: [],
     projectManagers: [],
     virtualAssistants: [],
@@ -66,6 +67,7 @@ new Vue({
     // this.setDefaultTimeInAndOut();
     this.getVAs();
     this.getClients();
+    this.getJobTitle();
   },
   methods: {
     setDefaultDates: function () {

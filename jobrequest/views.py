@@ -123,9 +123,11 @@ class JobRequestTimeSheetViewSet(viewsets.ModelViewSet):
         is_staff = self.request.user.is_staff
         time_sheet = jst.objects.all()
         if is_staff:
-            qs = time_sheet.filter(Q(staff__full_name__icontains=self.request.user.staffs.full_name))
+            qs = time_sheet.filter(Q(staff__full_name__icontains=self.request.user.staffs.full_name) |
+                                   Q(client__full_name__icontains=self.request.user.clients.full_name))
             return qs
         elif is_client:
-            qs = time_sheet.filter(Q(client__full_name_icontains=self.request.user.clients.full_name))
+            qs = time_sheet.filter(Q(client__full_name__icontains=self.request.user.clients.full_name) |
+                                   Q(staff__full_name__icontains=self.request.user.staffs.full_name))
             return qs
         return time_sheet
