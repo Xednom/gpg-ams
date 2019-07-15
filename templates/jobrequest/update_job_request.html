@@ -56,7 +56,7 @@ GPG System | View Job Request
                       assigned any Job Requests.</td>
                     {% endif %}
                   </tr>
-                  <tr class="odd gradeX" v-for="(jobRequests, i) in paginatedRecords">
+                  <tr class="odd gradeX" v-for="(jobRequests, i) in paginatedJobRequestRecords">
                     <td>[[ jobRequests.date_requested ]]</td>
                     <td>[[ jobRequests.category ]]</td>
                     <td>[[ jobRequests.company_name ]]</td>
@@ -76,20 +76,21 @@ GPG System | View Job Request
             </div>
             
              <!-- pagination -->
-             <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+             <nav class="pagination-wrapper pull-right" v-if="endJobRequestPage > 1">
                <ul class="pagination justify-content-end">
-                 <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
-                   <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                 <li v-bind:class="[{disabled: currentJobRequestPage === 1}, 'page-item']">
+                   <a class="page-link" tabindex="-1" v-on:click="goToJobRequestPage(currentJobRequestPage - 1)">
                      Previous
                    </a>
                  </li>
-                 <li v-for="pageNumber in pages" v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
-                   <a class="page-link" v-on:click="goToPage(pageNumber)">
+                 <li v-for="pageNumber in pagesJobRequest"
+                   v-bind:class="[{active: pageNumber === currentJobRequestPage}, 'page-item']">
+                   <a class="page-link" v-on:click="goToJobRequestPage(pageNumber)">
                      [[ pageNumber ]]
                    </a>
                  </li>
-                 <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
-                   <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                 <li v-bind:class="[{disabled: (currentJobRequestPage * 1) === totalPages}, 'page-item']">
+                   <a class="page-link" v-on:click="goToJobRequestPage(currentJobRequestPage + 1)">
                      Next
                    </a>
                  </li>

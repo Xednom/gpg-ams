@@ -11,9 +11,13 @@ from users.views import (
     ClientViewSet, ClientCallMeViewSet, 
     StaffViewSet, VaViewSet, PmViewSet
     )
+from jobrequest.views import (
+    JobRequestViewSet, 
+    JobRequestTitleViewSet,
+    JobRequestTimeSheetViewSet
+    )
 from landmaster.views import DueDiligenceViewSet, DueDiligenceTrackerViewSet
 
-from jobrequest.views import JobRequestViewSet, JobRequestTitleViewSet
 from reporting.views import ReportingViewSet
 from logins.views import LoginsViewSet
 from payroll.views import PayrollViewSet, PayrollCashOutViewSet
@@ -35,6 +39,7 @@ router.register(r'senior-manager', SeniorManagerViewSet)
 router.register(r'virtual-assistant', VirtualAssistantViewSet)
 router.register(r'jobrequest', JobRequestViewSet, base_name="JobRequest")
 router.register(r'job-request-title', JobRequestTitleViewSet)
+router.register(r'job-request-timesheet', JobRequestTimeSheetViewSet, base_name="JobRequestTimeSheet")
 router.register(r'reporting', ReportingViewSet)
 router.register(r'due-diligence', DueDiligenceViewSet, base_name='DueDiligence')
 router.register(r'due-diligence-tracker', DueDiligenceTrackerViewSet, base_name='DueDiligenceCleared')
