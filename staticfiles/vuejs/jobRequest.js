@@ -4,6 +4,7 @@ new Vue({
   delimiters: ['[[',']]'],
   data: {
     jobRequests: [],
+    timesheets: [],
     statusOfTheJobRequests: [],
     projectManagers: [],
     virtualAssistants: [],
@@ -13,6 +14,7 @@ new Vue({
     loading: false,
     saving: false,
     currentJobRequest: {},
+    currentTimeSheet: {},
     message: null,
     result2: null,
     newJobRequest: {
@@ -41,21 +43,29 @@ new Vue({
     },
     search_term: '',
     // for pagination
-    currentPage: 1,
-    pageSize: RECORDS_PER_PAGE,
-    startPage: 1,
-    endPage: null,
-    maxPages: RECORDS_PER_PAGE,
-    paginatedRecords: [],
+    currentJobRequestPage: 1,
+    currentTimeSheetPage: 1,
+    pageJobRequestSize: RECORDS_PER_PAGE,
+    pageTimeSheetSize: RECORDS_PER_PAGE,
+    startJobRequestPage: 1,
+    startTimeSheetPage: 1,
+    endJobRequestPage: null,
+    endTimeSheetPage: null,
+    maxJobRequestPages: RECORDS_PER_PAGE,
+    maxTimeSheetPages: RECORDS_PER_PAGE,
+    paginatedJobRequestRecords: [],
+    paginatedTimeSheetRecords: [],
   },
   mounted: function() {
     this.getJobRequests();
+    this.getTimeSheets();
     //this.getStatusOfJobRequest();
     this.setDefaultDates();
     this.getProjectManagers();
     this.getJobRequestTitles();
     // this.setDefaultTimeInAndOut();
     this.getVAs();
+    this.getClients();
   },
   methods: {
     setDefaultDates: function () {
@@ -86,6 +96,31 @@ new Vue({
             console.log(err);
           })
     },
+    getTimeSheets: function (id) {
+      this.loading = true;
+      this.$http.get(`/api/v1/job-request-timesheet/`)
+        .then((response) => {
+          this.timesheets = response.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
+    },
+    getJobTitle: function () {
+      api_url = `/api/v1/jobrequest/`
+      this.loading = false;
+      this.$http.get(api_url)
+        .then((response) => {
+          this.jobRequests = response.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
+    },
     getJobRequest: function(id) {
       this.loading = true;
       this.$http.get(`/api/v1/jobrequest/${id}/`)
@@ -97,6 +132,18 @@ new Vue({
             this.loading = false;
             console.log(err);
           })
+    },
+    getTimeSheet: function (id) {
+      this.loading = true;
+      this.$http.get(`/api/v1/job-request-timesheet/${id}/`)
+        .then((response) => {
+          this.currentTimeSheet = response.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
     },
     getJobRequestTitles: function () {
       this.loading = true;
@@ -139,6 +186,18 @@ new Vue({
       this.$http.get(`/api/v1/vas/`)
         .then((response) => {
           this.virtualAssistants = response.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
+    },
+    getClients: function () {
+      this.loading = true;
+      this.$http.get(`/api/v1/clients/`)
+        .then((response) => {
+          this.clients = response.data;
           this.loading = false;
         })
         .catch((err) => {
@@ -206,6 +265,27 @@ new Vue({
             console.log(err);
           })
     },
+    updateTimeSheet: function () {
+      this.loading = true;
+      this.$http.put(`/api/v1/job-request-timesheet/${this.currentTimeSheet.id}/`, this.currentTimeSheet)
+        .then((response) => {
+          this.loading = false;
+          this.currentTimeSheet = response.data;
+          swal({
+            title: "GPG system",
+            text: "Successfully updated the data!",
+            icon: "success",
+            button: false,
+            timer: 1500
+          });
+          $("#editModal").modal('hide')
+          this.getTimeSheets();
+        })
+        .catch((err) => {
+          this.loading = false;
+          console.log(err);
+        })
+    },
     deleteJobRequest: function(id) {
       swal({
         title: "Are you sure?",
@@ -242,69 +322,129 @@ new Vue({
       });
 
     },
-    getPaginatedRecords: function () {
-        const startIndex = this.startIndex;
-        this.paginatedRecords = this.jobRequests.slice().splice(startIndex, this.pageSize);
+    getPaginatedJobRequestRecords: function () {
+        const startJobRequestIndex = this.startJobRequestIndex;
+        this.paginatedJobRequestRecords = this.jobRequests.slice().splice(startJobRequestIndex, this.pageJobRequestSize);
       },
-      goToPage: function (page) {
-        if (page < 1) {
-          return this.currentPage = 1;
-        }
-        if (page > this.totalPages) {
-          return this.currentPage = this.totalPages;
-        }
-        this.currentPage = page;
-      },
-      setPageGroup: function () {
-        if (this.totalPages <= this.maxPages) {
-          this.startPage = 1;
-          this.endPage = Math.min(this.totalPages, this.maxPages);
+    getPaginatedTimeSheetRecords: function () {
+      const startTimeSheetIndex = this.startTimeSheetIndex;
+      this.paginatedTimeSheetRecords = this.timesheets.slice().splice(startTimeSheetIndex, this.pageTimeSheetSize);
+    },
+    goToJobRequestPage: function (page) {
+      if (page < 1) {
+        return this.currentJobRequestPage = 1;
+      }
+      if (page > this.totalJobRequestPages) {
+        return this.currentJobRequestPage = this.currentJobRequestPage;
+      }
+      this.currentJobRequestPage = page;
+    },
+    goToTimeSheetPage: function (page) {
+      if (page < 1) {
+        return this.currentTimeSheetPage = 1;
+      }
+      if (page > this.totalTimeSheetPages) {
+        return this.currentTimeSheetPage = this.currentTimeSheetPage;
+      }
+      this.currentTimeSheetPage = page;
+    },
+    setPageJobRequestGroup: function () {
+      if (this.totalJobRequestPages <= this.maxJobRequestPages) {
+        this.startJobRequestPage = 1;
+        this.endJobRequestPage = Math.min(this.totalJobRequestPages, this.maxJobRequestPages);
+      } else {
+        let maxPagesBeforeCurrentPage = Math.floor(this.maxJobRequestPages / 2);
+        let maxPagesAfterCurrentPage = Math.ceil(this.maxJobRequestPages / 2) - 1;
+        if (this.currentJobRequestPage <= maxPagesBeforeCurrentPage) {
+          // current page near the start
+          this.startJobRequestPage = 1;
+          this.endJobRequestPage = this.maxJobRequestPages;
+        } else if (this.currentJobRequestPage + maxPagesAfterCurrentPage >= this.totalJobRequestPages) {
+          // current page near the end
+          this.startJobRequestPage = this.totalJobRequestPages - this.maxJobRequestPages + 1;
+          this.endJobRequestPage = this.totalJobRequestPages;
         } else {
-          let maxPagesBeforeCurrentPage = Math.floor(this.maxPages / 2);
-          let maxPagesAfterCurrentPage = Math.ceil(this.maxPages / 2) - 1;
-          if (this.currentPage <= maxPagesBeforeCurrentPage) {
-            // current page near the start
-            this.startPage = 1;
-            this.endPage = this.maxPages;
-          } else if (this.currentPage + maxPagesAfterCurrentPage >= this.totalPages) {
-            // current page near the end
-            this.startPage = this.totalPages - this.maxPages + 1;
-            this.endPage = this.totalPages;
-          } else {
-            // current page somewhere in the middle
-            this.startPage = this.currentPage - maxPagesBeforeCurrentPage;
-            this.endPage = this.currentPage + maxPagesAfterCurrentPage;
-          }
+          // current page somewhere in the middle
+          this.startJobRequestPage = this.currentJobRequestPage - maxPagesBeforeCurrentPage;
+          this.endJobRequestPage = this.currentJobRequestPage + maxPagesAfterCurrentPage;
         }
       }
+    },
+    setPageTimeSheetGroup: function () {
+      if (this.totalTimeSheetPages <= this.maxTimeSheetPages) {
+        this.startTimeSheetPage = 1;
+        this.endTimeSheetPage = Math.min(this.totalTimeSheetPages, this.maxTimeSheetPages);
+      } else {
+        let maxPagesBeforeCurrentPage = Math.floor(this.maxTimeSheetPages / 2);
+        let maxPagesAfterCurrentPage = Math.ceil(this.maxTimeSheetPages / 2) - 1;
+        if (this.currentTimeSheetPage <= maxPagesBeforeCurrentPage) {
+          // current page near the start
+          this.startTimeSheetPage = 1;
+          this.endTimeSheetPage = this.maxTimeSheetPages;
+        } else if (this.currentTimeSheetPage + maxPagesAfterCurrentPage >= this.totalTimeSheetPages) {
+          // current page near the end
+          this.startTimeSheetPage = this.totalTimeSheetPages - this.maxTimeSheetPages + 1;
+          this.endTimeSheetPage = this.totalTimeSheetPages;
+        } else {
+          // current page somewhere in the middle
+          this.startTimeSheetPage = this.currentTimeSheetPage - maxPagesBeforeCurrentPage;
+          this.endTimeSheetPage = this.currentTimeSheetPage + maxPagesAfterCurrentPage;
+        }
+      }
+    }
   },
   watch: {
       jobRequests: function (newjobRequestsRecords, oldjobRequestsRecords) {
-        this.setPageGroup();
-        this.getPaginatedRecords();
+        this.setPageJobRequestGroup();
+        this.getPaginatedJobRequestRecords();
       },
-      currentPage: function (newCurrentPage, oldCurrentPage) {
-        this.setPageGroup();
-        this.getPaginatedRecords()
+      timesheets: function (newjobRequestsRecords, oldjobRequestsRecords) {
+        this.setPageTimeSheetGroup();
+        this.getPaginatedTimeSheetRecords();
+      },
+      currentJobRequestPage: function (newCurrentPage, oldCurrentPage) {
+        this.setPageJobRequestGroup();
+        this.getPaginatedJobRequestRecords()
+      },
+      currentTimeSheetPage: function (newCurrentPage, oldCurrentPage) {
+        this.setPageTimeSheetGroup();
+        this.getPaginatedTimeSheetRecords()
       },
     },
     computed: {
-      totalItems: function () {
+      totalJobRequestItems: function () {
         return this.jobRequests.length;
       },
-      totalPages: function () {
-        return Math.ceil(this.totalItems / this.pageSize);
+      totalTimeSheetItems: function () {
+        return this.timesheets.length;
       },
-      startIndex: function () {
-        return (this.currentPage - 1) * this.pageSize;
+      totalJobRequestPages: function () {
+        return Math.ceil(this.totalJobRequestItems / this.pageJobRequestSize);
       },
-      endIndex: function () {
-        return Math.min(this.startIndex + this.pageSize - 1, this.totalItems - 1);
+      totalTimeSheetPages: function () {
+        return Math.ceil(this.totalTimeSheetItems / this.pageTimeSheetSize);
       },
-      pages: function () {
-        let pages = [];
-        for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
-        return pages;
+      startJobRequestIndex: function () {
+        return (this.currentJobRequestPage - 1) * this.pageJobRequestSize;
+      },
+      startTimeSheetIndex: function () {
+        return (this.currentTimeSheetPage - 1) * this.pageTimeSheetSize;
+      },
+      endJobRequestIndex: function () {
+        return Math.min(this.startJobRequestIndex + this.pageTimeSheetSize - 1, this.totalJobRequestItems - 1);
+      },
+      endTimeSheetIndex: function () {
+        return Math.min(this.startTimeSheetIndex + this.pageTimeSheetSize - 1, this.totalTimeSheetItems - 1);
+      },
+      pagesJobRequest: function () {
+        let pagesJobRequest = [];
+        for (let i = this.startJobRequestPage; i <= this.endJobRequestPage; i++) pagesJobRequest.push(i);
+        return pagesJobRequest;
+      },
+      pagesTimeSheet: function () {
+        let startTimeSheetPage = [];
+        for (let i = this.startTimeSheetPage; i <= this.endTimeSheetPage; i++) startTimeSheetPage.push(i);
+        return startTimeSheetPage;
       },
     },
 });

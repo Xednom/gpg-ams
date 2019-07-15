@@ -16,9 +16,15 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
-from .models import JobRequest, JobRequestTimeSheet
+from .models import (
+    JobRequest, 
+    JobRequestTimeSheet as jst
+    )
 from fillables.models import JobTitleRequest
-from .serializers import JobRequestSerializer, JobTitleRequestSerializer
+from .serializers import (
+        JobRequestSerializer, JobTitleRequestSerializer,
+        TimeSheetSerializer
+    )
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -39,6 +45,11 @@ class UpdateJobRequestView(LoginRequiredMixin, ListView):
     model = JobRequest
     # permission_required = ('jobrequest.view_jobrequest',)
     template_name = 'jobrequest/update_job_request.html'
+
+
+class TimeSheetView(LoginRequiredMixin, ListView):
+    model = jst
+    template_name = 'jobrequest/view_timesheet.html'
 
 
 class JobRequestViewSet(viewsets.ModelViewSet):
@@ -88,16 +99,33 @@ class JobRequestTitleViewSet(viewsets.ModelViewSet):
 
 class JobRequestTimeSheet(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'jobrequest/add_timesheet.html'
-    model = JobRequestTimeSheet
+    model = jst
     fields = [
-        'job_title', 'staff', 'time_in', 'time_out', 'notes'
+        'job_title', 'staff', 'client', 'time_in', 'time_out', 'notes'
     ]
     success_message = "Successfully added a time sheet!"
 
     def form_valid(self, form):
-        form.instance.staff = self.request.user.staffs.full_name
+        form.instance.staff__full_name = self.request.user.staffs.full_name
         return super().form_valid(form)
     
     def get_success_url(self):
         return reverse_lazy("jobrequest:add_time_sheet")
 
+
+class JobRequestTimeSheetViewSet(viewsets.ModelViewSet):
+    serializer_class = TimeSheetSerializer
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        is_client = self.request.user.is_client
+        is_staff = self.request.user.is_staff
+        time_sheet = jst.objects.all()
+        if is_staff:
+            qs = time_sheet.filter(Q(staff__full_name__icontains=self.request.user.staffs.full_name))
+            return qs
+        elif is_client:
+            qs = time_sheet.filter(Q(client__full_name_icontains=self.request.user.clients.full_name))
+            return qs
+        return time_sheet

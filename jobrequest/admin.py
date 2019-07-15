@@ -56,6 +56,7 @@ class JobTimeSheetProfile(admin.ModelAdmin):
         ('Time Sheet Informations', {
             'fields': (
                 'staff',
+                'client',
                 'job_title',
                 'created_at',
                 'updated_at',

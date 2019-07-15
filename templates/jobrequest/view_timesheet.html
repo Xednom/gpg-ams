@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load templatetagname %}
+{% block title %}
+GPG System | View Job Request
+{% endblock %}
+{% block dashboard_notif %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            View Time Sheet for Job Requests
+        </h1>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+<br>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'users:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">
+        View Time Sheet for Job Requests        
+    </li>
+</ol>
+<div id="gpg-job-request" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        View informations on each time sheet under each Job Requests
+                    </div>
+                    <div class="panel-body">
+                        <div style="overflow-x:auto;">
+                            <table width="100%" class="table table-striped table-bordered table-hover jobRequestTable"
+                                id="jobRequestTable">
+                                <thead>
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <th>Staff Name</th>
+                                        <th>Client Name</th>
+                                        <th>Time In</th>
+                                        <th>Time Out</th>
+                                        <th>Total Minutes & Hours</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <template v-if="loading">
+                                            <td colspan="15" class="text-center bg-warning">
+                                                <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                            </td>
+                                        </template>
+                                        <template v-else-if="!timesheets.length && loading">
+                                            <td colspan="15" class="text-center bg-warning">
+                                                No Timesheet records for now, try adding.
+                                            </td>
+                                        </template>
+                                    </tr>
+                                    <tr class="odd gradeX" v-for="(timesheets, i) in paginatedTimeSheetRecords">
+                                        <td>[[ timesheets.job_title ]]</td>
+                                        <td>[[ timesheets.staff ]]</td>
+                                        <td>[[ timesheets.client ]]</td>
+                                        <td>[[ timesheets.time_in ]]</td>
+                                        <td>[[ timesheets.time_out ]]</td>
+                                        <td>[[ timesheets.total_minutes_hours ]]</td>
+                                        <td>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-warning fa fa-edit" data-toggle="modal"
+                                                data-target="#editModal" v-on:click="getTimeSheet(timesheets.id)">
+                                            </button>
+                                        </td>
+                                        <!-- <button type="button" class="btn btn-danger fa fa-trash" v-on:click="deleteJobRequest(job.id)"></button></td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- pagination -->
+                        <nav class="pagination-wrapper pull-right" v-if="endTimeSheetPage > 1">
+                            <ul class="pagination justify-content-end">
+                                <li v-bind:class="[{disabled: currentTimeSheetPage === 1}, 'page-item']">
+                                    <a class="page-link" tabindex="-1" v-on:click="goToTimeSheetPage(currentTimeSheetPage - 1)">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li v-for="pageNumber in pagesTimeSheet"
+                                    v-bind:class="[{active: pageNumber === currentTimeSheetPage}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                        [[ pageNumber ]]
+                                    </a>
+                                </li>
+                                <li v-bind:class="[{disabled: (currentTimeSheetPage * 1) === totalTimeSheetPages}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToTimeSheetPage(currentTimeSheetPage + 1)">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- end of pagination -->
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- show a specific info based on view -->
+                    <!-- Modal -->
+                    <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="exampleModalLongTitle">Edit Timesheet information for
+                                        [[ currentTimeSheet.job_title ]]</h4>
+                                </div>
+                                <form v-on:submit.prevent="updateTimeSheet">
+                                    <div class="modal-body">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                Job Request Information for [[ currentTimeSheet.company_name ]]
+                                            </div>
+                                            <div class="panel-body">
+                                                <hr>
+                                                <h4 class="title1">Job Request Informations</h4>
+                                                <div class="row">
+                                                    <div class="form-group col-md-4 col-sm-12">
+                                                        <label for="brand_name">Job Title</label>
+                                                        <select v-model="currentTimeSheet.job_title"
+                                                            class="form-control">
+                                                            <option v-for="jt in jobRequests">[[ jt.job_request_title ]]
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-4 col-sm-12">
+                                                        <label>Client</label>
+                                                        <select v-model="currentTimeSheet.client"
+                                                            class="form-control">
+                                                            <option v-for="client in clients">[[
+                                                                client.full_name ]]
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-4 col-sm-12">
+                                                        <label>Time In</label>
+                                                        <input type="datetime" class="form-control"
+                                                            v-model="currentTimeSheet.time_in" />
+                                                    </div>
+                                                    <div class="form-group col-md-4 col-sm-12">
+                                                        <label>Time Out</label>
+                                                        <input type="datetime" class="form-control"
+                                                            v-model="currentTimeSheet.time_out" />
+                                                    </div>
+                                                    <div class="form-group col-md-4 col-sm-12">
+                                                        <label>Total minutes/hours</label>
+                                                        <input type="datetime" class="form-control"
+                                                            v-model="currentTimeSheet.total_minutes_hours" disabled />
+                                                    </div>
+                                                    <div class="form-group col-md-12 col-sm-12">
+                                                        <label>Notes</label>
+                                                        <textarea class="form-control" cols="30" rows="10"
+                                                        v-model="currentTimeSheet.notes"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- panelbody ends here -->
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

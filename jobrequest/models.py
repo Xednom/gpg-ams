@@ -3,7 +3,7 @@ from django.db import models
 from decimal import Decimal
 from django.utils.timezone import now
 
-from users.models import Staffs
+from users.models import Staffs, Clients
 
 from fillables.models import (
     ProjectManager, 
@@ -87,8 +87,9 @@ class JobRequest(models.Model):
 
 class JobRequestTimeSheet(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    job_title = models.ForeignKey(JobRequest, on_delete=models.PROTECT)
-    staff = models.CharField(max_length=150, null=True, blank=True)
+    job_title = models.ForeignKey(JobRequest, on_delete=models.PROTECT, related_name="timesheet")
+    staff = models.ForeignKey(Staffs, null=True, blank=True, on_delete=models.PROTECT, related_name="Staffs")
+    client = models.ForeignKey(Clients, null=True, blank=True, on_delete=models.PROTECT, related_name="Clients")
     time_in = models.DateTimeField(default=now, null=True, blank=True)
     time_out = models.DateTimeField(default=now, null=True, blank=True)
     total_minutes_hours = models.DecimalField(max_digits=5, decimal_places=2)
