@@ -126,6 +126,10 @@
                                                 <a href="{% url 'jobrequest:update_job_request' %}"><i
                                                     class="fa fa-pencil"></i> Update Job Request</a>
                                             </li>
+                                            <li>
+                                              <a href="{% url 'jobrequest:view_time_sheet' %}">
+                                                <i class="fa fa-eye"></i> View Time Sheets</a>
+                                            </li>
                                             {% elif request.user.is_staffs %}
                                               
                                               <li>
