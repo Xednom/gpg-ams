@@ -4,6 +4,7 @@ new Vue({
   delimiters: ['[[',']]'],
   data: {
     jobRequests: [],
+    jobRequestsTitle: [],
     timesheets: [],
     clients: [],
     statusOfTheJobRequests: [],
@@ -115,7 +116,7 @@ new Vue({
       this.loading = false;
       this.$http.get(api_url)
         .then((response) => {
-          this.jobRequests = response.data;
+          this.jobRequestsTitle = response.data;
           this.loading = false;
         })
         .catch((err) => {

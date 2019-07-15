@@ -12,8 +12,8 @@ from .models import JobRequest, JobRequestTimeSheet
 class JobTitleRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = JobTitleRequest
-        fields = ('title',)
+        model = JobRequest
+        fields = ('job_request_title',)
 
 
 class JobRequestSerializer(serializers.ModelSerializer):

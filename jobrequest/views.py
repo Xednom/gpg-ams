@@ -90,7 +90,7 @@ class JobRequestViewSet(viewsets.ModelViewSet):
 
 
 class JobRequestTitleViewSet(viewsets.ModelViewSet):
-    queryset = JobTitleRequest.objects.all()
+    queryset = JobRequest.objects.all()
     serializer_class = JobTitleRequestSerializer
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     filter_backends = (filters.SearchFilter,)
