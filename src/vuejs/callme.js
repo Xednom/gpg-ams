@@ -1,4 +1,6 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-callme',
     delimiters: ['[[', ']]'],
@@ -273,7 +275,7 @@ new Vue({
         },
         addInventory: function () {
             this.saving = true;
-            this.$http.post('/api/v1/callme-inventory/', this.newInventory)
+            axios.post('/api/v1/callme-inventory/', this.newInventory, )
                 .then((response) => {
                     this.saving = false;
                     swal({
@@ -283,7 +285,7 @@ new Vue({
                         buttons: false,
                         timer: 3000
                     })
-                    this.resetInventory();
+                this.resetInventory();
                 })
                 .catch((err) => {
                     this.saving = false;
@@ -295,7 +297,7 @@ new Vue({
                         buttons: "Ok",
                     })
                     this.errorInventory = err.body;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         addBoard: function () {
