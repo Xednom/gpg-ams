@@ -20,7 +20,7 @@ class LandAcademyInventory(models.Model):
     date_payment_made = models.DateField(default=now, null=True, blank=True)
     order_name = models.CharField(max_length=150, null=True, blank=True, verbose_name="Order Name/Number")
     client_la_requestor = models.CharField(max_length=250, null=True, blank=True, verbose_name="Client LA Requestor")
-    complete_order = models.URLField(null=True, blank=True, verbose_name="Complete Order - URL Link")
+    complete_order = models.CharField(max_length=150, null=True, blank=True, verbose_name="Complete Order - URL Link")
     status_of_order = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Status of the Order")
     payment_status = models.CharField(max_length=150, choices=PAYMENT, null=True, blank=True)
     invoice = models.CharField(max_length=150, null=True, blank=True, verbose_name="Invoice # Towards LA")

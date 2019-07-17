@@ -54,7 +54,6 @@ class TimeSheetView(LoginRequiredMixin, ListView):
 
 class JobRequestViewSet(viewsets.ModelViewSet):
     serializer_class = JobRequestSerializer
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('date', 'client_code', 'VA_admin_support')
@@ -92,7 +91,6 @@ class JobRequestViewSet(viewsets.ModelViewSet):
 class JobRequestTitleViewSet(viewsets.ModelViewSet):
     queryset = JobRequest.objects.all()
     serializer_class = JobTitleRequestSerializer
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('title',)
 
@@ -115,7 +113,6 @@ class JobRequestTimeSheet(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
 class JobRequestTimeSheetViewSet(viewsets.ModelViewSet):
     serializer_class = TimeSheetSerializer
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):

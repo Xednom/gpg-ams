@@ -1,4 +1,6 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-landacademy',
     delimiters: ['[[', ']]'],
@@ -81,6 +83,7 @@ new Vue({
         this.getClients();
         this.getLandAcademy();
         this.getSmartPricing();
+        this.setCurrentDate();
     },
     methods: {
         nextPage: function () {
@@ -113,6 +116,14 @@ new Vue({
         filterInput(e) {
             e.target.value = e.target.value.replace(/[^0-9]+/g, '');
         },
+        setCurrentDate: function () {
+            let currentDate = moment(new Date()).format("YYYY-MM-DD");
+            this.newLandAcademy.date_requested = currentDate;
+            this.newLandAcademy.date_completed = currentDate;
+            this.newSmartPricing.date_requested = currentDate;
+            this.newSmartPricing.date_research = currentDate;
+            this.newSmartPricing.date_encoded = currentDate;
+        },
         reset: function () {
             Object.keys(this.newLandAcademy).forEach(key => {
                 this.newLandAcademy[key] = ""
@@ -121,83 +132,84 @@ new Vue({
         reseto2o: function () {
             Object.keys(this.newSmartPricing).forEach(key => {
                 this.newSmartPricing[key] = ""
+                this.setCurrentDate();
             })
         },
         getLandAcademy: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/landacademy-inventory/`)
+            axios.get(`/api/v1/landacademy-inventory/`)
                 .then((response) => {
                     this.loading = false;
                     this.landacademy = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getSmartPricing: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/o2o-smart-pricing/`)
+            axios.get(`/api/v1/o2o-smart-pricing/`)
                 .then((response) => {
                     this.loading = false;
                     this.smartpricing = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         viewLandAcademy: function (id) {
             this.viewing = true;
-            this.$http.get(`/api/v1/landacademy-inventory/${id}/`)
+            axios.get(`/api/v1/landacademy-inventory/${id}/`)
                 .then((response) => {
                     this.viewing = false;
                     this.currentLands = response.data;
                 })
                 .catch((err) => {
                     this.viewing = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         viewSmartPricing: function (id) {
             this.viewing = true;
-            this.$http.get(`/api/v1/o2o-smart-pricing/${id}/`)
+            axios.get(`/api/v1/o2o-smart-pricing/${id}/`)
                 .then((response) => {
                     this.viewing = false;
                     this.currentPricings = response.data;
                 })
                 .catch((err) => {
                     this.viewing = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getStaffs: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/staffs/`)
+            axios.get(`/api/v1/staffs/`)
                 .then((response) => {
                     this.staffs = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getClients: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/clients-callme/`)
+            axios.get(`/api/v1/clients-callme/`)
                 .then((response) => {
                     this.clients = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         addLandAcademy: function () {
             this.saving = true;
-            this.$http.post('/api/v1/landacademy-inventory/', this.newLandAcademy)
+            axios.post('/api/v1/landacademy-inventory/', this.newLandAcademy)
                 .then((response) => {
                     this.saving = false;
                     swal({
@@ -218,12 +230,12 @@ new Vue({
                         icon: "error",
                         buttons: "Ok",
                     })
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         addSmartPricing: function () {
             this.saving = true;
-            this.$http.post('/api/v1/o2o-smart-pricing/', this.newSmartPricing)
+            axios.post('/api/v1/o2o-smart-pricing/', this.newSmartPricing)
                 .then((response) => {
                     this.saving = false;
                     swal({
@@ -244,12 +256,12 @@ new Vue({
                         icon: "error",
                         buttons: "Ok",
                     })
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         updateLandAcademy: function () {
             this.saving = true;
-            this.$http.put(`/api/v1/landacademy-inventory/${this.currentLands.id}/`, this.currentLands)
+            axios.put(`/api/v1/landacademy-inventory/${this.currentLands.id}/`, this.currentLands)
                 .then((response) => {
                     this.saving = false;
                     this.currentLands = response.data;
@@ -265,12 +277,12 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         updateSmartPricing: function () {
             this.saving = true;
-            this.$http.put(`/api/v1/o2o-smart-pricing/${this.currentPricings.id}/`, this.currentPricings)
+            axios.put(`/api/v1/o2o-smart-pricing/${this.currentPricings.id}/`, this.currentPricings)
                 .then((response) => {
                     this.saving = false;
                     this.currentPricings = response.data;
@@ -286,55 +298,55 @@ new Vue({
                 })
                 .catch((err) => {
                     this.saving = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         normalSearchLandAcademy: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/landacademy-inventory/?client_la_requestor=${this.search_client_name}`)
+            axios.get(`/api/v1/landacademy-inventory/?client_la_requestor=${this.search_client_name}`)
                 .then((response) => {
                     this.searching = false;
                     this.landacademy = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         normalSearchSmartPricing: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/o2o-smart-pricing/?requestor_full_name=${this.search_requestor}`)
+            axios.get(`/api/v1/o2o-smart-pricing/?requestor_full_name=${this.search_requestor}`)
                 .then((response) => {
                     this.searching = false;
                     this.smartpricing = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         advanceSearchLandAcademy: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/landacademy-inventory/?date_requested=${this.advance_search_date_requested}&date_completed=${this.advance_search_date_completed}&date_payment_made=${this.advance_search_date_payment_made}&client_la_requestor=${this.advance_search_client_la_requestor}&status_of_order=${this.advance_search_status_of_order}&payment_status=${this.advance_search_payment_status}&order_name=${this.advance_search_order_name}`)
+            axios.get(`/api/v1/landacademy-inventory/?date_requested=${this.advance_search_date_requested}&date_completed=${this.advance_search_date_completed}&date_payment_made=${this.advance_search_date_payment_made}&client_la_requestor=${this.advance_search_client_la_requestor}&status_of_order=${this.advance_search_status_of_order}&payment_status=${this.advance_search_payment_status}&order_name=${this.advance_search_order_name}`)
                 .then((response) => {
                     this.searching = false;
                     this.landacademy = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         advanceSearchSmartPricing: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/o2o-smart-pricing/?date_requested=${this.search_date_requested}&date_research=${this.search_date_research}&date_encoded=${this.search_date_encoded}&requestor_full_name=${this.search_requestor}&quality_check_status=${this.search_quality_check}`)
+            axios.get(`/api/v1/o2o-smart-pricing/?date_requested=${this.search_date_requested}&date_research=${this.search_date_research}&date_encoded=${this.search_date_encoded}&requestor_full_name=${this.search_requestor}&quality_check_status=${this.search_quality_check}`)
                 .then((response) => {
                     this.searching = false;
                     this.smartpricing = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getPaginatedRecords: function () {

@@ -151,7 +151,7 @@ new Vue({
                 })
                 .catch((err) =>{
                     this.loading = false;
-                    console.log(err.response);
+                    console.log(err.response.data);
                 })
         },
         getProjectManagers: function () {
@@ -163,7 +163,7 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         addDueDiligence: function () {
@@ -233,7 +233,7 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         viewDueDiligence: function (id) {
@@ -245,7 +245,7 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getPaginatedRecords: function () {
