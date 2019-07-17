@@ -12,7 +12,6 @@ class MasterBoard(models.Model):
     type_of_crm = models.CharField(max_length=150, null=True, blank=True)
     type_of_voip = models.CharField(max_length=150, null=True, blank=True)
     client_name = models.CharField(max_length=150, null=True, blank=True)
-    company_name = models.CharField(max_length=150, null=True, blank=True)
     url_buyer = models.CharField(max_length=250, null=True, blank=True)
     url_seller = models.CharField(max_length=250, null=True, blank=True)
     url_property_management = models.CharField(max_length=250, null=True, blank=True)

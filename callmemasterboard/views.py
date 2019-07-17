@@ -32,7 +32,6 @@ class MasterBoardFilters(FilterSet):
     type_of_crm = CharFilter(field_name='type_of_crm', lookup_expr='icontains')
     type_of_voip = CharFilter(field_name='type_of_voip', lookup_expr='icontains')
     client_name = CharFilter(field_name='client_name', lookup_expr='icontains')
-    company_name = CharFilter(field_name='company_name', lookup_expr='icontains')
     url_buyer = CharFilter(field_name='url_buyer', lookup_expr='contains')
     url_seller = CharFilter(field_name='url_seller', lookup_expr='contains')
     url_property_management = CharFilter(field_name='url_property_management', lookup_expr='contains')
@@ -41,12 +40,11 @@ class MasterBoardFilters(FilterSet):
 
     class Meta:
         model = MasterBoard
-        fields = ('date_started', 'type_of_crm', 'type_of_voip', 'client_name', 'company_name',
+        fields = ('date_started', 'type_of_crm', 'type_of_voip', 'client_name',
                   'url_buyer', 'url_seller', 'url_property_management', 'general_calls', 'voicemail')
 
 
 class MasterBoardViewSets(viewsets.ModelViewSet):
-    # authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = MasterBoardSerializer
     filter_class = (MasterBoardFilters)
@@ -56,5 +54,5 @@ class MasterBoardViewSets(viewsets.ModelViewSet):
             queryset = MasterBoard.objects.all()
         elif self.request.user.is_client:
             queryset = MasterBoard.objects.filter(
-                client_name=self.request.user.clients.full_name)
+                client_name__icontains=self.request.user.clients.full_name)
         return queryset

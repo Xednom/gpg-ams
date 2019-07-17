@@ -161,7 +161,7 @@ class Clients(models.Model):
         verbose_name_plural = 'List of Clients'
 
     def __str__(self):
-        return self.full_name
+        return self.full_name + " - " + self.company_name
 
 
 @receiver(post_save, sender=CustomUser)

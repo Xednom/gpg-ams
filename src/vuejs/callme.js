@@ -28,7 +28,6 @@ new Vue({
             'date_lead_received': null,
             'type_of_form': null,
             'client_full_name': null,
-            'client_company_name': null,
             'full_name_of_lead': null,
             'phone_number': null,
             'email': null,
@@ -47,7 +46,6 @@ new Vue({
             'type_of_crm': null,
             'type_of_voip': null,
             'client_name': null,
-            'company_name': null,
             'url_buyer': null,
             'url_seller': null,
             'url_property_management': null,
@@ -402,7 +400,7 @@ new Vue({
         },
         advancedSearchBoard: function () {
             this.searching = true;
-            axios.get(`/api/v1/callme-masterboard/?date_started=${this.search_date_started}&type_of_crm=${this.search_crm}&type_of_voip=${this.search_voip}&client_name=${this.search_client_name_board}&company_name=${this.search_company_name_board}&url_buyer=${this.search_url_buyer}&url_seller${this.search_url_buyer}=&url_property_management=${this.search_url_property_management}&general_calls=${this.search_general_calls}&voicemail=${this.search_voicemail}`)
+            axios.get(`/api/v1/callme-masterboard/?date_started=${this.search_date_started}&type_of_crm=${this.search_crm}&type_of_voip=${this.search_voip}&client_name=${this.search_client_name_board}&url_buyer=${this.search_url_buyer}&url_seller${this.search_url_buyer}=&url_property_management=${this.search_url_property_management}&general_calls=${this.search_general_calls}&voicemail=${this.search_voicemail}`)
                 .then((response) => {
                     this.searching = false;
                     this.masterboard = response.data;
@@ -414,7 +412,7 @@ new Vue({
         },
         advancedSearchInventory: function () {
             this.searching = true;
-            axios.get(`/api/v1/callme-inventory/?client_full_name=${this.search_client_name_inventory}&client_company_name=${this.search_client_company_inventory}&type_of_form=${this.search_type_of_form}&financial_status=${this.search_financial_status}&customer_representative=${this.search_csr}&status=${this.search_status}&lead_transferred_by=${this.search_transferred_by}`)
+            axios.get(`/api/v1/callme-inventory/?client_full_name=${this.search_client_name_inventory}&type_of_form=${this.search_type_of_form}&financial_status=${this.search_financial_status}&customer_representative=${this.search_csr}&status=${this.search_status}&lead_transferred_by=${this.search_transferred_by}`)
                 .then((response) => {
                     this.searching = false;
                     this.inventory = response.data;

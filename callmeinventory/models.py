@@ -39,7 +39,6 @@ class inventory(models.Model):
     date_lead_received = models.DateField(default=now, null=True, blank=True)
     type_of_form = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
     client_full_name = models.CharField(max_length=150, null=True, blank=True)
-    client_company_name = models.CharField(max_length=150, null=True, blank=True)
     full_name_of_lead = models.CharField(max_length=150, null=True, blank=True)
     phone_number = models.CharField(max_length=150, null=True,blank=True)
     email = models.CharField(max_length=150, null=True, blank=True)

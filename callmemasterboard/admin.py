@@ -4,10 +4,10 @@ from .models import MasterBoard
 
 # Register your models here.
 class MasterBoardProfile(admin.ModelAdmin):
-    list_display = ('date_started', 'type_of_plan', 'client_name', 'company_name',   
+    list_display = ('date_started', 'type_of_plan', 'client_name',   
                     'email', 'phone', 'type_of_crm', 'type_of_voip')
-    list_filter = ('type_of_plan', 'type_of_crm', 'type_of_voip', 'company_name', 'client_name')
-    search_fields = ('client_name', 'company_name', 'url_buyer',
+    list_filter = ('type_of_plan', 'type_of_crm', 'type_of_voip', 'client_name')
+    search_fields = ('client_name', 'url_buyer',
                      'url_seller', 'url_property_management', 
                      'general_calls', 'type_of_crm', 'type_of_voip')
     fieldsets = (
@@ -18,7 +18,6 @@ class MasterBoardProfile(admin.ModelAdmin):
                 'type_of_crm',
                 'type_of_voip',
                 'client_name',
-                'company_name',
                 'email',
                 'phone',
                 'url_buyer',
