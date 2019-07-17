@@ -4,10 +4,11 @@ from decimal import Decimal
 from django.db import models
 from django.conf import settings
 
-from fillables.models import CompanyName, VirtualAssistant, ProjectManager
 from django.utils.timezone import now
 from django.urls import reverse
 
+from fillables.models import CompanyName, VirtualAssistant
+from users.models import Staffs
 
 class TimeStampedModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -121,7 +122,7 @@ class DueDiligence(TimeStampedModel):
                                             verbose_name="VA - Utilities Data", related_name='utilities')
     dd_va_assigned_call_outs_other_requests = models.ForeignKey(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT,
                                         verbose_name="VA - Other Requests", related_name='other')
-    project_manager = models.ForeignKey(ProjectManager, null=True, blank=True, on_delete=models.PROTECT)
+    project_manager = models.ForeignKey(Staffs, null=True, blank=True, on_delete=models.PROTECT)
     total_minutes_hours_duration = models.CharField(max_length=150, null=True, blank=True, verbose_name="Total Minutes/hours duration")
     attachments = models.URLField(null=True, blank=True)
     initial_due_diligence_completion = models.DateField(null=True, blank=True, verbose_name="Date of Completion – Initial Data")

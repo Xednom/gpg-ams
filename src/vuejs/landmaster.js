@@ -1,4 +1,6 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-land-master',
     delimiters: ['[[',']]'],
@@ -130,31 +132,31 @@ new Vue({
         },
         getClientNames: function() {
             this.loading = true;
-            this.$http.get(`/api/v1/client-name/`)
+            axios.get(`/api/v1/client-name/`)
                 .then((response) => {
                     this.clientNames = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getVas: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/virtual-assistant`)
+            axios.get(`/api/v1/virtual-assistant`)
                 .then((response) =>{
                     this.virtualAssistants = response.data;
                     this.loading = false;
                 })
                 .catch((err) =>{
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response);
                 })
         },
         getProjectManagers: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/project-manager`)
+            axios.get(`/api/v1/pms`)
                 .then((response) => {
                     this.projectManagers = response.data;
                     this.loading = false;
@@ -166,7 +168,7 @@ new Vue({
         },
         addDueDiligence: function () {
             this.saving = true;
-            this.$http.post('/api/v1/due-diligence/', this.newDueDiligence)
+            axios.post('/api/v1/due-diligence/', this.newDueDiligence)
                 .then((response) => {
                     this.saving = false;
                     swal({
@@ -190,12 +192,12 @@ new Vue({
                         buttons: "Ok",
                     })
                     this.errorduediligence = err.body;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         updateDueDiligence: function () {
             this.loading = true;
-            this.$http.put(`/api/v1/due-diligence/${this.currentDueDiligence.id}/`, this.currentDueDiligence)
+            axios.put(`/api/v1/due-diligence/${this.currentDueDiligence.id}/`, this.currentDueDiligence)
                 .then((response) => {
                     this.loading = false;
                     this.currentDueDiligence = response.data;
@@ -219,12 +221,12 @@ new Vue({
                         buttons: false,
                         timer: 3000,
                     });
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getDueDiligences: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/due-diligence/`)
+            axios.get(`/api/v1/due-diligence/`)
                 .then((response) => {
                     this.loading = false;
                     this.dueDiligences = response.data;
@@ -236,7 +238,7 @@ new Vue({
         },
         viewDueDiligence: function (id) {
             this.loading = true;
-            this.$http.get(`/api/v1/due-diligence/${id}/`)
+            axios.get(`/api/v1/due-diligence/${id}/`)
                 .then((response) => {
                     this.loading = false;
                     this.currentDueDiligence = response.data;
