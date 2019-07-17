@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}
 GPG System | CallMe Master Board
 {% endblock %}
@@ -144,7 +146,7 @@ GPG System | CallMe Master Board
                                         <tr>
                                             <template v-if="loading">
                                                 <td colspan="15" class="text-center bg-warning" v-if="loading">
-                                                    Fetching data...
+                                                    <i class="fa fa-spinner fa-spin"></i> Fetching data...
                                                 </td>
                                             </template>
                                             <template v-else-if="searching">
@@ -382,7 +384,8 @@ GPG System | CallMe Master Board
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     {% if perms.callmemasterboard.change_masterboard %}
                     <template v-if="saving">
-                        <button type="submit" class="btn btn-primary" disabled>Save changes</button>
+                        <button type="submit" class="btn btn-primary" disabled><i
+                                class="fa fa-spinner fa-spin"></i> Saving</button>
                     </template>
                     <template v-else>
                         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -421,4 +424,8 @@ GPG System | CallMe Master Board
     </div>
 </div>
 {% endif %}
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/callme.js' %}" type="text/javascript"></script>
 {% endblock %}

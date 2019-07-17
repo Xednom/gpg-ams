@@ -38,7 +38,6 @@ new Vue({
             'financial_status': null,
             'call_duration': 0.00,
             'total_time_transferring_leads': 0.00,
-            'total_mins': null,
             'notes': null,
         },
 
@@ -121,12 +120,19 @@ new Vue({
         this.getFinancial();
         this.getBoard();
         this.setCurrentMonth();
+        this.setCurrentDate();
         this.searchMonth();
     },
     methods: {
         setCurrentMonth: function () {
             let currentMonth = moment(new Date()).format("MM");
             this.search_month = currentMonth;
+        },
+        setCurrentDate: function () {
+            let currentDate = moment(new Date()).format("YYYY-MM-DD");
+            this.newInventory.date_lead_received = currentDate;
+            this.newInventory.transferred_date = currentDate;
+            this.newMasterBoard.date_started = currentDate;
         },
         nextBoardPage: function () {
             if ((this.currentMasterBoardPage * this.pageMasterBoardSize) < this.masterboard.length) this.currentMasterBoardPage++;
@@ -183,6 +189,7 @@ new Vue({
             })
             this.newInventory.call_duration = 0.00;
             this.newInventory.total_time_transferring_leads = 0.00;
+            this.setCurrentDate();
         },
         resetBoard: function () {
             Object.keys(this.newMasterBoard).forEach(key => {
@@ -191,86 +198,86 @@ new Vue({
         },
         getInventory: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/callme-inventory/`)
+            axios.get(`/api/v1/callme-inventory/`)
                 .then((response) => {
                     this.loading = false;
                     this.inventory = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getBoard: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/callme-masterboard/`)
+            axios.get(`/api/v1/callme-masterboard/`)
                 .then((response) => {
                     this.loading = false;
                     this.masterboard = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getFinancial: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/callme-financial-report/`)
+            axios.get(`/api/v1/callme-financial-report/`)
                 .then((response) => {
                     this.loading = false;
                     this.financial = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         viewInventory: function (id) {
             this.viewing = true;
-            this.$http.get(`/api/v1/callme-inventory/${id}/`)
+            axios.get(`/api/v1/callme-inventory/${id}/`)
                 .then((response) => {
                     this.viewing = false;
                     this.currentInventories = response.data;
                 })
                 .catch((err) => {
                     this.viewing = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         viewBoard: function (id) {
             this.viewing = true;
-            this.$http.get(`/api/v1/callme-masterboard/${id}/`)
+            axios.get(`/api/v1/callme-masterboard/${id}/`)
                 .then((response) => {
                     this.viewing = false;
                     this.currentBoards = response.data;
                 })
                 .catch((err) => {
                     this.viewing = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getStaffs: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/staffs/`)
+            axios.get(`/api/v1/staffs/`)
                 .then((response) => {
                     this.staffs = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getClients: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/clients-callme/`)
+            axios.get(`/api/v1/clients-callme/`)
                 .then((response) => {
                     this.clients = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         addInventory: function () {
@@ -288,21 +295,21 @@ new Vue({
                 this.resetInventory();
                 })
                 .catch((err) => {
-                    this.saving = false;
-                    this.errored = true;
                     swal({
                         title: "GPG System",
                         text: "Please check the summaries of your request. If the problem persist, please contact the admin.",
                         icon: "error",
                         buttons: "Ok",
                     })
+                    this.saving = true;
+                    this.errored = true;
                     this.errorInventory = err.body;
                     console.log(err.response.data);
                 })
         },
         addBoard: function () {
             this.saving = true;
-            this.$http.post('/api/v1/callme-masterboard/', this.newMasterBoard)
+            axios.post('/api/v1/callme-masterboard/', this.newMasterBoard)
                 .then((response) => {
                     this.saving = false;
                     swal({
@@ -315,7 +322,7 @@ new Vue({
                     this.resetBoard();
                 })
                 .catch((err) => {
-                    this.saving = false;
+                    this.saving = true;
                     this.errored = true;
                     swal({
                         title: "GPG System",
@@ -324,12 +331,12 @@ new Vue({
                         buttons: "Ok",
                     })
                     this.errorBoard = err.body;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         updateInventory: function () {
             this.saving = true;
-            this.$http.put(`/api/v1/callme-inventory/${this.currentInventories.id}/`, this.currentInventories)
+            axios.put(`/api/v1/callme-inventory/${this.currentInventories.id}/`, this.currentInventories)
                 .then((response) => {
                     this.saving = false;
                     this.currentInventories = response.data;
@@ -345,12 +352,12 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         updateBoard: function () {
             this.saving = true;
-            this.$http.put(`/api/v1/callme-masterboard/${this.currentBoards.id}/`, this.currentBoards)
+            axios.put(`/api/v1/callme-masterboard/${this.currentBoards.id}/`, this.currentBoards)
                 .then((response) => {
                     this.saving = false;
                     this.currentBoards = response.data;
@@ -366,55 +373,55 @@ new Vue({
                 })
                 .catch((err) => {
                     this.saving = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         normalSearchInventory: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/callme-inventory/?client_full_name=${this.inventory_client_name}`)
+            axios.get(`/api/v1/callme-inventory/?client_full_name=${this.inventory_client_name}`)
                 .then((response) => {
                     this.searching = false;
                     this.inventory = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         normalSearchBoard: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/callme-masterboard/?client_name=${this.masterboard_client_name}`)
+            axios.get(`/api/v1/callme-masterboard/?client_name=${this.masterboard_client_name}`)
                 .then((response) => {
                     this.searching = false;
                     this.masterboard = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         advancedSearchBoard: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/callme-masterboard/?date_started=${this.search_date_started}&type_of_crm=${this.search_crm}&type_of_voip=${this.search_voip}&client_name=${this.search_client_name_board}&company_name=${this.search_company_name_board}&url_buyer=${this.search_url_buyer}&url_seller${this.search_url_buyer}=&url_property_management=${this.search_url_property_management}&general_calls=${this.search_general_calls}&voicemail=${this.search_voicemail}`)
+            axios.get(`/api/v1/callme-masterboard/?date_started=${this.search_date_started}&type_of_crm=${this.search_crm}&type_of_voip=${this.search_voip}&client_name=${this.search_client_name_board}&company_name=${this.search_company_name_board}&url_buyer=${this.search_url_buyer}&url_seller${this.search_url_buyer}=&url_property_management=${this.search_url_property_management}&general_calls=${this.search_general_calls}&voicemail=${this.search_voicemail}`)
                 .then((response) => {
                     this.searching = false;
                     this.masterboard = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         advancedSearchInventory: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/callme-inventory/?client_full_name=${this.search_client_name_inventory}&client_company_name=${this.search_client_company_inventory}&type_of_form=${this.search_type_of_form}&financial_status=${this.search_financial_status}&customer_representative=${this.search_csr}&status=${this.search_status}&lead_transferred_by=${this.search_transferred_by}`)
+            axios.get(`/api/v1/callme-inventory/?client_full_name=${this.search_client_name_inventory}&client_company_name=${this.search_client_company_inventory}&type_of_form=${this.search_type_of_form}&financial_status=${this.search_financial_status}&customer_representative=${this.search_csr}&status=${this.search_status}&lead_transferred_by=${this.search_transferred_by}`)
                 .then((response) => {
                     this.searching = false;
                     this.inventory = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getInventoryPaginatedRecords: function () {
