@@ -1,4 +1,6 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
   el: '#gpg-job-request',
   delimiters: ['[[',']]'],
@@ -84,145 +86,146 @@ new Vue({
     reset: function() {
       Object.keys(this.newJobRequest).forEach(key => {
         this.newJobRequest[key] = ""
+        this.setDefaultDates();
       })
     },
     getJobRequests: function() {
       api_url = `/api/v1/jobrequest/?search=${this.search_term}`
       this.loading = false;
-      this.$http.get(api_url)
+      axios.get(api_url)
           .then((response) => {
             this.jobRequests = response.data;
             this.loading = false;
           })
           .catch((err) => {
             this.loading = false;
-            console.log(err);
+            console.log(err.response.data);
           })
     },
     getTimeSheets: function (id) {
       this.loading = true;
-      this.$http.get(`/api/v1/job-request-timesheet/`)
+      axios.get(`/api/v1/job-request-timesheet/`)
         .then((response) => {
           this.timesheets = response.data;
           this.loading = false;
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getJobTitle: function () {
       api_url = `/api/v1/jobrequest/`
       this.loading = false;
-      this.$http.get(api_url)
+      axios.get(api_url)
         .then((response) => {
           this.jobRequestsTitle = response.data;
           this.loading = false;
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getJobRequest: function(id) {
       this.loading = true;
-      this.$http.get(`/api/v1/jobrequest/${id}/`)
+      axios.get(`/api/v1/jobrequest/${id}/`)
           .then((response) => {
             this.currentJobRequest = response.data;
             this.loading = false;
           })
           .catch((err) => {
             this.loading = false;
-            console.log(err);
+            console.log(err.response.data);
           })
     },
     getTimeSheet: function (id) {
       this.loading = true;
-      this.$http.get(`/api/v1/job-request-timesheet/${id}/`)
+      axios.get(`/api/v1/job-request-timesheet/${id}/`)
         .then((response) => {
           this.currentTimeSheet = response.data;
           this.loading = false;
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getJobRequestTitles: function () {
       this.loading = true;
-      this.$http.get(`/api/v1/job-request-title/`)
+      axios.get(`/api/v1/job-request-title/`)
         .then((response) => {
           this.jobRequestTitles = response.data;
           this.loading = false;
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getStatusOfJobRequest: function() {
       this.loading = true;
-      this.$http.get(`/api/v1/status-of-the-job-request/`)
+      axios.get(`/api/v1/status-of-the-job-request/`)
           .then((response) => {
             this.statusOfTheJobRequests = response.data;
             this.loading = false;
           })
           .catch((err) => {
             this.loading = false;
-            console.log(err);
+            console.log(err.response.data);
           })
     },
     getProjectManagers: function() {
       this.loading = true;
-      this.$http.get(`/api/v1/pms/`)
+      axios.get(`/api/v1/pms/`)
           .then((response) => {
             this.projectManagers = response.data;
             this.loading = false;
           })
           .catch((err) => {
             this.loading = false;
-            console.log(err);
+            console.log(err.response.data);
           })
     },
     getVAs: function () {
       this.loading = true;
-      this.$http.get(`/api/v1/vas/`)
+      axios.get(`/api/v1/vas/`)
         .then((response) => {
           this.virtualAssistants = response.data;
           this.loading = false;
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getClients: function () {
       this.loading = true;
-      this.$http.get(`/api/v1/clients/`)
+      axios.get(`/api/v1/clients/`)
         .then((response) => {
           this.clients = response.data;
           this.loading = false;
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getCompanyNames: function () {
       this.loading = true;
-      this.$http.get(`/api/v1/virtual-assistant/`)
+      axios.get(`/api/v1/virtual-assistant/`)
         .then((response) => {
           this.virtualAssistants = response.data;
           this.loading = false;
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     addJobRequest: function() {
       this.saving = true;
-      this.$http.post('/api/v1/jobrequest/', this.newJobRequest)
+      axios.post('/api/v1/jobrequest/', this.newJobRequest)
           .then((response) => {
             this.saving = false;
             this.getJobRequests();
@@ -244,14 +247,16 @@ new Vue({
               icon: "error",
               buttons: "Ok",
             });
-            console.log(err);
+            console.log(err.response.data);
           })
     },
     updateJobRequest: function() {
       this.loading = true;
-      this.$http.put(`/api/v1/jobrequest/${this.currentJobRequest.id}/`, this.currentJobRequest)
+      this.saving = true
+      axios.put(`/api/v1/jobrequest/${this.currentJobRequest.id}/`, this.currentJobRequest)
           .then((response) => {
             this.loading = false;
+            this.saving = false;
             this.currentJobRequest = response.data;
             swal({
               title: "GPG system",
@@ -265,12 +270,13 @@ new Vue({
           })
           .catch((err) => {
             this.loading = false;
-            console.log(err);
+            this.saving = false;
+            console.log(err.response.data);
           })
     },
     updateTimeSheet: function () {
       this.loading = true;
-      this.$http.put(`/api/v1/job-request-timesheet/${this.currentTimeSheet.id}/`, this.currentTimeSheet)
+      axios.put(`/api/v1/job-request-timesheet/${this.currentTimeSheet.id}/`, this.currentTimeSheet)
         .then((response) => {
           this.loading = false;
           this.currentTimeSheet = response.data;
@@ -286,7 +292,7 @@ new Vue({
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     deleteJobRequest: function(id) {
@@ -300,14 +306,14 @@ new Vue({
       .then((willDelete) => {
         if (willDelete) {
           this.loading = true;
-          this.$http.delete(`/api/v1/jobrequest/${id}/`)
+          axios.delete(`/api/v1/jobrequest/${id}/`)
               .then((response) => {
                 this.loading = false;
                 this.getJobRequests();
               })
               .catch((err) => {
                 this.loading = false;
-                console.log(err);
+                console.log(err.response.data);
               })
           swal("Poof! Your data file has been deleted!", {
             icon: "success",

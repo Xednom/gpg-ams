@@ -329,7 +329,7 @@ GPG System | Add Master Board records
                     </div>
                     <div class="panel-footer">
                         <template v-if="saving">
-                            <button type="submit" class="btn btn-succes" disabled><i class="fa fa-spinner fa-spin"></i> Saving </button>
+                            <button type="submit" class="btn btn-success" disabled><i class="fa fa-spinner fa-spin"></i> Saving </button>
                         </template>
 
                         <template v-else-if="!saving">
@@ -341,4 +341,8 @@ GPG System | Add Master Board records
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/callme.js' %}" type="text/javascript"></script>
 {% endblock %}

@@ -1,4 +1,6 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-payroll',
     delimiters: ['[[', ']]'],
@@ -44,14 +46,14 @@ new Vue({
         },
         getPayroll: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/payroll/`)
+            axios.get(`/api/v1/payroll/`)
                 .then((response) => {
                     this.loading = false;
                     this.payrolls = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         searchAll: function (){
@@ -60,38 +62,38 @@ new Vue({
         },
         searchMonthPayroll: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/payroll/?date__month=${this.search_month}`)
+            axios.get(`/api/v1/payroll/?date__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.payrolls = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         searchMonthCashOut: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/?date_release__month=${this.search_month}`)
+            axios.get(`/api/v1/cashout/?date_release__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.cashouts = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getCashOut: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/`)
+            axios.get(`/api/v1/cashout/`)
                 .then((response) => {
                     this.loading = false;
                     this.cashouts = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getPaginatedRecords: function () {

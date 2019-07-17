@@ -65,7 +65,6 @@ class SmartPricingFilterSet(FilterSet):
 
 
 class LandAcademyViewSet(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = LandAcademySerializer
     filter_class = (InventoryFilterSet)
@@ -76,7 +75,6 @@ class LandAcademyViewSet(viewsets.ModelViewSet):
 
 
 class SmartPricingViewSet(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = SmartPricingSerializer
     filter_class = (SmartPricingFilterSet)

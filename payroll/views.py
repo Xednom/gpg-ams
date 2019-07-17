@@ -125,7 +125,6 @@ class PayrollViewSet(viewsets.ModelViewSet):
 
 
 class PayrollCashOutViewSet(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = VaCashOutSerializer
     filter_class = (CashOutFilters)

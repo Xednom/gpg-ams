@@ -66,7 +66,6 @@ class DueDiligenceView(LoginRequiredMixin, TemplateView):
 
 
 class DueDiligenceViewSet(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = DueDiligenceSerializer
 
@@ -81,7 +80,7 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
         elif is_staff:
             if self.request.user.staffs.position == "Project Managers":
                 queryset = due_diligence.filter(
-                    Q(project_manager__project_manager=self.request.user.staffs.full_name),
+                    Q(project_manager__full_name__icontains=self.request.user.staffs.full_name),
                     Q(status_of_dd="Sent to Project Manager") |
                     Q(status_of_dd="Project Managers Review") |
                     Q(status_of_dd="Sent to VA") |

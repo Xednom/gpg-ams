@@ -51,7 +51,7 @@ class InventoryFilters(FilterSet):
 
 
 class CallMeInventoryViewSet(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, SessionAuthentication, BasicAuthentication)
+    # authentication_classes = (CsrfExemptSessionAuthentication, SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = InventorySerializer
     filter_class = (InventoryFilters)

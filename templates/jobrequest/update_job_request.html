@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load templatetagname %}
 {% block title %}
 GPG System | View Job Request
@@ -234,7 +235,12 @@ GPG System | View Job Request
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <template v-if="saving">
+                      <button class="btn btn-primary"><i class="fa fa-spinner fa-spin"></i> Saving Changes</button>
+                    </template>
+                    <template v-else>
+                      <button type="submit" class="btn btn-primary">Save changes</button>
+                    </template>
                   </div>
                 </form>
               </div>
@@ -245,4 +251,7 @@ GPG System | View Job Request
     </div>
   </div>
 </div>
+{% endblock %}
+{% block api %}
+<script src="{% static 'vuejs/jobRequest.js' %}" type="text/javascript"></script>
 {% endblock %}

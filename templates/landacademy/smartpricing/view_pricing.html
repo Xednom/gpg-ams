@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 GPG System | View Land Academy Inventory Records
 {% endblock %}
@@ -119,7 +120,7 @@ GPG System | View Land Academy Inventory Records
                                         <tr>
                                             <template v-if="loading">
                                                 <td colspan="15" class="text-center bg-warning">
-                                                    Fetching data...
+                                                    <i class="fa fa-spinner fa-spin"></i> Fetching data...
                                                 </td>
                                             </template>
                                             <template v-else-if="searching">
@@ -184,7 +185,7 @@ GPG System | View Land Academy Inventory Records
 
             <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <form v-on:submit.prevent="updateSmartPricing">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -307,7 +308,8 @@ GPG System | View Land Academy Inventory Records
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     {% if perms.landacademy.change_o20smartpricing %}
                                     <template v-if="saving">
-                                        <button type="submit" class="btn btn-primary" disabled>Save changes</button>
+                                        <button type="submit" class="btn btn-primary" disabled>
+                                            <i class="fa fa-spinner fa-spin"></i> Saving changes</button>
                                     </template>
                                     <template v-else>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -347,4 +349,8 @@ GPG System | View Land Academy Inventory Records
     </div>
 </div>
 {% endif %}
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/landacademy.js' %}" type="text/javascript"></script>
 {% endblock %}

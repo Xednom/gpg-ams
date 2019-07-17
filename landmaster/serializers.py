@@ -26,7 +26,7 @@ class DueDiligenceSerializer(serializers.ModelSerializer):
         slug_field='full_name', queryset=Staffs.objects.all(), allow_null=True, required=False)
     dd_va_assigned_call_outs_other_requests = serializers.SlugRelatedField(
         slug_field='full_name', queryset=Staffs.objects.all(), allow_null=True, required=False)
-    project_manager = serializers.SlugRelatedField(slug_field='project_manager', queryset=ProjectManager.objects.all(), allow_null=True, required=False)
+    project_manager = serializers.SlugRelatedField(slug_field='full_name', queryset=Staffs.objects.all(), allow_null=True, required=False)
 
     class Meta:
         model = DueDiligence

@@ -1,4 +1,6 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-marketing',
     delimiters: ['[[', ']]'],
@@ -100,55 +102,55 @@ new Vue({
         },
         getInventory: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/marketing-sites/`)
+            axios.get(`/api/v1/marketing-sites/`)
                 .then((response) => {
                     this.loading = false;
                     this.inventory = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         viewInventory: function (id) {
             this.viewing = true;
-            this.$http.get(`/api/v1/marketing-sites/${id}/`)
+            axios.get(`/api/v1/marketing-sites/${id}/`)
                 .then((response) => {
                     this.viewing = false;
                     this.currentInventories = response.data;
                 })
                 .catch((err) => {
                     this.viewing = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getStaffs: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/staffs/`)
+            axios.get(`/api/v1/staffs/`)
                 .then((response) => {
                     this.staffs = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getClients: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/clients/`)
+            axios.get(`/api/v1/clients/`)
                 .then((response) => {
                     this.clients = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         addInventory: function () {
             this.saving = true;
-            this.$http.post('/api/v1/marketing-sites/', this.newInventory)
+            axios.post('/api/v1/marketing-sites/', this.newInventory)
                 .then((response) => {
                     this.saving = false;
                     swal({
@@ -169,12 +171,12 @@ new Vue({
                         icon: "error",
                         buttons: "Ok",
                     })
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         updateInventory: function () {
             this.saving = true;
-            this.$http.put(`/api/v1/marketing-sites/${this.currentInventories.id}/`, this.currentInventories)
+            axios.put(`/api/v1/marketing-sites/${this.currentInventories.id}/`, this.currentInventories)
                 .then((response) => {
                     this.saving = false;
                     this.currentInventories = response.data;
@@ -190,31 +192,31 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         normalSearchInventory: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/marketing-sites/?client_full_name=${this.search_client_full_name}`)
+            axios.get(`/api/v1/marketing-sites/?client_full_name=${this.search_client_full_name}`)
                 .then((response) => {
                     this.searching = false;
                     this.inventory = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         advanceSearchInventory: function () {
             this.searching = true;
-            this.$http.get(`/api/v1/marketing-sites/?date_requested=${this.advance_date_requested}&date_completed=${this.advance_date_completed}&type_of_marketing_sites=${this.advance_type_of_marketing_sites}&client_full_name=${this.advance_client_full_name}&client_company_name=${this.advance_client_company_name}&apn=${this.advance_apn}&status=${this.advance_status}&post_for_approval=${this.advance_post_for_approval}`)
+            axios.get(`/api/v1/marketing-sites/?date_requested=${this.advance_date_requested}&date_completed=${this.advance_date_completed}&type_of_marketing_sites=${this.advance_type_of_marketing_sites}&client_full_name=${this.advance_client_full_name}&client_company_name=${this.advance_client_company_name}&apn=${this.advance_apn}&status=${this.advance_status}&post_for_approval=${this.advance_post_for_approval}`)
                 .then((response) => {
                     this.searching = false;
                     this.inventory = response.data;
                 })
                 .catch((err) => {
                     this.searching = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getPaginatedRecords: function () {
