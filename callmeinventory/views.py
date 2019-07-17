@@ -37,7 +37,6 @@ class InventoryFilters(FilterSet):
         ('Others', 'Others'),
     )
     client_full_name = CharFilter(field_name='client_full_name', lookup_expr='icontains')
-    client_company_name = CharFilter(field_name='client_company_name', lookup_expr='icontains')
     customer_representative = CharFilter(field_name='customer_representative', lookup_expr='icontains')
     type_of_form = CharFilter(field_name='type_of_form', lookup_expr='icontains')
     financial_status = CharFilter(field_name='financial_status', lookup_expr='contains')
@@ -46,12 +45,11 @@ class InventoryFilters(FilterSet):
 
     class Meta:
         model = inventory
-        fields = ('client_full_name', 'client_company_name', 'type_of_form', 'financial_status',
+        fields = ('client_full_name', 'type_of_form', 'financial_status',
                   'customer_representative', 'status', 'lead_transferred_by')
 
 
 class CallMeInventoryViewSet(viewsets.ModelViewSet):
-    # authentication_classes = (CsrfExemptSessionAuthentication, SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = InventorySerializer
     filter_class = (InventoryFilters)
@@ -60,5 +58,5 @@ class CallMeInventoryViewSet(viewsets.ModelViewSet):
         if self.request.user.is_staffs:
             queryset = inventory.objects.all()
         elif self.request.user.is_client:
-            queryset = inventory.objects.filter(client_full_name=self.request.user.clients.full_name)
+            queryset = inventory.objects.filter(client_full_name__icontains=self.request.user.clients.full_name)
         return queryset
