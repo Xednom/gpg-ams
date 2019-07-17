@@ -39,7 +39,7 @@ class FinancialFilters(FilterSet):
 
 
 class FinancialViewSet(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    # authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = FinancialReportSerializer
     filter_class = (FinancialFilters)

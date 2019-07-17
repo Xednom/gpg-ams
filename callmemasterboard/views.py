@@ -46,7 +46,7 @@ class MasterBoardFilters(FilterSet):
 
 
 class MasterBoardViewSets(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+    # authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = MasterBoardSerializer
     filter_class = (MasterBoardFilters)
