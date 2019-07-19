@@ -100,17 +100,18 @@ class Staffs(models.Model):
     category = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     maxicare_health_insurance = models.DecimalField(max_digits=7, decimal_places=2,
-                                                    null=True, blank=True)
+                                                    null=True, blank=True,
+                                                    default=0.00)
     life_insurance = models.DecimalField(max_digits=7, decimal_places=2,
-                                         null=True, blank=True)
+                                         null=True, blank=True, default=0.00)
     retirement_plan = models.DecimalField(max_digits=7, decimal_places=2,
-                                          null=True, blank=True)
+                                          null=True, blank=True, default=0.00)
     monthly_bonus = models.DecimalField(max_digits=7, decimal_places=2,
-                                        null=True, blank=True)
+                                        null=True, blank=True, default=0.00)
     others = models.DecimalField(max_digits=7, decimal_places=2,
-                                 null=True, blank=True)
+                                 null=True, blank=True, default=0.00)
     total_compensation = models.DecimalField(max_digits=7, decimal_places=2,
-                                             null=True, blank=True)
+                                             null=True, blank=True, default=0.00)
 
     class Meta:
         verbose_name = "List of Staff"
