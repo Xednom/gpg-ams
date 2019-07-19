@@ -132,8 +132,8 @@ class Staffs(models.Model):
         return total_share
 
     def compute_compensation(self):
-        total_compensation = self.maxicare_health_insurance + self.life_insurance \
-            + self.retirement_plan + self.monthly_bonus + self.others
+        total_compensation = self.maxicare_health_insurance + self.life_insurance + \
+            self.retirement_plan + self.monthly_bonus + self.others
         total = Decimal(total_compensation)
         return total
 
