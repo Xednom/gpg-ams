@@ -28,9 +28,12 @@ GPG Admin - Profile
         <div class="col-md-12 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Personal Informations
+                    Client Information
                 </div>
                 <div class="panel-body">
+                    <div class="col-md-12 col-sm-12">
+                        <label>Company Category:</label>&nbsp;{{ request.user.clients.company_category }}
+                    </div>
                     <div class="col-md-12 col-sm-12">
                         <label>Name:</label>&nbsp;{{ request.user.clients.full_name }}
                     </div>
@@ -38,18 +41,54 @@ GPG Admin - Profile
                         <label>Company Name:</label>&nbsp;{{ request.user.clients.company_name }}
                     </div>
                     <div class="col-md-12 col-sm-12">
+                        <label>Phone number:</label>&nbsp;{{ request.user.clients.phone_number }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Client Control Number:</label>&nbsp;{{ request.user.clients.client_control_number }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Referred by:</label>&nbsp;{{ request.user.clients.referred_by }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Lead Source:</label>&nbsp;{{ request.user.clients.lead_source }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Internal Folder Link 1:</label>&nbsp;<a
+                            href="{{ request.user.clients.internal_folder_link_1 }}" target="_blank">Your
+                            internal folder 1 link</a>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Internal Folder Link 2:</label>&nbsp;<a
+                            href="{{ request.user.clients.internal_folder_link_2 }}" target="_blank">Your
+                            internal folder 2 link</a>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Internal Folder Link 3:</label>&nbsp;<a
+                            href="{{ request.user.clients.internal_folder_link_3 }}" target="_blank">Your
+                            internal folder 3 link</a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    GPG Employee assigned to you
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12 col-sm-12">
+                        <label>Assigned Virtual Assistant:</label>&nbsp;{{ request.user.clients.assigned_va }}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Assigned Project Manager:</label>&nbsp;{{ request.user.clients.assigned_pm }}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Important Information
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12 col-sm-12">
                         <label>Date Signed up:</label>&nbsp;{{ request.user.clients.date_signed_up }}
-                    </div>
-                    <div class="co-md-12 col-sm-12">
-                        <label>Assigned Virtual Assistant for you:</label>&nbsp;{{ request.user.clients.assigned_va }}
-                    </div>
-                    <div class="col-md-12 col-sm-12">
-                        <label>Assigned Project Manager for you:</label>&nbsp;{{ request.user.clients.assigned_pm }}
-                    </div>
-                    <div class="col-md-12 col-sm-12">
-                        <label>Internal Folder Link:</label>&nbsp;<a
-                            href="{{ request.user.clients.internal_folder_link }}" target="_blank">Your
-                            internal folder link</a>
                     </div>
                 </div>
             </div>
@@ -58,7 +97,7 @@ GPG Admin - Profile
         <div class="col-md-12 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Personal Informations
+                    Personal Information
                 </div>
                 <div class="panel-body">
                     <div class="col-md-6 col-sm-12">
@@ -111,7 +150,7 @@ GPG Admin - Profile
         <div class="col-md-12 col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Employee Informations
+                    Employee Information
                 </div>
                 <div class="panel-body">
                     <div class="col-md-6 col-sm-12">
@@ -179,6 +218,34 @@ GPG Admin - Profile
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <label>Total Share of the Employer:</label>&nbsp;{{request.user.staffs.total_employer}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="col-md-12 col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Employee Compensation & Benefits
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6 col-sm-12">
+                        <label>Maxicare Health Insurance:</label>&nbsp;{{request.user.staffs.maxicare_health_insurance}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Life Insurance:</label>&nbsp;{{request.user.staffs.life_insurance}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Retirement Plan:</label>&nbsp;{{request.user.staffs.retirement_plan}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Monthly Bonus:</label>&nbsp;{{request.user.staffs.monthly_bonus}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Others:</label>&nbsp;{{request.user.staffs.others}}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label>Total Compensation:</label>&nbsp;{{request.user.staffs.total_compensation}}
                     </div>
                 </div>
             </div>

@@ -31,12 +31,21 @@ class Staffs(models.Model):
         ('INACTIVE', 'Inactive'),
     )
     JOB_POSITION = (
-        ('Senior Operations Managers', 'Senior Operations Managers'),
-        ('Project Managers', 'Project Managers'),
-        ('Team Leads', 'Team Leads'),
+        ('CEO', 'CEO'),
+        ('Chief Finance Officer', 'Chief Finance Officer'),
+        ('Senior Operation Manager', 'Senior Operation Manager'),
+        ('Operation Manager', 'Operation Manager'),
+        ('Admin Manager', 'Admin Manager'),
+        ('Senior Operation Manager', 'Senior Operation Manager'),
+        ('Project Manager', 'Project Manager'),
+        ('Team Lead', 'Team Lead'),
         ('General Administrative Support', 'General Administrative Support'),
-        ('Executive Assistant', 'Executive Assistant'),
-        ('Human Resource Specialists', 'Human Resource Specialists')
+        ('Executive Assistant to CEO', 'Executive Assistant to CEO'),
+        ('Human Resource Specialist', 'Human Resource Specialist'),
+        ('Recruitment Specialist', 'Recruitment Specialist'),
+        ('IT Manager', 'IT Manager'),
+        ('IT Support', 'IT Support'),
+        ('Customer Support', 'Customer Support')
     )
     CATEGORY = (
         ('Office Based', 'Office Based'),
@@ -90,6 +99,18 @@ class Staffs(models.Model):
     date_hired_in_contract = models.DateField(default=now, null=True, blank=True)
     category = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
+    maxicare_health_insurance = models.DecimalField(max_digits=7, decimal_places=2,
+                                                    null=True, blank=True)
+    life_insurance = models.DecimalField(max_digits=7, decimal_places=2,
+                                         null=True, blank=True)
+    retirement_plan = models.DecimalField(max_digits=7, decimal_places=2,
+                                          null=True, blank=True)
+    monthly_bonus = models.DecimalField(max_digits=7, decimal_places=2,
+                                        null=True, blank=True)
+    others = models.DecimalField(max_digits=7, decimal_places=2,
+                                 null=True, blank=True)
+    total_compensation = models.DecimalField(max_digits=7, decimal_places=2,
+                                             null=True, blank=True)
 
     class Meta:
         verbose_name = "List of Staff"
@@ -106,11 +127,18 @@ class Staffs(models.Model):
         self.total_share_pag_ibig = self.employee_share_pag_ibig + self.employer_share_pag_ibig
         self.overall_total_share = self.total_share_sss + \
             self.total_share_ec_sss + self.total_share_philhealth + \
-            self.total_share_pag_ibig
+            self.total_share_pag_ibig + self.total_compensation
         total_share = Decimal(self.overall_total_share)
         return total_share
 
+    def compute_compensation(self):
+        total_compensation = self.maxicare_health_insurance + self.life_insurance \
+            + self.retirement_plan + self.monthly_bonus + self.others
+        total = Decimal(total_compensation)
+        return total
+
     def save(self, *args, **kwargs):
+        self.total_compensation = self.compute_compensation()
         self.total_employer = self.employer_share_sss + self.employer_share_ec_sss + self.employer_share_philhealth \
             + self.employer_share_pag_ibig
         self.total_employee = self.employee_share_sss + self.employee_share_ec_sss + self.employee_share_philhealth \
@@ -122,7 +150,7 @@ class Staffs(models.Model):
 class Clients(models.Model):
     COMPANY_CATEGORY = (
         ('landmaster.us', 'landmaster.us'),
-        ('gpgcorporations.com', 'gpgcorporations.com'),
+        ('gpgcorporation.com', 'gpgcorporation.com'),
         ('callme.com.ph', 'callme.com.ph'),
         ('virtualExpressServices.com', 'virtualExpressServices.com'),
         ('creatif-designs.com', 'creatif-designs.com'),
@@ -212,17 +240,22 @@ class ClientProfiling(models.Model):
         verbose_name_plural = 'Client Profiles'
         ordering = ['kind_of_client']
 
+    def __str__(self):
+        return str(self.client_name)
+
 
 class Email(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
+                             related_name="emails")
     email_address = models.EmailField(null=True, blank=True)
 
     def __str__(self):
-        return self.email_address
+        return self.email_address + " " + self.email_address
 
 
 class PaypalEmail(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
+                             related_name="paypals")
     paypal_email_address = models.EmailField(null=True, blank=True)
 
     def __str__(self):
@@ -230,7 +263,8 @@ class PaypalEmail(models.Model):
 
 
 class WebsiteUrl(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
+                             related_name="websiteurls")
     url = models.URLField(null=True, blank=True)
 
     def __str__(self):
@@ -238,7 +272,8 @@ class WebsiteUrl(models.Model):
 
 
 class TrainingUrl(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
+                             related_name="trainingurls")
     url = models.URLField(null=True, blank=True)
 
     def __str__(self):
@@ -246,7 +281,8 @@ class TrainingUrl(models.Model):
 
 
 class TypeOfTaskRequest(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
+                             related_name="typeoftasks")
     name_of_task = models.CharField(max_length=150, null=True, blank=True)
 
     def __str__(self):
@@ -254,7 +290,8 @@ class TypeOfTaskRequest(models.Model):
 
 
 class ChannelOfCommunications(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
+    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
+                             related_name="channels")
     name_of_channel = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
