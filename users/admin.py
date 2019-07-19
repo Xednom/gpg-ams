@@ -80,7 +80,7 @@ class StaffProfile(admin.ModelAdmin):
                      'TIN_number', 'pag_ibig_number')
     readonly_fields = ('total_employer', 'total_employee')
     fieldsets = (
-        ('Staff Informations', {
+        ('Staff Information', {
             'fields': (
                 'username',
                 'full_name',
@@ -102,7 +102,7 @@ class StaffProfile(admin.ModelAdmin):
                 'notes',
             )
         }),
-        ('Personal Informations', {
+        ('Personal Information', {
             'fields': (
                 'date_of_birth',
                 'blood_type',
@@ -147,9 +147,19 @@ class StaffProfile(admin.ModelAdmin):
                 'total_share_ec_sss',
                 'total_share_philhealth',
                 'total_share_pag_ibig',
+                'total_compensation',
                 'overall_total_share',
             )
         }),
+        ('Employee Compensation & Benefits', {
+            'fields': (
+                'maxicare_health_insurance',
+                'life_insurance',
+                'retirement_plan',
+                'monthly_bonus',
+                'others'
+            )
+        })
     )
 
 
@@ -169,7 +179,7 @@ class ClientProfile(admin.ModelAdmin):
     list_filter = ['company_name']
     search_fields = ('username__username', 'full_name', 'company_name')
     fieldsets = (
-        ('Client Informations', {
+        ('Client Information', {
             'fields': (
                 'company_category',
                 'status',
