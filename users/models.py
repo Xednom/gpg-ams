@@ -121,6 +121,12 @@ class Staffs(models.Model):
     def __str__(self):
         return self.full_name
 
+    def compute_compensation(self):
+        total_compensation = self.maxicare_health_insurance + self.life_insurance + \
+            self.retirement_plan + self.monthly_bonus + self.others
+        total = Decimal(total_compensation)
+        return total
+
     def compute_total_share(self):
         self.total_share_sss = self.employee_share_sss + self.employer_share_sss
         self.total_share_ec_sss = self.employee_share_ec_sss + self.employer_share_ec_sss
@@ -131,12 +137,6 @@ class Staffs(models.Model):
             self.total_share_pag_ibig + self.total_compensation
         total_share = Decimal(self.overall_total_share)
         return total_share
-
-    def compute_compensation(self):
-        total_compensation = self.maxicare_health_insurance + self.life_insurance + \
-            self.retirement_plan + self.monthly_bonus + self.others
-        total = Decimal(total_compensation)
-        return total
 
     def save(self, *args, **kwargs):
         self.total_compensation = self.compute_compensation()
