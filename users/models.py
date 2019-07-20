@@ -148,6 +148,70 @@ class Staffs(models.Model):
         super().save(*args, **kwargs)
 
 
+class Email(models.Model):
+    name = models.CharField(max_length=150, null=True, blank=True)
+    email_address = models.EmailField(null=True, blank=True)
+
+    def __str__(self):
+        return self.email_address
+
+
+class PaypalEmail(models.Model):
+    name = models.CharField(max_length=150, null=True, blank=True)
+    paypal_email_address = models.EmailField(null=True, blank=True)
+
+    def __str__(self):
+        return self.paypal_email_address
+
+
+class WebsiteUrl(models.Model):
+    name = models.CharField(max_length=150, null=True, blank=True)
+    url = models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return self.url
+
+
+class TrainingUrl(models.Model):
+    name = models.CharField(max_length=150, null=True, blank=True)
+    url = models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return self.url
+
+
+class TypeOfTaskRequest(models.Model):
+    name = models.CharField(max_length=150, null=True, blank=True)
+    name_of_task = models.CharField(max_length=150, null=True, blank=True)
+
+    def __str__(self):
+        return self.name_of_task
+
+
+class ChannelOfCommunications(models.Model):
+    name = models.CharField(max_length=150, null=True, blank=True)
+    name_of_channel = models.CharField(max_length=150, null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Channel of Communication"
+        verbose_name_plural = "Channel of Communications"
+
+    def __str__(self):
+        return self.name_of_channel
+
+
+class Notes(models.Model):
+    name = models.CharField(max_length=150, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Note"
+        verbose_name_plural = "Notes"
+
+    def __str__(self):
+        return self.notes
+
+
 class Clients(models.Model):
     COMPANY_CATEGORY = (
         ('landmaster.us', 'landmaster.us'),
@@ -184,6 +248,30 @@ class Clients(models.Model):
     phone_number = models.CharField(max_length=150, null=True, blank=True)
     company_category = models.CharField(max_length=150, choices=COMPANY_CATEGORY, null=True, blank=True)
     status = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, default='New')
+    email = models.ManyToManyField(Email,
+                              null=True,
+                              blank=True,
+                              related_name='emails')
+    paypal_email = models.ManyToManyField(PaypalEmail,
+                              null=True,
+                              blank=True,
+                              related_name='paypals')
+    website_url = models.ManyToManyField(WebsiteUrl,
+                              null=True,
+                              blank=True,
+                              related_name='websites')
+    training_url = models.ManyToManyField(TrainingUrl,
+                              null=True,
+                              blank=True,
+                              related_name='trainingnurls')
+    type_of_task_request = models.ManyToManyField(TypeOfTaskRequest,
+                              null=True,
+                              blank=True,
+                              related_name='tasks')
+    channel_of_communications = models.ManyToManyField(ChannelOfCommunications,
+                              null=True,
+                              blank=True,
+                              related_name='channels')
 
     class Meta:
         verbose_name = 'List of Client'
@@ -243,69 +331,3 @@ class ClientProfiling(models.Model):
 
     def __str__(self):
         return str(self.client_name)
-
-
-class Email(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
-                             related_name="emails")
-    email_address = models.EmailField(null=True, blank=True)
-
-    def __str__(self):
-        return self.email_address + " " + self.email_address
-
-
-class PaypalEmail(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
-                             related_name="paypals")
-    paypal_email_address = models.EmailField(null=True, blank=True)
-
-    def __str__(self):
-        return self.paypal_email_address
-
-
-class WebsiteUrl(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
-                             related_name="websiteurls")
-    url = models.URLField(null=True, blank=True)
-
-    def __str__(self):
-        return self.url
-
-
-class TrainingUrl(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
-                             related_name="trainingurls")
-    url = models.URLField(null=True, blank=True)
-
-    def __str__(self):
-        return self.url
-
-
-class TypeOfTaskRequest(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
-                             related_name="typeoftasks")
-    name_of_task = models.CharField(max_length=150, null=True, blank=True)
-
-    def __str__(self):
-        return self.name_of_task
-
-
-class ChannelOfCommunications(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True,
-                             related_name="channels")
-    name_of_channel = models.CharField(max_length=150, null=True, blank=True)
-
-    class Meta:
-        verbose_name = "Channel of Communication"
-        verbose_name_plural = "Channel of Communications"
-    
-    def __str__(self):
-        return self.name_of_channel
-
-
-class Notes(models.Model):
-    name = models.ForeignKey(Clients, on_delete=models.PROTECT, null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return self.notes

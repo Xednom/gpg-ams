@@ -25,8 +25,6 @@ LOCAL_APPS = (
     'jobrequest',
     'carespecialist',
     'landmaster',
-    'buyer',
-    'seller',
     'logins',
     'accounts',
     'payroll',

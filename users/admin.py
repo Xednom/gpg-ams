@@ -35,40 +35,6 @@ class CustomUserAdmin(UserAdmin):
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),)
 
 
-class EmailInline(admin.TabularInline):
-    model = Email
-    extra = 1
-
-
-class PaypalEmailInline(admin.TabularInline):
-    model = PaypalEmail
-    extra = 1
-
-
-class WebsiteInline(admin.TabularInline):
-    model = WebsiteUrl
-    extra = 1
-
-
-class TrainingUrlInline(admin.TabularInline):
-    model = TrainingUrl
-    extra = 1
-
-
-class TypeOfTaskRequestInline(admin.TabularInline):
-    model = TypeOfTaskRequest
-    extra = 1
-
-
-class ChanngelOfCommunicationsInline(admin.TabularInline):
-    model = ChannelOfCommunications
-    extra = 1
-
-class NotesInline(admin.TabularInline):
-    model = Notes
-    extra = 1
-
-
 class StaffProfile(admin.ModelAdmin):
     list_display = ('username', 'full_name', 'middle_name', 'email',
                     'phone_number', 'SSS_number',
@@ -164,15 +130,15 @@ class StaffProfile(admin.ModelAdmin):
 
 
 class ClientProfile(admin.ModelAdmin):
-    inlines = [
-        EmailInline,
-        PaypalEmailInline,
-        WebsiteInline,
-        TrainingUrlInline,
-        TypeOfTaskRequestInline,
-        ChanngelOfCommunicationsInline,
-        NotesInline,
-    ]
+    # inlines = [
+    #     EmailInline,
+    #     PaypalEmailInline,
+    #     WebsiteInline,
+    #     TrainingUrlInline,
+    #     TypeOfTaskRequestInline,
+    #     ChanngelOfCommunicationsInline,
+    #     NotesInline,
+    # ]
     list_display = ('company_category', 'status', 'client_control_number', 'username', 'full_name', 'company_name',
                     'assigned_va', 'assigned_pm', 'phone_number', 'internal_folder_link_1',
                     'internal_folder_link_2', 'internal_folder_link_3')
@@ -199,6 +165,36 @@ class ClientProfile(admin.ModelAdmin):
             'fields': (
                 'assigned_va',
                 'assigned_pm',
+            )
+        }),
+        ('Emails', {
+            'fields': (
+                'email',
+            )
+        }),
+        ('Paypal Emails', {
+            'fields': (
+                'paypal_email',
+            )
+        }),
+        ('Website URLS', {
+            'fields': (
+                'website_url',
+            )
+        }),
+        ('Training URLS', {
+            'fields': (
+                'training_url',
+            )
+        }),
+        ('Type of Task Requests', {
+            'fields': (
+                'type_of_task_request',
+            )
+        }),
+        ('Channel of Communications', {
+            'fields': (
+                'channel_of_communications',
             )
         }),
         ('Important Information', {
@@ -257,3 +253,10 @@ admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Staffs, StaffProfile)
 admin.site.register(Clients, ClientProfile)
 admin.site.register(ClientProfiling, ClientProfilingInfo)
+admin.site.register(Email)
+admin.site.register(WebsiteUrl)
+admin.site.register(TrainingUrl)
+admin.site.register(PaypalEmail)
+admin.site.register(TypeOfTaskRequest)
+admin.site.register(ChannelOfCommunications)
+admin.site.register(Notes)

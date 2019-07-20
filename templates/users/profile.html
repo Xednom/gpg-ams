@@ -90,6 +90,26 @@ GPG Admin - Profile
                     <div class="col-md-12 col-sm-12">
                         <label>Date Signed up:</label>&nbsp;{{ request.user.clients.date_signed_up }}
                     </div>
+                    {% for client in clients %}
+                    <div class="col-md-12 col-sm-12">
+                        <label>Emails:</label>&nbsp;{% for email in client.email.all %} {{ email }}, {% endfor %}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Paypal Email:</label> &nbsp; {% for paypal in client.paypal_email.all %} {{ paypal }}, {% endfor %}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Website URLs Email:</label> &nbsp; {% for website in client.website_url.all %} {{ website }}, {% endfor %}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Training URLs:</label> &nbsp; {% for training in client.training_url.all %} {{ training }}, {% endfor %}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Type of Task Request:</label> &nbsp; {% for training in client.type_of_task_request.all %} {{ training }}, {% endfor %}
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <label>Type of Task Request:</label> &nbsp; {% for ch in client.channel_of_communications.all %} {{ ch }}, {% endfor %}
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
