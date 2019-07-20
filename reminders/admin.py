@@ -4,7 +4,8 @@ from .models import ManagerReminders
 
 
 class ManagerRemindersProfile(admin.ModelAdmin):
-    list_display = ('date', 'due_date', 'manager_under', 'status')
+    list_display = ('date', 'due_date', 'requestor', 'requestee', 'status')
+    list_filter = ['date', 'status']
     search_fields = ('manager_under', 'status')
     readonly_fields = ['date']
     fieldsets = (
@@ -12,11 +13,12 @@ class ManagerRemindersProfile(admin.ModelAdmin):
             'fields': (
                 'date',
                 'due_date',
-                'manager_under',
+                'requestor',
                 'status',
-                'description',
-                'notes_from_company',
-                'notes_from_manager',
+                'comment_from_admin',
+                'requestee',
+                'memo_from_requestor',
+                'memo_from_requestee',
             )
         }),
     )

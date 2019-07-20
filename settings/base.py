@@ -17,21 +17,27 @@ ADMIN_APPS = (
 )
 
 LOCAL_APPS = (
+    'admin_totals',
     'fillables',
     'users',
     'client',
     'reporting',
     'jobrequest',
     'carespecialist',
-    # 'config',
-    # 'eav',
     'landmaster',
-    'buyer',
-    'seller',
     'logins',
     'accounts',
     'payroll',
     'reminders',
+    'callmeinventory',
+    'companyexpenses',
+    'clienttimesheet',
+    'recruitment',
+    'callmemasterboard',
+    'marketingsites',
+    'craigslist',
+    'landacademy',
+    'callmefinancialreport',
 )
 
 DJANGO_APPS = (
@@ -50,12 +56,15 @@ THIRD_PARTY_APPS = (
     'rest_framework_datatables',
     'corsheaders',
     'import_export',
-    'crispy_forms'
+    'crispy_forms',
+    'notifications'
 )
 
 INSTALLED_APPS = ADMIN_APPS + DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 AUTH_USER_MODEL = 'users.CustomUser'
+STAFFS = 'users.staffs'
+CLIENTS = 'users.clients'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -107,7 +116,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework_datatables.filters.DatatablesFilterBackend',
-    )
+    ),
 }
 
 TEMPLATES = [
@@ -243,8 +252,6 @@ LOGGING = {
     }
 }
 
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
@@ -257,6 +264,10 @@ STATIC_ROOT = (
     os.path.join(BASE_DIR, 'staticfiles')
 )
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = (
+    os.path.join(BASE_DIR, 'media')
+)
 LOGIN_REDIRECT_URL = 'users:home'
 
 LOGIN_URL = 'users:login'

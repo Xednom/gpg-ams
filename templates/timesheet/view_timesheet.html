@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% block title %}
+GPG System | View Payroll
+{% endblock %}
+{% block dashboard_notif %}
+{% endblock %}
+    {% block content %}
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">
+                        Timesheet for {{ request.user.clients.company_name }}
+                    </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">List of your Time Sheets</li>
+            </ol>
+            <div id="gpg-timesheet" v-cloak>
+                <form method="GET" class="form-inline">
+                    <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
+                        <label>Choose a month:</label>
+                        <select name="search" class="form-control" v-model="search_month">
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary" v-on:click.prevent="searchAll">Search</button>
+                    </div>
+                </form>
+                <div class="col-md-12 col-sm-12">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Complete computations
+                            </div>
+                            <div class="panel-body">
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Charge: <strong class="charge">[[ totalTimeSheet
+                                        ]]</strong></h5>
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Payment Made: <strong class="payment">[[ totalpaymentmade
+                                        ]]</strong></h5>
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Payment Due: <strong class="due">[[
+                                        totalDue ]]</strong></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="content-wrapper">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                List of Timesheet
+                            </div>
+                            <div class="panel-body">
+                                <div style="overflow-x:auto;">
+                                <h4 class="pull-right">Total Amount: [[ totalTimeSheet ]]</h4>
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <th>Shift Date</th>
+                                            <th>Month to Date</th>
+                                            <th>Title of Job Request</th>
+                                            <th>Time In</th>
+                                            <th>Time Out</th>
+                                            <th>Duration</th>
+                                            <th>Job request assigned to</th>
+                                            <th>Total Amount Due</th>
+                                            <th>Action</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="15" class="text-center bg-warning" v-if="!timesheets.length">
+                                                    You
+                                                    don't
+                                                    have any TimeSheets
+                                                    as of now. The Admin must be working on it.</td>
+                                            </tr>
+                                            <tr v-for="(timesheets, i) in paginatedRecords">
+                                                <td>[[ timesheets.shift_date ]]</td>
+                                                <td>[[ timesheets.month_to_date ]]</td>
+                                                <td>[[ timesheets.title_job_request ]]</td>
+                                                <td>[[ timesheets.time_in ]]</td>
+                                                <td>[[ timesheets.time_out ]]</td>
+                                                <td>[[ timesheets.duration ]]</td>
+                                                <td>[[ timesheets.assigned_job_request_to ]]</td>
+                                                <td>[[ timesheets.total_amount_due ]]</td>
+                                                <td><button class="btn btn-primary" type="button" data-toggle="modal"
+                                                        data-target="#viewModal" data-placement="top"
+                                                        title="View Information for this work"
+                                                        v-on:click="viewTimeSheet(timesheets.id)"><i
+                                                            class="fa fa-eye"></i></button>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <!-- pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in pages"
+                                            v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                            <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                                [[ pageNumber ]]
+                                            </a>
+                                        </li>
+                                        <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                            <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                Payment Made
+                            </div>
+                            <div class="panel-body">
+                                <div style="overflow-x:auto;">
+                                    <h4 class="pull-right">Total: [[ totalpaymentmade ]]</h4>
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <th>Date</th>
+                                            <th>Referrence</th>
+                                            <th>Payment Channel</th>
+                                            <th>Notes</th>
+                                            <th>Amount</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="15" class="text-center bg-warning" v-if="!paymentmade.length">
+                                                    You
+                                                    don't
+                                                    have any payments made as of now.</td>
+                                            </tr>
+                                            <tr v-for="payments in paymentmade">
+                                                <td>[[ payments.date ]]</td>
+                                                <td>[[ payments.reference ]]</td>
+                                                <td>[[ payments.payment_channel ]]</td>
+                                                <td>[[ payments.notes ]]</td>
+                                                <td>[[ payments.amount ]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- pagination todo: will fix this one for the future reference -->
+                                <!-- <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                            <ul class="pagination justify-content-end">
+                                <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                    <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li v-for="pageNumber in pages"
+                                    v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                        [[ pageNumber ]]
+                                    </a>
+                                </li>
+                                <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav> -->
+                                <!-- end of pagination -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Time sheet information for [[
+                                    currentTimeSheet.title_job_request ]]</h4>
+                            </div>
+                            <div class="modal-body">
+                                {% include 'timesheet/timesheet_info.html' %}
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}

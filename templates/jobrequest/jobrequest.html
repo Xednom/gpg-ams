@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 GPG Sytem | Job Request
 {% endblock %}
@@ -42,46 +43,6 @@ GPG Sytem | Job Request
           
                 <!-- Tab panes -->
                 <div class="tab-content">
-                  <!-- <div class="tab-pane fade in active" id="general-info">
-                    <h3 class="timeline-title text-center">General Information</h3>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label text-center">Time In</label>
-                      <div class="col-md-4 col-sm-12">
-                        <input type="number" class="form-control" v-model="newJobRequest.time_in" autocomplete="off">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label text-center">Time Out</label>
-                      <div class="col-md-4 col-sm-12">
-                        <input type="number" class="form-control" v-model="newJobRequest.time_out" autocomplete="off">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label text-center">Total minutes/hours</label>
-                      <div class="col-md-4 col-sm-12">
-                        <input type="number" class="form-control" v-model="newJobRequest.total_minutes_hours" autocomplete="off">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label text-center">Month</label>
-                      <div class="col-md-4 col-sm-12">
-                        <select class="form-control" v-model="newJobRequest.month">
-                          <option>January</option>
-                          <option>February</option>
-                          <option>March</option>
-                          <option>April</option>
-                          <option>May</option>
-                          <option>June</option>
-                          <option>July</option>
-                          <option>August</option>
-                          <option>September</option>
-                          <option>October</option>
-                          <option>November</option>
-                          <option>December</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div> -->
                   <div class="tab-pane fade in active" id="job-req">
                     <div class="form-group row">
                       <label class="col-sm-2 col-form-label">Date Requested</label>
@@ -94,7 +55,7 @@ GPG Sytem | Job Request
                       <label class="col-sm-2 col-form-label">Due Date</label>
                       <div class="col-md-8 col-sm-12">
                         <input class="form-control" type="date" v-model="newJobRequest.due_date"
-                          name="date_requested">
+                          name="due_date">
                       </div>
                     </div>
                     <div class="form-group row">
@@ -113,19 +74,6 @@ GPG Sytem | Job Request
                         </select>
                       </div>
                     </div>
-                    <!-- commented out due to automated save -->
-                    <!-- <div class="form-group row">
-                      <label for="inputEmail4" class="col-sm-2 col-form-label">Requestor's name</label>
-                      <div class="col-md-4 col-sm-12">
-                        <input type="text" class="form-control" v-model="newJobRequest.client_code" autocomplete="off" required>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="inputReqTitle" class="col-sm-2 col-form-label">Company name</label>
-                      <div class="col-md-4 col-sm-12">
-                        <input type="text" class="form-control" v-model="newJobRequest.company_name" autocomplete="off">
-                      </div>
-                    </div> -->
                     <div class="form-group row">
                       <label for="inputJobReqSent" class="col-sm-2 col-form-label">Total Job Requested</label>
                       <div class="col-md-8 col-sm-12">
@@ -142,7 +90,7 @@ GPG Sytem | Job Request
                       <label for="inputJobRequest" class="col-sm-2 col-form-label">Assigned Project Manager</label>
                       <div class="col-md-8 col-sm-12">
                         <select class="form-control" v-model="newJobRequest.assigned_project_managers">
-                          <option v-for="pm in projectManagers">[[ pm.project_manager ]]</option>
+                          <option v-for="pm in projectManagers">[[ pm.full_name ]]</option>
                         </select>
                       </div>
                     </div>
@@ -239,7 +187,13 @@ GPG Sytem | Job Request
                       </div>
                     </div>
                     {% endif %}
-                    <button class="btn btn-info btn-save btn-outline pull-right" type="submit" :disabled="saving == true">Submit</button>
+                    <template v-if="saving">
+                    <button class="btn btn-info btn-save btn-outline pull-right" type="submit"
+                      disabled><i class="fa fa-spinner fa-spin"></i> Submit</button>
+                    </template>
+                    <template v-else>
+                      <button class="btn btn-info btn-save btn-outline pull-right" type="submit">Submit</button>
+                    </template>
                     <button class="btn btn-warning btn-cancel btn-outline pull-right" v-on:click="reset">Cancel</button>
                   </div>
                 </div>
@@ -257,4 +211,8 @@ GPG Sytem | Job Request
 <!-- content-wrapper -->
 </div>
 <!-- gpg app on vue -->
+{% endblock %}
+
+{% block api %}
+  <script src="{% static 'vuejs/jobRequest.js' %}" type="text/javascript"></script>
 {% endblock %}

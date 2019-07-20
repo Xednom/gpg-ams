@@ -1,21 +1,28 @@
 from django.contrib import admin
 
-from .models import DueDiligence
+from .models import DueDiligence, DueDiligencesCleared
+from jet.filters import DateRangeFilter
 
 
 class DueDiligenceProfile(admin.ModelAdmin):
-    list_display = ('date_requested', 'date_completed', 'company_name',
-                    'company_owner_or_requestor', 'due_date', 'project_manager',
-                    'dd_team_assigned_va', 'status_of_dd')
+    list_display = ('date_requested', 'due_date', 'company_owner_or_requestor', 
+                    'company_name', 'parcel_number', 'project_manager', 'dd_va_assigned_initial_data',
+                    'dd_va_assigned_call_outs_tax_data', 'dd_va_assigned_call_outs_zoning_data', 
+                    'dd_va_assigned_call_outs_utilities_data', 'dd_va_assigned_call_outs_other_requests',
+                    'level_of_urgency','status_initial_data', 'status_tax_data', 'status_zoning_data', 'status_utilities_data',
+                    'status_other_requests', 'tax_data_completion', 'zoning_data_completion', 'utilities_data_completion',
+                    'other_requests_completion', 'date_of_completion')
+    list_filter = ('date_requested', 'due_date',
+                   'company_owner_or_requestor', 'owner_name',
+                   ('date_requested', DateRangeFilter))
     search_fields = ('company_name__name', 'company_owner')
     fieldsets = (
         ('Due Diligence client Information', {
             'fields': (
                 'date_requested',
                 'due_date',
-                'company_name',
                 'company_owner_or_requestor',
-                'customer_care_specialist',
+                'company_name',
             )
         }),
         ("Land Data information", {
@@ -33,7 +40,6 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'google_map_link',
                 'elevation',
                 'assessed_value',
-                'access_to_property',
             )
         }),
         ("Additional Land Info", {
@@ -91,24 +97,85 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'waste',
             )
         }),
+        ("DD Team member assigned", {
+            'fields': (
+                'project_manager',
+                'dd_va_assigned_initial_data',
+                'dd_va_assigned_call_outs_tax_data',
+                'dd_va_assigned_call_outs_zoning_data',
+                'dd_va_assigned_call_outs_utilities_data',
+                'dd_va_assigned_call_outs_other_requests',
+            )
+        }),
+        ("County Operator Details", {
+            'fields': (
+                'operator_details_tax_data',
+                'operator_details_zoning_data',
+                'operator_details_utilities_data',
+                'operator_details_other_requests',
+            )
+        }),
+        ("Date Of Completions", {
+            'fields': (
+                'initial_due_diligence_completion',
+                'tax_data_completion',
+                'zoning_data_completion',
+                'utilities_data_completion',
+                'other_requests_completion',
+                'date_of_completion',
+            )
+        }),
         ("Notes", {
             'fields': (
-                'date_completed',
                 'notes_from_the_client',
                 'notes_from_the_quality_specialist',
                 'notes_from_the_virtual_assistant',
-                'dd_team_assigned_va',
-                'project_manager',
-                'status_of_dd',
+                'notes_on_zoning',
+                'notes_on_utilities',
+                'notes_on_tax',
             )
         }),
-        ("Other information", {
+        ("Due Diligence Statuses", {
             'fields': (
-                'total_minutes_hours_duration',
-                'attachments',
+                'level_of_urgency',
+                'status_initial_data',
+                'status_tax_data',
+                'status_zoning_data',
+                'status_utilities_data',
+                'status_other_requests',
+                'status_of_dd',
+            )
+        })
+    )
+
+
+class DueDiligenceClearedProfile(admin.ModelAdmin):
+    list_display = ('date_of_call', 'client_full_name', 'client_company_name', 'apn',
+                    'call_in', 'call_out', 'total_hours', 'customer_service_representative')
+    list_filter = ['client_full_name', 'client_company_name',
+                   'customer_service_representative']
+    search_fields = ('client_full_name', 'client_company_name',
+                     'customer_service_representative')
+    readonly_fields = ['total_hours']
+    fieldsets = (
+        ('Due Diligence Cleared Information', {
+            'fields': (
+                'date_of_call',
+                'client_full_name',
+                'client_company_name',
+                'apn',
+                'call_in',
+                'call_out',
+                'total_hours',
+                'department_calling_about',
+                'contact_number',
+                'operators_details',
+                'notes',
+                'customer_service_representative'
             )
         }),
     )
 
 
 admin.site.register(DueDiligence, DueDiligenceProfile)
+admin.site.register(DueDiligencesCleared, DueDiligenceClearedProfile)

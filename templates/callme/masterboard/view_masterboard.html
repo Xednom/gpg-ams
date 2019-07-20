@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+GPG System | CallMe Master Board
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+{% if perms.callmemasterboard.view_masterboard %}
+<div id="gpg-callme" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2 class="page-header">
+                        CallMe Master Board
+                    </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">CallMe Master Board</li>
+                {% if perms.callmemasterboard.add_masterboard %}
+                <li class="breadcrumb-item"><a href="{% url 'masterboard:add_masterboard' %}">Add Master Board </a></li>
+                {% endif %}
+            </ol>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="collapse multi-collapse" id="CollapseSearchCarrier">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Advanced search
+                            </div>
+                            <div class="panel-body">
+                                <form method="GET">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            <label>Client full name:</label>
+                                            <select class="form-control" 
+                                            v-model="search_client_name_board">
+                                                <option v-for="client in clients">[[ client.full_name ]]</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-3 col-sm-12">
+                                            <label>Client company name:</label>
+                                            <input class="form-control form-control-sm" type="text"
+                                                v-model="search_company_name_board">
+                                        </div>
+                                        <div class="form-group col-md-2 col-sm-12">
+                                            <label>Type of CRM:</label>
+                                            <input class="form-control form-control-sm" type="text"
+                                                v-model="search_crm">
+                                        </div>
+                                        <div class="form-group col-md-2 col-sm-12">
+                                            <label>Type of VOIP:</label>
+                                            <input class="form-control form-control-sm" type="text"
+                                                v-model="search_voip">
+                                        </div>
+                                        <div class="form-group col-md-2 col-sm-12">
+                                            <label>Date Started:</label>
+                                            <input class="form-control form-control-sm" type="date"
+                                                v-model="search_date_started">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label>URL Buyer:</label>
+                                            <input class="form-control form-control-sm" type="text"
+                                                v-model="search_url_buyer">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label>URL Seller:</label>
+                                            <input class="form-control form-control-sm" type="text"
+                                                v-model="search_url_seller">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label>URL Property Management:</label>
+                                            <input class="form-control form-control-sm" type="text"
+                                                v-model="search_url_property_management">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label>Voicemail:</label>
+                                            <input class="form-control form-control-sm" type="text"
+                                                v-model="search_voicemail">
+                                        </div>
+                                        <div class="form-group col-md-4 col-sm-12">
+                                            <label>General Calls:</label>
+                                            <input class="form-control form-control-sm" type="text"
+                                                v-model="search_general_calls">
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 pull-right">
+                                            <button class="btn btn-primary" type="button"
+                                                v-on:click.prevent="advancedSearchBoard"><i
+                                                    class="fa fa-search"></i>
+                                                Search</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            Table of CallMe Master board
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <div class="col-md-2 col-sm-12" v-if="!loading">
+                                    <!-- <form action="GET"> -->
+                                    <div class="form-group input-group">
+                                        <input type="text" class="form-control" placeholder="Search..."
+                                            v-model="masterboard_client_name" @keyup.enter="normalSearchBoard">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button"
+                                                v-on:click.prevent="normalSearchBoard"><i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <!-- </form> -->
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#CollapseSearchCarrier" data-toggle="collapse" role="button"
+                                        aria-expanded="false" aria-controls="CollapseSearchCarrier"
+                                        v-if="!loading">advanced
+                                        search</a>
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th @click="sort('date_started')">Date Started</th>
+                                            <th @click="sort('client_name')">Client name</th>
+                                            <th @click="sort('email')">Email</th>
+                                            <th @click="sort('phone')">Phone number</th>
+                                            <th @click="sort('type_of_plan')">Type of Plan</th>
+                                            <th @click="sort('type_of_crm')">Type of CRM</th>
+                                            <th @click="sort('type_of_voip')">Type of VIOP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <template v-if="loading">
+                                                <td colspan="15" class="text-center bg-warning" v-if="loading">
+                                                    <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                                </td>
+                                            </template>
+                                            <template v-else-if="searching">
+                                                <td colspan="15" class="text-center bg-warning">
+                                                    <i class="fa fa-spinner fa-spin"></i> Searching
+                                                </td>
+                                            </template>
+                                            <template v-else-if="!masterboard.length">
+                                                <td colspan="15" class="text-center bg-warning">
+                                                    No records found.
+                                                </td>
+                                            </template>
+                                        </tr>
+                                        <tr v-for="masterboard in sortedMasterBoards" v-if="!loading">
+                                            <td>[[ masterboard.date_started ]]</td>
+                                            <td>[[ masterboard.client_name ]]</td>
+                                            <td>[[ masterboard.email ]]</td>
+                                            <td>[[ masterboard.phone ]]</td>
+                                            <td>[[ masterboard.type_of_plan ]]</td>
+                                            <td>[[ masterboard.type_of_crm ]]</td>
+                                            <td>[[ masterboard.type_of_voip ]]</td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#editModal"
+                                                    v-on:click="viewBoard(masterboard.id)">View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endMasterBoardPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentMasterBoardPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="prevBoardPage">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in totalMasterBoardPages"
+                                            v-bind:class="[{active: pageNumber === currentMasterBoardPage}, 'page-item']"
+                                            v-if="Math.abs(pageNumber - currentMasterBoardPage) < 3 || pageNumber == totalMasterBoardPages - 1 || pageNumber == 0">
+                                            <a v-on:click="goToMasterBoardPage(pageNumber)"
+                                                :class="{current: pageNumber === currentMasterBoardPage, last:(pageNumber == totalMasterBoardPages - 1 && Math.abs(pageNumber - currentMasterBoardPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentMasterBoardPage) > 3)}">
+                                                [[ pageNumber ]]</a>
+                                        </li>
+                                        <li
+                                            v-bind:class="[{disabled: (currentMasterBoardPage * 1) === totalMasterBoardPages}, 'page-item']">
+                                            <a class="page-link" v-on:click="nextBoardPage">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
+                        </div>
+                        <div class="panel-footer">
+                            Total count: [[ masterboard.length ]]
+                            Debug: sort=[[currentSort]], dir=[[currentSortDir]]
+
+                        </div>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Information based on [[ currentBoards.client_name ]]</h4>
+                </div>
+                <form v-on:submit.prevent="updateBoard">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-4 col-sm-12">
+                            <label>Date started</label>
+                            <input type="date" class="form-control form-control-sm"
+                                v-model="currentBoards.date_started"
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-8 col-sm-12">
+                            <label>Type of Plan</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.type_of_plan" 
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %}
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Type of CRM</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.type_of_crm" {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Type of VIOP</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.type_of_voip" {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Client name</label>
+                            <select class="form-control" v-model="currentBoards.client_name"
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                                <option v-for="client in clients">[[ client.full_name ]] - [[ client.company_name ]]</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Email</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.email"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Phone</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.phone"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>URL Buyer</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.url_buyer"
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>URL Seller</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.url_seller"
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>URL Property Management</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.url_property_management"
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Voicemail</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.voicemail" {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>General Calls</label>
+                            <input type="text" class="form-control form-control-sm" v-model="currentBoards.general_calls"
+                                {% if perms.callmemasterboard.change_masterboard %}
+                                {% else %} 
+                                disabled
+                                {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>GS Integration</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.gs_integration"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled {% endif %}>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Client's Folder</label>
+                            <input type="text" class="form-control form-control-sm"
+                                v-model="currentBoards.client_folder"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled {% endif %}>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Phone System - Log In Information</label>
+                            <textarea class="form-control" v-model="currentBoards.phone_login" cols="30" rows="10"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled
+                                {% endif %}></textarea>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>CRM System - Log In Information</label>
+                            <textarea class="form-control" v-model="currentBoards.crm_login" cols="30" rows="10"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled
+                                {% endif %}></textarea>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Call Forwarding details</label>
+                            <textarea class="form-control" v-model="currentBoards.call_forwarding_details" cols="30"
+                                rows="10"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled
+                                {% endif %}></textarea>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Email/Form Forwarding details</label>
+                            <textarea class="form-control" v-model="currentBoards.email_form_forwarding" cols="30"
+                                rows="10"
+                                {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled
+                                {% endif %}></textarea>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Notes</label>
+                            <textarea class="form-control"
+                            v-model="currentBoards.notes"
+                            cols="30" rows="10"
+                            {% if perms.callmemasterboard.change_masterboard %}
+                            {% else %}
+                            disabled
+                            {% endif %}></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    {% if perms.callmemasterboard.change_masterboard %}
+                    <template v-if="saving">
+                        <button type="submit" class="btn btn-primary" disabled><i
+                                class="fa fa-spinner fa-spin"></i> Saving</button>
+                    </template>
+                    <template v-else>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </template>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+</div>
+{% else %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h2 class="page-header">
+                View Master Board Records
+            </h2>
+        </div>
+    </div>
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'users:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">View Master Board Records</li>
+    </ol>
+    <div>
+        <p>
+            You don't have any permissions to view this part of the system. Contact your admin regarding this issue.
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/callme.js' %}" type="text/javascript"></script>
+{% endblock %}

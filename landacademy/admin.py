@@ -1,0 +1,65 @@
+from django.contrib import admin
+
+from .models import LandAcademyInventory, O20SmartPricing
+
+
+class InventoryProfile(admin.ModelAdmin):
+    list_display = ('invoice', 'date_requested', 'order_name', 'total_items_requested', 'total_items_charge',
+                    'total_pp_fee', 'total_charge', 'client_la_requestor', 'date_completed', 'status_of_order', 'payment_status')
+    list_filter = ('status_of_order', 'payment_status')
+    search_fields = ('invoice', 'pivot_table')
+    readonly_fields = ['total_items_charge', 'total_pp_fee', 'total_charge']
+    fieldsets = (
+        ("Land Academy Inventory Records", {
+            'fields': (
+                'date_requested',
+                'date_completed',
+                'order_name',
+                'total_items_requested',
+                'client_la_requestor',
+                'complete_order',
+                'status_of_order',
+                'invoice',
+                'total_items_charge',
+                'total_pp_fee',
+                'total_charge',
+                'payment_status',
+                'date_payment_made',
+                'notes'
+            )
+        }),
+    )
+
+
+class SmartPricingProfile(admin.ModelAdmin):
+    list_display = ('date_requested', 'quality_specialist', 'date_encoded',
+                    'situs_address', 'quality_check_status')
+    list_filter = ('quality_specialist', 'date_encoded',
+                   'quality_check_status')
+    readonly_fields = ['date_encoded']
+    search_fields = ('situs_address', 'quality_specialist')
+    fieldsets = (
+        ("Land Academy O20 Smart Pricing Records", {
+            'fields': (
+                'date_requested',
+                'situs_address',
+                'trulia',
+                'zillow',
+                'redfin',
+                'realfor',
+                'realtytrac',
+                'order_name',
+                'date_research',
+                'researcher_name',
+                'quality_specialist',
+                'quality_check_status',
+                'date_encoded',
+                'notes_from_researcher',
+                'notes_from_qa',
+            )
+        }),
+    )
+
+
+admin.site.register(LandAcademyInventory, InventoryProfile)
+admin.site.register(O20SmartPricing, SmartPricingProfile)

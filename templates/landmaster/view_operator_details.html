@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="form-group col-md-4 col-sm-12">
+        <label>County Operator's Details</label>
+        <input type="text" class="form-control" v-model="currentDueDiligence.county_operator_details"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <small class="form-text text-muted">Customer Care
+            Specialist or Operator ID, Assessors/County</small>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>County Operator Details - Tax Data</label>
+        <textarea class="form-control" cols="30" rows="10"
+        v-model="currentDueDiligence.operator_details_tax_data"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}></textarea>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>County Operator Details - Zoning Data</label>
+        <textarea class="form-control" cols="30" rows="10" v-model="currentDueDiligence.operator_details_zoning_data"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}></textarea>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>County Operator Details - Utilities Data</label>
+        <textarea class="form-control" cols="30" rows="10" v-model="currentDueDiligence.operator_details_utilities_data"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}></textarea>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>County Operator Details - Other Requests</label>
+        <textarea class="form-control" cols="30" rows="10" v-model="currentDueDiligence.operator_details_other_requests"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}></textarea>
+    </div>
+</div>

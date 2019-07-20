@@ -1,0 +1,449 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+GPG System | CallMe Inventory
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+{% if perms.callmeinventory.view_inventory %}
+<div id="gpg-callme" v-cloak>
+<div id="content-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2 class="page-header">
+                    CallMe Inventory Informations
+                </h2>
+            </div>
+        </div>
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'users:home' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">CallMe Inventory</li>
+            {% if perms.callmeinventory.add_inventory %}
+            <li class="breadcrumb-item"><a href="{% url 'callmeinventory:add_inventory' %}">Add Inventory </a></li>
+            {% endif %}
+        </ol>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="collapse multi-collapse" id="CollapseSearchCarrier">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Advanced search
+                        </div>
+                        <div class="panel-body">
+                            <form method="GET">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {% if request.user.is_staffs %}
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Client full name:</label>
+                                    <select v-model="search_client_name_inventory"
+                                    class="form-control">
+                                        <option v-for="client in clients">[[ client.full_name ]]</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Client company name:</label>
+                                    <select v-model="search_client_company_inventory" class="form-control">
+                                        <option v-for="client in clients">[[ client.company_name ]]</option>
+                                    </select>
+                                </div>
+                                {% endif %}
+                                {% if request.user.is_client %}
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Customer Representative:</label>
+                                    <input type="text"
+                                    class="form-control"
+                                    v-model="search_csr">
+                                </div>
+                                {% endif %}
+                                {% if request.user.is_staffs %}
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Type of Form:</label>
+                                    <select class="form-control" v-model="search_type_of_form">
+                                        <option></option>
+                                        <option>Buyers</option>
+                                        <option>Sellers</option>
+                                        <option>General Call</option>
+                                        <option>Voicemail</option>
+                                        <option>Property Management</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                                {% endif %}
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Status:</label>
+                                    <select class="form-control" v-model="search_status">
+                                        <option></option>
+                                        <option>New</option>
+                                        <option>Transferred to Podio - Personal Account</option>
+                                        <option>Transferred to Land Speed</option>
+                                        <option>Transferred to Investment Dominator</option>
+                                        <option>Airtable</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Financial Status:</label>
+                                    <select class="form-control" v-model="search_financial_status">
+                                        <option></option>
+                                        <option>Billed</option>
+                                        <option>Unbilled</option>
+                                        <option>Waived</option>
+                                    </select>
+                                </div>
+                                {% if request.user.is_client %}
+                                <div class="form-group col-md-2 col-sm-12">
+                                    <label>Lead Transferred By:</label>
+                                    <input class="form-control form-control-sm" type="text"
+                                        v-model="search_transferred_by">
+                                </div>
+                                {% endif %}
+                                <div class="col-md-12 col-sm-12 pull-right">
+                                <button class="btn btn-primary" type="submit"
+                                v-on:click.prevent="advancedSearchInventory"><i class="fa fa-search"></i>
+                                    Search</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        Table of CallMe Inventory
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <div class="col-md-2 col-sm-12" v-if="!loading">
+                                <!-- <form action="GET"> -->
+                                <div class="form-group input-group">
+                                    <input type="text" class="form-control" placeholder="Search..."
+                                    v-model="inventory_client_name"
+                                    @keyup.enter="normalSearchInventory">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"
+                                        v-on:click.prevent="normalSearchInventory"><i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                <!-- </form> -->
+                            </div>
+                            <div class="pull-right">
+                                <a href="#CollapseSearchCarrier" data-toggle="collapse" role="button"
+                                    aria-expanded="false" aria-controls="CollapseSearchCarrier" v-if="!loading">advanced
+                                    search</a>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th @click="sort('date_lead_received')">Date Lead received</th>
+                                        <th @click="sort('type_of_form')">Type of Form</th>
+                                        <th @click="sort('client_full_name')">Client name</th>
+                                        <th @click="sort('full_name_of_lead')">Full name of Lead</th>
+                                        <th @click="sort('phone_number')">Phone Number</th>
+                                        <th @click="sort('customer_representative')">Customer Representative</th>
+                                        <th @click="sort('transferred_date')">Transferred Date</th>
+                                        <th @click="sort('status')">Status</th>
+                                        <th @click="sort('lead_conversion')">Lead Conversion</th>
+                                        <th @click="sort('financial_status')">Financial Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <template v-if="loading">
+                                            <td colspan="15" class="text-center bg-warning">
+                                               <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                            </td>
+                                        </template>
+                                        <template v-else-if="searching">
+                                            <td colspan="15" class="text-center bg-warning">
+                                                <i class="fa fa-spinner fa-spin"></i> Searching...                                       
+                                            </td>
+                                        </template>
+                                        <template v-else-if="!inventory.length">
+                                                <td colspan="15" class="text-center bg-warning">
+                                                    No records found.
+                                                </td>
+                                        </template>
+                                    </tr>
+                                    <tr v-for="inventory in sortedInventories">
+                                        <td>[[ inventory.date_lead_received ]]</td>
+                                        <td>[[ inventory.type_of_form ]]</td>
+                                        <td>[[ inventory.client_full_name ]]</td>
+                                        <td>[[ inventory.full_name_of_lead ]]</td>
+                                        <td>[[ inventory.phone_number ]]</td>
+                                        <td>[[ inventory.customer_representative ]]</td>
+                                        <td>[[ inventory.transferred_date ]]</td>
+                                        <td>[[ inventory.status ]]</td>
+                                        <td>[[ inventory.lead_conversion ]]</td>
+                                        <td>[[ inventory.financial_status ]]</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                data-target="#editModal" v-on:click="viewInventory(inventory.id)">View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- pagination -->
+                        <nav class="pagination-wrapper pull-right" v-if="endInventoryPage > 1">
+                            <ul class="pagination justify-content-end">
+                                <li v-bind:class="[{disabled: currentInventoryPage === 1}, 'page-item']">
+                                    <a class="page-link" tabindex="-1" v-on:click="goToInventoryPage(currentInventoryPage - 1)">
+                                        Previous
+                                    </a>
+                                </li>
+                                <!-- <li v-for="pageNumber in pagesInventory"
+                                    v-bind:class="[{active: pageNumber === currentInventoryPage}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToInventoryPage(pageNumber)">
+                                        [[ pageNumber ]]
+                                    </a>
+                                </li> -->
+                                <li v-for="pageNumber in totalInventoryPages"
+                                    v-bind:class="[{active: pageNumber === currentInventoryPage}, 'page-item']"
+                                    v-if="Math.abs(pageNumber - currentInventoryPage) < 3 || pageNumber == totalInventoryPages - 1 || pageNumber == 0">
+                                    <a v-on:click="goToInventoryPage(pageNumber)"
+                                        :class="{current: currentInventoryPage === pageNumber, last:(pageNumber == totalInventoryPages - 1 && Math.abs(pageNumber - currentInventoryPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentInventoryPage) > 3)}">
+                                        [[ pageNumber ]]</a>
+                                </li>
+                                <li
+                                    v-bind:class="[{disabled: (currentInventoryPage * 1) === totalInventoryPages}, 'page-item']">
+                                    <a class="page-link" v-on:click="goToInventoryPage(currentInventoryPage + 1)">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- end of pagination -->
+                    </div>
+                    <div class="panel-footer">
+                        Total count: [[ inventory.length ]]
+                    </div>
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form v-on:submit.prevent="updateInventory">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Inventory Informations for [[
+                            currentInventories.client_full_name ]]</h4>
+                    </div>
+                    <form v-on:submit.prevent="updateInventory">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Date Lead received</label>
+                                    <input type="date" class="form-control form-control-sm"
+                                        v-model="currentInventories.date_lead_received"
+                                        {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Type of Form</label>
+                                    <select class="form-control" v-model="currentInventories.type_of_form" 
+                                    {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                        <option>Buyers</option>
+                                        <option>Sellers</option>
+                                        <option>General Call</option>
+                                        <option>Voicemail</option>
+                                        <option>Property Management</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Client Full Name</label>
+                                    <select class="form-control"{% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'"
+                                        v-model="currentInventories.client_full_name">
+                                        <option v-for="client in clients">[[ client.full_name ]] - [[ client.company_name ]]</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Name of the Lead</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.full_name_of_lead" {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Phone number</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.phone_number" {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentInventories.email" {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Customer Representative</label>
+                                    <select class="form-control"
+                                        v-model="currentInventories.customer_representative"
+                                        {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                    <option v-for="staff in staffs">[[ staff.full_name ]]</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Lead Transferred By</label>
+                                    <select class="form-control" v-model="currentInventories.lead_transferred_by"
+                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                        <option v-for="csr in staffs">[[ csr.full_name ]]</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Transferred Date</label>
+                                    <input type="date" class="form-control form-control-sm"
+                                        v-model="currentInventories.transferred_date" {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Status</label>
+                                    <select class="form-control" v-model="currentInventories.status"
+                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                        <option>New</option>
+                                        <option>Transferred to Podio - Personal Account</option>
+                                        <option>Transferred to Land Speed</option>
+                                        <option>Transferred to Investment Dominator</option>
+                                        <option>Airtable</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Lead Conversion</label>
+                                    <select class="form-control" v-model="currentInventories.lead_conversion"
+                                        {% if perms.callmeinventory.change_inventory %} {% else %} disabled {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                        <option>Interested</option>
+                                        <option>Not Interested</option>
+                                        <option>Dead Lead</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Call Duration</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        @keypress="duration" @paste.prevent
+                                        v-model="currentInventories.call_duration" {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'"
+                                        :disabled="currentInventories.status !== 'New'">
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12">
+                                    <label>Total Time in transferring Leads</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        @keypress="duration" @paste.prevent
+                                        v-model="currentInventories.total_time_transferring_leads"
+                                        {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                </div>
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Notes</label>
+                                    <textarea cols="30" rows="10" v-model="currentInventories.notes"
+                                    class="form-control"
+                                    {% if perms.callmeinventory.change_inventory %}
+                                        {% else %}
+                                        disabled
+                                        {% endif %}
+                                        :disabled="currentInventories.status !== 'New'">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        {% if perms.callmeinventory.change_inventory %}
+                        <template v-if="saving">
+                            <button type="submit" class="btn btn-primary" disabled>Save changes</button>
+                        </template>
+                        <template v-else>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </template>
+                        {% endif %}
+                    </div>
+                </div>
+                </form>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+    </div>
+</div>
+</div>
+{% else %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h2 class="page-header">
+                View CallMe Inventory Records
+            </h2>
+        </div>
+    </div>
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'users:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">View CallMe Inventory Records</li>
+    </ol>
+    <div>
+        <p>
+            You don't have any permissions to view this part of the system. Contact your admin regarding this issue.
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/callme.js' %}" type="text/javascript"></script>
+{% endblock %}

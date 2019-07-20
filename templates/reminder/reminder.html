@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %}
+GPG System | Reminders
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+
+{% block content %}
+<div id="gpg-reminders" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2 class="page-header">
+                        Reminders for {{ request.user.staffs.full_name }}
+                    </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">Reminders Tab</li>
+                <li class="breadcrumb-item"><a href="{% url 'reminders:add-reminders' %}">Add reminder </a></li>
+            </ol>
+                <div>
+                    <div class="alert alert-warning" v-if="!reminders.length">
+                        You have no reminder for today, try <strong><a href="{% url 'reminders:add-reminders' %}"
+                                class="alert-link">adding</a></strong> some reminders!
+                    </div>
+                    {% include 'messages/messages.html' %}                
+                </div>
+                <form method="GET" class="form-inline">
+                    <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
+                            <label>Search status:</label>
+                            <select class="dropdown-meanu" role="menu" v-model="search_status">
+                                <option>New</option>
+                                <option>Processing</option>
+                                <option>In Review</option>
+                                <option>Completed</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-xs" v-on:click.prevent="getcompletedreminders">Search</button>
+                    </div>
+                </form>
+                <div v-for="reminder in reminders">
+                    <div class="col-md-4 col-sm-12">
+                        <form v-on:submit.prevent="updateReminder">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                Your reminders for date <strong>[[ reminder.date ]]</strong>
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-warning btn-sm fa fa-edit" data-toggle="modal"
+                                        data-target="#editModal" v-on:click="viewReminder(reminder.id)"></button>
+                                    <!-- delete function is disabled temporarily -->
+                                    <!-- <button type="button" class="btn btn-danger btn-sm fa fa-trash"
+                                        v-on:click="deleteReminder(reminder.id)"></button> -->
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <h4>Status</h4>
+                                <p class="text-info">[[ reminder.status ]]</p>
+                                <h4>Memo from the requestor: [[ reminder.requestor ]]</h4> 
+                                <blockquote>
+                                    <textarea class="form-control" cols="30" rows="5"
+                                        disabled>[[ reminder.memo_from_requestor ]]</textarea>
+                                </blockquote>
+                                <h4>Memo from requestee: [[ reminder.requestee ]]</h4>
+                                <blockquote>
+                                    <textarea class="form-control"
+                                    cols="30" rows="5" disabled>[[ reminder.memo_from_requestee ]]</textarea>
+                                </blockquote>
+                                <!-- <h4>Additional comment from requestee</h4>
+                                <blockquote>
+                                    <textarea cols="30" rows="05"
+                                    class="form-control"
+                                    disabled>[[ reminder.additional_comment ]]</textarea>
+                                    </textarea>
+                                </blockquote> -->
+                            </div>
+                            <!-- /.panel-body -->
+                            <div class="panel-footer">
+                                Due date for this reminder is <strong>[[ reminder.due_date ]]</strong>
+                            </div>
+                        </div>
+                        <!-- /.panel -->
+                        </form>
+                    </div>
+                    <!-- /.col-lg-4 -->
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">Update your reminder</h4>
+                            </div>
+                            <form v-on:submit.prevent="updateReminder">
+                            <div class="modal-body">
+                                    {% if requestor_reminders %}
+                                        <label>Memo from the Requestor</label>
+                                        <textarea cols="30" rows="05" class="form-control"
+                                            v-model="currentreminders.memo_from_requestor"></textarea>
+                                        </textarea>
+                                    {% endif %}
+                                    {% if requestee_reminders %}
+                                        <label>Memo from the Requestee:</label>
+                                        <textarea cols="30" rows="05" class="form-control"
+                                            v-model="currentreminders.memo_from_requestee"></textarea>
+                                        </textarea>
+                                    {% endif %}
+                                    {% if requestee_reminders %}
+                                    <label>Status</label>
+                                    <select class="form-control" v-model="currentreminders.status">
+                                        <option>New</option>
+                                        <option>Processing</option>
+                                        <option>In Review</option>
+                                        <option>Completed</option>
+                                    </select>
+                                    {% endif %}
+                                <!-- <label>Additional Comment from the requestee</label>
+                                <textarea cols="30" rows="05" class="form-control"
+                                    v-model="currentreminders.additional_comment"></textarea>
+                                </textarea> -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                            </form>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+        </div>
+    </div>
+</div>
+{% endblock %}

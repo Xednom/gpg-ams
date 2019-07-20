@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Project Manager</label>
+        <select class="form-control" v-model="currentDueDiligence.project_manager"
+            {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' or request.user.is_client %}
+            {% else %}
+                disabled
+            {% endif %}
+            required>
+            <option v-for="pm in projectManagers">[[
+                pm.full_name ]]</option>
+        </select>
+    </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Due Diligence Virtual Assistance assigned for call outs on <strong>Initial</strong>data </label>
+        <div class='input-group date col-md-6 col-sm-12'>
+            <select class="form-control" v-model="currentDueDiligence.dd_va_assigned_initial_data"
+                {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' %}{% else %}disabled{% endif %}>
+                <option v-for="va in virtualAssistants">[[ va.name ]]
+                </option>
+            </select>
+            <span class="input-group-addon">
+                <span class="fa fa-users"></span>
+            </span>
+        </div>
+    </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Due Diligence Virtual Assistance assigned for call outs on <strong>Tax</strong>data </label>
+        <div class='input-group date col-md-6 col-sm-12'>
+            <select class="form-control" v-model="currentDueDiligence.dd_va_assigned_call_outs_tax_data"
+                {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' %}{% else %}disabled{% endif %}>
+                <option v-for="va in virtualAssistants">[[ va.name ]]
+                </option>
+            </select>
+            <span class="input-group-addon">
+                <span class="fa fa-users"></span>
+            </span>
+        </div>
+    </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Due Diligence Virtual Assistance assigned for call outs on <strong>Zoning</strong>data </label>
+        <div class='input-group date col-md-6 col-sm-12'>
+            <select class="form-control" v-model="currentDueDiligence.dd_va_assigned_call_outs_zoning_data"
+                {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' %}{% else %}disabled{% endif %}>
+                <option v-for="va in virtualAssistants">[[ va.name ]]
+                </option>
+            </select>
+            <span class="input-group-addon">
+                <span class="fa fa-users"></span>
+            </span>
+        </div>
+    </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Due Diligence Virtual Assistance assigned for call outs on <strong>Utilities</strong>data </label>
+        <div class='input-group date col-md-6 col-sm-12'>
+            <select class="form-control" v-model="currentDueDiligence.dd_va_assigned_call_outs_utilities_data"
+                {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' %}{% else %}disabled{% endif %}>
+                <option v-for="va in virtualAssistants">[[ va.name ]]
+                </option>
+            </select>
+            <span class="input-group-addon">
+                <span class="fa fa-users"></span>
+            </span>
+        </div>
+    </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Due Diligence Virtual Assistance assigned for call outs on <strong>Other</strong>request </label>
+        <div class='input-group date col-md-6 col-sm-12'>
+            <select class="form-control" v-model="currentDueDiligence.dd_va_assigned_call_outs_other_requests"
+                {% if request.user.staffs.position == 'Project Managers' or request.user.staffs.position == 'Senior Operations Managers' %}{% else %}disabled{% endif %}>
+                <option v-for="va in virtualAssistants">[[ va.name ]]
+                </option>
+            </select>
+            <span class="input-group-addon">
+                <span class="fa fa-users"></span>
+            </span>
+        </div>
+    </div>
+</div>

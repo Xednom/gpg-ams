@@ -1,10 +1,13 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-payroll',
     delimiters: ['[[', ']]'],
     data: {
         payrolls: [],
         cashouts: [],
+        buttonsLoading: [],
         loading: false,
         currentPayroll: {},
         message: null,
@@ -40,18 +43,17 @@ new Vue({
         setCurrentMonth: function () {
             let currentMonth = moment(new Date()).format("MM");
             this.search_month = currentMonth;
-            console.log(currentMonth);
         },
         getPayroll: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/payroll/`)
+            axios.get(`/api/v1/payroll/`)
                 .then((response) => {
                     this.loading = false;
                     this.payrolls = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         searchAll: function (){
@@ -60,38 +62,38 @@ new Vue({
         },
         searchMonthPayroll: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/payroll/?date__month=${this.search_month}`)
+            axios.get(`/api/v1/payroll/?date__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.payrolls = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         searchMonthCashOut: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/?date_release__month=${this.search_month}`)
+            axios.get(`/api/v1/cashout/?date_release__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.cashouts = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getCashOut: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/`)
+            axios.get(`/api/v1/cashout/`)
                 .then((response) => {
                     this.loading = false;
                     this.cashouts = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getPaginatedRecords: function () {
@@ -112,7 +114,7 @@ new Vue({
                 this.startPage = 1;
                 this.endPage = Math.min(this.totalPages, this.maxPages);
             } else {
-                let maxPagesBefireCurrentPage = Math.floor(this.maxPages / 2);
+                let maxPagesBeforeCurrentPage = Math.floor(this.maxPages / 2);
                 let maxPagesAfterCurrentPage = Math.ceil(this.maxPages / 2) - 1;
                 if (this.currentPage <= maxPagesBeforeCurrentPage) {
                     // current page near the start
@@ -128,7 +130,26 @@ new Vue({
                     this.endPage = this.currentPage + maxPagesAfterCurrentPage;
                 }
             }
-        }
+        },
+        generatePDF: function (id, buttonNumber) {
+                this.loadButton(buttonNumber);
+
+                let link = document.createElement('a');
+                link.href = `/payroll/${id}/payroll-report.pdf`;
+                link.download = 'payroll-Report-' + Date.now();
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            },
+            loadButton: function (buttonNumber) {
+                Vue.set(this.buttonsLoading, buttonNumber, 1);
+
+                let self = this;
+
+                setTimeout(function () {
+                    Vue.set(self.buttonsLoading, buttonNumber, 0);
+                }, 8000);
+            }
     },
     watch: {
         payrolls: function (newPayrollRecords, oldPayrollRecords) {

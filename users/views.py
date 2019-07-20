@@ -1,7 +1,7 @@
 import datetime
 import json
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, View
+from django.views.generic import ListView, View, TemplateView
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 
@@ -11,8 +11,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q
 
+from rest_framework import viewsets, filters
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 from client.models import Client
 from jobrequest.models import JobRequest
+from users.models import Clients, Staffs
+
+from .serializers import ClientSerializer, StaffSerializer
 
 
 class LoginView(AuthenticationForm, View):
@@ -63,6 +70,56 @@ class HomeView(LoginRequiredMixin, ListView):
         queryset = Client.objects.filter(
             senior_manager__name=user, status="Active")
         return queryset
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'users/profile.html'
+
+    def get(self, request):
+        client_profile = {
+            'clients': Clients.objects.filter(full_name=request.user.clients.full_name)
+        }
+        return render(request, self.template_name, client_profile)
+
+
+class ClientViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Clients.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ClientSerializer
+
+
+class ClientCallMeViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ClientSerializer
+
+    def get_queryset(self):
+        clients = Clients.objects.all()
+        callme_clients = clients.filter(company_category__icontains='callme.com.ph')
+        return callme_clients
+
+
+class StaffViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Staffs.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = StaffSerializer
+
+
+class VaViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = StaffSerializer
+
+    def get_queryset(self):
+        vas = Staffs.objects.filter(position__icontains='General Administrative Support')
+        return vas
+
+
+class PmViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = StaffSerializer
+
+    def get_queryset(self):
+        pms = Staffs.objects.filter(position__icontains='Project Managers')
+        return pms
 
 
 def client_status_data(request):

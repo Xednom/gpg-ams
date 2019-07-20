@@ -1,0 +1,126 @@
+<div class="row">
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Status of Due Diligence</label>
+        <select class="form-control" v-model="currentDueDiligence.status_of_dd"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <option>Sent to Project Manager</option>
+        <option>Project Managers Review</option>
+        <option>Sent to VA</option>
+        <option>VA Processing</option>
+        <option>Sent to Quality Specialist</option>
+        <option>Quality Specialist Checking</option>
+        <option>Submitted to the Client</option>
+        <option>Approved by the Client</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Level of Urgency</label>
+        <select class="form-control" v-model="currentDueDiligence.level_of_urgency"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>High</option>
+            <option>Average</option>
+            <option>Low</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Due Diligence Status for Initial Data</label>
+        <select class="form-control" v-model="currentDueDiligence.status_initial_data"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Due Diligence Status for Tax Data</label>
+        <input type="text" class="form-control" v-model="currentDueDiligence.status_tax_data"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Due Diligence Status for Tax Data</label>
+        <select class="form-control" v-model="currentDueDiligence.status_tax_data"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Due Diligence Status for Zoning Data</label>
+        <select class="form-control" v-model="currentDueDiligence.status_zoning_data"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Due Diligence Status for Utilities Data</label>
+        <select class="form-control" v-model="currentDueDiligence.status_utilities_data"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Due Diligence Status for Other Requests</label>
+        <select class="form-control" v-model="currentDueDiligence.status_other_requests"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+            <option>Sent to Project Manager</option>
+            <option>Project Managers Review</option>
+            <option>Sent to VA</option>
+            <option>VA Processing</option>
+            <option>Sent to Quality Specialist</option>
+            <option>Quality Specialist Checking</option>
+            <option>Submitted to the Client</option>
+            <option>Approved by the Client</option>
+        </select>
+    </div>
+    <hr>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Date Completed for initial data </label>
+            <input type='date' class="form-control" v-model="currentDueDiligence.initial_due_diligence_completion"
+                {% if request.user.staffs.position == 'Project Managers' %}{% else %}disabled{% endif %} />
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Date Completed for Tax data </label>
+            <input type='date' class="form-control" v-model="currentDueDiligence.tax_data_completion"
+                {% if request.user.staffs.position == 'Project Managers' %}{% else %}disabled{% endif %} />
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Date Completed for Zoning data </label>
+            <input type='date' class="form-control" v-model="currentDueDiligence.zoning_data_completion"
+                {% if request.user.staffs.position == 'Project Managers' %}{% else %}disabled{% endif %} />
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Date Completed for Utilities data </label>
+            <input type='date' class="form-control" v-model="currentDueDiligence.utilities_data_completion"
+                {% if request.user.staffs.position == 'Project Managers' %}{% else %}disabled{% endif %} />
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Date Completed for Other requests </label>
+            <input type='date' class="form-control" v-model="currentDueDiligence.other_requests_completion"
+                {% if request.user.staffs.position == 'Project Managers' %}{% else %}disabled{% endif %} />
+    </div>
+</div>

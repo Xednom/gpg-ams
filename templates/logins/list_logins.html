@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
+GPG System | List of Logins
 {% endblock %}
 
 {% block dashboard_notif %}
@@ -30,6 +31,7 @@
                 <div class="panel-body">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
+                            <th>Date Added</th>
                             <th>Client full name</th>
                             <th>Company name</th>
                             <th>Type of Apps</th>
@@ -44,6 +46,7 @@
                                 <td colspan="15" class="text-center bg-warning" v-if="!logins.length">No assigned logins to you as of now.</td>
                             </tr>
                             <tr v-for="login in logins">
+                                <td>[[ login.date_created ]]</td>
                                 <td>[[ login.client_full_name ]]</td>
                                 <td>[[ login.company_name ]]</td>
                                 <td>[[ login.type_of_apps ]]</td>

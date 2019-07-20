@@ -25,7 +25,6 @@ new Vue({
         setCurrentMonth: function () {
             let currentMonth = moment(new Date()).format("MM");
             this.search_month = currentMonth;
-            console.log(currentMonth);
         },
         getCashOut: function () {
             this.loading = true;
@@ -69,7 +68,7 @@ new Vue({
                 this.startPage = 1;
                 this.endPage = Math.min(this.totalPages, this.maxPages);
             } else {
-                let maxPagesBefireCurrentPage = Math.floor(this.maxPages / 2);
+                let maxPagesBeforeCurrentPage = Math.floor(this.maxPages / 2);
                 let maxPagesAfterCurrentPage = Math.ceil(this.maxPages / 2) - 1;
                 if (this.currentPage <= maxPagesBeforeCurrentPage) {
                     // current page near the start

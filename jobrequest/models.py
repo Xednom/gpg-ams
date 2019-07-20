@@ -1,7 +1,9 @@
 import uuid
 from django.db import models
 from decimal import Decimal
-from django.utils import timezone as tz
+from django.utils.timezone import now
+
+from users.models import Staffs, Clients
 
 from fillables.models import (
     ProjectManager, 
@@ -66,13 +68,10 @@ class JobRequest(models.Model):
     job_request_title = models.CharField(max_length=150, null=True, blank=True)
     job_request_instruction = models.TextField(null=True, blank=True)
     additional_comments_or_feedbacks = models.TextField(null=True, blank=True)
-    assigned_project_managers = models.ForeignKey(ProjectManager, on_delete=models.PROTECT, null=True, blank=True)
+    assigned_project_managers = models.ForeignKey(Staffs, on_delete=models.PROTECT, null=True, blank=True, related_name='PMs')
     project_status = models.CharField(max_length=150, choices=PROJECT_STATUS_CHOICES, null=True, blank=True)
-    url_training_videos = models.URLField(null=True, blank=True)
-    assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
-    time_in = models.DateTimeField(default=tz.now, null=True, blank=True)
-    time_out = models.DateTimeField(default=tz.now, null=True, blank=True)
-    total_minutes_hours = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    url_training_videos = models.CharField(max_length=250, null=True, blank=True)
+    assigned_va = models.ForeignKey(Staffs, null=True, blank=True, on_delete=models.PROTECT, related_name='VAs')
     manager_notes = models.TextField(null=True, blank=True)
     client_notes = models.TextField(null=True, blank=True)
     va_notes = models.TextField(null=True, blank=True)
@@ -82,14 +81,33 @@ class JobRequest(models.Model):
     class Meta:
         ordering = ['-date_requested']
 
+    def __str__(self):
+        return str(self.job_request_title)
+
+
+class JobRequestTimeSheet(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    job_title = models.ForeignKey(JobRequest, on_delete=models.PROTECT, related_name="timesheet")
+    staff = models.ForeignKey(Staffs, null=True, blank=True, on_delete=models.PROTECT)
+    client = models.ForeignKey(Clients, null=True, blank=True, on_delete=models.PROTECT)
+    time_in = models.DateTimeField(default=now, null=True, blank=True)
+    time_out = models.DateTimeField(default=now, null=True, blank=True)
+    total_minutes_hours = models.DecimalField(max_digits=5, decimal_places=2)
+    notes = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return str(self.job_title)
+
     def calculate_working_hours(self):
         worked_hours = (self.time_out - self.time_in).total_seconds() / 60 / 60
         total_hours = Decimal(worked_hours)
         return total_hours
-    
+
     def save(self, *args, **kwargs):
         self.total_minutes_hours = self.calculate_working_hours()
         super().save(*args, **kwargs)
-
-    def __str__(self):
-        return str(self.job_request_title)
