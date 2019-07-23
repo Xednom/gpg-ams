@@ -133,6 +133,8 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'notes_on_zoning',
                 'notes_on_utilities',
                 'notes_on_tax',
+                'additional_client_request_question',
+                'additional_client_request_memo',
             )
         }),
         ("Due Diligence Statuses", {

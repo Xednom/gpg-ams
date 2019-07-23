@@ -142,6 +142,10 @@ class DueDiligence(TimeStampedModel):
     status_other_requests = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Due Diligence Status for Other Requests")
     status_of_dd = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Due Diligence Status")
     level_of_urgency = models.CharField(max_length=150, choices=URGENCY, null=True, blank=True)
+    additional_client_request_question = models.TextField(null=True, blank=True,
+                                                          verbose_name='Additional Client Request Question/s')
+    additional_client_request_memo = models.TextField(null=True, blank=True, 
+                                                      verbose_name='Additional Client Request Memo from Cust. Rep')
 
     class Meta:
         ordering = ('date_requested',)
