@@ -11,14 +11,15 @@ class FinancialReportProfile(ModelAdminTotals):
                     'client_company_name', 
                     'first_day_of_call', 'first_billing_cycle', 
                     'last_billing_cycle', 'status', 'type_of_plan',
-                    'total_minutes_used', 'excess_minutes', 'payment_made', 'date_paid')
+                    'total_minutes_used', 'excess_minutes', 'payment_made',
+                    'date_paid')
     list_filter = ('date_signed_up', 'client_full_name__full_name',
                    'client_company_name', 'date_paid', 'status',
                    ('first_day_of_call', DateRangeFilter),
                    ('first_billing_cycle', DateRangeFilter),
                    ('last_billing_cycle', DateRangeFilter),
                    ('date_paid', DateRangeFilter))
-    list_totals = [('type_of_plan', Sum), ('payment_made', Sum), 
+    list_totals = [('type_of_plan', Sum), ('payment_made', Sum),
                    ('total_minutes_used', Sum), ('excess_minutes', Sum)]
     search_fields = ('client_full_name__full_name', 'client_company_name',
                     'transaction_number')

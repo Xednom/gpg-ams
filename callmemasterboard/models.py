@@ -6,6 +6,12 @@ from django.utils.timezone import now
 
 # Create your models here.
 class MasterBoard(models.Model):
+    STATUS = (
+        ('Active', 'Active'),
+        ('Inactive', 'Inactive'),
+        ('Ready to Start', 'Ready to Start'),
+        ('For Follow-up', 'For Follow-up'),
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_started = models.DateField(default=now, null=True, blank=True)
     type_of_plan = models.CharField(max_length=150, null=True, blank=True)
@@ -26,6 +32,7 @@ class MasterBoard(models.Model):
     crm_login = models.TextField(null=True, blank=True, verbose_name="CRM System - Log In Information")
     call_forwarding_details = models.TextField(null=True, blank=True)
     email_form_forwarding = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=100, choices=STATUS, null=True, blank=True)
     
     class Meta:
         verbose_name = 'CallMe Master Board'
