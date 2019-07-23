@@ -230,11 +230,15 @@
                               <li>
                                 <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due
                                   Diligence work</a>
+                                  {% if perms.landmaster.view_duediligencescleared %}
                                 <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i
                                     class="fa fa-eye"></i> View Due Diligence Tracking
                                   Cleared</a>
+                                  {% endif %}
+                                  {% if perms.landmaster.add_duediligencescleared %}
                                 <a href="{% url 'landmaster:add_due_diligence_tracker' %}"> <i class="fa fa-plus"></i> Add Due Diligence
                                   Tracker</a>
+                                  {% endif %}
                               </li>
                               {% endif %}
                             </ul>
@@ -617,17 +621,11 @@
           <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
           <script src="{% static 'vuejs/client.js' %}" type="text/javascript"></script>
-          <script src="{% static 'vuejs/jobRequest.js' %}" type="text/javascript"></script>
-          <script src="{% static 'vuejs/landmaster.js' %}" type="text/javascript"></script>
-          <script src="{% static 'vuejs/dd_tracking_cleared.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/logins.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/payroll.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/timesheet.js' %}" type="text/javascript"></script>
-          <script src="{% static 'vuejs/callme.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/cashout.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/reminders.js' %}" type="text/javascript"></script>
-          <script src="{% static 'vuejs/marketing.js' %}" type="text/javascript"></script>
-          <script src="{% static 'vuejs/landacademy.js' %}" type="text/javascript"></script>
           {% endblock %}
 </body>
 

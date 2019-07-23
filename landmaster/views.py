@@ -120,9 +120,6 @@ class DueDiligenceTrackerViewSet(viewsets.ModelViewSet):
                 queryset = DueDiligencesCleared.objects.filter(
                     Q(customer_service_representative__full_name__icontains=self.request.user.staffs.full_name))
                 return queryset
-    
-    def perform_create(self, serializer):
-        return serializer.save(customer_service_representative__full_name=self.request.user.staffs.full_name)
 
 
 class PdfLandmaster(View):

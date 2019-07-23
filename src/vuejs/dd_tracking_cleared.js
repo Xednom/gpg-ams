@@ -1,4 +1,6 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-due-diligence-tracker',
     delimiters: ['[[', ']]'],
@@ -20,9 +22,9 @@ new Vue({
         this.getDueDiligenceCleared();
     },
     methods: {
-        getDueDiligenceCleared: function () {
+        getDueDiligenceCleared () {
             this.loading = true;
-            this.$http.get(`/api/v1/due-diligence-tracker/`)
+            axios.get(`/api/v1/due-diligence-tracker/`)
                 .then((response) => {
                     this.duediligencestracking = response.data;
                     this.loading = false;
@@ -32,9 +34,9 @@ new Vue({
                     console.log(err);
                 })
         },
-        updateDueDiligenceCleared: function () {
+        updateDueDiligenceCleared () {
             this.loading = true;
-            this.$http.put(`/api/v1/due-diligence-tracker/${this.currentDueDiligencesTracking.id}/`, this.currentDueDiligencesTracking)
+            axios.put(`/api/v1/due-diligence-tracker/${this.currentDueDiligencesTracking.id}/`, this.currentDueDiligencesTracking)
                 .then((response) => {
                     this.loading = false;
                     this.currentDueDiligencesTracking = response.data;
@@ -59,9 +61,9 @@ new Vue({
                     console.log(err);
                 })
         },
-        viewDueDiligenceCleared: function (id) {
+        viewDueDiligenceCleared (id) {
             this.loading = true;
-            this.$http.get(`/api/v1/due-diligence-tracker/${id}`)
+            axios.get(`/api/v1/due-diligence-tracker/${id}`)
                 .then((response) => {
                     this.loading = false;
                     this.currentDueDiligencesTracking = response.data;
@@ -71,7 +73,7 @@ new Vue({
                     console.log(err);
                 })
         },
-        getPaginatedRecords: function () {
+        getPaginatedRecords () {
             const startIndex = this.startIndex;
             this.paginatedRecords = this.duediligencestracking.slice().splice(startIndex, this.pageSize);
         },

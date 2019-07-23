@@ -32,15 +32,10 @@
                                 <thead>
                                     <th>Date Of Call</th>
                                     <th>Client Name</th>
-                                    <th>Client Company Name</th>
                                     <th>APN</th>
-                                    {% if request.user.is_staffs %}
-                                    <th>Call In</th>
-                                    <th>Call Out</th>
-                                    {% endif %}
-                                    <th>Total Hours</th>
+                                    <th>Total Minutes</th>
                                     <th>Department Calling About</th>
-                                    <th>Contact Number</th>
+                                    <th>Contact Details</th>
                                     <th>Customer Service Representative</th>
                                     <th>Action</th>
                                 </thead>
@@ -60,15 +55,10 @@
                                     <tr v-for="(duediligencestracking, i) in paginatedRecords">
                                         <td>[[ duediligencestracking.date_of_call ]]</td>
                                         <td>[[ duediligencestracking.client_full_name ]]</td>
-                                        <td>[[ duediligencestracking.client_company_name ]]</td>
                                         <td>[[ duediligencestracking.apn ]]</td>
-                                        {% if request.user.is_staffs %}
-                                        <td>[[ duediligencestracking.call_in ]]</td>
-                                        <td>[[ duediligencestracking.call_out ]]</td>
-                                        {% endif %}
-                                        <td>[[ duediligencestracking.total_hours ]]</td>
+                                        <td>[[ duediligencestracking.total_minutes ]]</td>
                                         <td>[[ duediligencestracking.department_calling_about ]]</td>
-                                        <td>[[ duediligencestracking.contact_number ]]</td>
+                                        <td>[[ duediligencestracking.contact_details ]]</td>
                                         <td>[[ duediligencestracking.customer_service_representative ]]</td>
                                         <td><button class="btn btn-primary btn-sm" type="button" data-toggle="modal"
                                                 data-target="#editModal"
@@ -106,70 +96,82 @@
                                                 <label>Client Name</label>
                                                 <input type="text" class="form-control"
                                                     v-model="currentDueDiligencesTracking.client_full_name"
-                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
-                                            </div>
-                                            <div class="form-group col-md-4 col-sm-12">
-                                                <label>Client Company Name</label>
-                                                <input type="text" class="form-control"
-                                                    v-model="currentDueDiligencesTracking.client_company_name"
-                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
-                                            </div>
-                                            <div class="form-group col-md-4 col-sm-12">
-                                                <label>APN</label>
-                                                <input type="text" class="form-control"
-                                                    v-model="currentDueDiligencesTracking.apn"
-                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
-                                            </div>
-                                            {% if request.user.is_staffs %}
-                                            <div class="form-group col-md-4 col-sm-12">
-                                                <label>Call In</label>
-                                                <input type="datetime" class="form-control"
-                                                    v-model="currentDueDiligencesTracking.call_in"
-                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
-                                            </div>
-                                            <div class="form-group col-md-4 col-sm-12">
-                                                <label>Call Out</label>
-                                                <input type="datetime" class="form-control"
-                                                    v-model="currentDueDiligencesTracking.call_out"
-                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
-                                            </div>
-                                            {% endif %}
-                                            <div class="form-group col-md-2 col-sm-12">
-                                                <label>Total Hours</label>
-                                                <input type="text" class="form-control"
-                                                    v-model="currentDueDiligencesTracking.total_hours"
                                                     disabled>
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-12">
-                                                <label>Department Calling About</label>
-                                                <input type="text" class="form-control"
-                                                    v-model="currentDueDiligencesTracking.department_calling_about"
-                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
-                                            </div>
-                                            <div class="form-group col-md-4 col-sm-12">
-                                                <label>Contact Number</label>
-                                                <input type="text" class="form-control"
-                                                    v-model="currentDueDiligencesTracking.contact_number"
-                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
-                                            </div>
-                                            <div class="form-group col-md-12 col-sm-12">
-                                                <label>Operator's Details</label>
-                                                <textarea cols="30" rows="10" class="form-control"
-                                                    v-model="currentDueDiligencesTracking.operators_details"
-                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}></textarea>
-                                            </div>
-                                            <div class="form-group col-md-12 col-sm-12">
-                                                <label>Notes</label>
-                                                <textarea cols="30" rows="10"
-                                                class="form-control"
-                                                v-model="currentDueDiligencesTracking.notes"
-                                                {% if request.user.is_client %}disabled{% else %}{% endif %}></textarea>
                                             </div>
                                             <div class="form-group col-md-4 col-sm-12">
                                                 <label>Customer Service Representative</label>
                                                 <input type="text" class="form-control"
-                                                v-model="currentDueDiligencesTracking.customer_service_representative"
-                                                disabled>
+                                                    v-model="currentDueDiligencesTracking.customer_service_representative"
+                                                    disabled>
+                                            </div>
+                                            <div class="form-group col-md-4 col-sm-12">
+                                                <label>Total Hours</label>
+                                                <input type="text" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.total_minutes"
+                                                    {% if request.user.is_client %} disabled{% else %}{% endif %}>
+                                            </div>
+                                            <div class="form-group col-md-12 col-sm-12">
+                                                <label>APN(s)</label>
+                                                <textarea class="form-control"
+                                                v-model="currentDueDiligencesTracking.apn"
+                                                cols="30" rows="10"
+                                                {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                                </textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label>Call Details</label>
+                                                <textarea class="form-control"
+                                                    v-model="currentDueDiligencesTracking.call_details" cols="30"
+                                                    rows="10"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                                </textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label>Department Calling About</label>                                                
+                                                <textarea class="form-control"
+                                                    v-model="currentDueDiligencesTracking.department_calling_about"
+                                                    cols="30" rows="10"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                                </textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label>Contact Details</label>
+                                                <textarea class="form-control"
+                                                    v-model="currentDueDiligencesTracking.contact_details"
+                                                    cols="30" rows="10"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}>
+                                                </textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label>Operator's Details</label>
+                                                <textarea cols="30" rows="10" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.operator_details"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}></textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label>Additional Memo</label>
+                                                <textarea cols="30" rows="10"
+                                                class="form-control"
+                                                v-model="currentDueDiligencesTracking.additional_memo"
+                                                {% if request.user.is_client %}disabled{% else %}{% endif %}></textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label>Customer Representative Note</label>
+                                                <textarea cols="30" rows="10" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.customer_representative_note"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}></textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label>Reason(s) of the call</label>
+                                                <textarea cols="30" rows="10" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.reason_of_the_call"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}></textarea>
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                <label>Questions requested to ask</label>
+                                                <textarea cols="30" rows="10" class="form-control"
+                                                    v-model="currentDueDiligencesTracking.questions_requested_to_ask"
+                                                    {% if request.user.is_client %}disabled{% else %}{% endif %}></textarea>
                                             </div>
                                         </div>
                                     </div>

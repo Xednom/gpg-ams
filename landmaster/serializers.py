@@ -5,7 +5,8 @@ from .models import DueDiligence, DueDiligencesCleared
 
 from fillables.models import CompanyName, VirtualAssistant, ProjectManager
 
-from users.models import Staffs
+from users.models import Staffs, Clients
+from users.serializers import StaffSerializer
 
 
 class VaSerializer(serializers.ModelSerializer):
@@ -34,7 +35,10 @@ class DueDiligenceSerializer(serializers.ModelSerializer):
 
 
 class DueDiligenceClearedSerializer(serializers.ModelSerializer):
-
+    client_full_name = serializers.SlugRelatedField(slug_field='full_name', allow_null=True, required=False,
+                                                    queryset=Clients.objects.filter(company_category='landmaster.us'))
+    customer_service_representative = serializers.SlugRelatedField(slug_field='full_name', allow_null=True, required=False,
+                                                    queryset=Staffs.objects.all())
     class Meta:
         model = DueDiligencesCleared
         fields = '__all__'
