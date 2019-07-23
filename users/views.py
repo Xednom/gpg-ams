@@ -72,14 +72,26 @@ class HomeView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ClientsProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'users/profile.html'
 
     def get(self, request):
-        client_profile = {
-            'clients': Clients.objects.filter(full_name=request.user.clients.full_name)
+        clients = Clients.objects.filter(full_name=request.user.clients.full_name)
+        profile = {
+            'clients': clients,
         }
-        return render(request, self.template_name, client_profile)
+        return render(request, self.template_name, profile)
+
+
+class StaffsProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'users/va_profile.html'
+
+    def get(self, request):
+        staffs = Staffs.objects.filter(full_name=request.user.staffs.full_name)
+        profile = {
+            'staffs': staffs
+        }
+        return render(request, self.template_name, profile)
 
 
 class ClientViewSet(viewsets.ReadOnlyModelViewSet):
