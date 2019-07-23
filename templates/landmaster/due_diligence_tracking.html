@@ -36,29 +36,38 @@
                             <div class="form-group col-md-2 col-sm-12 mb-0">
                                 {{ form.client_full_name|as_crispy_field }}
                             </div>
-                            <div class="form-group col-md-2 col-sm-12 mb-0">
-                                {{ form.client_company_name|as_crispy_field }}
+                            <div class="form-group col-md-3 col-sm-12 mb-0">
+                                {{ form.customer_service_representative|as_crispy_field }}
                             </div>
                             <div class="form-group col-md-2 col-sm-12 mb-0">
+                                {{ form.total_minutes|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12 mb-0">
                                 {{ form.apn|as_crispy_field }}
                             </div>
-                            <div class="form-group col-md-2 col-sm-12 mb-0">
-                                {{ form.call_in|as_crispy_field }}
+                            <div class="form-group col-md-6 col-sm-12 mb-0">
+                                {{ form.call_details|as_crispy_field }}
                             </div>
-                            <div class="form-group col-md-2 col-sm-12 mb-0">
-                                {{ form.call_out|as_crispy_field }}
-                            </div>
-                            <div class="form-group col-md-2 col-sm-12 mb-0">
+                            <div class="form-group col-md-6 col-sm-12 mb-0">
                                 {{ form.department_calling_about|as_crispy_field }}
                             </div>
-                            <div class="form-group col-md-2 col-sm-12 mb-0">
-                                {{ form.contact_number|as_crispy_field }}
+                            <div class="form-group col-md-6 col-sm-12 mb-0">
+                                {{ form.contact_details|as_crispy_field }}
                             </div>
-                            <div class="form-group col-md-12 col-sm-12 mb-0">
-                                {{ form.operators_details|as_crispy_field }}
+                            <div class="form-group col-md-6 col-sm-12 mb-0">
+                                {{ form.operator_details|as_crispy_field }}
                             </div>
-                            <div class="form-group col-md-12 col-sm-12 mb-0">
-                                {{ form.notes|as_crispy_field }}
+                            <div class="form-group col-md-6 col-sm-12 mb-0">
+                                {{ form.additional_memo|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12 mb-0">
+                                {{ form.customer_representative_note|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12 mb-0">
+                                {{ form.reason_of_the_call|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12 mb-0">
+                                {{ form.questions_requested_to_ask|as_crispy_field }}
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit Tracker</button>

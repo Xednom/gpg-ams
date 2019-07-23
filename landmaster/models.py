@@ -153,31 +153,25 @@ class DueDiligence(TimeStampedModel):
 class DueDiligencesCleared(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_of_call = models.DateField(default=now, null=True, blank=True)
-    client_full_name = models.CharField(max_length=150, null=True, blank=True)
-    client_company_name = models.CharField(max_length=150, null=True, blank=True)
-    apn = models.CharField(max_length=150, null=True, blank=True)
-    call_in = models.DateTimeField(default=now, null=True, blank=True)
-    call_out = models.DateTimeField(default=now, null=True, blank=True)
-    total_hours = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    department_calling_about = models.CharField(max_length=150, null=True, blank=True)
-    contact_number = models.CharField(max_length=150, null=True, blank=True)
-    operators_details = models.TextField(null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
-    customer_service_representative = models.CharField(max_length=150, null=True, blank=True)
+    client_full_name = models.ForeignKey(settings.CLIENTS, null=True, blank=True,
+                                         on_delete=models.PROTECT)
+    apn = models.TextField(null=True, blank=True)
+    total_minutes = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    call_details = models.TextField(null=True, blank=True)
+    department_calling_about = models.TextField(null=True, blank=True)
+    contact_details = models.TextField(null=True, blank=True)
+    operator_details = models.TextField(null=True, blank=True)
+    additional_memo = models.TextField(null=True, blank=True)
+    customer_service_representative = models.ForeignKey(settings.STAFFS, null=True, 
+                                                        blank=True, on_delete=models.PROTECT)
+    customer_representative_note = models.TextField(null=True, blank=True)
+    reason_of_the_call = models.TextField(null=True, blank=True, verbose_name='Reason(s) of the call')
+    questions_requested_to_ask = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = 'Due Diligence Call Tracking Report'
-        verbose_name_plural = 'Due Diligence Call Tracking Reports'
+        verbose_name = 'Due Diligence Call Out Report'
+        verbose_name_plural = 'Due Diligence Call Out Reports'
         ordering=['-date_of_call']
-
-    def calculate_total_hours(self):
-        worked_hours = (self.call_out - self.call_in).total_seconds() / 60 / 60
-        total_hours = Decimal(worked_hours)
-        return total_hours
-
-    def save(self, *args, **kwargs):
-        self.total_hours = self.calculate_total_hours()
-        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('')
