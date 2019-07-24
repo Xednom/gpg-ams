@@ -91,22 +91,52 @@ GPG Admin - Profile
                     </div>
                     {% for client in clients %}
                     <div class="col-md-12 col-sm-12">
-                        <label>Emails:</label>&nbsp;{% for email in client.email.all %} {{ email }}, {% endfor %}
+                        <label>Emails:</label>
+                        <ul>
+                            {% for email in client.email.all %} 
+                              <li>{{ email }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="col-md-12 col-sm-12">
-                        <label>Paypal Email:</label> &nbsp; {% for paypal in client.paypal_email.all %} {{ paypal }}, {% endfor %}
+                        <label>Paypal Email:</label>
+                        <ul>
+                            {% for paypal in client.paypal_email.all %} 
+                                <li>{{ paypal }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="col-md-12 col-sm-12">
-                        <label>Website URLs Email:</label> &nbsp; {% for website in client.website_url.all %} {{ website }}, {% endfor %}
+                        <label>Website URLs Email:</label>
+                        <ul>
+                            {% for website in client.website_url.all %} 
+                                <li>{{ website }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="col-md-12 col-sm-12">
-                        <label>Training URLs:</label> &nbsp; {% for training in client.training_url.all %} {{ training }}, {% endfor %}
+                        <label>Training URLs:</label> 
+                        <ul>
+                            {% for training in client.training_url.all %}
+                                <li>{{ training }</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="col-md-12 col-sm-12">
-                        <label>Type of Task Request:</label> &nbsp; {% for training in client.type_of_task_request.all %} {{ training }}, {% endfor %}
+                        <label>Type of Task Request:</label>
+                        <ul>
+                            {% for training in client.type_of_task_request.all %} 
+                                <li>{{ training }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     <div class="col-md-12 col-sm-12">
-                        <label>Type of Task Request:</label> &nbsp; {% for ch in client.channel_of_communications.all %} {{ ch }}, {% endfor %}
+                        <label>Type of Task Request:</label>
+                        <ul>
+                            {% for ch in client.channel_of_communications.all %} 
+                                <li>{{ ch }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     {% endfor %}
                 </div>
