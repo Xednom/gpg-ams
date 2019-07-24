@@ -1,6 +1,9 @@
 import uuid
 
 from decimal import Decimal
+from django.conf import settings
+
+from djmoney.models.fields import MoneyField
 from django.db import models
 from django.utils.timezone import now
 
@@ -10,70 +13,106 @@ from fillables.models import VirtualAssistant
 class TimeSheet(models.Model):
     STATUS = (
         ('Approved', 'Approved'),
-        ('Not Approved', 'Not Approved')
+        ('For Review', 'For Review'),
+        ('Dispute', 'Dispute'),
+        ('Waived', 'Waived'),
+    )
+    APPROVAL = (
+        ('Approved', 'Approved'),
+        ('Declined', 'Declined'),
+        ('Dispute', 'Dispute'),
+        ('Waived', 'Waived'),
+    )
+    COMPANY_TAGGING = (
+        ('landmaster.us', 'landmaster.us'),
+        ('gpgcorporation.com', 'gpgcorporation.com'),
+        ('callme.com.ph', 'callme.com.ph'),
+        ('virtualExpressServices.com', 'virtualExpressServices.com'),
+        ('creatif-designs.com', 'creatif-designs.com'),
+        ('vacantpropertiesglobal.com', 'vacantpropertiesglobal.com')
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    company_tagging = models.CharField(max_length=150, null=True, blank=True)
+    company_tagging = models.CharField(max_length=150, choices=COMPANY_TAGGING,
+                                       null=True, blank=True)
     shift_date = models.DateField(default=now, null=True, blank=True)
-    month_to_date = models.DateField(default=now, null=True, blank=True)
+    first_month_to_date = models.DateField(default=now, null=True, blank=True)
+    second_month_to_date = models.DateField(default=now, null=True, blank=True)
     clients_full_name = models.CharField(max_length=150, null=True, blank=True)
     title_job_request = models.CharField(max_length=150, null=True, blank=True)
-    job_request = models.CharField(max_length=150, null=True, blank=True)
+    channel_job_requested = models.CharField(max_length=150, null=True, blank=True)
+    job_request_description = models.CharField(max_length=150, null=True, blank=True)
     time_in = models.DateTimeField(default=now, null=True, blank=True)
     time_out = models.DateTimeField(default=now, null=True, blank=True)
     duration = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     total_items = models.CharField(max_length=150, null=True, blank=True)
     additional_comments = models.TextField(null=True, blank=True)
-    assigned_job_request_to = models.ForeignKey(VirtualAssistant, null=True, blank=True, on_delete=models.PROTECT)
-    hourly_rate = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    amount_charge = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    tax_fee = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True)
-    total_tax_fee = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True)
-    total_amount_due = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    assigned_va = models.ForeignKey(settings.STAFFS, null=True, blank=True, 
+                                    on_delete=models.PROTECT,
+                                    verbose_name='Assigned VA',
+                                    related_name='vas')
+    assigned_pm = models.ForeignKey(settings.STAFFS, null=True, blank=True, 
+                                    on_delete=models.PROTECT,
+                                    verbose_name='Assigned Project Manager',
+                                    related_name='pms')
+    hourly_rate_peso = models.DecimalField(max_digits=7, decimal_places=2, 
+                                           null=True, blank=True)
+    hourly_rate_usd = MoneyField(max_digits=14, decimal_places=2, 
+                                           null=True, blank=True,
+                                           default_currency='USD')
+    total_charge_peso = models.DecimalField(max_digits=7, decimal_places=2,     
+                                            null=True, blank=True)
+    total_charge_usd = models.DecimalField(max_digits=7, decimal_places=2,     
+                                           null=True, blank=True)
+    paypal_charge = MoneyField(max_digits=14, decimal_places=2, 
+                               null=True, blank=True,
+                               default_currency='USD')
+    total_charge_with_paypal = MoneyField(max_digits=14, decimal_places=2,
+                                          null=True, blank=True,
+                                          default_currency='USD')
+    total_amount_due = MoneyField(max_digits=14, decimal_places=2,
+                                          null=True, blank=True,
+                                          default_currency='USD')
     status = models.CharField(max_length=50, choices=STATUS, default=STATUS[1][1])
+    admin_approval = models.CharField(max_length=50, choices=APPROVAL, default=STATUS[1][1])
 
     class Meta:
-        verbose_name = "Client TimeSheet"
-        verbose_name_plural = "Client TimeSheets"
-        ordering = ['-company_tagging']
+        verbose_name = "General Timesheet"
+        verbose_name_plural = "General Timesheets"
+        ordering = ['-shift_date']
 
     def __str__(self):
         return self.company_tagging
 
-    def calculate_hours(self):
+    def calculate_total_duration(self):
         total_hours = (self.time_out - self.time_in).total_seconds() / 60 / 60
         total_duration = Decimal(total_hours)
         return total_duration
     
-    def calculate_amount_charge(self):
-        charge = self.duration * self.hourly_rate
+    def calculate_total_charge_peso(self):
+        charge = self.duration * self.hourly_rate_peso
         total_charge = Decimal(charge)
         return total_charge
 
-    def calculate_total_tax_fee(self):
-        amount = self.amount_charge * self.tax_fee
-        total_tax = Decimal(amount)
-        return total_tax
-
-    def calculate_total_amount(self):
-        amount = self.amount_charge + self.total_tax_fee
-        total_amount = Decimal(amount)
+    def calculate_total_amount_due(self):
+        amount_due = self.total_charge_usd + self.total_charge_with_paypal
+        total_amount = Decimal(amount_due)
         return total_amount
 
     def save(self, *args, **kwargs):
         self.duration = self.calculate_hours()
-        self.amount_charge = self.calculate_amount_charge()
-        self.total_tax_fee = self.calculate_total_tax_fee()
-        self.total_amount_due = self.calculate_total_amount()
+        self.total_charge_peso = self.calculate_total_charge_peso()
+        self.total_amount_due = self.calculate_total_amount_due()
         super().save(*args, **kwargs)
 
 
 class PaymentMade(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    client_name = models.CharField(max_length=150, null=True, blank=True)
-    date = models.DateField(default=now, null=True, blank=True, help_text="Date the payment made.")
-    amount = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    reference = models.CharField(max_length=150, null=True, blank=True)
+    client_name = models.ForeignKey(settings.CLIENTS, null=True, blank=True,
+                                    on_delete=models.PROTECT)
+    date = models.DateField(default=now, null=True, blank=True, 
+                            help_text="Date payment made.")
+    amount = MoneyField(max_digits=14, decimal_places=2, null=True, blank=True)
+    transaction_number = models.CharField(max_length=150, null=True, blank=True)
     payment_channel = models.CharField(max_length=150, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
 
@@ -84,3 +123,23 @@ class PaymentMade(models.Model):
 
     def __str__(self):
         return str(self.date)
+
+
+class CashOut(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.ForeignKey(settings.STAFFS, null=True, blank=True,
+                             on_delete=models.PROTECT)
+    cash_date_release = models.DateField(default=now, null=True, blank=True)
+    amount = MoneyField(max_digits=14, decimal_places=2, null=True, blank=True)
+    reference = models.CharField(max_length=150, null=True, blank=True)
+    rcbc = models.CharField(max_length=150, null=True, blank=True,
+                            verbose_name='RCBC')
+    approved_by = models.CharField(max_length=150, null=True, blank=True)
+    purpose = models.TextField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['-cash_date_release']
+
+    def __str__(self):
+        return self.reference
