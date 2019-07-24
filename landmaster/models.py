@@ -146,12 +146,27 @@ class DueDiligence(TimeStampedModel):
                                                           verbose_name='Additional Client Request Question/s')
     additional_client_request_memo = models.TextField(null=True, blank=True, 
                                                       verbose_name='Additional Client Request Memo from Cust. Rep')
+    total_hrs_for_initial_dd = models.DecimalField(max_digits=7, decimal_places=2,
+                                                   default=0.00, null=True, blank=True)
+    total_hrs_overall_dd_callouts = models.DecimalField(max_digits=7, decimal_places=2,
+                                                        default=0.00, null=True, blank=True)
+    total_time_allocation = models.DecimalField(max_digits=7, decimal_places=2,
+                                                default=0.00, null=True, blank=True)
 
     class Meta:
         ordering = ('date_requested',)
 
     def __str__(self):
         return str(self.company_name)
+
+    def time_calculation(self):
+        total = self.total_hrs_for_initial_dd + self.total_hrs_overall_dd_callouts
+        overall = Decimal(total)
+        return overall
+    
+    def save(self, *args, **kwargs):
+        self.total_time_allocation = self.time_calculation()
+        return super().save(*args, **kwargs)
 
 
 class DueDiligencesCleared(models.Model):

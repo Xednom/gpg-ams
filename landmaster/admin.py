@@ -16,6 +16,7 @@ class DueDiligenceProfile(admin.ModelAdmin):
                    'company_owner_or_requestor', 'owner_name',
                    ('date_requested', DateRangeFilter))
     search_fields = ('company_name__name', 'company_owner')
+    readonly_fields = ['total_time_allocation']
     fieldsets = (
         ('Due Diligence client Information', {
             'fields': (
@@ -146,6 +147,13 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'status_utilities_data',
                 'status_other_requests',
                 'status_of_dd',
+            )
+        }),
+        ("Total DD Time Allocation", {
+            'fields': (
+                'total_hrs_for_initial_dd',
+                'total_hrs_overall_dd_callouts',
+                'total_time_allocation',
             )
         })
     )

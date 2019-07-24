@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Total Hours for Initial Due Diligence</label>
+        <input type="text" 
+        class="form-control" 
+        @keypress="numberInputsOnly"
+        @paste.prevent
+        v-model="currentDueDiligence.total_hrs_for_initial_dd"
+            {% if request.user.is_client %}disabled{% else %}{% endif %}>
+        {% if request.user.is_staffs %}
+        <small class="form-text text-muted">Please use <strong>0.00</strong>(Decimal values)
+        when adding total hours.</small>
+        {% endif %}
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Total Hours for Overall DD Call Outs</label>
+        <input type="text" 
+        class="form-control" 
+        @keypress="numberInputsOnly"
+        @paste.prevent
+        v-model="currentDueDiligence.total_hrs_overall_dd_callouts"
+            {% if request.user.is_client %}disabled{% else %}{% endif %}>
+        {% if request.user.is_staffs %}
+        <small class="form-text text-muted">Please use <strong>0.00</strong>(Decimal values)
+            when adding total hours.</small>
+        {% endif %}
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Total time allocated</label>
+        <input type="text"
+        class="form-control"
+        v-model="currentDueDiligence.total_time_allocation"
+        disabled>
+    </div>
+</div>
