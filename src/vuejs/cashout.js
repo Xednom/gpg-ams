@@ -20,8 +20,13 @@ new Vue({
     mounted: function () {
         this.setCurrentMonth();
         this.searchMonthCashOut();
+        this.getCashOut();
     },
     methods: {
+        searchAll () {
+            this.searchMonthTimeSheet();
+            this.searchMonthCashOut();
+        },
         setCurrentMonth: function () {
             let currentMonth = moment(new Date()).format("MM");
             this.search_month = currentMonth;
@@ -38,9 +43,21 @@ new Vue({
                     console.log(err);
                 })
         },
+        searchMonthTimeSheet () {
+            this.loading = true;
+            axios.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
+                .then((response) => {
+                    this.loading = false;
+                    this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err.response.data);
+                })
+        },
         searchMonthCashOut: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/?date_release__month=${this.search_month}`)
+            this.$http.get(`/api/v1/cashout/?cash_date_release__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.cashouts = response.data;

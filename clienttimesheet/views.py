@@ -18,13 +18,17 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 
 from .models import TimeSheet, PaymentMade
-from .serializers import TimeSheetSerializer, PaymentMadeSerializer
+from .serializers import TimeSheetSerializer, PaymentMadeSerializer, CashOutSerializer
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
 
     def enforce_csrf(self, request):
         return  # To not perform the csrf check previously happening
+
+
+class VaTimeSheetView(TemplateView):
+    template_name = 'timesheet/va_timesheet.html'
 
 
 class TimeSheetView(TemplateView):
@@ -49,33 +53,53 @@ class PaymentMadeFilter(FilterSet):
         fields = ('date__month', 'name')
 
 
+class CashOutFilter(FilterSet):
+    cash_date_release__month = NumberFilter(field_name='cash_date_release', lookup_expr='month')
+    name = CharFilter(field_name='name', lookup_expr='icontains')
+
+    class Meta:
+        model = PaymentMade
+        fields = ('cash_date_release__month', 'name')
+
+
 class TimeSheetViewSet(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication,)
     permission_classes = (IsAuthenticated,)
     serializer_class = TimeSheetSerializer
     filter_class = (TimeSheetFilter)
 
     def get_queryset(self):
-        client = self.request.user.clients.full_name
-        va = self.request.user.staffs.full_name
         current_year = datetime.date.today().year
-        queryset = TimeSheet.objects.filter(Q(clients_full_name=client),
-                                            Q(shift_date__year=current_year),
-                                            Q(status='Approved'))
-        return queryset
+        if self.request.user.is_client:
+            queryset = TimeSheet.objects.filter(Q(clients_full_name__full_name__icontains=self.request.user.clients.full_name) |
+                                                Q(shift_date__year=current_year))
+            return queryset
+        elif self.request.user.is_staffs:
+            queryset = TimeSheet.objects.filter(Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name),
+                                                Q(shift_date__year=current_year))
+            return queryset
 
 
 class PaymentMadeViewSet(viewsets.ModelViewSet):
-    authentication_classes = (
-        CsrfExemptSessionAuthentication, BasicAuthentication,)
     permission_classes = (IsAuthenticated,)
     serializer_class = PaymentMadeSerializer
     filter_class = (PaymentMadeFilter)
 
     def get_queryset(self):
-        client = self.request.user.clients.full_name
         current_year = datetime.date.today().year
-        queryset = PaymentMade.objects.filter(Q(client_name=client),
-                                              Q(date__year=current_year))
+        if self.request.user.is_client:
+            queryset = PaymentMade.objects.filter(Q(client_name__full_name=self.request.user.clients.full_name),
+                                                  Q(date__year=current_year))
+            return queryset
 
-        return queryset
+
+class CashOutViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CashOutSerializer
+    filter_class = (CashOutFilter)
+
+    def get_queryset(self):
+        current_year = datetime.date.today().year
+        if self.request.user.is_staffs:
+            queryset = PaymentMade.objects.filter(Q(name__full_name=self.request.user.staffs.full_name),
+                                                  Q(cash_date_release__year=current_year))
+            return queryset

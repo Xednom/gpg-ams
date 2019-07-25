@@ -1,34 +1,44 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-timesheet',
     delimiters: ['[[', ']]'],
     data: {
         timesheets: [],
+        clients: [],
         paymentmade: [],
         errortimesheet: [],
         loading: false,
+        saving: false,
         errored: false,
         currentTimeSheet: {},
         message: null,
         newTimeSheet: {
-            'date': null,
             'company_tagging': null,
             'shift_date': null,
-            'month_to_date': null,
+            'first_month_to_date': null,
+            'second_month_to_date': null,
             'clients_full_name': null,
             'title_job_request': null,
-            'job_request': null,
+            'channel_job_requested': null,
+            'job_request_description': null,
             'time_in': null,
             'time_out': null,
             'duration': null,
             'total_items': null,
             'additional_comments': null,
-            'assigned_job_request_to': null,
-            'hourly_rate': null,
-            'amount_charge': null,
-            'tax_fee': null,
-            'total_tax_fee': null,
+            'assigned_va': null,
+            'assigned_pm': null,
+            'hourly_rate_peso': null,
+            'hourly_rate_usd': null,
+            'total_charge_peso': null,
+            'total_charge_usd': null,
+            'paypal_charge': null,
+            'total_charge_with_paypal': null,
             'total_amount_due': null,
+            'status': null,
+            'admin_approval': null
         },
         search_term: '',
         search_month: '',
@@ -44,7 +54,11 @@ new Vue({
     mounted: function () {
         this.setCurrentMonth();
         this.searchMonthPaymentMade();
-        this.searchMonthTimeSheet();
+        this.searchMonthVaTimeSheet();
+        this.searchMonthClientTimeSheet();
+        this.loadClient();
+        this.searchMonthCashOut();
+        this.getCashOut();
     },
     methods: {
         setCurrentMonth: function () {
@@ -53,10 +67,46 @@ new Vue({
         },
         getTimeSheet: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/timesheet/`)
+            axios.get(`/api/v1/timesheet/`)
                 .then((response) => {
                     this.loading = false;
                     this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err.response.data);
+                })
+        },
+        getCashOut: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/cashout/`)
+                .then((response) => {
+                    this.loading = false;
+                    this.cashouts = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        searchMonthVaTimeSheet () {
+            this.loading = true;
+            axios.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
+                .then((response) => {
+                    this.loading = false;
+                    this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err.response.data);
+                })
+        },
+        searchMonthCashOut: function () {
+            this.loading = true;
+            this.$http.get(`/api/v1/cashout/?cash_date_release__month=${this.search_month}`)
+                .then((response) => {
+                    this.loading = false;
+                    this.cashouts = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
@@ -67,21 +117,21 @@ new Vue({
             this.searchMonthTimeSheet();
             this.searchMonthPaymentMade();
         },
-        searchMonthTimeSheet: function () {
+        searchMonthClientTimeSheet: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
+            axios.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.timesheets = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         viewTimeSheet: function (id) {
             this.loading = true;
-            this.$http.get(`/api/v1/timesheet/${id}`)
+            axios.get(`/api/v1/timesheet/${id}`)
                 .then((response) => {
                     this.loading = false;
                     this.currentTimeSheet = response.data;
@@ -90,31 +140,65 @@ new Vue({
                     this.loading = false;
                     this.errored = true;
                     this.errortimesheet = err.body;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
-        searchMonthPaymentMade: function () {
+        updateTimeSheet () {
+            this.saving = true;
+            axios.put(`/api/v1/timesheet/${this.currentTimeSheet.id}/`, this.currentTimeSheet)
+                .then((response) => {
+                    this.saving = false;
+                    this.currentTimeSheet = response.data;
+                    swal({
+                        title: "GPG system",
+                        text: "Successfully updated the informations!",
+                        icon: "success",
+                        button: false,
+                        timer: 1500
+                    })
+                    $("#viewModal").modal('hide')
+                    this.getTimeSheet();
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    console.log(err.response.data);
+                })
+        },
+        loadClient () {
             this.loading = true;
-            this.$http.get(`/api/v1/paymentmade/?date__month=${this.search_month}`)
+            axios.get(`/api/v1/clients`)
+                .then((response) => {
+                    this.loading = false;
+                    this.clients = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    this.errored = true;
+                    console.log(err.response.data);
+                })
+        },
+        searchMonthPaymentMade () {
+            this.loading = true;
+            axios.get(`/api/v1/paymentmade/?date__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.paymentmade = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getPaymentMade: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/paymentmade`)
+            axios.get(`/api/v1/paymentmade`)
                 .then((response) => {
                     this.loading = false;
                     this.paymentmade = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         getPaginatedRecords: function () {
@@ -189,6 +273,11 @@ new Vue({
         totalpaymentmade: function () {
             return this.paymentmade.reduce(function (sum, paymentmade) {
                 return sum + parseFloat(paymentmade.amount);
+            }, 0);
+        },
+        totalCashOut: function () {
+            return this.cashouts.reduce(function (sum, cashouts) {
+                return sum + parseFloat(cashouts.amount);
             }, 0);
         },
         totalDue: function () {

@@ -144,22 +144,13 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        {% if request.user.is_staffs %}
                         <li>
-                          <a href="#"><i class="fa fa-money"></i> Payroll <span class="fa arrow"></span></a>
-                          <ul class="nav nav-third-level">
-                            <li>
-                              <a href="{% url 'payroll:view_payroll' %}"> <i class="fa fa-files-o fa-fw"></i> View Payroll</a>
-                              <a href="{% url 'payroll:add_payroll' %}"> <i class="fa fa-plus"></i> Add Payroll</a>
-                            </li>
-                          </ul>
-                        </li>
-                        {% endif %}
                           {% if request.user.is_client %}
-                        <li>
                           <a href="{% url 'timesheet:view_timesheet' %}"><i class="fa fa-clock-o"></i> Timesheet</a>
+                          {% elif request.user.is_staffs %}
+                          <a href="{% url 'timesheet:va_timesheet' %}"><i class="fa fa-clock-o"></i> Timesheet</a>
+                          {% endif %}
                         </li>
-                        {% endif %}
                         {% if perms.landacademy.view_landacademyinventory %}
                         <li>
                           <a href="#"><i class="fa fa-tasks fa-fw"></i> Land Academy Apps:<span class="fa arrow"></span></a>
@@ -616,8 +607,6 @@
           <script src="{% static 'vuejs/landmaster.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/logins.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/payroll.js' %}" type="text/javascript"></script>
-          <script src="{% static 'vuejs/timesheet.js' %}" type="text/javascript"></script>
-          <script src="{% static 'vuejs/cashout.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/reminders.js' %}" type="text/javascript"></script>
           {% endblock %}
 </body>
