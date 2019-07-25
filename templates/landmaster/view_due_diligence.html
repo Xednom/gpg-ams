@@ -248,6 +248,22 @@ GPG System | View Due Diligence
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="panel panel-green">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion"
+                                                            href="#collapseFour">Total DD Time Allocation
+                                                            for Parcel
+                                                            number [[
+                                                            currentDueDiligence.parcel_number ]]</a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseFour" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        {% include 'landmaster/view_time_allocation.html' %}
+                                                    </div>
+                                                </div>
+                                            </div>
                                             {% endif %}
                                         </div>
                                         <div class="modal-footer">

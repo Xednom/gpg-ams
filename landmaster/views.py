@@ -30,12 +30,6 @@ def has_group(user, group_name):
     return user.groups.filter(name=group_name).exists()
 
 
-class CsrfExemptSessionAuthentication(SessionAuthentication):
-
-    def enforce_csrf(self, request):
-        return  # To not perform the csrf check previously happening
-        
-
 class AddDueDiligenceView(LoginRequiredMixin, ListView):
     model = DueDiligence
     template_name = 'landmaster/due_diligence.html'
@@ -45,13 +39,15 @@ class AddDueDiligenceTrackerView(SuccessMessageMixin, LoginRequiredMixin, Create
     template_name = 'landmaster/due_diligence_tracking.html'
     model = DueDiligencesCleared
     fields = ['date_of_call', 'client_full_name',
-              'client_company_name', 'apn', 'call_in', 'call_out',
-              'department_calling_about', 'contact_number', 'operators_details',
-              'notes']
+              'apn', 'total_minutes', 'call_details',
+              'department_calling_about', 'contact_details', 'operator_details',
+              'additional_memo', 'customer_service_representative', 
+              'customer_representative_note', 'reason_of_the_call',
+              'questions_requested_to_ask']
     success_message = "Successfully added Due Diligence Tracking Information."
 
     def form_valid(self, form):
-        form.instance.customer_service_representative = self.request.user.staffs.full_name
+        form.instance.customer_service_representative__full_name = self.request.user.staffs.full_name
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -78,7 +74,7 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
                                                    Q(company_owner_or_requestor=self.request.user.clients.full_name))
             return queryset
         elif is_staff:
-            if self.request.user.staffs.position == "Project Managers":
+            if self.request.user.staffs.position == "Project Manager":
                 queryset = due_diligence.filter(
                     Q(project_manager__full_name__icontains=self.request.user.staffs.full_name),
                     Q(status_of_dd="Sent to Project Manager") |
@@ -105,7 +101,6 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
 
 
 class DueDiligenceTrackerViewSet(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = (DueDiligenceClearedSerializer)
 
@@ -113,19 +108,18 @@ class DueDiligenceTrackerViewSet(viewsets.ModelViewSet):
         is_staff = self.request.user.is_staffs
         is_client = self.request.user.is_client
         if is_client:
-            queryset = DueDiligencesCleared.objects.filter(Q(client_full_name=self.request.user.clients.full_name),
-                                                           Q(client_company_name=self.request.user.clients.company_name))
+            queryset = DueDiligencesCleared.objects.filter(
+                Q(client_full_name__full_name__icontains=self.request.user.clients.full_name))
             return queryset
         elif is_staff:
             if self.request.user.staffs.position == 'General Administrative Support':
-                queryset = DueDiligencesCleared.objects.filter(Q(customer_service_representative=self.request.user.staffs.full_name))
+                queryset = DueDiligencesCleared.objects.filter(
+                    Q(customer_service_representative__full_name__icontains=self.request.user.staffs.full_name))
                 return queryset
-            elif self.request.user.staffs.position == 'Project Managers':
-                queryset = DueDiligencesCleared.objects.filter(Q(customer_service_representative=self.request.user.staffs.full_name))
+            elif self.request.user.staffs.position == 'Project Manager':
+                queryset = DueDiligencesCleared.objects.filter(
+                    Q(customer_service_representative__full_name__icontains=self.request.user.staffs.full_name))
                 return queryset
-    
-    def perform_create(self, serializer):
-        return serializer.save(customer_service_representative=self.request.user.staffs.full_name)
 
 
 class PdfLandmaster(View):

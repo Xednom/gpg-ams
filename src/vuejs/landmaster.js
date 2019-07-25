@@ -103,6 +103,8 @@ new Vue({
             'status_utilities_data': "",
             'status_other_requests': "",
             'status_tax_data': "",
+            'total_hrs_for_initial_dd': '',
+            'total_hrs_overall_dd_callouts': '',
         },
         // for pagination
         currentPage: 1,
@@ -125,6 +127,20 @@ new Vue({
         });
     },
     methods: {
+        numberInputsOnly($event) {
+            // console.log($event.keyCode); //keyCodes value
+            let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+
+            // only allow number and one dot
+            if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46 || this.price.indexOf('.') != -1)) { // 46 is dot
+                $event.preventDefault();
+            }
+
+            // restrict to 2 decimal places
+            if (this.price != null && this.price.indexOf(".") > -1 && (this.price.split('.')[1].length > 1)) {
+                $event.preventDefault();
+            }
+        },
         resetDueDiligenceFields: function () {
             Object.keys(this.newDueDiligence).forEach(key => {
                 this.newDueDiligence[key] = ""

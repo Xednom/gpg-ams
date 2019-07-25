@@ -18,6 +18,9 @@ pytz==2018.6
 six==1.11.0
 snowballstemmer==1.2.1
 
+# django money with currency
+django-money==0.15
+
 # django admin theme
 django-jet==1.0.8
 

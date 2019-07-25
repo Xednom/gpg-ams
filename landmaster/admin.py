@@ -16,6 +16,7 @@ class DueDiligenceProfile(admin.ModelAdmin):
                    'company_owner_or_requestor', 'owner_name',
                    ('date_requested', DateRangeFilter))
     search_fields = ('company_name__name', 'company_owner')
+    readonly_fields = ['total_time_allocation']
     fieldsets = (
         ('Due Diligence client Information', {
             'fields': (
@@ -133,6 +134,8 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'notes_on_zoning',
                 'notes_on_utilities',
                 'notes_on_tax',
+                'additional_client_request_question',
+                'additional_client_request_memo',
             )
         }),
         ("Due Diligence Statuses", {
@@ -145,33 +148,37 @@ class DueDiligenceProfile(admin.ModelAdmin):
                 'status_other_requests',
                 'status_of_dd',
             )
+        }),
+        ("Total DD Time Allocation", {
+            'fields': (
+                'total_hrs_for_initial_dd',
+                'total_hrs_overall_dd_callouts',
+                'total_time_allocation',
+            )
         })
     )
 
 
 class DueDiligenceClearedProfile(admin.ModelAdmin):
-    list_display = ('date_of_call', 'client_full_name', 'client_company_name', 'apn',
-                    'call_in', 'call_out', 'total_hours', 'customer_service_representative')
-    list_filter = ['client_full_name', 'client_company_name',
-                   'customer_service_representative']
-    search_fields = ('client_full_name', 'client_company_name',
-                     'customer_service_representative')
-    readonly_fields = ['total_hours']
+    list_display = ('date_of_call', 'client_full_name', 'apn',
+                    'reason_of_the_call', 'total_minutes', 'customer_service_representative')
+    list_filter = ['client_full_name', 'customer_service_representative']
+    search_fields = ('client_full_name__full_name', 'customer_service_representative__full_name')
     fieldsets = (
         ('Due Diligence Cleared Information', {
             'fields': (
                 'date_of_call',
                 'client_full_name',
-                'client_company_name',
+                'customer_service_representative',
                 'apn',
-                'call_in',
-                'call_out',
-                'total_hours',
+                'total_minutes',
+                'call_details',
                 'department_calling_about',
-                'contact_number',
-                'operators_details',
-                'notes',
-                'customer_service_representative'
+                'contact_details',
+                'operator_details',
+                'additional_memo',
+                'reason_of_the_call',
+                'questions_requested_to_ask'
             )
         }),
     )
