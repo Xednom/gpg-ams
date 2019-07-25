@@ -79,7 +79,7 @@ new Vue({
         },
         getCashOut: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/`)
+            axios.get(`/api/v1/cashout/`)
                 .then((response) => {
                     this.loading = false;
                     this.cashouts = response.data;
@@ -103,7 +103,7 @@ new Vue({
         },
         searchMonthCashOut: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/cashout/?cash_date_release__month=${this.search_month}`)
+            axios.get(`/api/v1/cashout/?cash_date_release__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.cashouts = response.data;
