@@ -20,6 +20,7 @@ class inventory(models.Model):
         ('Transferred to Podio - Personal Account', 'Transferred to Podio - Personal Account'),
         ('Transferred to Land Speed', 'Transferred to Land Speed'),
         ('Transferred to Investment Dominator', 'Transferred to Investment Dominator'),
+        ('Transferred to Buildium', 'Transferred to Buildium'),
         ('Airtable', 'Airtable'),
         ('Others', 'Others'),
     )
