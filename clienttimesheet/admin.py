@@ -23,7 +23,7 @@ class TimeSheetProfile(ModelAdminTotals):
                      'channel_job_requested', 'title_job_request',
                      'assigned_va__full_name', 'assigned_pm__full_name')
     readonly_fields = ('total_amount_due', 'total_charge_peso', 
-                       'total_charge_usd')
+                       'duration')
     fieldsets = (
         ("TimeSheet General Information", {
             'fields': (
@@ -50,7 +50,7 @@ class TimeSheetProfile(ModelAdminTotals):
         }),
         ("GPG Employee assigned", {
             'fields': (
-                'assinged_va',
+                'assigned_va',
                 'assigned_pm'
             )
         }),

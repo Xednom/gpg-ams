@@ -37,7 +37,8 @@ class TimeSheet(models.Model):
     shift_date = models.DateField(default=now, null=True, blank=True)
     first_month_to_date = models.DateField(default=now, null=True, blank=True)
     second_month_to_date = models.DateField(default=now, null=True, blank=True)
-    clients_full_name = models.CharField(max_length=150, null=True, blank=True)
+    clients_full_name = models.ForeignKey(settings.CLIENTS, null=True, blank=True,
+                                          on_delete=models.PROTECT)
     title_job_request = models.CharField(max_length=150, null=True, blank=True)
     channel_job_requested = models.CharField(max_length=150, null=True, blank=True)
     job_request_description = models.CharField(max_length=150, null=True, blank=True)
@@ -54,24 +55,20 @@ class TimeSheet(models.Model):
                                     on_delete=models.PROTECT,
                                     verbose_name='Assigned Project Manager',
                                     related_name='pms')
-    hourly_rate_peso = models.DecimalField(max_digits=7, decimal_places=2, 
-                                           null=True, blank=True)
-    hourly_rate_usd = MoneyField(max_digits=14, decimal_places=2, 
-                                           null=True, blank=True,
-                                           default_currency='USD')
-    total_charge_peso = models.DecimalField(max_digits=7, decimal_places=2,     
-                                            null=True, blank=True)
+    hourly_rate_peso = models.DecimalField(max_digits=7, decimal_places=2,
+                                           default=0.00, null=True, blank=True)
+    hourly_rate_usd = models.DecimalField(max_digits=14, decimal_places=2, 
+                                          default=0.00, null=True, blank=True)
+    total_charge_peso = models.DecimalField(max_digits=7, decimal_places=2,
+                                            default=0.00, null=True, blank=True)
     total_charge_usd = models.DecimalField(max_digits=7, decimal_places=2,     
-                                           null=True, blank=True)
-    paypal_charge = MoneyField(max_digits=14, decimal_places=2, 
-                               null=True, blank=True,
-                               default_currency='USD')
-    total_charge_with_paypal = MoneyField(max_digits=14, decimal_places=2,
-                                          null=True, blank=True,
-                                          default_currency='USD')
-    total_amount_due = MoneyField(max_digits=14, decimal_places=2,
-                                          null=True, blank=True,
-                                          default_currency='USD')
+                                           default=0.00, null=True, blank=True)
+    paypal_charge = models.DecimalField(max_digits=7, decimal_places=2,
+                                        default=0.00, null=True, blank=True)
+    total_charge_with_paypal = models.DecimalField(max_digits=7, decimal_places=2,
+                                                   default=0.00, null=True, blank=True)
+    total_amount_due = models.DecimalField(max_digits=7, decimal_places=2,
+                                           default=0.00, null=True, blank=True)
     status = models.CharField(max_length=50, choices=STATUS, default=STATUS[1][1])
     admin_approval = models.CharField(max_length=50, choices=APPROVAL, default=STATUS[1][1])
 
@@ -94,12 +91,11 @@ class TimeSheet(models.Model):
         return total_charge
 
     def calculate_total_amount_due(self):
-        amount_due = self.total_charge_usd + self.total_charge_with_paypal
-        total_amount = Decimal(amount_due)
-        return total_amount
+        amount_due = Decimal(self.total_charge_usd) + Decimal(self.total_charge_with_paypal)
+        return amount_due
 
     def save(self, *args, **kwargs):
-        self.duration = self.calculate_hours()
+        self.duration = self.calculate_total_duration()
         self.total_charge_peso = self.calculate_total_charge_peso()
         self.total_amount_due = self.calculate_total_amount_due()
         super().save(*args, **kwargs)
