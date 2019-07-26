@@ -41,7 +41,7 @@ class TimeSheet(models.Model):
                                           on_delete=models.PROTECT)
     title_job_request = models.CharField(max_length=150, null=True, blank=True)
     channel_job_requested = models.CharField(max_length=150, null=True, blank=True)
-    job_request_description = models.TextField(null=True, blank=True)
+    job_request_description = models.CharField(max_length=150, null=True, blank=True)
     time_in = models.DateTimeField(default=now, null=True, blank=True)
     time_out = models.DateTimeField(default=now, null=True, blank=True)
     duration = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
@@ -96,12 +96,12 @@ class TimeSheet(models.Model):
         return total_charge
     
     def calculate_total_charge_w_paypal(self):
-        charge = Decimal(self.total_charge_usd) * Decimal(self.paypal_charge)
+        charge = self.total_charge_usd * self.paypal_charge
         total_charge = Decimal(charge)
         return total_charge
 
     def calculate_total_amount_due(self):
-        amount_due = self.total_charge_usd + self.total_charge_with_paypal
+        amount_due = self.total_charge_usd) + self.total_charge_with_paypal
         total_amount_due = Decimal(amount_due)
         return total_amount_due
 
@@ -109,7 +109,7 @@ class TimeSheet(models.Model):
         self.duration = self.calculate_total_duration()
         self.total_charge_peso = self.calculate_total_charge_peso()
         self.total_charge_usd = self.calculate_total_charge_usd()
-        self.total_charge_with_paypal = self.calculate_total_charge_w_paypal()
+        self.total_charge_with_paypal = self.calculate_total_charge_w_paypal
         self.total_amount_due = self.calculate_total_amount_due()
         super().save(*args, **kwargs)
 

@@ -23,7 +23,8 @@ class TimeSheetProfile(ModelAdminTotals):
                      'channel_job_requested', 'title_job_request',
                      'assigned_va__full_name', 'assigned_pm__full_name')
     readonly_fields = ('total_amount_due', 'total_charge_peso', 
-                       'duration')
+                       'total_charge_usd', 'total_charge_with_paypal', 'duration',
+                       'paypal_charge')
     fieldsets = (
         ("TimeSheet General Information", {
             'fields': (
