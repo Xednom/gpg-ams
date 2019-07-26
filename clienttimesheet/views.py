@@ -17,14 +17,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from django.db.models import Q
 
-from .models import TimeSheet, PaymentMade
+from .models import TimeSheet, PaymentMade, CashOut
 from .serializers import TimeSheetSerializer, PaymentMadeSerializer, CashOutSerializer
-
-
-class CsrfExemptSessionAuthentication(SessionAuthentication):
-
-    def enforce_csrf(self, request):
-        return  # To not perform the csrf check previously happening
 
 
 class VaTimeSheetView(TemplateView):
@@ -58,7 +52,7 @@ class CashOutFilter(FilterSet):
     name = CharFilter(field_name='name', lookup_expr='icontains')
 
     class Meta:
-        model = PaymentMade
+        model = CashOut
         fields = ('cash_date_release__month', 'name')
 
 
@@ -74,7 +68,8 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
                                                 Q(shift_date__year=current_year))
             return queryset
         elif self.request.user.is_staffs:
-            queryset = TimeSheet.objects.filter(Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name),
+            queryset = TimeSheet.objects.filter(Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name) |
+                                                Q(assigned_pm__full_name__icontains=self.request.user.staffs.full_name),
                                                 Q(shift_date__year=current_year))
             return queryset
 
@@ -100,6 +95,6 @@ class CashOutViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         current_year = datetime.date.today().year
         if self.request.user.is_staffs:
-            queryset = PaymentMade.objects.filter(Q(name__full_name=self.request.user.staffs.full_name),
-                                                  Q(cash_date_release__year=current_year))
+            queryset = CashOut.objects.filter(Q(name__full_name=self.request.user.staffs.full_name),
+                                              Q(cash_date_release__year=current_year))
             return queryset

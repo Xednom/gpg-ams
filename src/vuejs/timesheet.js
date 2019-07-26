@@ -6,10 +6,13 @@ new Vue({
     delimiters: ['[[', ']]'],
     data: {
         timesheets: [],
+        cashouts: [],
         clients: [],
         paymentmade: [],
         errortimesheet: [],
         loading: false,
+        viewing: false,
+        searching: false,
         saving: false,
         errored: false,
         currentTimeSheet: {},
@@ -17,8 +20,7 @@ new Vue({
         newTimeSheet: {
             'company_tagging': null,
             'shift_date': null,
-            'first_month_to_date': null,
-            'second_month_to_date': null,
+            'month_to_date': null,
             'clients_full_name': null,
             'title_job_request': null,
             'channel_job_requested': null,
@@ -86,58 +88,60 @@ new Vue({
                 })
                 .catch((err) => {
                     this.loading = false;
-                    console.log(err);
+                    console.log(err.response.data);
                 })
         },
         searchMonthVaTimeSheet () {
-            this.loading = true;
+            this.searching = true;
             axios.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
                 .then((response) => {
-                    this.loading = false;
+                    this.searching = false;
                     this.timesheets = response.data;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.searching = false;
                     console.log(err.response.data);
                 })
         },
         searchMonthCashOut: function () {
-            this.loading = true;
+            this.searching = true;
             axios.get(`/api/v1/cashout/?cash_date_release__month=${this.search_month}`)
                 .then((response) => {
-                    this.loading = false;
+                    this.searching = false;
                     this.cashouts = response.data;
                 })
                 .catch((err) => {
-                    this.loading = false;
-                    console.log(err);
-                })
-        },
-        searchAll: function () {
-            this.searchMonthTimeSheet();
-            this.searchMonthPaymentMade();
-        },
-        searchMonthClientTimeSheet: function () {
-            this.loading = true;
-            axios.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
-                .then((response) => {
-                    this.loading = false;
-                    this.timesheets = response.data;
-                })
-                .catch((err) => {
-                    this.loading = false;
+                    this.searching = false;
                     console.log(err.response.data);
                 })
         },
-        viewTimeSheet: function (id) {
-            this.loading = true;
+        searchAll: function () {
+            this.searchMonthClientTimeSheet();
+            this.searchMonthVaTimeSheet();
+            this.searchMonthPaymentMade();
+            this.searchMonthCashOut();
+        },
+        searchMonthClientTimeSheet: function () {
+            this.searching = true;
+            axios.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
+        },
+        viewTimeSheet (id) {
+            this.viewing = true;
             axios.get(`/api/v1/timesheet/${id}`)
                 .then((response) => {
-                    this.loading = false;
+                    this.viewing = false;
                     this.currentTimeSheet = response.data;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.viewing = false;
                     this.errored = true;
                     this.errortimesheet = err.body;
                     console.log(err.response.data);
@@ -178,14 +182,14 @@ new Vue({
                 })
         },
         searchMonthPaymentMade () {
-            this.loading = true;
+            this.searching = true;
             axios.get(`/api/v1/paymentmade/?date__month=${this.search_month}`)
                 .then((response) => {
-                    this.loading = false;
+                    this.searching = false;
                     this.paymentmade = response.data;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.searching = false;
                     console.log(err.response.data);
                 })
         },
@@ -280,9 +284,19 @@ new Vue({
                 return sum + parseFloat(cashouts.amount);
             }, 0);
         },
-        totalDue: function () {
-            let sum = this.totalTimeSheet - this.totalpaymentmade;
+        totalCreditsLeft: function () {
+            let sum = this.totalpaymentmade - this.totalTimeSheet;
             return sum.toFixed(2);
+        },
+        totalSalaryVa () {
+            return this.timesheets.reduce(function (sum, timesheets) {
+                return sum + parseFloat(timesheets.total_charge_peso)
+            }, 0)
+        },
+        totalWorkHrs () {
+            return this.timesheets.reduce(function (sum, timesheets) {
+                return sum + parseFloat(timesheets.duration)
+            }, 0)
         }
     }
 });

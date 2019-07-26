@@ -1,0 +1,156 @@
+<template v-if="viewing">
+    <div class="text-center">
+        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+    </div>
+</template>
+<template v-else-if="!viewing">
+    <h4>Job Requests Information</h4>
+    <div class="row">
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Company Tagging</label>
+            <select class="form-control"
+             v-model="currentTimeSheet.company_tagging"
+             :disabled="currentTimeSheet.status =='Approved'">
+             <option>landmaster.us</option>
+             <option>gpgcorporation.com</option>
+             <option>callme.com.ph</option>
+             <option>virtualExpressServices.com</option>
+             <option>creatif-designs.com</option>
+             <option>vacantpropertiesglobal.com</option>
+            </select>
+        </div>
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Shift Date</label>
+            <input type="date" class="form-control form-control-sm" v-model="currentTimeSheet.shift_date"
+            :disabled="currentTimeSheet.status =='Approved'">
+        </div>
+        <div class="form-group col-md-2 col-sm-12">
+            <label>Month to Date</label>
+            <select class="form-control" v-model="currentTimeSheet.month_to_date"
+            :disabled="currentTimeSheet.status =='Approved'">
+                <option>January</option>
+                <option>February</option>
+                <option>March</option>
+                <option>April</option>
+                <option>May</option>
+                <option>June</option>
+                <option>July</option>
+                <option>August</option>
+                <option>September</option>
+                <option>October</option>
+                <option>November</option>
+                <option>December</option>
+            </select>
+        </div>
+        <div class="form-group col-md-5 col-sm-12">
+            <label>Client & company name</label>
+            <select class="form-control"
+            v-model="currentTimeSheet.clients_full_name"
+            :disabled="currentTimeSheet.status =='Approved'">
+                <option v-for="client in clients">
+                    [[ client.full_name ]] - [[ client.company_name ]]
+                </option>
+            </select>
+        </div>
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Job request title</label>
+            <input type="text" class="form-control form-control-sm" 
+            v-model="currentTimeSheet.title_job_request"
+            :disabled="currentTimeSheet.status =='Approved'">
+        </div>
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Channel job was request</label>
+            <input type="text" class="form-control form-control-sm" 
+            v-model="currentTimeSheet.channel_job_requested"
+            :disabled="currentTimeSheet.status =='Approved'">
+        </div>
+        <div class="form-group col-md-12 col-sm-12">
+            <label>Job request description</label>
+            <textarea class="form-control"
+            cols="30" rows="10"
+            v-model="currentTimeSheet.job_request_description"
+            :disabled="currentTimeSheet.status =='Approved'">
+            </textarea>
+        </div>
+        <div class="form-group col-md-12 col-sm-12">
+            <label>Additional Comments</label>
+            <textarea class="form-control" cols="30" rows="10" 
+            v-model="currentTimeSheet.job_request_description"
+            disabled>
+            </textarea>
+        </div>
+    </div>
+    <hr>
+    <h4>Time Information</h4>
+    <div class="row">
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Time in</label>
+            <input type="datetime" class="form-control form-control-sm" 
+            v-model="currentTimeSheet.time_in"
+            :disabled="currentTimeSheet.status =='Approved'">
+        </div>
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Time out</label>
+            <input type="datetime" class="form-control form-control-sm" 
+            v-model="currentTimeSheet.time_out"
+            :disabled="currentTimeSheet.status =='Approved'">
+        </div>
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Duration</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Hours</span>
+                <input type="datetime" class="form-control form-control-sm" 
+                v-model="currentTimeSheet.duration"
+                disabled>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h4>Amount Information</h4>
+    <div class="row">
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Hourly rate charge</label>
+            <input type="text" class="form-control" 
+            v-model="currentTimeSheet.hourly_rate_peso"
+            :disabled="currentTimeSheet.status == 'Approved'">
+        </div>
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Total charge</label>
+            <input type="text" class="form-control" 
+            v-model="currentTimeSheet.total_charge_peso"
+            disabled>
+        </div>
+    </div>
+    <hr>
+    <h4>GPG Employee Information</h4>
+    <div class="row">
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Assigned VA</label>
+            <input type="text" class="form-control" 
+            v-model="currentTimeSheet.assigned_va"
+            disabled>
+        </div>
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Assigned PM</label>
+            <input type="text" class="form-control" 
+            v-model="currentTimeSheet.assinged_pm" 
+            disabled>
+        </div>
+    </div>
+    <hr>
+    <h4>Status Information</h4>
+    <div class="row">
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Status</label>
+            <input type="text" class="form-control" 
+            v-model="currentTimeSheet.status"
+            disabled>
+        </div>
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Admin approval</label>
+            <input type="text" class="form-control" 
+            v-model="currentTimeSheet.admin_approval" 
+            disabled>
+        </div>
+    </div>
+</template>
