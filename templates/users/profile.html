@@ -53,18 +53,15 @@ GPG Admin - Profile
                     </div>
                     <div class="col-md-12 col-sm-12">
                         <label>Internal Folder Link 1:</label>&nbsp;<a
-                            href="{{ request.user.clients.internal_folder_link_1 }}" target="_blank">Your
-                            internal folder 1 link</a>
+                            target="_blank">{{ request.user.clients.internal_folder_link_1 }}</a>
                     </div>
                     <div class="col-md-12 col-sm-12">
                         <label>Internal Folder Link 2:</label>&nbsp;<a
-                            href="{{ request.user.clients.internal_folder_link_2 }}" target="_blank">Your
-                            internal folder 2 link</a>
+                            target="_blank">{{ request.user.clients.internal_folder_link_2 }}</a>
                     </div>
                     <div class="col-md-12 col-sm-12">
                         <label>Internal Folder Link 3:</label>&nbsp;<a
-                            href="{{ request.user.clients.internal_folder_link_3 }}" target="_blank">Your
-                            internal folder 3 link</a>
+                            target="_blank">{{ request.user.clients.internal_folder_link_3 }}</a>
                     </div>
                 </div>
             </div>
@@ -131,7 +128,7 @@ GPG Admin - Profile
                         </ul>
                     </div>
                     <div class="col-md-12 col-sm-12">
-                        <label>Type of Task Request:</label>
+                        <label>Channel of Communications:</label>
                         <ul>
                             {% for ch in client.channel_of_communications.all %} 
                                 <li>{{ ch }}</li>

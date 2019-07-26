@@ -11,7 +11,7 @@ GPG System | View Timesheet
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="page-header">
-                    Timesheet for {{ request.user.clients.company_name }}
+                    Timesheet for {{ request.user.staffs.full_name }}
                 </h2>
             </div>
         </div>
@@ -23,151 +23,197 @@ GPG System | View Timesheet
             <li class="breadcrumb-item active">List of your Time Sheets</li>
         </ol>
         <div id="gpg-timesheet" v-cloak>
-            <form method="GET" class="form-inline">
-                <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
-                    <label>Choose a month:</label>
-                    <select name="search" class="form-control" v-model="search_month">
-                        <option value="01">January</option>
-                        <option value="02">February</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">August</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary" v-on:click.prevent="searchAll">Search</button>
+            <template v-if="loading">
+                <div class="text-center">
+                    <i class="fa fa-spinner fa-spin"></i> Fetching data...
                 </div>
-            </form>
-            <div class="col-md-12 col-sm-12">
+            </template>
+            <template v-else-if="!loading">
+                <form method="GET" class="form-inline">
+                    <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
+                        <label>Choose a month:</label>
+                        <select name="search" class="form-control" v-model="search_month">
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary" v-on:click.prevent="searchAll">Search</button>
+                    </div>
+                </form>
                 <div class="col-md-12 col-sm-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            Complete computations
-                        </div>
-                        <div class="panel-body">
-                            <h5 class="col-md-4 col-sm-12 pull-right">Total Charge: <strong class="charge">[[
-                                    totalTimeSheet
-                                    ]]</strong></h5>
-                            <h5 class="col-md-4 col-sm-12 pull-right">Total Payment Made: <strong class="payment">[[
-                                    totalpaymentmade
-                                    ]]</strong></h5>
-                            <h5 class="col-md-4 col-sm-12 pull-right">Total Payment Due: <strong class="due">[[
-                                    totalDue ]]</strong></h5>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                Complete computations
+                            </div>
+                            <div class="panel-body">
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total work hours: <strong class="charge">[[
+                                        totalWorkHrs
+                                        ]]</strong>hrs</h5>
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Cashout made: &#8369;<strong
+                                        class="payment">[[ totalCashOut
+                                        ]]</strong></h5>
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Salary/Renumeration Due: &#8369;<strong class="due">[[
+                                        totalSalaryVa ]]</strong></h5>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="content-wrapper">
-                <div class="col-md-12 col-sm-12">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            List of Timesheet
-                        </div>
-                        <div class="panel-body">
-                            <div style="overflow-x:auto;">
-                                <h4 class="pull-right">Total Amount: [[ totalTimeSheet ]]</h4>
-                                <table class="table table-bordered table-hover table-responsive">
-                                    <thead>
-                                        <th>Shift Date</th>
-                                        <th>Job Request Title</th>
-                                        <th>Time In</th>
-                                        <th>Time Out</th>
-                                        <th>Total Duration(Hours)</th>
-                                        <th>Hourly Rate Charge</th>
-                                        <th>Total Charge</th>
-                                        <th>Paypal Charge</th>
-                                        <th>Total Charge w/ Paypal</th>
-                                        <th>Total amount due</th>
-                                        <th>Assigned VA</th>
-                                        <th>Action</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <template v-if="loading">
-                                                <td colspan="15" class="text-center bg-warning">
-                                                    <i class="fa fa-spinner fa-spin"></i> Fetching data...
-                                                </td>
-                                            </template>
-                                            <template v-else-if="!timesheets.length">
-                                                <td colspan="15" class="text-center bg-warning">
-                                                    You
-                                                    don't
-                                                    have any TimeSheets
-                                                    as of now. The Admin must be working on it.</td>
-                                            </template>
-
-                                        </tr>
-                                        <tr v-for="(timesheets, i) in paginatedRecords">
-                                            <td>[[ timesheets.shift_date ]]</td>
-                                            <td>[[ timesheets.title_job_request ]]</td>
-                                            <td>[[ timesheets.time_in ]]</td>
-                                            <td>[[ timesheets.time_out ]]</td>
-                                            <td>[[ timesheets.duration ]]</td>
-                                            <td>[[ timesheets.hourly_rate_usd ]]</td>
-                                            <td>[[ timesheets.total_charge_usd ]]</td>
-                                            <td>[[ timesheets.paypal_charge ]]</td>
-                                            <td>[[ timesheets.total_charge_with_paypal ]]</td>
-                                            <td>[[ timesheets.total_amount_due ]]</td>
-                                            <td>[[ timesheets.assigned_va ]]</td>
-                                            <td><button class="btn btn-primary" type="button" data-toggle="modal"
-                                                    data-target="#viewModal" data-placement="top"
-                                                    title="View Information for this work"
-                                                    v-on:click="viewTimeSheet(timesheets.id)"><i
-                                                        class="fa fa-eye"></i></button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                <div id="content-wrapper">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                List of Timesheet
                             </div>
+                            <div class="panel-body">
+                                <div style="overflow-x:auto;">
+                                    <h4 class="pull-right">Total Amount: &#8369;[[ totalTimeSheet ]]</h4>
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <th>Shift Date</th>
+                                            <th>Job Request Title</th>
+                                            <th>Time In</th>
+                                            <th>Time Out</th>
+                                            <th>Total Duration(Hours)</th>
+                                            <th>Hourly Rate Charge</th>
+                                            <th>Total charge</th>
+                                            <th>Action</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <template v-if="loading || searching">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="!timesheets.length">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        You
+                                                        don't
+                                                        have any TimeSheets
+                                                        as of now. The Admin must be working on it.</td>
+                                                </template>
+                                            </tr>
+                                            <tr v-for="(timesheets, i) in paginatedRecords">
+                                                <td>[[ timesheets.shift_date ]]</td>
+                                                <td>[[ timesheets.title_job_request ]]</td>
+                                                <td>[[ timesheets.time_in ]]</td>
+                                                <td>[[ timesheets.time_out ]]</td>
+                                                <td>[[ timesheets.duration ]]hrs</td>
+                                                <td>&#8369;[[ timesheets.hourly_rate_peso ]]</td>
+                                                <td>&#8369;[[ timesheets.total_charge_peso ]]</td>
+                                                <td><button class="btn btn-primary btn-xs" type="button"
+                                                        data-toggle="modal" data-target="#viewModal"
+                                                        data-placement="top" title="View Information for this work"
+                                                        v-on:click="viewTimeSheet(timesheets.id)"><i
+                                                            class="fa fa-eye"></i> View</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                            <!-- pagination -->
-                            <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
-                                <ul class="pagination justify-content-end">
-                                    <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
-                                        <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
-                                            Previous
-                                        </a>
-                                    </li>
-                                    <li v-for="pageNumber in pages"
-                                        v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
-                                        <a class="page-link" v-on:click="goToPage(pageNumber)">
-                                            [[ pageNumber ]]
-                                        </a>
-                                    </li>
-                                    <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
-                                        <a class="page-link" v-on:click="goToPage(currentPage + 1)">
-                                            Next
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <!-- end of pagination -->
+                                <!-- pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="goToPage(currentPage - 1)">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in pages"
+                                            v-bind:class="[{active: pageNumber === currentPage}, 'page-item']">
+                                            <a class="page-link" v-on:click="goToPage(pageNumber)">
+                                                [[ pageNumber ]]
+                                            </a>
+                                        </li>
+                                        <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                            <a class="page-link" v-on:click="goToPage(currentPage + 1)">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                Cashout
+                            </div>
+                            <div class="panel-body">
+                                <div style="overflow-x:auto;">
+                                    <h4 class="pull-right">Total: &#8369;[[ totalCashOut ]]</h4>
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <th>Cash date release</th>
+                                            <th>Reference</th>
+                                            <th>RCBC</th>
+                                            <th>Purpose</th>
+                                            <th>Notes</th>
+                                            <th>Amount</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <template v-if="loading || searching">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="!cashouts.length">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        You
+                                                        don't
+                                                        have any cashout made as of today.</td>
+                                                </template>
+                                            </tr>
+                                            <tr v-for="cashout in cashouts">
+                                                <td>[[ cashout.cash_date_release ]]</td>
+                                                <td>[[ cashout.reference ]]</td>
+                                                <td>[[ cashout.rcbc ]]</td>
+                                                <td>[[ cashout.purpose ]]</td>
+                                                <td>[[ cashout.notes ]]</td>
+                                                <td>&#8369;[[ cashout.amount ]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Modal -->
-            <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <form v-on:submit.prevent="updateTimeSheet">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"
-                                    aria-hidden="true">&times;</button>
-                                <h4 class="modal-title" id="myModalLabel">Time sheet information for [[
-                                    currentTimeSheet.title_job_request ]]</h4>
-                            </div>
-                            <div class="modal-body">
-                                {% include 'timesheet/timesheet_info.html' %}
+                <!-- Modal -->
+                <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <form v-on:submit.prevent="updateTimeSheet">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Timesheet information for 
+                                        [[ currentTimeSheet.title_job_request ]]
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    {% include 'timesheet/va_timesheet_info.html' %}
+                                </div>
                                 <div class="modal-footer">
                                     <button class="btn btn-info" data-dismiss="modal">Close</button>
                                     <template v-if="!saving">
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="submit" class="btn btn-primary"
+                                            :disabled="currentTimeSheet.admin_approval == 'Approved'">Save
+                                            changes</button>
                                     </template>
                                     <template v-else-if="saving">
                                         <button type="button" class="btn btn-primary">
@@ -176,70 +222,22 @@ GPG System | View Timesheet
                                     </template>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                    <!-- /.modal-content -->
+                        </form>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
                 </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
+                <!-- /.modal -->
+            </template>
         </div>
         <!-- /.gpg-timesheet -->
 
-        <!-- gpg-cashout -->
-        <div id="gpg-cashout" v-cloak>
-            <div class="content-wrapper">
-                <div class="col-md-12 col-sm-12">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            Cash Out
-                        </div>
-                        <div class="panel-body">
-                            <div style="overflow-x:auto;">
-                                <h4 class="pull-right">Total: [[ totalCashOut ]]</h4>
-                                <table class="table table-bordered table-hover table-responsive">
-                                    <thead>
-                                        <th>Date</th>
-                                        <th>Referrence</th>
-                                        <th>Payment Channel</th>
-                                        <th>Notes</th>
-                                        <th>Amount</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <template v-if="loading">
-                                                <td colspan="15" class="text-center bg-warning" v-if="loading">
-                                                    <i class="fa fa-spinner fa-spin"></i> Fetching data...
-                                                </td>
-                                            </template>
-                                            <template>
-                                                <td colspan="15" class="text-center bg-warning" v-if="!cashouts.length">
-                                                    You
-                                                    don't
-                                                    have any payments made as of now.</td>
-                                            </template>
-                                        </tr>
-                                        <tr v-for="cashout in cashouts">
-                                            <td>[[ cashout.date ]]</td>
-                                            <td>[[ cashout.reference ]]</td>
-                                            <td>[[ cashout.payment_channel ]]</td>
-                                            <td>[[ cashout.notes ]]</td>
-                                            <td>[[ cashout.amount ]]</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.gpg-cashout -->
+
+
     </div>
 </div>
 {% endblock %}
 
 {% block api %}
 <script src="{% static 'vuejs/timesheet.js' %}" type="text/javascript"></script>
-<script src="{% static 'vuejs/cashout.js' %}" type="text/javascript"></script>
 {% endblock %}

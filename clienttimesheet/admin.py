@@ -5,7 +5,7 @@ from admin_totals.admin import ModelAdminTotals
 
 from django.db.models import Sum
 
-from . models import TimeSheet, PaymentMade
+from . models import TimeSheet, PaymentMade, CashOut
 
 
 class TimeSheetProfile(ModelAdminTotals):
@@ -15,8 +15,8 @@ class TimeSheetProfile(ModelAdminTotals):
                     'hourly_rate_usd', 'total_amount_due')
     list_filter = ('company_tagging', 'shift_date', 'assigned_va',
                    'assigned_pm', ('shift_date', DateRangeFilter), 
-                   'clients_full_name', 'first_month_to_date',
-                   'second_month_to_date', 'status', 'admin_approval')
+                   'clients_full_name', 'month_to_date', 
+                   'status', 'admin_approval')
     list_totals = [('duration', Sum), ('total_charge_peso', Sum), 
                    ('total_charge_usd', Sum), ('total_amount_due', Sum)]
     search_fields = ('company_tagging', 'clients_full_name__full_name', 
@@ -30,8 +30,7 @@ class TimeSheetProfile(ModelAdminTotals):
             'fields': (
                 'company_tagging',
                 'shift_date',
-                'first_month_to_date',
-                'second_month_to_date',
+                'month_to_date',
                 'clients_full_name',
                 'title_job_request',
                 'channel_job_requested',
@@ -89,5 +88,31 @@ class PaymentMadeProfile(ModelAdminTotals):
         }),
     )
 
+
+class CashoutProfile(ModelAdminTotals):
+    list_display = ('cash_date_release', 'name', 'reference',
+                    'rcbc', 'approved_by', 'purpose', 'amount',)
+    list_filter = (('cash_date_release', DateRangeFilter),
+                   'cash_date_release', 'rcbc')
+    list_totals = [('amount', Sum)]
+    search_fields = ('reference', 'rcbc',
+                     'name__full_name')
+    fieldsets = (
+        ("Cashout made by the VA", {
+            'fields': (
+                'name',
+                'amount',
+                'cash_date_release',
+                'reference',
+                'rcbc',
+                'approved_by',
+                'purpose',
+                'notes'
+            )
+        }),
+    )
+
+
 admin.site.register(TimeSheet, TimeSheetProfile)
 admin.site.register(PaymentMade, PaymentMadeProfile)
+admin.site.register(CashOut, CashoutProfile)

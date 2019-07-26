@@ -11,6 +11,20 @@ from fillables.models import VirtualAssistant
 
 
 class TimeSheet(models.Model):
+    MONTH = (
+        ('January', 'January'),
+        ('February', 'February'),
+        ('March', 'March'),
+        ('April', 'April'),
+        ('May', 'May'),
+        ('June', 'June'),
+        ('July', 'July'),
+        ('August', 'August'),
+        ('September', 'September'),
+        ('October', 'October'),
+        ('November', 'November'),
+        ('December', 'December')
+    )
     STATUS = (
         ('Approved', 'Approved'),
         ('For Review', 'For Review'),
@@ -35,8 +49,7 @@ class TimeSheet(models.Model):
     company_tagging = models.CharField(max_length=150, choices=COMPANY_TAGGING,
                                        null=True, blank=True)
     shift_date = models.DateField(default=now, null=True, blank=True)
-    first_month_to_date = models.DateField(default=now, null=True, blank=True)
-    second_month_to_date = models.DateField(default=now, null=True, blank=True)
+    month_to_date = models.CharField(max_length=150, choices=MONTH, null=True, blank=True)
     clients_full_name = models.ForeignKey(settings.CLIENTS, null=True, blank=True,
                                           on_delete=models.PROTECT)
     title_job_request = models.CharField(max_length=150, null=True, blank=True)
