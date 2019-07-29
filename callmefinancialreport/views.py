@@ -31,7 +31,8 @@ class MinutesReportView(LoginRequiredMixin, TemplateView):
 
 
 class FinancialFilters(FilterSet):
-    date__month = NumberFilter(field_name='date_created', lookup_expr='month')
+    date__month = NumberFilter(
+        field_name='first_billing_cycle', lookup_expr='month')
 
     class Meta:
         model = FinancialReport

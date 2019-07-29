@@ -33,77 +33,6 @@ GPG System | CallMe Master Board
             </ol>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="collapse multi-collapse" id="CollapseSearchCarrier">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                Advanced search
-                            </div>
-                            <div class="panel-body">
-                                <form method="GET">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="form-group col-md-3 col-sm-12">
-                                            <label>Client full name:</label>
-                                            <select class="form-control" 
-                                            v-model="search_client_name_board">
-                                                <option v-for="client in clients">[[ client.full_name ]]</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-3 col-sm-12">
-                                            <label>Client company name:</label>
-                                            <input class="form-control form-control-sm" type="text"
-                                                v-model="search_company_name_board">
-                                        </div>
-                                        <div class="form-group col-md-2 col-sm-12">
-                                            <label>Type of CRM:</label>
-                                            <input class="form-control form-control-sm" type="text"
-                                                v-model="search_crm">
-                                        </div>
-                                        <div class="form-group col-md-2 col-sm-12">
-                                            <label>Type of VOIP:</label>
-                                            <input class="form-control form-control-sm" type="text"
-                                                v-model="search_voip">
-                                        </div>
-                                        <div class="form-group col-md-2 col-sm-12">
-                                            <label>Date Started:</label>
-                                            <input class="form-control form-control-sm" type="date"
-                                                v-model="search_date_started">
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label>URL Buyer:</label>
-                                            <input class="form-control form-control-sm" type="text"
-                                                v-model="search_url_buyer">
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label>URL Seller:</label>
-                                            <input class="form-control form-control-sm" type="text"
-                                                v-model="search_url_seller">
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label>URL Property Management:</label>
-                                            <input class="form-control form-control-sm" type="text"
-                                                v-model="search_url_property_management">
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label>Voicemail:</label>
-                                            <input class="form-control form-control-sm" type="text"
-                                                v-model="search_voicemail">
-                                        </div>
-                                        <div class="form-group col-md-4 col-sm-12">
-                                            <label>General Calls:</label>
-                                            <input class="form-control form-control-sm" type="text"
-                                                v-model="search_general_calls">
-                                        </div>
-                                        <div class="col-md-12 col-sm-12 pull-right">
-                                            <button class="btn btn-primary" type="button"
-                                                v-on:click.prevent="advancedSearchBoard"><i
-                                                    class="fa fa-search"></i>
-                                                Search</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             Table of CallMe Master board
@@ -122,12 +51,6 @@ GPG System | CallMe Master Board
                                         </span>
                                     </div>
                                     <!-- </form> -->
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#CollapseSearchCarrier" data-toggle="collapse" role="button"
-                                        aria-expanded="false" aria-controls="CollapseSearchCarrier"
-                                        v-if="!loading">advanced
-                                        search</a>
                                 </div>
                                 <table class="table table-hover">
                                     <thead>
