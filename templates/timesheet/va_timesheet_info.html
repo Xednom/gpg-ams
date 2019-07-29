@@ -87,13 +87,13 @@
             <label>Time in</label>
             <input type="datetime" class="form-control form-control-sm" 
             v-model="currentTimeSheet.time_in"
-            :disabled="currentTimeSheet.status =='Approved'">
+            disabled>
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Time out</label>
             <input type="datetime" class="form-control form-control-sm" 
             v-model="currentTimeSheet.time_out"
-            :disabled="currentTimeSheet.status =='Approved'">
+            disabled>
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Duration</label>
@@ -110,15 +110,34 @@
     <div class="row">
         <div class="form-group col-md-3 col-sm-12">
             <label>Hourly rate charge</label>
-            <input type="text" class="form-control" 
-            v-model="currentTimeSheet.hourly_rate_peso"
-            :disabled="currentTimeSheet.status == 'Approved'">
+            <div class="form-group input-group">
+                <span class="input-group-addon">&#8369;</span>
+                <input type="text" 
+                class="form-control" 
+                v-model="currentTimeSheet.hourly_rate_peso"
+                :disabled="currentTimeSheet.status == 'Approved'">
+            </div>
         </div>
-        <div class="form-group col-md-3 col-sm-12">
+        <div class="form-group col-md-2 col-sm-12">
+            <label>Bonus</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">&#8369;</span>
+                <input type="text"
+                class="form-control"
+                v-model="currentTimeSheet.bonus_peso"
+                disabled>
+            </div>
+        </div>
+        <div class="form-group col-md-2 col-sm-12">
             <label>Total charge</label>
-            <input type="text" class="form-control" 
-            v-model="currentTimeSheet.total_charge_peso"
-            disabled>
+            <div class="form-group input-group">
+                <span class="input-group-addon">&#8369;</span>
+                <input type="text" 
+                class="form-control" 
+                v-model="currentTimeSheet.total_charge_peso" 
+                disabled>
+            </div>
+            
         </div>
     </div>
     <hr>
@@ -133,7 +152,7 @@
         <div class="form-group col-md-3 col-sm-12">
             <label>Assigned PM</label>
             <input type="text" class="form-control" 
-            v-model="currentTimeSheet.assinged_pm" 
+            v-model="currentTimeSheet.assigned_pm" 
             disabled>
         </div>
     </div>

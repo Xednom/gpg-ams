@@ -46,7 +46,8 @@ GPG System | Add CallMe Inventory
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Date Lead Received</label>
                             <input type="date" class="form-control" v-model="newInventory.date_lead_received"
-                            @disabled="saving" >
+                            @disabled="saving"
+                            required >
                         </div>
                     </div>
                     <div class="error" v-if="errorInventory.type_of_form">
@@ -60,7 +61,8 @@ GPG System | Add CallMe Inventory
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Type of Form</label>
-                            <select class="form-control" v-model="newInventory.type_of_form" >
+                            <select class="form-control" v-model="newInventory.type_of_form" 
+                            required>
                                 <option>Buyers</option>
                                 <option>Sellers</option>
                                 <option>General Call</option>
@@ -70,6 +72,7 @@ GPG System | Add CallMe Inventory
                             </select>
                         </div>
                     </div>
+                    {% if request.user.is_staffs %}
                     <div class="error" v-if="errorInventory.client_full_name">
                         <div class="alert alert-danger" role="alert">
                             <i class="fa fa-times-circle"></i>
@@ -82,11 +85,15 @@ GPG System | Add CallMe Inventory
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Client Name</label>
                             <select class="form-control"
-                            v-model="newInventory.client_full_name">
+                            v-model="newInventory.client_full_name" 
+                            required>
                             <option v-for="client in clients">[[ client.full_name ]] - [[ client.company_name ]]</option>
                             </select>
                         </div>
                     </div>
+                    {% else %}
+                    <!-- don't show client name field if client is the user -->
+                    {% endif %}
                     <div class="error" v-if="errorInventory.full_name_of_lead">
                         <div class="alert alert-danger" role="alert">
                             <i class="fa fa-times-circle"></i>
@@ -141,7 +148,8 @@ GPG System | Add CallMe Inventory
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Lead Conversion</label>
                             <select class="form-control"
-                            v-model="newInventory.lead_conversion">
+                            v-model="newInventory.lead_conversion"
+                            required>
                                 <option>Interested</option>
                                 <option>Not Interested</option>
                                 <option>Dead Lead</option>
@@ -149,6 +157,9 @@ GPG System | Add CallMe Inventory
                             </select>
                         </div>
                     </div>
+                    {% if request.user.is_staffs %}
+                    <!-- don't show the csr field if staffs -->
+                    {% elif request.user.is_client %}
                     <div class="error" v-if="errorInventory.customer_representative">
                         <div class="alert alert-danger" role="alert">
                             <i class="fa fa-times-circle"></i>
@@ -160,11 +171,13 @@ GPG System | Add CallMe Inventory
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Customer Representative</label>
-                            <select class="form-control" v-model="newInventory.customer_representative" >
+                            <select class="form-control" v-model="newInventory.customer_representative"
+                            required>
                                 <option v-for="csr in staffs">[[ csr.full_name ]]</option>
                             </select>
                         </div>
                     </div>
+                    {% endif %}
                     <div class="error" v-if="errorInventory.status">
                         <div class="alert alert-danger" role="alert">
                             <i class="fa fa-times-circle"></i>
@@ -176,7 +189,8 @@ GPG System | Add CallMe Inventory
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Status</label>
-                            <select class="form-control" v-model="newInventory.status" >
+                            <select class="form-control" v-model="newInventory.status"
+                            required>
                                 <option>New</option>
                                 <option>Transferred to Podio - Personal Account</option>
                                 <option>Transferred to Land Speed</option>
@@ -228,7 +242,7 @@ GPG System | Add CallMe Inventory
                     <div class="form-group row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label>Financial Status</label>
-                            <select class="form-control" v-model="newInventory.financial_status" >
+                            <select class="form-control" v-model="newInventory.financial_status" required>
                                 <option>Billed</option>
                                 <option>Unbilled</option>
                                 <option>Waived</option>
@@ -249,7 +263,8 @@ GPG System | Add CallMe Inventory
                             <input type="text" @keypress="duration"
                             class="form-control" @paste.prevent
                             v-model="newInventory.call_duration"
-                            :disabled="saving">
+                            :disabled="saving"
+                            required>
                         </div>
                     </div>
                     <div class="error" v-if="errorInventory.total_time_transferring_leads">

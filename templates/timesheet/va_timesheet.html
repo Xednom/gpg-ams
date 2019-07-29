@@ -53,17 +53,15 @@ GPG System | View Timesheet
                     <div class="col-md-12 col-sm-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                Complete computations
+                                Overall Summary Calculation
                             </div>
                             <div class="panel-body">
-                                <h5 class="col-md-4 col-sm-12 pull-right">Total work hours: <strong class="charge">[[
-                                        totalWorkHrs
-                                        ]]</strong>hrs</h5>
-                                <h5 class="col-md-4 col-sm-12 pull-right">Total Cashout made: &#8369;<strong
-                                        class="payment">[[ totalCashOut
-                                        ]]</strong></h5>
-                                <h5 class="col-md-4 col-sm-12 pull-right">Total Salary/Renumeration Due: &#8369;<strong class="due">[[
-                                        totalSalaryVa ]]</strong></h5>
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total due to the Staff/Contractor: 
+                                    <strong class="charge">&#8369;[[ totalDueStaffs ]]</strong></h5>
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Cashout made: 
+                                    &#8369;<strong class="payment">[[ totalCashOut ]]</strong></h5>
+                                <h5 class="col-md-4 col-sm-12 pull-right">Total Salary/Renumeration Due: 
+                                    &#8369;<strong class="due">[[ totalSalaryVa ]]</strong></h5>
                             </div>
                         </div>
                     </div>
@@ -76,7 +74,6 @@ GPG System | View Timesheet
                             </div>
                             <div class="panel-body">
                                 <div style="overflow-x:auto;">
-                                    <h4 class="pull-right">Total Amount: &#8369;[[ totalTimeSheet ]]</h4>
                                     <table class="table table-bordered table-hover table-responsive">
                                         <thead>
                                             <th>Shift Date</th>
@@ -158,7 +155,7 @@ GPG System | View Timesheet
                                         <thead>
                                             <th>Cash date release</th>
                                             <th>Reference</th>
-                                            <th>RCBC</th>
+                                            <th>Payment Channel</th>
                                             <th>Purpose</th>
                                             <th>Notes</th>
                                             <th>Amount</th>
@@ -180,7 +177,7 @@ GPG System | View Timesheet
                                             <tr v-for="cashout in cashouts">
                                                 <td>[[ cashout.cash_date_release ]]</td>
                                                 <td>[[ cashout.reference ]]</td>
-                                                <td>[[ cashout.rcbc ]]</td>
+                                                <td>[[ cashout.payment_channel ]]</td>
                                                 <td>[[ cashout.purpose ]]</td>
                                                 <td>[[ cashout.notes ]]</td>
                                                 <td>&#8369;[[ cashout.amount ]]</td>
