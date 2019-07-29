@@ -117,25 +117,11 @@
                                                 <a href="{% url 'jobrequest:update_job_request' %}"><i
                                                     class="fa fa-pencil"></i> Update Job Request</a>
                                             </li>
-                                            <li>
-                                              <a href="{% url 'jobrequest:view_time_sheet' %}">
-                                                <i class="fa fa-eye"></i> View Time Sheets</a>
-                                            </li>
                                             {% elif request.user.is_staffs %}
-                                              
                                               <li>
                                                   <a href="{% url 'jobrequest:update_job_request' %}"><i
                                                       class="fa fa-pencil"></i> Update Job Request</a>
                                               </li>
-                                              <li>
-                                                <a href="{% url 'jobrequest:add_time_sheet' %}">
-                                                  <i class="fa fa-plus"></i> Add Time Sheet</a>
-                                              </li>
-                                              <li>
-                                                <a href="{% url 'jobrequest:view_time_sheet' %}">
-                                                  <i class="fa fa-eye"></i> View Time Sheets</a>
-                                              </li>
-                                              
                                             {% endif %}
                                         </ul>
                                         <!-- /.nav-third-level -->
@@ -145,11 +131,20 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                          {% if request.user.is_client %}
-                          <a href="{% url 'timesheet:view_timesheet' %}"><i class="fa fa-clock-o"></i> Timesheet</a>
-                          {% elif request.user.is_staffs %}
-                          <a href="{% url 'timesheet:va_timesheet' %}"><i class="fa fa-clock-o"></i> Timesheet</a>
-                          {% endif %}
+                          <a href="#"><i class="fa fa-tasks fa-fw"></i> Timesheet:<span class="fa arrow"></span></a>
+                          <ul class="nav nav-second-level">
+                            <li>
+                              {% if request.user.is_client %}
+                              <a href="{% url 'timesheet:view_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
+                              {% elif request.user.is_staffs %}
+                              <a href="{% url 'timesheet:va_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
+                              <a href="{% url 'timesheet:add_timesheet' %}"><i class="fa fa-plus"></i> Add Timesheet</a>
+                              {% endif %}
+                            <li>
+                            </li>
+                        </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
                         </li>
                         {% if perms.landacademy.view_landacademyinventory %}
                         <li>
@@ -584,8 +579,13 @@
       });
     });
     $(function () {
-    $("#id_due_date").datepicker({
-        format:'yyyy-mm-dd',
+      $("#id_due_date").datepicker({
+          format:'yyyy-mm-dd',
+        });
+    });
+    $(function () {
+      $("#id_shift_date").datepicker({
+      format:'yyyy-mm-dd',
       });
     });
   </script>

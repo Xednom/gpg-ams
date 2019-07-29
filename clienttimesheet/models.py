@@ -8,6 +8,7 @@ from django.db import models
 from django.utils.timezone import now
 
 from fillables.models import VirtualAssistant
+from users.models import Staffs
 
 
 class TimeSheet(models.Model):
@@ -33,6 +34,7 @@ class TimeSheet(models.Model):
     )
     APPROVAL = (
         ('Approved', 'Approved'),
+        ('For Review', 'For Review'),
         ('Declined', 'Declined'),
         ('Dispute', 'Dispute'),
         ('Waived', 'Waived'),
@@ -60,11 +62,11 @@ class TimeSheet(models.Model):
     duration = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     total_items = models.CharField(max_length=150, null=True, blank=True)
     additional_comments = models.TextField(null=True, blank=True)
-    assigned_va = models.ForeignKey(settings.STAFFS, null=True, blank=True, 
+    assigned_va = models.ForeignKey(Staffs, null=True, blank=True, 
                                     on_delete=models.PROTECT,
                                     verbose_name='Assigned VA',
                                     related_name='vas')
-    assigned_pm = models.ForeignKey(settings.STAFFS, null=True, blank=True, 
+    assigned_pm = models.ForeignKey(Staffs, null=True, blank=True, 
                                     on_delete=models.PROTECT,
                                     verbose_name='Assigned Project Manager',
                                     related_name='pms')
@@ -82,8 +84,18 @@ class TimeSheet(models.Model):
                                                    default=0.00, null=True, blank=True)
     total_amount_due = models.DecimalField(max_digits=7, decimal_places=2,
                                            default=0.00, null=True, blank=True)
-    status = models.CharField(max_length=50, choices=STATUS, default=STATUS[1][1])
-    admin_approval = models.CharField(max_length=50, choices=APPROVAL, default=STATUS[1][1])
+    bonus_peso = models.DecimalField(max_digits=7, decimal_places=2,
+                                     default=0.00, null=True, blank=True)
+    bonus_given_to_company = models.DecimalField(max_digits=7, decimal_places=2,
+                                                 default=0.00, null=True, blank=True)
+    others_peso = models.DecimalField(max_digits=7, decimal_places=2,
+                                      default=0.00, null=True, blank=True)
+    others_dollars = models.DecimalField(max_digits=7, decimal_places=2,
+                                      default=0.00, null=True, blank=True)
+    status = models.CharField(max_length=50, choices=STATUS, null=True, blank=True,
+                              default=STATUS[1][1])
+    admin_approval = models.CharField(max_length=50, choices=APPROVAL, null=True, blank=True,
+                              default=STATUS[1][1])
 
     class Meta:
         verbose_name = "General Timesheet"
@@ -91,7 +103,7 @@ class TimeSheet(models.Model):
         ordering = ['-shift_date']
 
     def __str__(self):
-        return self.company_tagging
+        return str(self.company_tagging)
 
     def calculate_total_duration(self):
         total_hours = (self.time_out - self.time_in).total_seconds() / 60 / 60
@@ -100,11 +112,13 @@ class TimeSheet(models.Model):
     
     def calculate_total_charge_peso(self):
         charge = self.duration * self.hourly_rate_peso
+        other_charge = self.bonus_peso + self.others_peso
+        charge = Decimal(charge) + Decimal(other_charge)
         total_charge = Decimal(charge)
         return total_charge
 
     def calculate_total_charge_usd(self):
-        charge = self.duration * self.hourly_rate_usd
+        charge =Decimal(self.duration) * Decimal(self.hourly_rate_usd)
         total_charge = Decimal(charge)
         return total_charge
     
@@ -114,7 +128,8 @@ class TimeSheet(models.Model):
         return total_charge
 
     def calculate_total_amount_due(self):
-        amount_due = self.total_charge_usd + self.total_charge_with_paypal
+        amount_due = Decimal(self.total_charge_usd) + Decimal(self.total_charge_with_paypal) \
+            + Decimal(self.bonus_given_to_company) + Decimal(self.others_dollars)
         total_amount_due = Decimal(amount_due)
         return total_amount_due
 
@@ -154,8 +169,7 @@ class CashOut(models.Model):
     cash_date_release = models.DateField(default=now, null=True, blank=True)
     amount = MoneyField(max_digits=14, decimal_places=2, null=True, blank=True)
     reference = models.CharField(max_length=150, null=True, blank=True)
-    rcbc = models.CharField(max_length=150, null=True, blank=True,
-                            verbose_name='RCBC')
+    payment_channel = models.CharField(max_length=150, null=True, blank=True)
     approved_by = models.CharField(max_length=150, null=True, blank=True)
     purpose = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)

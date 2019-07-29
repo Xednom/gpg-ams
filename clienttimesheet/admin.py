@@ -58,6 +58,10 @@ class TimeSheetProfile(ModelAdminTotals):
             'fields': (
                 'hourly_rate_peso',
                 'hourly_rate_usd',
+                'bonus_peso',
+                'bonus_given_to_company',
+                'others_peso',
+                'others_dollars',
                 'total_charge_peso',
                 'total_charge_usd',
                 'paypal_charge',
@@ -91,11 +95,11 @@ class PaymentMadeProfile(ModelAdminTotals):
 
 class CashoutProfile(ModelAdminTotals):
     list_display = ('cash_date_release', 'name', 'reference',
-                    'rcbc', 'approved_by', 'purpose', 'amount',)
+                    'payment_channel', 'approved_by', 'purpose', 'amount',)
     list_filter = (('cash_date_release', DateRangeFilter),
-                   'cash_date_release', 'rcbc')
+                   'cash_date_release', 'payment_channel')
     list_totals = [('amount', Sum)]
-    search_fields = ('reference', 'rcbc',
+    search_fields = ('reference', 'payment_channel',
                      'name__full_name')
     fieldsets = (
         ("Cashout made by the VA", {
@@ -104,7 +108,7 @@ class CashoutProfile(ModelAdminTotals):
                 'amount',
                 'cash_date_release',
                 'reference',
-                'rcbc',
+                'payment_channel',
                 'approved_by',
                 'purpose',
                 'notes'

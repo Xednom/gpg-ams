@@ -297,6 +297,10 @@ new Vue({
             return this.timesheets.reduce(function (sum, timesheets) {
                 return sum + parseFloat(timesheets.duration)
             }, 0)
+        },
+        totalDueStaffs () {
+            let sum = this.totalSalaryVa - this.totalCashOut;
+            return sum.toFixed(2);
         }
     }
 });

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+GPG System | Add Timesheet
+{% endblock %}
+
+{% block dashboard_notif %}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Add Timesheet
+        </h1>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-wrapper">
+    <div class="container-fluid">
+        <div class="col-md-12 col-sm-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Add a Timesheet
+                </div>
+                <div style="overflow-x:auto">
+                    <div class="panel-body">
+                        {% include 'messages/messages.html' %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <hr>
+                            <h4>Timesheet General Information</h4>
+                            <div class="row">
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.company_tagging|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.shift_date|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.month_to_date|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.clients_full_name|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.title_job_request|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.channel_job_requested|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-1 col-sm-12 col-xs-12">
+                                    {{ form.total_items|as_crispy_field }}
+                                </div>
+                                {% if request.user.staffs.position == 'Project Manager' %}
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.status|as_crispy_field }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="form-group col-md-6 col-sm-12 col-xs-12">
+                                    {{ form.job_request_description|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-6 col-sm-12 col-xs-12">
+                                    {{ form.additional_comments|as_crispy_field }}
+                                </div>
+                            </div>
+                            <hr>
+                            <h4>Time logged in</h4>
+                            <div class="row">
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.time_in|as_crispy_field }}
+                                </div>
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.time_out|as_crispy_field }}
+                                </div>
+                            </div>
+                            <hr>
+                            <h4>GPG Employee assigned</h4>
+                            <div class="row">
+                                {% if request.user.staffs.position == 'Project Manager' %}
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.assigned_va|as_crispy_field }}
+                                </div>
+                                {% elif request.user.staffs.position == 'General Administrative Support' %}
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.assigned_pm|as_crispy_field }}
+                                </div>
+                                {% endif %}
+                            </div> 
+                            <hr>
+                            <h4>Amount Information</h4>
+                            <div class="row">
+                                <div class="form-group col-md-2 col-sm-12 col-xs-12">
+                                    {{ form.hourly_rate_peso|as_crispy_field }}
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
