@@ -208,6 +208,7 @@ GPG System | View Timesheet
                                     </template>
                                     <template v-else-if="!viewing">
                                     {% include 'timesheet/timesheet_info.html' %}
+                                    </template>
                                     <div class="modal-footer">
                                         <button class="btn btn-info" data-dismiss="modal">Close</button>
                                         <template v-if="!saving">
@@ -223,7 +224,6 @@ GPG System | View Timesheet
                                             </button>
                                         </template>
                                     </div>
-                                    </template>
                                 </div>
                             </div>
                         </form>
