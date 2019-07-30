@@ -1,0 +1,106 @@
+<hr>
+<br>
+<div class="form-row">
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Zoning</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.zoning"
+                :disabled="loading == true">
+            <small class="form-text text-muted">What is the zoning of the property?</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Terrain Type</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.terrain_type"
+                :disabled="loading == true">
+            <small class="form-text text-muted">Is it flat or slope?</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Property use code</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.property_use_code"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">What can be built on the property?</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.what_can_be_built"
+                :disabled="loading == true">
+            <small class="form-text text-muted">Different types of homes that we can build on the lots.</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Time limit to build</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.time_limit_to_build"
+                :disabled="loading == true">
+            <small class="form-text text-muted">Is there any time limit to build?</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Can you camp on the property?</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.can_camp"
+                :disabled="loading == true">
+            <small class="form-text text-muted">If we buy this property can the owner camp there?</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">RV's allowed on the property?</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.rv_allowed"
+                :disabled="loading == true">
+            <small class="form-text text-muted">Is RV's allowed on the property? Please ask if there is
+                restrictions.</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Mobile homes allowed on property?</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.mobile_homes"
+                :disabled="loading == true">
+            <small class="form-text text-muted">Is mobile homes allowed on the property? Please ask if there is
+                restrictions.</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Is the property in the flood zone area?</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm"
+                v-model="newDueDiligence.is_property_flood_zone_area" :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Notes on mobile homes?</label>
+        <div class="col-md-10 col-sm-12">
+            <textarea cols="80" rows="10" class="form-control" v-model="newDueDiligence.notes_on_mobile_homes"
+                :disabled="loading==true">
+                                                                            </textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Notes on Camping?</label>
+        <div class="col-md-10 col-sm-12">
+            <textarea cols="80" rows="10" class="form-control" v-model="newDueDiligence.notes_on_camping"
+                :disabled="loading == true">
+                                                                                </textarea>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Note's on RV's</label>
+        <div class="col-md-10 col-sm-12">
+            <textarea class="form-control" cols="80" rows="10" v-model="newDueDiligence.note_on_rv"
+                :disabled="loading == true">
+                                                                                </textarea>
+        </div>
+    </div>
+    <a class="btn btn-primary btn-next" href="#data-on-utilities" data-toggle="tab" type="button" style="float: right;">
+        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+    </a>
+    <a class="btn btn-warning btn-next" href="#tax-data" data-toggle="tab" type="button" style="float: right;">
+        <i class="fa fa-angle-double-left"></i> <span>Back</span>
+    </a>
+</div>

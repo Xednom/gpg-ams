@@ -1,0 +1,66 @@
+<hr>
+<br>
+<div class="form-row">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Assessor Website</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.assessor_website"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Treasurer Website</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.treasurer_website"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Reorder/Clerk Website</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.recorder_clerk_website"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Zoning Department Website</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.zoning_department_website"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">GIS Website</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.gis_website"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">CAD Website</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.cad_website"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Planning Department Contact</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm"
+                v-model="newDueDiligence.planning_department_contact" :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Reorder/Clerk Contact</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.recorder_clerk_contact"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <a class="btn btn-primary btn-next" href="#tax-data" data-toggle="tab" type="button" style="float: right;">
+        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+    </a>
+    <a class="btn btn-warning btn-next" href="#adtl-data" data-toggle="tab" type="button" style="float: right;">
+        <i class="fa fa-angle-double-left"></i> <span>Back</span>
+    </a>
+</div>

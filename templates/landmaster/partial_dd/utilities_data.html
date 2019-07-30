@@ -1,0 +1,53 @@
+<hr>
+<br>
+<div class="form-row">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Water?</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.water"
+                :disabled="loading == true">
+            <small class="form-text text-muted">Is water available on the lot?</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Sewer or Septic?</label>
+        <div class="col-md-2 col-sm-12">
+            <select v-model="newDueDiligence.sewer_or_septic" class="form-control form-control-sm">
+                <option>Sewer</option>
+                <option>Septic</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Power(Electricity)?</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.power"
+                :disabled="loading == true">
+            <small class="form-text text-muted">Is electricity available on the property? Check the distance to the
+                nearest
+                power line.</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Gas?</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.gas"
+                :disabled="loading == true">
+            <small class="form-text text-muted">How close is it this lot to the nearest gas line?</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Waste?</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.waste"
+                :disabled="loading == true">
+            <small class="form-text text-muted">Will the county or city pick up the trash?</small>
+        </div>
+    </div>
+    <a class="btn btn-primary btn-next" href="#notes" data-toggle="tab" type="button" style="float: right;">
+        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+    </a>
+    <a class="btn btn-warning btn-next" href="#zoning-data" data-toggle="tab" type="button" style="float: right;">
+        <i class="fa fa-angle-double-left"></i> <span>Back</span>
+    </a>
+</div>

@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GPG System | Add Due Diligence
+{% endblock %}
+
+{% load templatetagname %}
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="page-header text-center">
+            Land Master Due Diligence Tab
+        </h1>
+    </div>
+</div>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'users:home' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">
+        Add Due Diligence work
+    </li>
+</ol>
+<div id="gpg-land-master" style="width: 100;" v-cloak>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Please fill-up the necessary information for a Due Diligence work
+                    </div>
+                    <!-- .panel-heading -->
+                    <div class="panel-body">
+                        <!-- Nav tabs -->
+                        <!-- Tab panes -->
+                        <form v-on:submit.prevent="addDueDiligence" method="POST">
+                            {% csrf_token %}
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active" id="due-diligence">
+                                    <h4>Due Diligence Information</h4>
+                                    {% include 'landmaster/partial_dd/due_diligence.html' %}
+                                </div>
+                                <div class="tab-pane fade" id="land-data">
+                                    <h4>Land Data Information</h4>
+                                    <button type="button" class="btn btn-primary btn-xs pull-right" href="#summary"
+                                        data-toggle="tab">Go to
+                                        summary page</button>
+                                    {% include 'landmaster/partial_dd/land_data.html' %}
+                                </div>
+                                <div class="tab-pane fade" id="adtl-data">
+                                    <h4>Additional Data Information</h4>
+                                    {% include 'landmaster/partial_dd/adtl_data.html' %}
+                                </div>
+                                <div class="tab-pane fade" id="county-data">
+                                    <h4>County Data Information</h4>
+                                    {% include 'landmaster/partial_dd/county_data.html' %}
+                                </div>
+                                <div class="tab-pane fade" id="tax-data">
+                                    <h4>Tax Data Information</h4>
+                                    {% include 'landmaster/partial_dd/tax_data.html' %}
+                                </div>
+                                <div class="tab-pane fade" id="zoning-data">
+                                    <h4>Zoning Data Information</h4>
+                                    {% include 'landmaster/partial_dd/zoning_data.html' %}
+                                </div>
+                                <div class="tab-pane fade" id="data-on-utilities">
+                                    <h4>Data On Utilities</h4>
+                                    {% include 'landmaster/partial_dd/utilities_data.html' %}
+                                </div>
+                                <div class="tab-pane fade" id="notes">
+                                    <h4>Notes</h4>
+                                    {% include 'landmaster/partial_dd/notes.html' %}
+                                </div>
+                                <div class="tab-pane fade" id="summary">
+                                    {% include 'landmaster/partial_dd/summary.html' %}
+                                    <!-- save -->
+                                    <div class="col-md-12 col-sm-12">
+                                        <!-- loading -->
+                                        <template v-if="loading">
+
+                                            <button class="btn btn-warning btn-cancel" type="button" disabled
+                                                style="float: right;">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                Cancel
+                                            </button>
+                                            <button class="btn btn-primary btn-save" type="button" disabled
+                                                style="float: right;">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                Save
+                                            </button>
+                                        </template>
+                                        <template v-else-if="!loading">
+                                            <button type="submit" class="btn btn-warning btn-cancel" style="float: right;"
+                                                v-on:click.prevent="resetDueDiligenceFields">Cancel</button>
+                                        </template>
+
+                                        <!-- end of loading -->
+
+                                        <!-- saving -->
+                                        <template v-if="saving == true">
+                                            <button class="btn btn-primary btn-save" type="button" disabled
+                                                style="float: right;">
+                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span>
+                                                Saving...
+                                            </button>
+                                        </template>
+                                        <template v-else-if="!loading">
+                                            <button type="submit" class="btn btn-primary btn-save"
+                                                style="float: right;">Save</button>
+                                        </template>
+                                        <!-- /.saving -->
+                                    </div>
+                                    <!-- /.save -->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- .panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+</div>
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/landmaster.js' %}" type="text/javascript"></script>
+{% endblock %}

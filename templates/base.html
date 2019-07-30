@@ -191,6 +191,7 @@
                           <!-- /.nav-second-level -->
                         </li>
                         {% endif %}
+                        {% if perms.landmaster.view_duediligence %}
                         <li>
                           <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
@@ -220,6 +221,7 @@
                               </li>
                             </ul>
                         </li>
+                        {% endif %}
                         <!-- CallMe -->
                         <li>
                           <a href="#"><i class="fa fa-tasks fa-fw"></i> CallMe Apps:<span class="fa arrow"></span></a>
