@@ -23,12 +23,12 @@ GPG System | View Timesheet
                 <li class="breadcrumb-item active">List of your Time Sheets</li>
             </ol>
             <div id="gpg-timesheet" v-cloak>
-                <template v-if="viewing">
+                <template v-if="loading">
                     <div class="text-center">
                         <i class="fa fa-spinner fa-spin"></i> Fetching data...
                     </div>
                 </template>
-                <template v-else-if="!viewing">
+                <template v-else-if="!loading">
                 <form method="GET" class="form-inline">
                     <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
                         <label>Choose a month:</label>
@@ -201,6 +201,12 @@ GPG System | View Timesheet
                                         currentTimeSheet.title_job_request ]]</h4>
                                 </div>
                                 <div class="modal-body">
+                                    <template v-if="viewing">
+                                        <div class="text-center">
+                                            <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                        </div>
+                                    </template>
+                                    <template v-else-if="!viewing">
                                     {% include 'timesheet/timesheet_info.html' %}
                                     <div class="modal-footer">
                                         <button class="btn btn-info" data-dismiss="modal">Close</button>
@@ -217,6 +223,7 @@ GPG System | View Timesheet
                                             </button>
                                         </template>
                                     </div>
+                                    </template>
                                 </div>
                             </div>
                         </form>
