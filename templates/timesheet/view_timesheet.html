@@ -23,12 +23,12 @@ GPG System | View Timesheet
                 <li class="breadcrumb-item active">List of your Time Sheets</li>
             </ol>
             <div id="gpg-timesheet" v-cloak>
-                <template v-if="loading">
+                <template v-if="viewing">
                     <div class="text-center">
                         <i class="fa fa-spinner fa-spin"></i> Fetching data...
                     </div>
                 </template>
-                <template v-else-if="!loading">
+                <template v-else-if="!viewing">
                 <form method="GET" class="form-inline">
                     <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
                         <label>Choose a month:</label>

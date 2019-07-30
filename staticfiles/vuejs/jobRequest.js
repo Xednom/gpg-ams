@@ -16,6 +16,7 @@ new Vue({
     companyNames: [],
     companyAssignedTo: [],
     loading: false,
+    viewing: false,
     saving: false,
     currentJobRequest: {},
     currentTimeSheet: {},
@@ -91,7 +92,7 @@ new Vue({
     },
     getJobRequests: function() {
       api_url = `/api/v1/jobrequest/?search=${this.search_term}`
-      this.loading = false;
+      this.loading = true;
       axios.get(api_url)
           .then((response) => {
             this.jobRequests = response.data;
@@ -99,7 +100,7 @@ new Vue({
           })
           .catch((err) => {
             this.loading = false;
-            console.log(err);
+            console.log(err.response.data);
           })
     },
     getTimeSheets: function (id) {
@@ -111,12 +112,12 @@ new Vue({
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getJobTitle: function () {
       api_url = `/api/v1/jobrequest/`
-      this.loading = false;
+      this.loading = true;
       axios.get(api_url)
         .then((response) => {
           this.jobRequestsTitle = response.data;
@@ -124,19 +125,19 @@ new Vue({
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getJobRequest: function(id) {
-      this.loading = true;
+      this.viewing = true;
       axios.get(`/api/v1/jobrequest/${id}/`)
           .then((response) => {
             this.currentJobRequest = response.data;
-            this.loading = false;
+            this.viewing = false;
           })
           .catch((err) => {
-            this.loading = false;
-            console.log(err);
+            this.viewing = false;
+            console.log(err.response.data);
           })
     },
     getTimeSheet: function (id) {
@@ -148,7 +149,7 @@ new Vue({
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getJobRequestTitles: function () {
@@ -160,7 +161,7 @@ new Vue({
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getStatusOfJobRequest: function() {
@@ -172,7 +173,7 @@ new Vue({
           })
           .catch((err) => {
             this.loading = false;
-            console.log(err);
+            console.log(err.response.data);
           })
     },
     getProjectManagers: function() {
@@ -184,7 +185,7 @@ new Vue({
           })
           .catch((err) => {
             this.loading = false;
-            console.log(err);
+            console.log(err.response.data);
           })
     },
     getVAs: function () {
@@ -196,7 +197,7 @@ new Vue({
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getClients: function () {
@@ -208,7 +209,7 @@ new Vue({
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     getCompanyNames: function () {
@@ -220,7 +221,7 @@ new Vue({
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     addJobRequest: function() {
@@ -247,14 +248,16 @@ new Vue({
               icon: "error",
               buttons: "Ok",
             });
-            console.log(err);
+            console.log(err.response.data);
           })
     },
     updateJobRequest: function() {
       this.loading = true;
+      this.saving = true
       axios.put(`/api/v1/jobrequest/${this.currentJobRequest.id}/`, this.currentJobRequest)
           .then((response) => {
             this.loading = false;
+            this.saving = false;
             this.currentJobRequest = response.data;
             swal({
               title: "GPG system",
@@ -268,7 +271,8 @@ new Vue({
           })
           .catch((err) => {
             this.loading = false;
-            console.log(err);
+            this.saving = false;
+            console.log(err.response.data);
           })
     },
     updateTimeSheet: function () {
@@ -289,7 +293,7 @@ new Vue({
         })
         .catch((err) => {
           this.loading = false;
-          console.log(err);
+          console.log(err.response.data);
         })
     },
     deleteJobRequest: function(id) {
@@ -310,7 +314,7 @@ new Vue({
               })
               .catch((err) => {
                 this.loading = false;
-                console.log(err);
+                console.log(err.response.data);
               })
           swal("Poof! Your data file has been deleted!", {
             icon: "success",

@@ -1,4 +1,6 @@
 Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-reminders',
     delimiters: ['[[', ']]'],
@@ -49,7 +51,7 @@ new Vue({
         },
         searchMonthReminder: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/reminders/?date__month=${this.search_month}`)
+            axios.get(`/api/v1/reminders/?date__month=${this.search_month}`)
                 .then((response) => {
                     this.loading = false;
                     this.reminders = response.data;
@@ -62,7 +64,7 @@ new Vue({
         getreminders: function () {
             let api_url = '/api/v1/reminders/';
             this.loading = true;
-            this.$http.get(api_url)
+            axios.get(api_url)
                 .then((response) => {
                     this.reminders = response.data;
                     this.loading = false;
@@ -74,7 +76,7 @@ new Vue({
         },
         getcompletedreminders: function () {
             this.loading = true;
-            this.$http.get(`/api/v1/reminders/?status=${this.search_status}`)
+            axios.get(`/api/v1/reminders/?status=${this.search_status}`)
                 .then((response) => {
                     this.reminders = response.data;
                     this.loading = false;
@@ -87,7 +89,7 @@ new Vue({
         getstaffs: function () {
             let api_url = '/api/v1/staffs/';
             this.loading = true;
-            this.$http.get(api_url)
+            axios.get(api_url)
                 .then((response) => {
                     this.requesteestaffs = response.data;
                     this.loading = false;
@@ -100,7 +102,7 @@ new Vue({
         getclients: function () {
             let api_url = '/api/v1/clients/';
             this.loading = true;
-            this.$http.get(api_url)
+            axios.get(api_url)
                 .then((response) => {
                     this.requesteeclients = response.data;
                     this.loading = false;
@@ -112,7 +114,7 @@ new Vue({
         },
         addReminder: function () {
             this.saving = true;
-            this.$http.post('/api/v1/reminders/', this.newReminder)
+            axios.post('/api/v1/reminders/', this.newReminder)
                 .then((response) => {
                     this.saving = false;
                     swal({
@@ -138,7 +140,7 @@ new Vue({
         },
         viewReminder: function (id) {
             this.loading = true;
-            this.$http.get(`/api/v1/reminders/${id}/`)
+            axios.get(`/api/v1/reminders/${id}/`)
                 .then((response) => {
                     this.loading = false;
                     this.currentreminders = response.data;
@@ -150,7 +152,7 @@ new Vue({
         },
         updateReminder: function () {
             this.loading = true;
-            this.$http.put(`/api/v1/reminders/${this.currentreminders.id}/`, this.currentreminders)
+            axios.put(`/api/v1/reminders/${this.currentreminders.id}/`, this.currentreminders)
                 .then((response) => {
                     this.loading = false;
                     this.currentreminders = response.data;
@@ -180,7 +182,7 @@ new Vue({
                 .then((willDelete) => {
                     if (willDelete) {
                         this.loading = true;
-                        this.$http.delete(`/api/v1/reminders/${id}`)
+                        axios.delete(`/api/v1/reminders/${id}`)
                             .then((response) => {
                                 this.loading = false;
                                 this.getreminders();
