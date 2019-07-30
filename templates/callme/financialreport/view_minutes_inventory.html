@@ -28,130 +28,137 @@ GPG System | View CallMe Financial Report
                 </li>
                 <li class="breadcrumb-item active">View CallMe Financial Reports</li>
             </ol>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            Table of CallMe Payment Made
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <div class="col-md-2 col-sm-12" v-if="!loading">
-                                    <!-- <form action="GET"> -->
-                                    <!-- <div class="form-group input-group">
-                                        <input type="text" class="form-control" placeholder="Search..."
-                                            v-model="inventory_client_name" @keyup.enter="normalSearchInventory">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button"
-                                                v-on:click.prevent="normalSearchInventory"><i class="fa fa-search"></i>
-                                            </button>
-                                        </span>
-                                    </div> -->
-                                    <!-- </form> -->
-                                    <form method="GET" class="form-inline">
-                                        <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
-                                            <label>Choose a month:</label>
-                                            <select name="search" class="form-control" v-model="search_month">
-                                                <option value="01">January</option>
-                                                <option value="02">February</option>
-                                                <option value="03">March</option>
-                                                <option value="04">April</option>
-                                                <option value="05">May</option>
-                                                <option value="06">June</option>
-                                                <option value="07">July</option>
-                                                <option value="08">August</option>
-                                                <option value="09">September</option>
-                                                <option value="10">October</option>
-                                                <option value="11">November</option>
-                                                <option value="12">December</option>
-                                            </select>
-                                            <button type="submit" class="btn btn-primary"
-                                                v-on:click.prevent="searchMonth">Search</button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th @click="sort('client_full_name')">Client name</th>
-                                            <th @click="sort('client_company_name')">Client Company name</th>
-                                            <th @click="sort('first_billing_cycle')">First Billing Cycle</th>
-                                            <th @click="sort('last_billing_cycle')">Last Billing Cycle</th>
-                                            <th @click="sort('type_of_plan')">Type of Plan</th>
-                                            <th @click="sort('total_minutes_used')">Total Minutes Used</th>
-                                            <th @click="sort('excess_minutes')">Excess Minutes</th>
-                                            <th @click="sort('notes_inventory')">Notes</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <template v-if="loading">
-                                                <td colspan="15" class="text-center bg-warning">
-                                                    <i class="fa fa-spinner fa-spin"></i> Fetching data...
-                                                </td>
-                                            </template>
-                                            <template v-else-if="searching">
-                                                <td colspan="15" class="text-center bg-warning">
-                                                    <i class="fa fa-spinner fa-spin"></i> Searching
-                                                </td>
-                                            </template>
-                                            <template v-else-if="!loading">
-                                                <td colspan="15" class="text-center bg-warning"
-                                                    v-if="!financial.length">
-                                                    No records found.
-                                                </td>
-                                            </template>
-                                        </tr>
-                                        <tr v-for="financial in sortedMinutes" v-if="!loading">
-                                            <td>[[ financial.client_full_name ]]</td>
-                                            <td>[[ financial.client_company_name ]]</td>
-                                            <td>[[ financial.first_billing_cycle ]]</td>
-                                            <td>[[ financial.last_billing_cycle ]]</td>
-                                            <td>[[ financial.type_of_plan ]]</td>
-                                            <td>[[ financial.total_minutes_used ]]</td>
-                                            <td>[[ financial.excess_minutes ]]</td>
-                                            <td>[[ financial.notes_inventory ]]</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- pagination -->
-                            <nav class="pagination-wrapper pull-right" v-if="endFinancialPage > 1">
-                                <ul class="pagination justify-content-end">
-                                    <li v-bind:class="[{disabled: currentFinancialPage === 1}, 'page-item']">
-                                        <a class="page-link" tabindex="-1" v-on:click="prevBoardPage">
-                                            Previous
-                                        </a>
-                                    </li>
-                                    <li v-for="pageNumber in totalFinancialPages"
-                                        v-bind:class="[{active: pageNumber === currentFinancialPage}, 'page-item']"
-                                        v-if="Math.abs(pageNumber - currentFinancialPage) < 3 || pageNumber == totalFinancialPages - 1 || pageNumber == 0">
-                                        <a v-on:click="goToFinancialPage(pageNumber)"
-                                            :class="{current: pageNumber === currentFinancialPage, last:(pageNumber == totalFinancialPages - 1 && Math.abs(pageNumber - currentFinancialPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentFinancialPage) > 3)}">
-                                            [[ pageNumber ]]</a>
-                                    </li>
-                                    <li
-                                        v-bind:class="[{disabled: (currentFinancialPage * 1) === totalFinancialPages}, 'page-item']">
-                                        <a class="page-link" v-on:click="nextBoardPage">
-                                            Next
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <!-- end of pagination -->
-                        </div>
-                        <div class="panel-footer">
-                            Total count: [[ financial.length ]]
-                            <div class="pull-right">
-                                Total Plan: <strong>[[ totalTypePlan ]]</strong>;
-                                Total Minutes used: <strong>[[ totalMinutesUsed ]]</strong>;
-                                Total Excess Minutes: <strong>[[ totalExcessMinutes ]]</strong>;
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col-lg-4 -->
+            <template v-if="loading">
+                <div class="text-center">
+                    <i class="fa fa-spinner fa-spin"></i> Fetching data...
                 </div>
-            </div>
+            </template>
+            <template v-else-if="!loading">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                Table of CallMe Payment Made
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="col-md-2 col-sm-12" v-if="!loading">
+                                        <!-- <form action="GET"> -->
+                                        <!-- <div class="form-group input-group">
+                                            <input type="text" class="form-control" placeholder="Search..."
+                                                v-model="inventory_client_name" @keyup.enter="normalSearchInventory">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button"
+                                                    v-on:click.prevent="normalSearchInventory"><i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div> -->
+                                        <!-- </form> -->
+                                        <form method="GET" class="form-inline">
+                                            <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
+                                                <label>Choose a month:</label>
+                                                <select name="search" class="form-control" v-model="search_month">
+                                                    <option value="01">January</option>
+                                                    <option value="02">February</option>
+                                                    <option value="03">March</option>
+                                                    <option value="04">April</option>
+                                                    <option value="05">May</option>
+                                                    <option value="06">June</option>
+                                                    <option value="07">July</option>
+                                                    <option value="08">August</option>
+                                                    <option value="09">September</option>
+                                                    <option value="10">October</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">December</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-primary"
+                                                    v-on:click.prevent="searchMonth">Search</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th @click="sort('client_full_name')">Client name</th>
+                                                <th @click="sort('client_company_name')">Client Company name</th>
+                                                <th @click="sort('first_billing_cycle')">First Billing Cycle</th>
+                                                <th @click="sort('last_billing_cycle')">Last Billing Cycle</th>
+                                                <th @click="sort('type_of_plan')">Type of Plan</th>
+                                                <th @click="sort('total_minutes_used')">Total Minutes Used</th>
+                                                <th @click="sort('excess_minutes')">Excess Minutes</th>
+                                                <th @click="sort('notes_inventory')">Notes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <template v-if="loading">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="searching">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Searching
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="!loading">
+                                                    <td colspan="15" class="text-center bg-warning"
+                                                        v-if="!financial.length">
+                                                        No records found.
+                                                    </td>
+                                                </template>
+                                            </tr>
+                                            <tr v-for="financial in sortedMinutes" v-if="!loading">
+                                                <td>[[ financial.client_full_name ]]</td>
+                                                <td>[[ financial.client_company_name ]]</td>
+                                                <td>[[ financial.first_billing_cycle ]]</td>
+                                                <td>[[ financial.last_billing_cycle ]]</td>
+                                                <td>[[ financial.type_of_plan ]]</td>
+                                                <td>[[ financial.total_minutes_used ]]</td>
+                                                <td>[[ financial.excess_minutes ]]</td>
+                                                <td>[[ financial.notes_inventory ]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endFinancialPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentFinancialPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="prevBoardPage">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in totalFinancialPages"
+                                            v-bind:class="[{active: pageNumber === currentFinancialPage}, 'page-item']"
+                                            v-if="Math.abs(pageNumber - currentFinancialPage) < 3 || pageNumber == totalFinancialPages - 1 || pageNumber == 0">
+                                            <a v-on:click="goToFinancialPage(pageNumber)"
+                                                :class="{current: pageNumber === currentFinancialPage, last:(pageNumber == totalFinancialPages - 1 && Math.abs(pageNumber - currentFinancialPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentFinancialPage) > 3)}">
+                                                [[ pageNumber ]]</a>
+                                        </li>
+                                        <li
+                                            v-bind:class="[{disabled: (currentFinancialPage * 1) === totalFinancialPages}, 'page-item']">
+                                            <a class="page-link" v-on:click="nextBoardPage">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
+                            </div>
+                            <div class="panel-footer">
+                                Total count: [[ financial.length ]]
+                                <div class="pull-right">
+                                    Total Plan: <strong>[[ totalTypePlan ]]</strong>;
+                                    Total Minutes used: <strong>[[ totalMinutesUsed ]]</strong>;
+                                    Total Excess Minutes: <strong>[[ totalExcessMinutes ]]</strong>;
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.col-lg-4 -->
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
 </div>

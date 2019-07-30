@@ -27,6 +27,12 @@ GPG System | View Due Diligence
     <div id="content-wrapper">
         <div class="container-fluid">
             <div class="col-lg-12 col-md-12 col-sm-12">
+                <template v-if="loading">
+                    <div class="text-center">
+                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                    </div>
+                </template>
+                <template v-else-if="!loading">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Assigned Due Diligence work to Land Master Team
@@ -169,109 +175,114 @@ GPG System | View Due Diligence
                                     <h4 class="modal-title" id="myModalLabel">Due Diligence information for [[ currentDueDiligence.company_name ]]</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form v-on:submit.prevent="updateDueDiligence">
-                                        <div class="modal-body">
+                                    <template v-if="viewing">
+                                        <div class="text-center">
+                                            <i class="fa fa-spinner fa-spin"></i> Fetching data...
                                         </div>
-                                        <div class="panel-group" id="accordion">
-                                            <div class="panel panel-primary">
-                                                <div class="panel-heading">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapseOne">Due Diligence work Information for [[
-                                                            currentDueDiligence.company_name ]]</a>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapseOne" class="panel-collapse collapse in">
-                                                    <div class="panel-body">
-                                                        {% include 'landmaster/view_dd_info.html' %}
+                                    </template>
+                                    <template v-else-if="!viewing">
+                                        <form v-on:submit.prevent="updateDueDiligence">
+                                            <div class="panel-group" id="accordion">
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                                href="#collapseOne">Due Diligence work Information for [[
+                                                                currentDueDiligence.company_name ]]</a>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                                        <div class="panel-body">
+                                                            {% include 'landmaster/view_dd_info.html' %}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            {% if request.user.is_staffs %}
-                                            <div class="panel panel-success">
-                                                <div class="panel-heading">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapseTwo">Other informations for Parcel
-                                                            Number <strong>[[ currentDueDiligence.parcel_number
-                                                                ]]</strong></a>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapseTwo" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        {% include 'landmaster/other_info.html' %}
+                                                {% if request.user.is_staffs %}
+                                                <div class="panel panel-success">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                                href="#collapseTwo">Other informations for Parcel
+                                                                Number <strong>[[ currentDueDiligence.parcel_number
+                                                                    ]]</strong></a>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                                        <div class="panel-body">
+                                                            {% include 'landmaster/other_info.html' %}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapse5">Operator Details for Parcel
-                                                            Number <strong>[[ currentDueDiligence.parcel_number
-                                                                ]]</strong></a>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapse5" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        {% include 'landmaster/view_operator_details.html' %}
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                                href="#collapse5">Operator Details for Parcel
+                                                                Number <strong>[[ currentDueDiligence.parcel_number
+                                                                    ]]</strong></a>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapse5" class="panel-collapse collapse">
+                                                        <div class="panel-body">
+                                                            {% include 'landmaster/view_operator_details.html' %}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="panel panel-warning">
-                                                <div class="panel-heading">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapse4">Statuses & Dates of Completion for Parcel
-                                                            Number <strong>[[ currentDueDiligence.parcel_number
-                                                                ]]</strong></a>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapse4" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        {% include 'landmaster/view_dd_status.html' %}
+                                                <div class="panel panel-warning">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                                href="#collapse4">Statuses & Dates of Completion for Parcel
+                                                                Number <strong>[[ currentDueDiligence.parcel_number
+                                                                    ]]</strong></a>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapse4" class="panel-collapse collapse">
+                                                        <div class="panel-body">
+                                                            {% include 'landmaster/view_dd_status.html' %}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="panel panel-info">
-                                                <div class="panel-heading">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapseThree">Due Diligence Team member(s) assigned for Parcel
-                                                            number [[
-                                                            currentDueDiligence.parcel_number ]]</a>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapseThree" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        {% include 'landmaster/team_assigned.html' %}
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                                href="#collapseThree">Due Diligence Team member(s) assigned for Parcel
+                                                                number [[
+                                                                currentDueDiligence.parcel_number ]]</a>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseThree" class="panel-collapse collapse">
+                                                        <div class="panel-body">
+                                                            {% include 'landmaster/team_assigned.html' %}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="panel panel-green">
-                                                <div class="panel-heading">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion"
-                                                            href="#collapseFour">Total DD Time Allocation
-                                                            for Parcel
-                                                            number [[
-                                                            currentDueDiligence.parcel_number ]]</a>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapseFour" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        {% include 'landmaster/view_time_allocation.html' %}
+                                                <div class="panel panel-green">
+                                                    <div class="panel-heading">
+                                                        <h4 class="panel-title">
+                                                            <a data-toggle="collapse" data-parent="#accordion"
+                                                                href="#collapseFour">Total DD Time Allocation
+                                                                for Parcel
+                                                                number [[
+                                                                currentDueDiligence.parcel_number ]]</a>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseFour" class="panel-collapse collapse">
+                                                        <div class="panel-body">
+                                                            {% include 'landmaster/view_time_allocation.html' %}
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                {% endif %}
                                             </div>
-                                            {% endif %}
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-info"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </form>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </template>
                                 </div>
                             </div>
                             <!-- /.modal-content -->
@@ -435,6 +446,7 @@ GPG System | View Due Diligence
                     </div>
                     <!-- /.modal -->
                 </div>
+                </template>
             </div>
         </div>
     </div>

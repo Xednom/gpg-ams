@@ -6,6 +6,7 @@ new Vue({
     delimiters: ['[[',']]'],
     data: {
         loading: false,
+        viewing: false,
         saving: false,
         errored: false,
         dueDiligences: [],
@@ -212,10 +213,10 @@ new Vue({
                 })
         },
         updateDueDiligence: function () {
-            this.loading = true;
+            this.saving = true;
             axios.put(`/api/v1/due-diligence/${this.currentDueDiligence.id}/`, this.currentDueDiligence)
                 .then((response) => {
-                    this.loading = false;
+                    this.saving = false;
                     this.currentDueDiligence = response.data;
                     console.log(this.currentDueDiligence.date_completed_initial_dd_time_in);
                     swal({
@@ -229,7 +230,7 @@ new Vue({
                     this.getDueDiligences();
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.saving = false;
                     swal({
                         title: "GPG System",
                         text: JSON.stringify(err.body),
@@ -253,14 +254,14 @@ new Vue({
                 })
         },
         viewDueDiligence: function (id) {
-            this.loading = true;
+            this.viewing = true;
             axios.get(`/api/v1/due-diligence/${id}/`)
                 .then((response) => {
-                    this.loading = false;
+                    this.viewing = false;
                     this.currentDueDiligence = response.data;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.viewing = false;
                     console.log(err.response.data);
                 })
         },

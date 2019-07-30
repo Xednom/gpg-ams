@@ -7,6 +7,7 @@ new Vue({
     data: {
         loading: false,
         saving: false,
+        viewing: false,
         duediligencestracking: [],
         currentDueDiligencesTracking: [],
 
@@ -35,10 +36,10 @@ new Vue({
                 })
         },
         updateDueDiligenceCleared () {
-            this.loading = true;
+            this.saving = true;
             axios.put(`/api/v1/due-diligence-tracker/${this.currentDueDiligencesTracking.id}/`, this.currentDueDiligencesTracking)
                 .then((response) => {
-                    this.loading = false;
+                    this.saving = false;
                     this.currentDueDiligencesTracking = response.data;
                     swal({
                         title: "GPG system",
@@ -51,7 +52,7 @@ new Vue({
                     this.getDueDiligenceCleared();
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.saving = false;
                     swal({
                         title: "GPG System",
                         text: JSON.stringify(err.body),
@@ -62,14 +63,14 @@ new Vue({
                 })
         },
         viewDueDiligenceCleared (id) {
-            this.loading = true;
+            this.viewing = true;
             axios.get(`/api/v1/due-diligence-tracker/${id}`)
                 .then((response) => {
-                    this.loading = false;
+                    this.viewing = false;
                     this.currentDueDiligencesTracking = response.data;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.viewing = false;
                     console.log(err);
                 })
         },

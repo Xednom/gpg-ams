@@ -27,226 +27,240 @@ GPG System | View Job Request
   <div id="content-wrapper">
     <div class="container-fluid">
       <div class="col-lg-12 col-md-12 col-sm-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            Assigned Job requests
+        <template v-if="loading">
+          <div class="text-center">
+            <i class="fa fa-spinner fa-spin"></i> Fetching data...
           </div>
-          <div class="panel-body">
-            <div style="overflow-x:auto;">
-              <table width="100%" class="table table-striped table-bordered table-hover jobRequestTable"
-                id="jobRequestTable">
-                <thead>
-                  <tr>
-                    <th>Date Requested</th>
-                    <th>Category</th>
-                    <th>Company Name</th>
-                    <th>Job Request Title</th>
-                    <th>Project Managers</th>
-                    <th>Project Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    {% if request.user.is_staffs %}
-                    <td colspan="15" class="text-center bg-warning" v-if="!jobRequests.length">Currently there no
-                      assigned Job Requests to you, you can contact
-                      your admin manager in regards to this.</td>
-                    {% elif request.user.is_client %}
-                    <td colspan="15" class="text-center bg-warning" v-if="!jobRequests.length">Currently you haven't
-                      assigned any Job Requests.</td>
-                    {% endif %}
-                  </tr>
-                  <tr class="odd gradeX" v-for="(jobRequests, i) in paginatedJobRequestRecords">
-                    <td>[[ jobRequests.date_requested ]]</td>
-                    <td>[[ jobRequests.category ]]</td>
-                    <td>[[ jobRequests.company_name ]]</td>
-                    <td>[[ jobRequests.job_request_title ]]</td>
-                    <td>[[ jobRequests.assigned_project_managers ]]</td>
-                    <td>[[ jobRequests.project_status ]]</td>
-                    <td>
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-warning fa fa-edit" data-toggle="modal"
-                        data-target="#editModal" v-on:click="getJobRequest(jobRequests.id)">
-                      </button>
-                    </td>
-                    <!-- <button type="button" class="btn btn-danger fa fa-trash" v-on:click="deleteJobRequest(job.id)"></button></td> -->
-                  </tr>
-                </tbody>
-              </table>
+        </template>
+        <template v-else-if="!loading">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Assigned Job requests
             </div>
-            
-             <!-- pagination -->
-             <nav class="pagination-wrapper pull-right" v-if="endJobRequestPage > 1">
-               <ul class="pagination justify-content-end">
-                 <li v-bind:class="[{disabled: currentJobRequestPage === 1}, 'page-item']">
-                   <a class="page-link" tabindex="-1" v-on:click="goToJobRequestPage(currentJobRequestPage - 1)">
-                     Previous
-                   </a>
-                 </li>
-                 <li v-for="pageNumber in pagesJobRequest"
-                   v-bind:class="[{active: pageNumber === currentJobRequestPage}, 'page-item']">
-                   <a class="page-link" v-on:click="goToJobRequestPage(pageNumber)">
-                     [[ pageNumber ]]
-                   </a>
-                 </li>
-                 <li v-bind:class="[{disabled: (currentJobRequestPage * 1) === totalPages}, 'page-item']">
-                   <a class="page-link" v-on:click="goToJobRequestPage(currentJobRequestPage + 1)">
-                     Next
-                   </a>
-                 </li>
-               </ul>
-             </nav>
-             <!-- end of pagination -->
-            <!-- /.table-responsive -->
-          </div>
-          <!-- show a specific info based on view -->
-          <!-- Modal -->
-          <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  <h4 class="modal-title" id="exampleModalLongTitle">Edit Job request information for [[
-                    currentJobRequest.company_name ]]</h4>
-                </div>
-                <form v-on:submit.prevent="updateJobRequest">
-                  <div class="modal-body">
-                    <div class="panel panel-default">
-                      <div class="panel-heading">
-                        Job Request Information for [[ currentJobRequest.company_name ]]
-                      </div>
-                      <div class="panel-body">
-                      <hr>
-                      <h4 class="title1">Job Request Informations</h4>
-                      <div class="row">
-                            <div class="form-group col-md-4 col-sm-12">
-                              <label for="brand_name">Category</label>
-                              <select v-model="currentJobRequest.category" class="form-control"
-                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
-                                <option>General Administrative Task</option>
-                                <option>Data Entry</option>
-                                <option>Website Design</option>
-                                <option>Graphics Design</option>
-                                <option>Customer Support</option>
-                                <option>Creating Ad Content</option>
-                                <option>Marketing</option>
-                                <option>Due Diligence</option>
-                                <option>Craigslist Support</option>
-                              </select>
-                            </div>
-                            <div class="form-group col-md-4 col-sm-12">
-                              <label>Requestor's Name</label>
-                              <input type="text" class="form-control" v-model="currentJobRequest.requestors_name" autocomplete="off"
-                              disabled/>
-                            </div>
-                            <div class="form-group col-md-4 col-sm-12">
-                              <label>Company Name</label>
-                              <input type="text" class="form-control" v-model="currentJobRequest.company_name" autocomplete="off"
-                              disabled/>
-                            </div>
-                            <div class="form-group col-md-4 col-sm-12">
-                              <label>Job Request Title</label>
-                              <input type="text" class="form-control" v-model="currentJobRequest.job_request_title" autocomplete="off"
-                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
-                            </div>
-                            <div class="form-group col-md-12 col-sm-12">
-                              <label>Job Request Instructions</label>
-                              <textarea cols="15" rows="15" class="form-control" v-model="currentJobRequest.job_request_instruction"
-                              disabled></textarea>
-                              <small class="form-text text-muted">If you have any new or additional instructions, please add it in the <strong>
-                                additional comments or feedbacks</strong></small>
-                            </div>
-                            <div class="form-group col-md-12 col-sm-12">
-                              <label>Authorized minutes/hours allocation</label>
-                                <textarea cols="50" rows="5" class="form-control"
-                                  v-model="newJobRequest.authorized_minutes_hours_allocation" disabled></textarea>
-                                  <small class="form-text text-muted">If you have any updates regarding the
-                                    <strong>Authorized minutes/hours allocation</strong>
-                                    please add it in the <strong>
-                                      additional comments or feedbacks</strong></small>
-                            </div>
-                            <div class="form-group col-md-4 col-sm-12">
-                              <label>Assigned Project Manager </label>
-                              <select class="form-control" v-model="currentJobRequest.assigned_project_managers"
-                              disabled>
-                                <option v-for="pm in projectManagers">[[pm.project_manager]]</option>
-                              </select>
-                              <small class="form-text text-muted">For Our Client(s): If there's any changes regarding the assigned Project
-                                Manager.
-                                <strong> Please</strong> coordinate it with the System Admin
-                              </small>
-                            </div>
-                            <div class="form-group col-md-4 col-sm-12">
-                              <label>VA admin support</label>
-                              <select class="form-control" v-model="currentJobRequest.assigned_va"
-                              {% if request.user.staffs.position == 'General Administrative Support' or request.user.is_client %}disabled{% else %}{% endif %}>
-                                <option v-for="va in virtualAssistants">[[ va.full_name ]]</option>
-                              </select>
-                            </div>
-                            <div class="form-group row">
-                              <label for="inputVASupport" class="col-sm-2 col-form-label">Project Status</label>
-                              <div class="col-md-4 col-sm-12">
-                                <select class="form-control" v-model="currentJobRequest.project_status">
-                                  {% if request.user.is_client %}
-                                  <option>Sent to Project Manager</option>
-                                  <option>Sent to Virtual Assistant</option>
-                                  <option>Job Request Completed</option>
-                                  {% elif request.user.is_staffs %}
-                                  <option>In Progress / PROCESSING</option>
-                                  <option>Job Request Completed - VA Side</option>
-                                  <option>Submit to Project Manager for Quality Purposes</option>
-                                  <option>Submit to Client</option>
-                                  {% endif %}
+            <div class="panel-body">
+              <div style="overflow-x:auto;">
+                <table width="100%" class="table table-striped table-bordered table-hover jobRequestTable"
+                  id="jobRequestTable">
+                  <thead>
+                    <tr>
+                      <th>Date Requested</th>
+                      <th>Category</th>
+                      <th>Company Name</th>
+                      <th>Job Request Title</th>
+                      <th>Project Managers</th>
+                      <th>Project Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      {% if request.user.is_staffs %}
+                      <td colspan="15" class="text-center bg-warning" v-if="!jobRequests.length">Currently there no
+                        assigned Job Requests to you, you can contact
+                        your admin manager in regards to this.</td>
+                      {% elif request.user.is_client %}
+                      <td colspan="15" class="text-center bg-warning" v-if="!jobRequests.length">Currently you haven't
+                        assigned any Job Requests.</td>
+                      {% endif %}
+                    </tr>
+                    <tr class="odd gradeX" v-for="(jobRequests, i) in paginatedJobRequestRecords">
+                      <td>[[ jobRequests.date_requested ]]</td>
+                      <td>[[ jobRequests.category ]]</td>
+                      <td>[[ jobRequests.company_name ]]</td>
+                      <td>[[ jobRequests.job_request_title ]]</td>
+                      <td>[[ jobRequests.assigned_project_managers ]]</td>
+                      <td>[[ jobRequests.project_status ]]</td>
+                      <td>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-warning fa fa-edit" data-toggle="modal"
+                          data-target="#editModal" v-on:click="getJobRequest(jobRequests.id)">
+                        </button>
+                      </td>
+                      <!-- <button type="button" class="btn btn-danger fa fa-trash" v-on:click="deleteJobRequest(job.id)"></button></td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <!-- pagination -->
+              <nav class="pagination-wrapper pull-right" v-if="endJobRequestPage > 1">
+                <ul class="pagination justify-content-end">
+                  <li v-bind:class="[{disabled: currentJobRequestPage === 1}, 'page-item']">
+                    <a class="page-link" tabindex="-1" v-on:click="goToJobRequestPage(currentJobRequestPage - 1)">
+                      Previous
+                    </a>
+                  </li>
+                  <li v-for="pageNumber in pagesJobRequest"
+                    v-bind:class="[{active: pageNumber === currentJobRequestPage}, 'page-item']">
+                    <a class="page-link" v-on:click="goToJobRequestPage(pageNumber)">
+                      [[ pageNumber ]]
+                    </a>
+                  </li>
+                  <li v-bind:class="[{disabled: (currentJobRequestPage * 1) === totalPages}, 'page-item']">
+                    <a class="page-link" v-on:click="goToJobRequestPage(currentJobRequestPage + 1)">
+                      Next
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <!-- end of pagination -->
+              <!-- /.table-responsive -->
+            </div>
+            <!-- show a specific info based on view -->
+            <!-- Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+              aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLongTitle">Edit Job request information for [[
+                      currentJobRequest.company_name ]]</h4>
+                  </div>
+                  <template v-if="viewing">
+                    <div class="text-center">
+                      <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                    </div>
+                  </template>
+                  <template v-else-if="!viewing">
+                  <form v-on:submit.prevent="updateJobRequest">
+                    <div class="modal-body">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          Job Request Information for [[ currentJobRequest.company_name ]]
+                        </div>
+                        <div class="panel-body">
+                        <hr>
+                        <h4 class="title1">Job Request Informations</h4>
+                        <div class="row">
+                              <div class="form-group col-md-4 col-sm-12">
+                                <label for="brand_name">Category</label>
+                                <select v-model="currentJobRequest.category" class="form-control"
+                                {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                                  <option>General Administrative Task</option>
+                                  <option>Data Entry</option>
+                                  <option>Website Design</option>
+                                  <option>Graphics Design</option>
+                                  <option>Customer Support</option>
+                                  <option>Creating Ad Content</option>
+                                  <option>Marketing</option>
+                                  <option>Due Diligence</option>
+                                  <option>Craigslist Support</option>
                                 </select>
                               </div>
-                            </div>
-                            <div class="form-group col-md-12 col-sm-12">
-                              <label>Additional comments or feedbacks</label>
-                              <textarea cols="30" rows="10" class="form-control" v-model="currentJobRequest.additional_comments_or_feedbacks"
-                              {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
-                            </div>
-                            <div class="form-group col-md-12 col-sm-12">
-                              <label>Client Notes</label>
-                              <textarea cols="30" rows="10" class="form-control"
-                                v-model="currentJobRequest.client_notes"
+                              <div class="form-group col-md-4 col-sm-12">
+                                <label>Requestor's Name</label>
+                                <input type="text" class="form-control" v-model="currentJobRequest.requestors_name" autocomplete="off"
+                                disabled/>
+                              </div>
+                              <div class="form-group col-md-4 col-sm-12">
+                                <label>Company Name</label>
+                                <input type="text" class="form-control" v-model="currentJobRequest.company_name" autocomplete="off"
+                                disabled/>
+                              </div>
+                              <div class="form-group col-md-4 col-sm-12">
+                                <label>Job Request Title</label>
+                                <input type="text" class="form-control" v-model="currentJobRequest.job_request_title" autocomplete="off"
+                                {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}>
+                              </div>
+                              <div class="form-group col-md-12 col-sm-12">
+                                <label>Job Request Instructions</label>
+                                <textarea cols="15" rows="15" class="form-control" v-model="currentJobRequest.job_request_instruction"
+                                disabled></textarea>
+                                <small class="form-text text-muted">If you have any new or additional instructions, please add it in the <strong>
+                                  additional comments or feedbacks</strong></small>
+                              </div>
+                              <div class="form-group col-md-12 col-sm-12">
+                                <label>Authorized minutes/hours allocation</label>
+                                  <textarea cols="50" rows="5" class="form-control"
+                                    v-model="newJobRequest.authorized_minutes_hours_allocation" disabled></textarea>
+                                    <small class="form-text text-muted">If you have any updates regarding the
+                                      <strong>Authorized minutes/hours allocation</strong>
+                                      please add it in the <strong>
+                                        additional comments or feedbacks</strong></small>
+                              </div>
+                              <div class="form-group col-md-4 col-sm-12">
+                                <label>Assigned Project Manager </label>
+                                <select class="form-control" v-model="currentJobRequest.assigned_project_managers"
+                                disabled>
+                                  <option v-for="pm in projectManagers">[[pm.project_manager]]</option>
+                                </select>
+                                <small class="form-text text-muted">For Our Client(s): If there's any changes regarding the assigned Project
+                                  Manager.
+                                  <strong> Please</strong> coordinate it with the System Admin
+                                </small>
+                              </div>
+                              <div class="form-group col-md-4 col-sm-12">
+                                <label>VA admin support</label>
+                                <select class="form-control" v-model="currentJobRequest.assigned_va"
+                                {% if request.user.staffs.position == 'General Administrative Support' or request.user.is_client %}disabled{% else %}{% endif %}>
+                                  <option v-for="va in virtualAssistants">[[ va.full_name ]]</option>
+                                </select>
+                              </div>
+                              <div class="form-group row">
+                                <label for="inputVASupport" class="col-sm-2 col-form-label">Project Status</label>
+                                <div class="col-md-4 col-sm-12">
+                                  <select class="form-control" v-model="currentJobRequest.project_status">
+                                    {% if request.user.is_client %}
+                                    <option>Sent to Project Manager</option>
+                                    <option>Sent to Virtual Assistant</option>
+                                    <option>Job Request Completed</option>
+                                    {% elif request.user.is_staffs %}
+                                    <option>In Progress / PROCESSING</option>
+                                    <option>Job Request Completed - VA Side</option>
+                                    <option>Submit to Project Manager for Quality Purposes</option>
+                                    <option>Submit to Client</option>
+                                    {% endif %}
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="form-group col-md-12 col-sm-12">
+                                <label>Additional comments or feedbacks</label>
+                                <textarea cols="30" rows="10" class="form-control" v-model="currentJobRequest.additional_comments_or_feedbacks"
                                 {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
+                              </div>
+                              <div class="form-group col-md-12 col-sm-12">
+                                <label>Client Notes</label>
+                                <textarea cols="30" rows="10" class="form-control"
+                                  v-model="currentJobRequest.client_notes"
+                                  {% if request.user.is_client or request.user.is_superuser %}{% else %}disabled{% endif %}></textarea>
+                              </div>
+                              
+                              <div class="form-group col-md-12 col-sm-12">
+                                <label>Manager Notes</label>
+                                <textarea cols="30" rows="10" class="form-control"
+                                  v-model="currentJobRequest.manager_notes"
+                              {% if request.user.staffs.position == 'Project Managers' %}{% else %}disabled{% endif %}></textarea>
+                              </div>
+                              <div class="form-group col-md-12 col-sm-12">
+                                <label>VA Notes</label>
+                                <textarea cols="30" rows="10" class="form-control"
+                                  v-model="currentJobRequest.va_notes"
+                                  {% if request.user.staffs.position == 'General Administrative Support' %}{% else %}disabled{% endif %}></textarea>
+                              </div>
                             </div>
-                            
-                            <div class="form-group col-md-12 col-sm-12">
-                              <label>Manager Notes</label>
-                              <textarea cols="30" rows="10" class="form-control"
-                                v-model="currentJobRequest.manager_notes"
-                            {% if request.user.staffs.position == 'Project Managers' %}{% else %}disabled{% endif %}></textarea>
-                            </div>
-                            <div class="form-group col-md-12 col-sm-12">
-                              <label>VA Notes</label>
-                              <textarea cols="30" rows="10" class="form-control"
-                                v-model="currentJobRequest.va_notes"
-                                {% if request.user.staffs.position == 'General Administrative Support' %}{% else %}disabled{% endif %}></textarea>
-                            </div>
-                          </div>
+                        </div>
+                        <!-- panelbody ends here -->
                       </div>
-                      <!-- panelbody ends here -->
                     </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-                    <template v-if="saving">
-                      <button class="btn btn-primary"><i class="fa fa-spinner fa-spin"></i> Saving Changes</button>
-                    </template>
-                    <template v-else>
-                      <button type="submit" class="btn btn-primary">Save changes</button>
-                    </template>
-                  </div>
-                </form>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                      <template v-if="saving">
+                        <button class="btn btn-primary"><i class="fa fa-spinner fa-spin"></i> Saving Changes</button>
+                      </template>
+                      <template v-else>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                      </template>
+                    </div>
+                  </form>
+                  </template>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </template>
       </div>
     </div>
   </div>

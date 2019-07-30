@@ -62,7 +62,6 @@ class ReminderFilters(FilterSet):
 
 
 class ReminderViewSet(viewsets.ModelViewSet):
-    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
     serializer_class = ReminderSerializer
     filter_class = (ReminderFilters)

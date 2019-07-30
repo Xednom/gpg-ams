@@ -16,6 +16,7 @@ new Vue({
     companyNames: [],
     companyAssignedTo: [],
     loading: false,
+    viewing: false,
     saving: false,
     currentJobRequest: {},
     currentTimeSheet: {},
@@ -91,7 +92,7 @@ new Vue({
     },
     getJobRequests: function() {
       api_url = `/api/v1/jobrequest/?search=${this.search_term}`
-      this.loading = false;
+      this.loading = true;
       axios.get(api_url)
           .then((response) => {
             this.jobRequests = response.data;
@@ -116,7 +117,7 @@ new Vue({
     },
     getJobTitle: function () {
       api_url = `/api/v1/jobrequest/`
-      this.loading = false;
+      this.loading = true;
       axios.get(api_url)
         .then((response) => {
           this.jobRequestsTitle = response.data;
@@ -128,14 +129,14 @@ new Vue({
         })
     },
     getJobRequest: function(id) {
-      this.loading = true;
+      this.viewing = true;
       axios.get(`/api/v1/jobrequest/${id}/`)
           .then((response) => {
             this.currentJobRequest = response.data;
-            this.loading = false;
+            this.viewing = false;
           })
           .catch((err) => {
-            this.loading = false;
+            this.viewing = false;
             console.log(err.response.data);
           })
     },

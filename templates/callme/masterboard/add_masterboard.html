@@ -24,307 +24,314 @@ GPG System | Add Master Board records
             </li>
             <li class="breadcrumb-item active">Add CallMe Master Board</li>
         </ol>
-        <div class="col-md-6 col-md-offset-3">
-            <form v-on:submit.prevent="addBoard">
-                {% csrf_token %}
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        Please fill up the informations below
-                    </div>
-                    <div class="panel-body">
-                        <div class="error" v-if="errorBoard.date_started">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+        <template v-if="loading">
+            <div class="text-center">
+                <i class="fa fa-spinner fa-spin"></i> Fetching data...
+            </div>
+        </template>
+        <template v-else-if="!loading">
+            <div class="col-md-6 col-md-offset-3">
+                <form v-on:submit.prevent="addBoard">
+                    {% csrf_token %}
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Please fill up the informations below
+                        </div>
+                        <div class="panel-body">
+                            <div class="error" v-if="errorBoard.date_started">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Date Started</label>
-                                <input type="date" class="form-control" v-model="newMasterBoard.date_started"
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Date Started</label>
+                                    <input type="date" class="form-control" v-model="newMasterBoard.date_started"
+                                        >
+                                </div>
+                            </div>
+                            <div class="error" v-if="errorBoard.type_of_plan">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Type of Plan</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.type_of_plan"
+                                        >
+                                </div>
+                            </div>
+                            <div class="error" v-if="errorBoard.type_of_crm">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Type of CRM</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.type_of_crm">
+                                </div>
+                            </div>
+                            <div class="error" v-if="errorBoard.type_of_voip">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Type of VIOP</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.type_of_voip"
                                     >
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.type_of_plan">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Type of Plan</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.type_of_plan"
-                                    >
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.type_of_crm">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="error" v-if="errorBoard.client_name">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Type of CRM</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.type_of_crm">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.type_of_voip">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Client Name</label>
+                                    <select class="form-control" v-model="newMasterBoard.client_name">
+                                        <option v-for="client in clients">[[ client.full_name ]] - [[ client.company_name ]]</option>
+                                        
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Type of VIOP</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.type_of_voip"
-                                >
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.client_name">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="error" v-if="errorBoard.email">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Client Name</label>
-                                <select class="form-control" v-model="newMasterBoard.client_name">
-                                    <option v-for="client in clients">[[ client.full_name ]] - [[ client.company_name ]]</option>
-                                    
-                                </select>
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.email">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control"
+                                    v-model="newMasterBoard.email">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Email</label>
-                                <input type="text" class="form-control"
-                                v-model="newMasterBoard.email">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.phone">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="error" v-if="errorBoard.phone">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.phone">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.url_buyer">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Phone</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.phone">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>URL Buyer</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.url_buyer">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.url_seller">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="error" v-if="errorBoard.url_buyer">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>URL Seller</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.url_seller">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.url_property_management">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>URL Buyer</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.url_buyer">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>URL Property management</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.url_property_management">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.voicemail">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="error" v-if="errorBoard.url_seller">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Voicemail</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.voicemail">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.general_calls">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>URL Seller</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.url_seller">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>General Calls</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.general_calls">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.gs_integration">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="error" v-if="errorBoard.url_property_management">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>GS Integration</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.gs_integration">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.client_folder">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>URL Property management</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.url_property_management">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Client's Folder</label>
-                                <input type="text" class="form-control" v-model="newMasterBoard.client_folder">
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.phone_login">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="error" v-if="errorBoard.voicemail">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Phone System - Log In Information</label>
-                                <textarea class="form-control" v-model="newMasterBoard.phone_login" cols="30"
-                                    rows="10"></textarea>
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.crm_login">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Voicemail</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.voicemail">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>CRM System - Log In Information</label>
-                                <textarea class="form-control" v-model="newMasterBoard.crm_login" cols="30"
-                                    rows="10"></textarea>
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.call_forwarding_details">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="error" v-if="errorBoard.general_calls">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Call Forwarding details</label>
-                                <textarea class="form-control" v-model="newMasterBoard.call_forwarding_details"
-                                    cols="30"
-                                    rows="10"></textarea>
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.email_form_forwarding">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>General Calls</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.general_calls">
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Email/Form forwarding</label>
-                                <textarea class="form-control" v-model="newMasterBoard.email_form_forwarding"
+                            <div class="error" v-if="errorBoard.gs_integration">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>GS Integration</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.gs_integration">
+                                </div>
+                            </div>
+                            <div class="error" v-if="errorBoard.client_folder">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Client's Folder</label>
+                                    <input type="text" class="form-control" v-model="newMasterBoard.client_folder">
+                                </div>
+                            </div>
+                            <div class="error" v-if="errorBoard.phone_login">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Phone System - Log In Information</label>
+                                    <textarea class="form-control" v-model="newMasterBoard.phone_login" cols="30"
+                                        rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="error" v-if="errorBoard.crm_login">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>CRM System - Log In Information</label>
+                                    <textarea class="form-control" v-model="newMasterBoard.crm_login" cols="30"
+                                        rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="error" v-if="errorBoard.call_forwarding_details">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Call Forwarding details</label>
+                                    <textarea class="form-control" v-model="newMasterBoard.call_forwarding_details"
+                                        cols="30"
+                                        rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="error" v-if="errorBoard.email_form_forwarding">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Email/Form forwarding</label>
+                                    <textarea class="form-control" v-model="newMasterBoard.email_form_forwarding"
+                                        cols="30" rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="error" v-if="errorBoard.notes">
+                                <div class="alert alert-danger" role="alert">
+                                    <i class="fa fa-times-circle"></i>
+                                    <div class="text-center">
+                                        <label>Invalid data, if this error persist. Please contact the admin.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Notes</label>
+                                    <textarea class="form-control"
+                                    v-model="newMasterBoard.notes" 
                                     cols="30" rows="10"></textarea>
-                            </div>
-                        </div>
-                        <div class="error" v-if="errorBoard.notes">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fa fa-times-circle"></i>
-                                <div class="text-center">
-                                    <label>Invalid data, if this error persist. Please contact the admin.</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-12 col-sm-12">
-                                <label>Notes</label>
-                                <textarea class="form-control"
-                                v-model="newMasterBoard.notes" 
-                                cols="30" rows="10"></textarea>
-                            </div>
+                        <div class="panel-footer">
+                            <template v-if="saving">
+                                <button type="submit" class="btn btn-success" disabled><i class="fa fa-spinner fa-spin"></i> Saving </button>
+                            </template>
+
+                            <template v-else-if="!saving">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </template>
                         </div>
                     </div>
-                    <div class="panel-footer">
-                        <template v-if="saving">
-                            <button type="submit" class="btn btn-success" disabled><i class="fa fa-spinner fa-spin"></i> Saving </button>
-                        </template>
-
-                        <template v-else-if="!saving">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </template>
-                    </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+        </template>
     </div>
 </div>
 {% endblock %}
