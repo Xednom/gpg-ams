@@ -1,0 +1,32 @@
+<hr>
+<br>
+<div class="form-row">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Date Requested</label>
+        <div class="col-md-2 col-sm-12">
+            <input type="date" class="form-control form-control-sm" v-model="newDueDiligence.date_requested"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Due Date</label>
+        <div class="col-md-2 col-sm-12">
+            <input type="date" class="form-control form-control-sm" v-model="newDueDiligence.due_date"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Company Owner or Requestor</label>
+        <div class="col-md-4 col-sm-12">
+            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.company_owner_or_requestor"
+                :disabled="loading == true">
+        </div>
+    </div>
+    <a class="btn btn-primary btn-next" 
+    href="#land-data" 
+    data-toggle="tab" 
+    type="button" 
+    style="float: right;">
+    <span>Next</span> <i class="fa fa-angle-double-right"></i>
+    </a>
+</div>

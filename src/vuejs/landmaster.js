@@ -104,8 +104,8 @@ new Vue({
             'status_utilities_data': "",
             'status_other_requests': "",
             'status_tax_data': "",
-            'total_hrs_for_initial_dd': '',
-            'total_hrs_overall_dd_callouts': '',
+            'total_hrs_for_initial_dd': 0.00,
+            'total_hrs_overall_dd_callouts': 0.00,
         },
         // for pagination
         currentPage: 1,

@@ -32,7 +32,7 @@ def has_group(user, group_name):
 
 class AddDueDiligenceView(LoginRequiredMixin, ListView):
     model = DueDiligence
-    template_name = 'landmaster/due_diligence.html'
+    template_name = 'landmaster/add_due_diligence.html'
 
 
 class AddDueDiligenceTrackerView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
