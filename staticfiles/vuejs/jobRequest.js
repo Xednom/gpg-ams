@@ -339,9 +339,9 @@ new Vue({
 
     },
     getPaginatedJobRequestRecords: function () {
-        const startJobRequestIndex = this.startJobRequestIndex;
-        this.paginatedJobRequestRecords = this.jobRequests.slice().splice(startJobRequestIndex, this.pageJobRequestSize);
-      },
+      const startJobRequestIndex = this.startJobRequestIndex;
+      this.paginatedJobRequestRecords = this.jobRequests.slice().splice(startJobRequestIndex, this.pageJobRequestSize);
+    },
     getPaginatedTimeSheetRecords: function () {
       const startTimeSheetIndex = this.startTimeSheetIndex;
       this.paginatedTimeSheetRecords = this.timesheets.slice().splice(startTimeSheetIndex, this.pageTimeSheetSize);
@@ -420,11 +420,11 @@ new Vue({
       },
       currentJobRequestPage: function (newCurrentPage, oldCurrentPage) {
         this.setPageJobRequestGroup();
-        this.getPaginatedJobRequestRecords()
+        this.getPaginatedJobRequestRecords();
       },
       currentTimeSheetPage: function (newCurrentPage, oldCurrentPage) {
         this.setPageTimeSheetGroup();
-        this.getPaginatedTimeSheetRecords()
+        this.getPaginatedTimeSheetRecords();
       },
     },
     computed: {
