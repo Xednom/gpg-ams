@@ -4,7 +4,7 @@ from .models import MasterBoard
 
 # Register your models here.
 class MasterBoardProfile(admin.ModelAdmin):
-    list_display = ('status', 'date_started', 'type_of_plan', 'client_name',   
+    list_display = ('status', 'date_started', 'due_date', 'type_of_plan', 'client_name',   
                     'email', 'phone', 'type_of_crm', 'type_of_voip')
     list_filter = ('type_of_plan', 'type_of_crm', 'type_of_voip', 'client_name')
     search_fields = ('client_name', 'url_buyer',
