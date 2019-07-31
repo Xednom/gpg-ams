@@ -135,18 +135,14 @@ class PmViewSet(viewsets.ReadOnlyModelViewSet):
         return pms
 
 
-def handler404(request, exception, template_name='404.html'):
-    response = render('404.html', {},
-                      context_instance=RequestContext(request))
-    response.status_code = 404
-    return response
+def error_404_view(request, exception):
+    data = {"name": "gpgcorp.com"}
+    return render(request, '404.html', data)
 
 
-def handler500(request):
-    response = HttpResponseServerError('500.html', {},
-                                       context_instance=RequestContext(request))
-    response.status_code = 500
-    return response
+def error_500_view(request, exception):
+    data = {"name": "gpgcorp.com"}
+    return render(request, '500.html', data)
 
 
 def client_status_data(request):

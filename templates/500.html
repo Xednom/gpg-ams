@@ -14,18 +14,20 @@ GPG System | Server Error
                 <!-- Breadcrumbs-->
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
+                        <a href="{% url 'users:home' %}">Dashboard</a>
                     </li>
                     <li class="breadcrumb-item active">505 Error</li>
                 </ol>
 
                 <!-- Page Content -->
-                <h1 class="display-1">505</h1>
-                <p class="lead">Something happened that cause the system to show this page or
-                    the page does not exist in the system. You can
+                <h1 class="display-1">500</h1>
+                <p class="lead">Something happened that cause the system to show this page,
+                    if the this keeps on showing when you access a certain page. You can
                     <a href="javascript:history.back()">go back</a>
                     to the previous page, or
-                    <a href="{% url 'users:home' %}">return home</a>.</p>
+                    <a href="{% url 'users:home' %}">return home</a>.
+                    Or simply contact the administrator regarding the error page.
+                </p>
 
             </div>
             <!-- /.container-fluid -->
@@ -46,9 +48,9 @@ GPG System | Server Error
     <!-- /#wrapper -->
 
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
+    <!-- <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
-    </a>
+    </a> -->
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

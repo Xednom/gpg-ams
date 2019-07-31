@@ -1,7 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 GPG System | Page not found
+{% endblock %}
+
+{% block dashboard_notif %}
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">
+      Page not found.
+    </h1>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
@@ -15,7 +26,7 @@ GPG System | Page not found
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="index.html">Dashboard</a>
+              <a href="{% url 'users:home' %}">Dashboard.</a>
             </li>
             <li class="breadcrumb-item active">404 Error</li>
           </ol>
@@ -25,7 +36,8 @@ GPG System | Page not found
           <p class="lead">Page not found. You can
             <a href="javascript:history.back()">go back</a>
             to the previous page, or
-            <a href="{% url 'users:home' %}">return home</a>.</p>
+            <a href="{% url 'users:home' %}">return home</a>.
+            or you can end your session by <a href="{% url 'users:logout' %}">logging out</a></p>
 
         </div>
         <!-- /.container-fluid -->
@@ -46,12 +58,12 @@ GPG System | Page not found
     <!-- /#wrapper -->
 
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
+    <!-- <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
-    </a>
+    </a> -->
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -67,5 +79,5 @@ GPG System | Page not found
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 {% endblock %}
