@@ -138,7 +138,11 @@
                               <a href="{% url 'timesheet:view_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
                               {% elif request.user.is_staffs %}
                               <a href="{% url 'timesheet:va_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
+                              {% if request.user.staffs.category == 'Home Based' %}
+                              <!-- don't show add timesheet -->
+                              {% else %}
                               <a href="{% url 'timesheet:add_timesheet' %}"><i class="fa fa-plus"></i> Add Timesheet</a>
+                              {% endif %}
                               {% endif %}
                             <li>
                             </li>
@@ -192,35 +196,39 @@
                         </li>
                         {% endif %}
                         {% if perms.landmaster.view_duediligence %}
-                        <li>
-                          <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                              <li>
+                          {% if request.user.staffs.category == 'Home Based' %}
+                          <!-- don't show land master to home based -->
+                          {% else %}
+                          <li>
+                            <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
+                              <ul class="nav nav-third-level">
+                                <li>
 
-                              {%if perms.landmaster.add_duediligence %}
-                                <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due Diligence work</a>
-                              {% endif %}
-
-                              {% if perms.landmaster.add_duediligencescleared %}
-                              <a href="{% url 'landmaster:add_due_diligence_tracker' %}"> <i class="fa fa-plus"></i> Add Due Diligence
-                                Tracker</a>
-                              {% endif %}
-
-                              </li>
-                              <li>
-
-                                {% if perms.landmaster.view_duediligence %}
-                                <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due Diligence work</a>
+                                {%if perms.landmaster.add_duediligence %}
+                                  <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due Diligence work</a>
                                 {% endif %}
 
-                                {% if perms.landmaster.view_duediligencescleared %}
-                                <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i
-                                    class="fa fa-eye"></i> View Due Diligence Call Out Reports</a>
+                                {% if perms.landmaster.add_duediligencescleared %}
+                                <a href="{% url 'landmaster:add_due_diligence_tracker' %}"> <i class="fa fa-plus"></i> Add Due Diligence
+                                  Tracker</a>
                                 {% endif %}
 
-                              </li>
-                            </ul>
-                        </li>
+                                </li>
+                                <li>
+
+                                  {% if perms.landmaster.view_duediligence %}
+                                  <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due Diligence work</a>
+                                  {% endif %}
+
+                                  {% if perms.landmaster.view_duediligencescleared %}
+                                  <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i
+                                      class="fa fa-eye"></i> View Due Diligence Call Out Reports</a>
+                                  {% endif %}
+
+                                </li>
+                              </ul>
+                          </li>
+                          {% endif %}
                         {% endif %}
                         <!-- CallMe -->
                         <li>
@@ -288,6 +296,9 @@
                         <!-- /.nav-second-level -->
                         </li>
                         <!-- ./Callme -->
+                        {% if request.user.staffs.category == 'Home Based' %}
+                        <!-- don't show marketing sites to home based VAs -->
+                        {% else %}
                         <li>
                           <a href="#"><i class="fa fa-bullhorn"></i> Marketing Sites Inventory <span class="fa arrow"></span></a>
                           <ul class="nav nav-third-level">
@@ -301,6 +312,7 @@
                             </li>
                           </ul>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
