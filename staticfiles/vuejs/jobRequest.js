@@ -90,6 +90,12 @@ new Vue({
         this.setDefaultDates();
       })
     },
+    nextJobRequestPage: function () {
+      if ((this.currentJobRequestPage * this.pageJobRequestSize) < this.jobRequests.length) this.currentJobRequestPage++;
+    },
+    prevJobRequestPage: function () {
+      if (this.currentJobRequestPage > 1) this.currentJobRequestPage--;
+    },
     getJobRequests: function() {
       api_url = `/api/v1/jobrequest/?search=${this.search_term}`
       this.loading = true;
