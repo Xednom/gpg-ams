@@ -16,7 +16,6 @@ Including another URLconf
 import notifications.urls
 from django.contrib import admin
 from django.urls import path, include
-
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -47,3 +46,7 @@ urlpatterns = [
 
 admin.site.site_title = "GPG site admin"
 admin.site.site_header = "GPG Administration"
+
+
+handler404 = 'users.views.handler404'
+handler500 = 'users.views.handler500'

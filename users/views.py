@@ -3,7 +3,8 @@ import json
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, View, TemplateView
 from django.urls import reverse_lazy
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseServerError
+from django.template import RequestContext
 
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
@@ -132,6 +133,20 @@ class PmViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         pms = Staffs.objects.filter(position__icontains='Project Managers')
         return pms
+
+
+def handler404(request, exception, template_name='404.html'):
+    response = render('404.html', {},
+                      context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+
+def handler500(request):
+    response = HttpResponseServerError('500.html', {},
+                                       context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
 
 
 def client_status_data(request):
