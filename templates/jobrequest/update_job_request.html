@@ -86,7 +86,7 @@ GPG System | View Job Request
               <nav class="pagination-wrapper pull-right" v-if="endJobRequestPage > 1">
                 <ul class="pagination justify-content-end">
                   <li v-bind:class="[{disabled: currentJobRequestPage === 1}, 'page-item']">
-                    <a class="page-link" tabindex="-1" v-on:click="goToJobRequestPage(currentJobRequestPage - 1)">
+                    <a class="page-link" tabindex="-1" v-on:click="prevJobRequestPage">
                       Previous
                     </a>
                   </li>
@@ -104,7 +104,7 @@ GPG System | View Job Request
                       [[ pageNumber ]]</a>
                   </li>
                   <li v-bind:class="[{disabled: (currentJobRequestPage * 1) === totalJobRequestPages}, 'page-item']">
-                    <a class="page-link" v-on:click="goToJobRequestPage(currentJobRequestPage + 1)">
+                    <a class="page-link" v-on:click="nextJobRequestPage">
                       Next
                     </a>
                   </li>
