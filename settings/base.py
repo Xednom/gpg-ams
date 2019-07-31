@@ -23,7 +23,6 @@ LOCAL_APPS = (
     'client',
     'reporting',
     'jobrequest',
-    'carespecialist',
     'landmaster',
     'logins',
     'accounts',
