@@ -14,6 +14,7 @@ class MasterBoard(models.Model):
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_started = models.DateField(default=now, null=True, blank=True)
+    due_date = models.DateField(default=now, null=True, blank=True)
     type_of_plan = models.CharField(max_length=150, null=True, blank=True)
     type_of_crm = models.CharField(max_length=150, null=True, blank=True)
     type_of_voip = models.CharField(max_length=150, null=True, blank=True)

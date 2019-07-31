@@ -96,7 +96,7 @@ GPG System | View Job Request
                       [[ pageNumber ]]
                     </a>
                   </li>
-                  <li v-bind:class="[{disabled: (currentJobRequestPage * 1) === totalPages}, 'page-item']">
+                  <li v-bind:class="[{disabled: (currentJobRequestPage * 1) === totalJobRequestPages}, 'page-item']">
                     <a class="page-link" v-on:click="goToJobRequestPage(currentJobRequestPage + 1)">
                       Next
                     </a>

@@ -42,6 +42,7 @@ new Vue({
 
         newMasterBoard: {
             'date_started': null,
+            'due_date': null,
             'type_of_plan': null,
             'type_of_crm': null,
             'type_of_voip': null,
