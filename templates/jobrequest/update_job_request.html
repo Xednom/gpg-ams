@@ -90,11 +90,18 @@ GPG System | View Job Request
                       Previous
                     </a>
                   </li>
-                  <li v-for="pageNumber in pagesJobRequest"
+                  <!-- <li v-for="pageNumber in pagesJobRequest"
                     v-bind:class="[{active: pageNumber === currentJobRequestPage}, 'page-item']">
                     <a class="page-link" v-on:click="goToJobRequestPage(pageNumber)">
                       [[ pageNumber ]]
                     </a>
+                  </li> -->
+                  <li v-for="pageNumber in totalJobRequestPages"
+                    v-bind:class="[{active: pageNumber === currentJobRequestPage}, 'page-item']"
+                    v-if="Math.abs(pageNumber - currentJobRequestPage) < 3 || pageNumber == totalJobRequestPages - 1 || pageNumber == 0">
+                    <a v-on:click="goToJobRequestPage(pageNumber)"
+                      :class="{current: currentJobRequestPage === pageNumber, last:(pageNumber == totalJobRequestPages - 1 && Math.abs(pageNumber - currentJobRequestPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentJobRequestPage) > 3)}">
+                      [[ pageNumber ]]</a>
                   </li>
                   <li v-bind:class="[{disabled: (currentJobRequestPage * 1) === totalJobRequestPages}, 'page-item']">
                     <a class="page-link" v-on:click="goToJobRequestPage(currentJobRequestPage + 1)">
