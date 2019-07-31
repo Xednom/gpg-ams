@@ -16,8 +16,10 @@ Including another URLconf
 import notifications.urls
 from django.contrib import admin
 from django.urls import path, include
+
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import handler404, handler500
 
 from .routers import router
 
@@ -48,5 +50,5 @@ admin.site.site_title = "GPG site admin"
 admin.site.site_header = "GPG Administration"
 
 
-handler404 = 'users.views.handler404'
-handler500 = 'users.views.handler500'
+handler404 = 'users.views.error_404_view'
+handler500 = 'users.views.error_500_view'
