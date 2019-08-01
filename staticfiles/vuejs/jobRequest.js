@@ -336,17 +336,16 @@ new Vue({
           });
         }
       });
-
     },
-    getPaginatedJobRequestRecords: function () {
+    getPaginatedJobRequestRecords() {
       const startJobRequestIndex = this.startJobRequestIndex;
       this.paginatedJobRequestRecords = this.jobRequests.slice().splice(startJobRequestIndex, this.pageJobRequestSize);
     },
-    getPaginatedTimeSheetRecords: function () {
+    getPaginatedTimeSheetRecords() {
       const startTimeSheetIndex = this.startTimeSheetIndex;
       this.paginatedTimeSheetRecords = this.timesheets.slice().splice(startTimeSheetIndex, this.pageTimeSheetSize);
     },
-    goToJobRequestPage: function (page) {
+    goToJobRequestPage(page) {
       if (page < 1) {
         return this.currentJobRequestPage = 1;
       }
@@ -355,7 +354,7 @@ new Vue({
       }
       this.currentJobRequestPage = page;
     },
-    goToTimeSheetPage: function (page) {
+    goToTimeSheetPage(page) {
       if (page < 1) {
         return this.currentTimeSheetPage = 1;
       }
@@ -364,7 +363,7 @@ new Vue({
       }
       this.currentTimeSheetPage = page;
     },
-    setPageJobRequestGroup: function () {
+    setPageJobRequestGroup() {
       if (this.totalJobRequestPages <= this.maxJobRequestPages) {
         this.startJobRequestPage = 1;
         this.endJobRequestPage = Math.min(this.totalJobRequestPages, this.maxJobRequestPages);
@@ -386,7 +385,7 @@ new Vue({
         }
       }
     },
-    setPageTimeSheetGroup: function () {
+    setPageTimeSheetGroup() {
       if (this.totalTimeSheetPages <= this.maxTimeSheetPages) {
         this.startTimeSheetPage = 1;
         this.endTimeSheetPage = Math.min(this.totalTimeSheetPages, this.maxTimeSheetPages);
@@ -410,54 +409,54 @@ new Vue({
     }
   },
   watch: {
-      jobRequests: function (newjobRequestsRecords, oldjobRequestsRecords) {
+      jobRequests(newjobRequestsRecords, oldjobRequestsRecords) {
         this.setPageJobRequestGroup();
         this.getPaginatedJobRequestRecords();
       },
-      timesheets: function (newjobRequestsRecords, oldjobRequestsRecords) {
+      timesheets(newjobRequestsRecords, oldjobRequestsRecords) {
         this.setPageTimeSheetGroup();
         this.getPaginatedTimeSheetRecords();
       },
-      currentJobRequestPage: function (newCurrentPage, oldCurrentPage) {
+      currentJobRequestPage(newCurrentPage, oldCurrentPage) {
         this.setPageJobRequestGroup();
         this.getPaginatedJobRequestRecords();
       },
-      currentTimeSheetPage: function (newCurrentPage, oldCurrentPage) {
+      currentTimeSheetPage(newCurrentPage, oldCurrentPage) {
         this.setPageTimeSheetGroup();
         this.getPaginatedTimeSheetRecords();
       },
     },
     computed: {
-      totalJobRequestItems: function () {
+      totalJobRequestItems() {
         return this.jobRequests.length;
       },
-      totalTimeSheetItems: function () {
+      totalTimeSheetItems() {
         return this.timesheets.length;
       },
-      totalJobRequestPages: function () {
+      totalJobRequestPages() {
         return Math.ceil(this.totalJobRequestItems / this.pageJobRequestSize);
       },
-      totalTimeSheetPages: function () {
+      totalTimeSheetPages() {
         return Math.ceil(this.totalTimeSheetItems / this.pageTimeSheetSize);
       },
-      startJobRequestIndex: function () {
+      startJobRequestIndex() {
         return (this.currentJobRequestPage - 1) * this.pageJobRequestSize;
       },
-      startTimeSheetIndex: function () {
+      startTimeSheetIndex() {
         return (this.currentTimeSheetPage - 1) * this.pageTimeSheetSize;
       },
-      endJobRequestIndex: function () {
+      endJobRequestIndex() {
         return Math.min(this.startJobRequestIndex + this.pageTimeSheetSize - 1, this.totalJobRequestItems - 1);
       },
-      endTimeSheetIndex: function () {
+      endTimeSheetIndex() {
         return Math.min(this.startTimeSheetIndex + this.pageTimeSheetSize - 1, this.totalTimeSheetItems - 1);
       },
-      pagesJobRequest: function () {
+      pagesJobRequest() {
         let pagesJobRequest = [];
         for (let i = this.startJobRequestPage; i <= this.endJobRequestPage; i++) pagesJobRequest.push(i);
         return pagesJobRequest;
       },
-      pagesTimeSheet: function () {
+      pagesTimeSheet() {
         let startTimeSheetPage = [];
         for (let i = this.startTimeSheetPage; i <= this.endTimeSheetPage; i++) startTimeSheetPage.push(i);
         return startTimeSheetPage;

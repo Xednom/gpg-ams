@@ -70,7 +70,7 @@ class JobRequestViewSet(viewsets.ModelViewSet):
         elif is_staff:
             if self.request.user.staffs.position == 'Project Managers':
                     queryset = job_request.filter(Q(assigned_project_managers__full_name__icontains=self.request.user.staffs.full_name) |
-                                                  Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name),)
+                                                  Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name))
                     return queryset
             elif self.request.user.staffs.position == 'General Administrative Support':
                 if is_staff:
