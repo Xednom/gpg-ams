@@ -10,7 +10,7 @@ new Vue({
         saving: false,
         errored: false,
         dueDiligences: [],
-        clientNames: [],
+        clients: [],
         virtualAssistants: [],
         projectManagers: [],
         currentDueDiligence: [],
@@ -147,11 +147,11 @@ new Vue({
                 this.newDueDiligence[key] = ""
             })
         },
-        getClientNames: function() {
+        getClientNames() {
             this.loading = true;
-            axios.get(`/api/v1/client-name/`)
+            axios.get(`/api/v1/client/`)
                 .then((response) => {
-                    this.clientNames = response.data;
+                    this.clients = response.data;
                     this.loading = false;
                 })
                 .catch((err) => {
