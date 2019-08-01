@@ -195,10 +195,9 @@
                           <!-- /.nav-second-level -->
                         </li>
                         {% endif %}
-                        {% if perms.landmaster.view_duediligence %}
                           {% if request.user.staffs.category == 'Home Based' %}
                           <!-- don't show land master to home based -->
-                          {% else %}
+                          {% elif request.user.is_client or request.user.is_staffs or request.user.staffs.category == 'Office Based' %}
                           <li>
                             <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
                               <ul class="nav nav-third-level">
@@ -229,7 +228,6 @@
                               </ul>
                           </li>
                           {% endif %}
-                        {% endif %}
                         <!-- CallMe -->
                         <li>
                           <a href="#"><i class="fa fa-tasks fa-fw"></i> CallMe Apps:<span class="fa arrow"></span></a>
