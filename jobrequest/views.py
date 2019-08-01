@@ -60,7 +60,7 @@ class JobRequestViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         #  data will only show by company name.
-        is_staff = self.request.user.staffs
+        is_staff = self.request.user.is_staffs
         is_client = self.request.user.is_client
         job_request = JobRequest.objects.all()
         
