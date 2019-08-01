@@ -20,24 +20,6 @@
                                                                             </textarea>
         </div>
     </div>
-    {% elif request.user.staffs %}
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Notes from the Land Master team</label>
-        <div class="col-md-10 col-sm-12">
-            <textarea class="form-control" cols="30" rows="10"
-                v-model="newDueDiligence.notes_from_the_land_master_team"></textarea>
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">DD Team Assigned VA</label>
-        <div class="col-md-2 col-sm-12">
-            <select v-model="newDueDiligence.dd_team_assigned_va" class="form-control">
-                <option v-for="va in virtualAssistants">
-                    [[ va.name ]]
-                </option>
-            </select>
-        </div>
-    </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Project Manager</label>
         <div class="col-md-2 col-sm-12">
@@ -46,6 +28,14 @@
                     [[ pm.project_manager ]]
                 </option>
             </select>
+        </div>
+    </div>
+    {% elif request.user.staffs %}
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Notes from the Land Master team</label>
+        <div class="col-md-10 col-sm-12">
+            <textarea class="form-control" cols="30" rows="10"
+                v-model="newDueDiligence.notes_from_the_land_master_team"></textarea>
         </div>
     </div>
     {% endif %}
