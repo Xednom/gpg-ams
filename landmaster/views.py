@@ -99,7 +99,12 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         if self.request.user.is_client:
             return serializer.save(company_name=self.request.user.clients.company_name, \
-                                   company_owner_or_requestor=self.request.user.clients.full_name)
+                                   company_owner_or_requestor=self.request.user.clients.full_name, \
+                                   dd_team_assigned_va=self.request.user.assigned_va, \
+                                   project_manager=self.request.user.assigned_pm)
+        elif self.request.user.is_staffs:
+            if self.request.user.staffs.position == 'Project Manager':
+                return serializer.save(project_manager=self.request.user.staffs)
 
 
 class DueDiligenceTrackerViewSet(viewsets.ModelViewSet):
