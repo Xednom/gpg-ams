@@ -233,9 +233,9 @@ class Clients(models.Model):
     client_control_number = models.CharField(max_length=150, null=True, blank=True)
     referred_by = models.CharField(max_length=150, null=True, blank=True)
     lead_source = models.CharField(max_length=150, null=True, blank=True)
-    assigned_va = models.ForeignKey(Staffs, null=True, blank=True, verbose_name="Assigned VA", on_delete=models.PROTECT, \
+    assigned_va = models.ForeignKey(VirtualAssistant, null=True, blank=True, verbose_name="Assigned VA", on_delete=models.PROTECT, \
                                     related_name="virtual_assistants")
-    assigned_pm = models.ForeignKey(Staffs, null=True, blank=True, verbose_name="Assigned PM", on_delete=models.PROTECT, \
+    assigned_pm = models.ForeignKey(ProjectManager, null=True, blank=True, verbose_name="Assigned PM", on_delete=models.PROTECT, \
                                     related_name="project_managers")
     task_enroute = models.CharField(max_length=150, null=True, blank=True)
     type_of_task = models.TextField(null=True, blank=True)
