@@ -65,7 +65,7 @@ class JobRequestViewSet(viewsets.ModelViewSet):
         job_request = JobRequest.objects.all()
         
         if is_client:
-            queryset = job_request.filter(Q(requestors_name=self.request.user.clients.full_name))
+            queryset = job_request.filter(Q(requestors_name__icontains=self.request.user.clients.full_name))
             return queryset
         elif is_staff:
             if self.request.user.staffs.position == 'Project Managers':
