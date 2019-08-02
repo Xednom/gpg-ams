@@ -250,6 +250,7 @@
                           {% endif %}
                           <!-- /.landmaster -->
                         <!-- CallMe -->
+                        {% if perms.callmeinventory.view_inventory or perms.callmemasterboard.view_masterboard or perms.callmefinancialreport.view_financialreport %}
                         <li>
                           <a href="#"><i class="fa fa-tasks fa-fw"></i> CallMe Apps:<span class="fa arrow"></span></a>
                           <ul class="nav nav-second-level">
@@ -314,6 +315,7 @@
                         </ul>
                         <!-- /.nav-second-level -->
                         </li>
+                        {% endif %}
                         <!-- ./Callme -->
                         {% if request.user.staffs.category == 'Home Based' %}
                         <!-- don't show marketing sites to home based VAs -->
