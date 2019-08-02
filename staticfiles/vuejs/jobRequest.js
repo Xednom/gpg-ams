@@ -258,11 +258,9 @@ new Vue({
           })
     },
     updateJobRequest: function() {
-      this.loading = true;
       this.saving = true
       axios.put(`/api/v1/jobrequest/${this.currentJobRequest.id}/`, this.currentJobRequest)
           .then((response) => {
-            this.loading = false;
             this.saving = false;
             this.currentJobRequest = response.data;
             swal({
@@ -271,12 +269,11 @@ new Vue({
               icon: "success",
               button: false,
               timer: 1500
-            });
-            $("#editModal").modal('hide')
+            })
+            $("#editModal").modal("hide")
             this.getJobRequests();
           })
           .catch((err) => {
-            this.loading = false;
             this.saving = false;
             console.log(err.response.data);
           })

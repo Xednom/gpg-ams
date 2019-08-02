@@ -195,39 +195,60 @@
                           <!-- /.nav-second-level -->
                         </li>
                         {% endif %}
+                        <!-- landmaster -->
                           {% if request.user.staffs.category == 'Home Based' %}
                           <!-- don't show land master to home based -->
-                          {% elif request.user.is_client or request.user.is_staffs or request.user.staffs.category == 'Office Based' %}
+                          {% elif request.user.is_client %}
                           <li>
                             <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
                               <ul class="nav nav-third-level">
                                 <li>
-
-                                {%if perms.landmaster.add_duediligence %}
                                   <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due Diligence work</a>
-                                {% endif %}
-
-                                {% if perms.landmaster.add_duediligencescleared %}
-                                <a href="{% url 'landmaster:add_due_diligence_tracker' %}"> <i class="fa fa-plus"></i> Add Due Diligence
-                                  Tracker</a>
-                                {% endif %}
-
                                 </li>
                                 <li>
-
-                                  {% if perms.landmaster.view_duediligence %}
                                   <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due Diligence work</a>
-                                  {% endif %}
-
-                                  {% if perms.landmaster.view_duediligencescleared %}
                                   <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i
                                       class="fa fa-eye"></i> View Due Diligence Call Out Reports</a>
-                                  {% endif %}
-
                                 </li>
                               </ul>
                           </li>
+                          {% elif request.user.staffs.category == 'Office Based' %}
+                          <li>
+                            {% if perms.landmaster.view_duediligence %}
+                            <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                              <li>
+
+                                {%if perms.landmaster.add_duediligence %}
+                                <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due
+                                  Diligence work</a>
+                                {% endif %}
+
+                                {% if perms.landmaster.add_duediligencescleared %}
+                                <a href="{% url 'landmaster:add_due_diligence_tracker' %}"> <i class="fa fa-plus"></i>
+                                  Add Due Diligence
+                                  Tracker</a>
+                                {% endif %}
+
+                              </li>
+                              <li>
+
+                                {% if perms.landmaster.view_duediligence %}
+                                <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due
+                                  Diligence work</a>
+                                {% endif %}
+
+                                {% if perms.landmaster.view_duediligencescleared %}
+                                <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i class="fa fa-eye"></i>
+                                  View Due Diligence Call Out Reports</a>
+                                {% endif %}
+
+                              </li>
+                            </ul>
+                            {% endif %}
+                          </li>
                           {% endif %}
+                          <!-- /.landmaster -->
                         <!-- CallMe -->
                         <li>
                           <a href="#"><i class="fa fa-tasks fa-fw"></i> CallMe Apps:<span class="fa arrow"></span></a>
