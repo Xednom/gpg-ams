@@ -95,4 +95,4 @@ class O20SmartPricing(models.Model):
         ordering = ['-date_encoded']
     
     def __str__(self):
-        return self.quality_specialist
+        return str(self.quality_specialist)
