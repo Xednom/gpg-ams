@@ -267,6 +267,7 @@ class Clients(models.Model):
     class Meta:
         verbose_name = 'List of Client'
         verbose_name_plural = 'List of Clients'
+        ordering = ['full_name']
 
     def __str__(self):
         return self.full_name + " - " + self.company_name

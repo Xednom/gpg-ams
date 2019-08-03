@@ -15,6 +15,7 @@ class MasterBoardProfile(admin.ModelAdmin):
             'fields': (
                 'status',
                 'date_started',
+                'due_date',
                 'type_of_plan',
                 'type_of_crm',
                 'type_of_voip',
