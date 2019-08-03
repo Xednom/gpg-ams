@@ -3,6 +3,7 @@ import uuid
 from decimal import Decimal
 from django.db import models
 from django.utils.timezone import now
+from django.conf import settings
 
 
 class LandAcademyInventory(models.Model):
@@ -77,12 +78,14 @@ class O20SmartPricing(models.Model):
     realtytrac = models.CharField(max_length=150, null=True, blank=True)
     order_name = models.CharField(max_length=150, null=True, blank=True)
     requestor_full_name = models.CharField(max_length=150, default="Jack Butala")
-    researcher_name = models.CharField(max_length=150, null=True, blank=True)
+    researcher_name = models.ForeignKey(settings.STAFFS, null=True, blank=True, \
+                                        on_delete=models.PROTECT, related_name='researcher')
     date_requested = models.DateField(default=now, null=True, blank=True)
     date_research = models.DateField(default=now, null=True, blank=True)
     date_encoded = models.DateField(default=now, null=True, blank=True)
     quality_check_status = models.CharField(max_length=50, choices=STATUS, null=True, blank=True)
-    quality_specialist = models.CharField(max_length=150, null=True, blank=True)
+    quality_specialist = models.ForeignKey(settings.STAFFS, null=True, blank=True, \
+                                           on_delete=models.PROTECT, related_name='QA')
     notes_from_researcher = models.TextField(null=True, blank=True, verbose_name="Notes From the Researcher")
     notes_from_qa = models.TextField(null=True, blank=True, verbose_name="Notes From the QA Specialist")
 

@@ -45,6 +45,7 @@ new Vue({
             'date_research': null,
             'date_encoded': null,
             'quality_check_status': null,
+            'researcher_name': null,
             'quality_specialist': null,
             'notes_from_researcher': null,
             'notes_from_qa': null,
@@ -197,7 +198,7 @@ new Vue({
         },
         getClients: function () {
             this.loading = true;
-            axios.get(`/api/v1/clients-callme/`)
+            axios.get(`/api/v1/client/`)
                 .then((response) => {
                     this.clients = response.data;
                     this.loading = false;

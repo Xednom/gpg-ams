@@ -45,28 +45,4 @@ class JobRequestProfile(admin.ModelAdmin):
     )
 
 
-class JobTimeSheetProfile(admin.ModelAdmin):
-    list_display = ['created_at', 'job_title', 'staff', 'time_in',
-                    'time_out', 'total_minutes_hours']
-    list_filter = ['job_title', 'staff']
-    list_per_page = 15
-    readonly_fields = ('created_at', 'updated_at', 'total_minutes_hours')
-    search_fields = ('staff', 'job_title__job_title')
-    fieldsets = (
-        ('Time Sheet Informations', {
-            'fields': (
-                'staff',
-                'client',
-                'job_title',
-                'created_at',
-                'updated_at',
-                'time_in',
-                'time_out',
-                'total_minutes_hours'
-            )
-        }),
-    )
-
-
 admin.site.register(JobRequest, JobRequestProfile)
-admin.site.register(JobRequestTimeSheet, JobTimeSheetProfile)
