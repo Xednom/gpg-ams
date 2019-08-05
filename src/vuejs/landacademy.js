@@ -384,6 +384,323 @@ new Vue({
                     this.endPage = this.currentPage + maxPagesAfterCurrentPage;
                 }
             }
+        },
+    generateLandAcademyExcelFile: function () {
+            let uri = 'data:application/vnd.ms-excel;base64,';
+
+            let context = {
+                worksheet: 'Worksheet1',
+                header: this.htmlConverter(this.generateLandAcademyExcelHeader()),
+                table: this.generateLandAcademyRows()
+            }
+            let htmlXML = this.generateXMLNS();
+            let formattedTemplate = this.formatTemplate(htmlXML, context);
+            let a = document.createElement('A');
+            a.href = uri + this.base64(formattedTemplate);
+            a.download = 'Land-Academy-Inventory-Report-' + Date.now() + '.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        },
+        htmlConverter: function (data) {
+            temporaryContainer = document.createElement('div');
+            temporaryContainer.appendChild(data);
+
+            return temporaryContainer.innerHTML
+        },
+        generateLandAcademyRows: function () {
+            let landacademy = this.landacademy;
+            let tableRows = '';
+
+            for (let i = 0; i < landacademy.length; i++) {
+                tableRows += this.htmlConverter(
+                    this.generateLandAcademyData(landacademy[i])
+                );
+            }
+
+            return tableRows
+        },
+        generateLandAcademyData: function (landacademy) {
+            let tr = document.createElement('tr');
+
+            let dateRequested = document.createElement('td');
+            let dateCompleted = document.createElement('td');
+            let datePaymentMade = document.createElement('td');
+            let orderName = document.createElement('td');
+            let clientLARequestor = document.createElement('td');
+            let completeOrder = document.createElement('td');
+            let statusOfOrder = document.createElement('td');
+            let paymentStatus = document.createElement('td');
+            let invoice = document.createElement('td');
+            let totalItemsCharge = document.createElement('td');
+            let totalPayPalFee = document.createElement('td');
+            let totalCharge = document.createElement('td');
+            let totalItemsRequested = document.createElement('td');
+            let notes = document.createElement('td');
+
+            dateRequested.textContent = landacademy['date_requested'];
+            dateCompleted.textContent = landacademy['date_completed'];
+            datePaymentMade.textContent = landacademy['date_payment_made'];
+            orderName.textContent = landacademy['order_name'];
+            clientLARequestor.textContent = landacademy['client_la_requestor'];
+            completeOrder.textContent = landacademy['complete_order'];
+            statusOfOrder.textContent = landacademy['status_of_order'];
+            paymentStatus.textContent = landacademy['payment_status'];
+            invoice.textContent = landacademy['invoice'];
+            totalItemsCharge.textContent = landacademy['total_items_charge'];
+            totalPayPalFee.textContent = landacademy['total_pp_fee'];
+            totalCharge.textContent = landacademy['total_charge'];
+            totalItemsRequested.textContent = landacademy['total_items_requested'];
+            notes.textContent = landacademy['notes'];
+
+            tr.appendChild(dateRequested);
+            tr.appendChild(dateCompleted);
+            tr.appendChild(datePaymentMade);
+            tr.appendChild(orderName);
+            tr.appendChild(clientLARequestor);
+            tr.appendChild(completeOrder);
+            tr.appendChild(statusOfOrder);
+            tr.appendChild(paymentStatus);
+            tr.appendChild(invoice);
+            tr.appendChild(totalItemsCharge);
+            tr.appendChild(totalPayPalFee);
+            tr.appendChild(totalCharge);
+            tr.appendChild(totalItemsRequested);
+            tr.appendChild(notes);
+
+            return tr
+        },
+        generateLandAcademyExcelHeader: function (landacademy) {
+            let tr = document.createElement('tr');
+
+            let dateRequested = document.createElement('th');
+            let dateCompleted = document.createElement('th');
+            let datePaymentMade = document.createElement('th');
+            let orderName = document.createElement('th');
+            let clientLARequestor = document.createElement('th');
+            let completeOrder = document.createElement('th');
+            let statusOfOrder = document.createElement('th');
+            let paymentStatus = document.createElement('th');
+            let invoice = document.createElement('th');
+            let totalItemsCharge = document.createElement('th');
+            let totalPayPalFee = document.createElement('th');
+            let totalCharge = document.createElement('th');
+            let totalItemsRequested = document.createElement('th');
+            let notes = document.createElement('th');
+
+            dateRequested.textContent = 'Date Requested';
+            dateCompleted.textContent = 'Date Completed';
+            datePaymentMade.textContent = 'Date Payment Made';
+            orderName.textContent = 'Order Name';
+            clientLARequestor.textContent = 'Client LA Requestor';
+            completeOrder.textContent = 'Complete Order';
+            statusOfOrder.textContent = 'Status of Order';
+            paymentStatus.textContent = 'Payment Status';
+            invoice.textContent = 'Invoice';
+            totalItemsCharge.textContent = 'Total Items Charge';
+            totalPayPalFee.textContent = 'Total Paypal Fee';
+            totalCharge.textContent = 'Total Charge';
+            totalItemsRequested.textContent = 'Total Items Requested';
+            notes.textContent = 'Notes';
+
+            tr.appendChild(dateRequested);
+            tr.appendChild(dateCompleted);
+            tr.appendChild(datePaymentMade);
+            tr.appendChild(orderName);
+            tr.appendChild(clientLARequestor);
+            tr.appendChild(completeOrder);
+            tr.appendChild(statusOfOrder);
+            tr.appendChild(paymentStatus);
+            tr.appendChild(invoice);
+            tr.appendChild(totalItemsCharge);
+            tr.appendChild(totalPayPalFee);
+            tr.appendChild(totalCharge);
+            tr.appendChild(totalItemsRequested);
+            tr.appendChild(notes);
+
+            return tr
+        },
+        generateO2OExcelFile: function () {
+            let uri = 'data:application/vnd.ms-excel;base64,';
+
+            let context = {
+                worksheet: 'Worksheet1',
+                header: this.htmlConverter(this.generateO2OExcelHeader()),
+                table: this.generateO2ORows()
+            }
+            let htmlXML = this.generateXMLNS();
+            let formattedTemplate = this.formatTemplate(htmlXML, context);
+            let a = document.createElement('A');
+            a.href = uri + this.base64(formattedTemplate);
+            a.download = 'O2O-Smart-Pricing-Report-' + Date.now() + '.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        },
+        htmlConverter: function (data) {
+            temporaryContainer = document.createElement('div');
+            temporaryContainer.appendChild(data);
+
+            return temporaryContainer.innerHTML
+        },
+        generateO2ORows: function () {
+            let smartpricing = this.smartpricing;
+            let tableRows = '';
+
+            for (let i = 0; i < smartpricing.length; i++) {
+                tableRows += this.htmlConverter(
+                    this.generateO2OData(smartpricing[i])
+                );
+            }
+
+            return tableRows
+        },
+        generateO2OData: function (smartpricing) {
+            let tr = document.createElement('tr');
+
+            let dateRequested = document.createElement('td');
+            let dateResearch = document.createElement('td');
+            let dateEncoded = document.createElement('td');
+            let situsAddress = document.createElement('td');
+            let trulia = document.createElement('td');
+            let zillow = document.createElement('td');
+            let redfin = document.createElement('td');
+            let realfor = document.createElement('td');
+            let realtytrac = document.createElement('td');
+            let orderName = document.createElement('td');
+            let requestorFullName = document.createElement('td');
+            let researcherName = document.createElement('td');
+            let qualityCheckStatus = document.createElement('td');
+            let qualitySpecialist = document.createElement('td');
+            let notesFromResearcher = document.createElement('td');
+            let notesFromQa = document.createElement('td');
+
+            dateRequested.textContent = smartpricing['date_requested'];
+            dateResearch.textContent = smartpricing['date_research'];
+            dateEncoded.textContent = smartpricing['date_encoded'];
+            situsAddress.textContent = smartpricing['situs_address'];
+            trulia.textContent = smartpricing['trulia'];
+            zillow.textContent = smartpricing['zillow'];
+            redfin.textContent = smartpricing['redfin'];
+            realfor.textContent = smartpricing['realfor'];
+            realtytrac.textContent = smartpricing['realtytrac'];
+            orderName.textContent = smartpricing['order_name'];
+            requestorFullName.textContent = smartpricing['requestor_full_name'];
+            researcherName.textContent = smartpricing['researcher_name'];
+            qualityCheckStatus.textContent = smartpricing['quality_check_status'];
+            qualitySpecialist.textContent = smartpricing['quality_specialist'];
+            notesFromResearcher.textContent = smartpricing['notes_from_researcher'];
+            notesFromQa.textContent = smartpricing['notes_from_qa'];
+
+            tr.appendChild(dateRequested);
+            tr.appendChild(dateResearch);
+            tr.appendChild(dateEncoded);
+            tr.appendChild(situsAddress);
+            tr.appendChild(trulia);
+            tr.appendChild(zillow);
+            tr.appendChild(redfin);
+            tr.appendChild(realfor);
+            tr.appendChild(realtytrac);
+            tr.appendChild(orderName);
+            tr.appendChild(requestorFullName);
+            tr.appendChild(researcherName);
+            tr.appendChild(qualityCheckStatus);
+            tr.appendChild(qualitySpecialist);
+            tr.appendChild(notesFromResearcher);
+            tr.appendChild(notesFromQa);
+
+            return tr
+        },
+        generateO2OExcelHeader: function (smartpricing) {
+            let tr = document.createElement('tr');
+
+            let dateRequested = document.createElement('th');
+            let dateResearch = document.createElement('th');
+            let dateEncoded = document.createElement('th');
+            let situsAddress = document.createElement('th');
+            let trulia = document.createElement('th');
+            let zillow = document.createElement('th');
+            let redfin = document.createElement('th');
+            let realfor = document.createElement('th');
+            let realtytrac = document.createElement('th');
+            let orderName = document.createElement('th');
+            let requestorFullName = document.createElement('th');
+            let researcherName = document.createElement('th');
+            let qualityCheckStatus = document.createElement('th');
+            let qualitySpecialist = document.createElement('th');
+            let notesFromResearcher = document.createElement('th');
+            let notesFromQa = document.createElement('th');
+
+            dateRequested.textContent = 'Date Requested';
+            dateResearch.textContent = 'Date Research';
+            dateEncoded.textContent = 'Date Encoded';
+            situsAddress.textContent = 'Situs Address';
+            trulia.textContent = 'Trulia';
+            zillow.textContent = 'Zillow';
+            redfin.textContent = 'Redfin';
+            realfor.textContent = 'Realfor';
+            realtytrac.textContent = 'RealtyTrac';
+            orderName.textContent = 'Order Name';
+            requestorFullName.textContent = 'Requestor Full Name';
+            researcherName.textContent = 'Researcher Name';
+            qualityCheckStatus.textContent = 'Quality Check Status';
+            qualitySpecialist.textContent = 'Quality Specialist';
+            notesFromResearcher.textContent = 'Notes From Researcher';
+            notesFromQa.textContent = 'Notes From QA';
+
+            tr.appendChild(dateRequested);
+            tr.appendChild(dateResearch);
+            tr.appendChild(dateEncoded);
+            tr.appendChild(situsAddress);
+            tr.appendChild(trulia);
+            tr.appendChild(zillow);
+            tr.appendChild(redfin);
+            tr.appendChild(realfor);
+            tr.appendChild(realtytrac);
+            tr.appendChild(orderName);
+            tr.appendChild(requestorFullName);
+            tr.appendChild(researcherName);
+            tr.appendChild(qualityCheckStatus);
+            tr.appendChild(qualitySpecialist);
+            tr.appendChild(notesFromResearcher);
+            tr.appendChild(notesFromQa);
+
+            return tr
+        },
+        generateXMLNS: function () {
+            let htmlOpenTag = '<html xmlns:o="urn:schemas-microsoft.com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+            let htmlHead = '<head><!-- [if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"></head>';
+            let htmlBody = '<body><table>{header}{table}</table></body>';
+            let htmlCloseTag = '</html>';
+
+            return htmlOpenTag + htmlHead + htmlBody + htmlCloseTag;
+        },
+        base64: function (template) {
+            return window.btoa(unescape(encodeURIComponent(template)))
+        },
+        formatTemplate: function (template, context) {
+            return template.replace(/{(\w+)}/g, function (m, p) {
+                return context[p]
+            })
+        },
+        generatePDF: function (id, buttonNumber) {
+            this.loadButton(buttonNumber);
+
+            let link = document.createElement('a');
+            link.href = `/land-academy/${id}/inventory-report.pdf`;
+            link.download = 'landacademy-inventory-Report-' + Date.now();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        },
+        loadButton: function (buttonNumber) {
+            Vue.set(this.buttonsLoading, buttonNumber, 1);
+
+            let self = this;
+
+            setTimeout(function () {
+                Vue.set(self.buttonsLoading, buttonNumber, 0);
+            }, 8000);
         }
     },
     watch: {

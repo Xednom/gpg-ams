@@ -183,6 +183,13 @@ GPG System | View Land Academy Inventory Records
                         </div>
                         <div class="panel-footer">
                             Total count: [[ smartpricing.length ]]
+                            <div class="pull-right" v-if="smartpricing.length">
+                                <a href="#" class="btn btn-primary btn-xs"
+                                    v-on:click.prevent="generateO2OExcelFile" data-placement="top"
+                                    title="Extract" style="margin-bottom:15px;"><i class="fa fa-file-excel-o"></i>
+                                    Export to
+                                    excel</a>
+                            </div>
                         </div>
                     </div>
                     <!-- /.col-lg-4 -->

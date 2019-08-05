@@ -78,19 +78,20 @@ new Vue({
             }
             this.currentSort = s;
         },
-        filterKey(e) {
-            const key = e.key;
+        duration($event) {
+            // console.log($event.keyCode); //keyCodes value
+            let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
 
-            // If is '.' key, stop it
-            if (key === '.')
-                return e.preventDefault();
+            // only allow number and one dot
+            if ((keyCode < 48 || keyCode > 57) && (keyCode !== 46 || this.price.indexOf('.') != -1)) { // 46 is dot
+                $event.preventDefault();
+            }
 
-            // OPTIONAL
-            // If is 'e' key, stop it
-            if (key === 'e')
-                return e.preventDefault();
+            // restrict to 2 decimal places
+            if (this.price != null && this.price.indexOf(".") > -1 && (this.price.split('.')[1].length > 1)) {
+                $event.preventDefault();
+            }
         },
-
         // This can also prevent copy + paste invalid character
         filterInput(e) {
             e.target.value = e.target.value.replace(/[^0-9]+/g, '');

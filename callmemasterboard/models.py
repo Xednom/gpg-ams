@@ -34,6 +34,7 @@ class MasterBoard(models.Model):
     call_forwarding_details = models.TextField(null=True, blank=True)
     email_form_forwarding = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=100, choices=STATUS, null=True, blank=True)
+    monthly_plan_cost = models.CharField(max_length=150, null=True, blank=True)
     
     class Meta:
         verbose_name = 'CallMe Master Board'
