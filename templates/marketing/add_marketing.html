@@ -49,7 +49,7 @@ GPG System | Add CallMe Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Date Completed</label>
-                                    <input type="date" class="form-control" v-model="newInventory.date_completed" required>
+                                    <input type="date" class="form-control" v-model="newInventory.date_completed">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -100,15 +100,16 @@ GPG System | Add CallMe Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>APN</label>
-                                    <input type="text" class="form-control" v-model="newInventory.apn"
-                                        required>
+                                    <textarea class="form-control"
+                                    cols="30" rows="10"
+                                    v-model="newInventory.apn"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Title of the Post</label>
-                                    <input type="text" class="form-control" v-model="newInventory.title_of_the_post"
-                                        required>
+                                    <textarea class="form-control" cols="30" rows="10"
+                                        v-model="newInventory.title_of_the_post"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -122,21 +123,25 @@ GPG System | Add CallMe Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Price</label>
-                                    <input type="number" step=".01" min="0" class="form-control" @input="filterInput"
-                                        v-model="newInventory.price"
-                                        required>
+                                    <input type="text" class="form-control" 
+                                    @input="filterInput"
+                                    @keypress="duration"
+                                    v-model="newInventory.price"
+                                    required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Location</label>
-                                    <input type="text" class="form-control" v-model="newInventory.location">
+                                    <textarea class="form-control" cols="30" rows="10"
+                                        v-model="newInventory.location"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>URL Link</label>
-                                    <input type="url" class="form-control" v-model="newInventory.url_link">
+                                    <textarea class="form-control" cols="30" rows="10"
+                                        v-model="newInventory.url_link"></textarea>
                                 </div>
                             </div>
                             {% if request.user.is_client %}
@@ -152,8 +157,9 @@ GPG System | Add CallMe Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Duration</label>
-                                    <input type="number" step=".01" min="0" class="form-control" @input="filterInput"
-                                        v-model="newInventory.duration">
+                                    <input type="text" class="form-control" 
+                                    @input="filterInput" @keypress="duration"
+                                    v-model="newInventory.duration">
                                 </div>
                             </div>
                             <div class="form-group row">
