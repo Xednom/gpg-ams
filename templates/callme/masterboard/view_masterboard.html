@@ -177,6 +177,13 @@ GPG System | CallMe Master Board
                                         {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled
                                         {% endif %}>
                                 </div>
+                                <div class="form-group col-md-4 col-sm-12">
+                                    <label>Monthly plan cost</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        v-model="currentBoards.monthly_plan_cost"
+                                        {% if perms.callmemasterboard.change_masterboard %} {% else %} disabled
+                                        {% endif %}>
+                                </div>
                                 <div class="form-group col-md-8 col-sm-12">
                                     <label>Type of Plan</label>
                                     <input type="text" class="form-control form-control-sm"
