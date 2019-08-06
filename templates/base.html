@@ -428,93 +428,97 @@
                     <!-- <div id="container-client" class="col-sm-6 " data-url="{% url 'users:client_status_data' %}"></div>
                     <div id="container-jobrequest" class="col-sm-6 " data-url="{% url 'users:job_request_status_data' %}"></div> -->
                   </div>
-                  <div id="gpg-reminders" v-cloak>
-                    <!-- reminder -->
-                    <div class="col-md-6 col-sm-12">
-                      <div class="panel panel-red">
-                        <div class="panel-heading">
-                          <div class="row">
-                            <div class="col-xs-3">
-                              <i class="fa fa-support fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                              <div class="huge">[[ reminders.length ]]</div>
-                              <div>Check out your reminders!</div>
+                  {% if request.user.staffs.category == 'Office Based' or request.user.is_client %}
+                    <div id="gpg-reminders" v-cloak>
+                      <!-- reminder -->
+                      <div class="col-md-6 col-sm-12">
+                        <div class="panel panel-red">
+                          <div class="panel-heading">
+                            <div class="row">
+                              <div class="col-xs-3">
+                                <i class="fa fa-support fa-5x"></i>
+                              </div>
+                              <div class="col-xs-9 text-right">
+                                <div class="huge">[[ reminders.length ]]</div>
+                                <div>Check out your reminders!</div>
+                              </div>
                             </div>
                           </div>
+                          <a href="{% url 'reminders:view-reminders' %}">
+                            <div class="panel-footer">
+                              <span class="pull-left">View Details</span>
+                              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    
+                              <div class="clearfix"></div>
+                            </div>
+                          </a>
                         </div>
-                        <a href="{% url 'reminders:view-reminders' %}">
-                          <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                  
-                            <div class="clearfix"></div>
-                          </div>
-                        </a>
                       </div>
-                    </div>
-                    <div class="modal fade" id="reminderModal" tabindex="-1" role="dialog"
-                      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                            <h4 class="modal-title" id="exampleModalLongTitle">Reminder pop up</h4>
-                          </div>
+                      <div class="modal fade" id="reminderModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                              <h4 class="modal-title" id="exampleModalLongTitle">Reminder pop up</h4>
+                            </div>
 
-                          <div class="modal-body">
-                              <div class="panel-body">
-                                <!-- ./reminder -->
-                                <div class="panel panel-primary">
-                                  <div class="panel-heading">
-                                    Your Reminders
-                                  </div>
-                                  <div class="panel-body">
-                                    <div style="overflow-x: auto;">
-                                      <table class="table table-stripped table-bordered table-hover table-responsive">
-                                        <thead>
-                                          <tr>
-                                            <th>Date</th>
-                                            <th>Due Date</th>
-                                            <th>Status</th>
-                                            <th>Description</th>
-                                            <th>Notes from the Company</th>
-                                            <th>Notes from the Manager</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          <tr>
-                                            <td colspan="14" class="text-center bg-warning" v-if="!reminders.length">You
-                                              have no
-                                              reminders for this month.</td>
-                                          </tr>
-                                          <tr v-for="(reminders, i) in paginatedRecords">
-                                            <td>[[ reminders.date ]]</td>
-                                            <td>[[ reminders.due_date ]]</td>
-                                            <td>[[ reminders.status ]]</td>
-                                            <td>[[ reminders.description ]]</td>
-                                            <td>[[ reminders.notes_from_company ]]</td>
-                                            <td>[[ reminders.notes_from_manager ]]</td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
+                            <div class="modal-body">
+                                <div class="panel-body">
+                                  <!-- ./reminder -->
+                                  <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                      Your Reminders
+                                    </div>
+                                    <div class="panel-body">
+                                      <div style="overflow-x: auto;">
+                                        <table class="table table-stripped table-bordered table-hover table-responsive">
+                                          <thead>
+                                            <tr>
+                                              <th>Date</th>
+                                              <th>Due Date</th>
+                                              <th>Status</th>
+                                              <th>Description</th>
+                                              <th>Notes from the Company</th>
+                                              <th>Notes from the Manager</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <td colspan="14" class="text-center bg-warning" v-if="!reminders.length">You
+                                                have no
+                                                reminders for this month.</td>
+                                            </tr>
+                                            <tr v-for="(reminders, i) in paginatedRecords">
+                                              <td>[[ reminders.date ]]</td>
+                                              <td>[[ reminders.due_date ]]</td>
+                                              <td>[[ reminders.status ]]</td>
+                                              <td>[[ reminders.description ]]</td>
+                                              <td>[[ reminders.notes_from_company ]]</td>
+                                              <td>[[ reminders.notes_from_manager ]]</td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                              <!-- panelbody ends here -->
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                <!-- panelbody ends here -->
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    {% elif request.user.staffs.category == 'Home Based' %}
+                    <!-- don't show reminders to home based -->
+                    {% endif %}
                   </div>
-                  </div>
-                    {% if request.user.is_staffs %}
+                    {% if request.user.staffs.category == 'Office Based' %}
 
                   <div class="col-md-6 col-sm-12">
                     <div id="gpg-land-master" v-cloak>
@@ -571,6 +575,8 @@
                       </div>
                     </div>
                   </div>
+                  {% elif request.user.staffs.category == 'Home Based' %}
+                  <!-- don't show dd cards -->
                   {% endif %}
                 </div>
                 <!-- /.col-lg-4 -->
