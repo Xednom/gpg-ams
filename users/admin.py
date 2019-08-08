@@ -26,7 +26,10 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['username']
+    list_display = ['username', 'is_staffs', 'is_client', 
+                    'is_active', 'is_staff', 'is_superuser']
+    list_filter = ['is_staffs', 'is_client', 'is_active',
+                   'is_staff', 'is_superuser']
     UserAdmin.fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('notes', 'is_staffs','is_client')}),
@@ -41,7 +44,9 @@ class StaffProfile(admin.ModelAdmin):
                     'TIN_number', 'pag_ibig_number',
                     'philhealth', 'position', 'status',
                     'category')
-    list_filter = ('full_name', 'position', 'status')
+    list_filter = ('full_name', 'position', 'status', 'category',
+                   'bank_name')
+    list_per_page = 30
     search_fields = ('full_name', 'position', 'SSS_number',
                      'TIN_number', 'pag_ibig_number')
     readonly_fields = ('total_employer', 'total_employee')
@@ -130,19 +135,12 @@ class StaffProfile(admin.ModelAdmin):
 
 
 class ClientProfile(admin.ModelAdmin):
-    # inlines = [
-    #     EmailInline,
-    #     PaypalEmailInline,
-    #     WebsiteInline,
-    #     TrainingUrlInline,
-    #     TypeOfTaskRequestInline,
-    #     ChanngelOfCommunicationsInline,
-    #     NotesInline,
-    # ]
     list_display = ('company_category', 'status', 'client_control_number', 'username', 'full_name', 'company_name',
                     'assigned_va', 'assigned_pm', 'phone_number', 'internal_folder_link_1',
                     'internal_folder_link_2', 'internal_folder_link_3')
-    list_filter = ['company_name']
+    list_filter = ['company_name', 'company_category', 'status', 'full_name',
+                   'referred_by', 'assigned_va', 'assigned_pm']
+    list_per_page = 20
     search_fields = ('username__username', 'full_name', 'company_name')
     fieldsets = (
         ('Client Information', {

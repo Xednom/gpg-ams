@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from jet.filters import DateRangeFilter
 from .models import LandAcademyInventory, O20SmartPricing
 
 
@@ -7,6 +7,7 @@ class InventoryProfile(admin.ModelAdmin):
     list_display = ('invoice', 'date_requested', 'order_name', 'total_items_requested', 'total_items_charge',
                     'total_pp_fee', 'total_charge', 'client_la_requestor', 'date_completed', 'status_of_order', 'payment_status')
     list_filter = ('status_of_order', 'payment_status')
+    list_per_page = 30
     search_fields = ('invoice', 'pivot_table')
     readonly_fields = ['total_items_charge', 'total_pp_fee', 'total_charge']
     fieldsets = (
@@ -35,7 +36,10 @@ class SmartPricingProfile(admin.ModelAdmin):
     list_display = ('date_requested', 'quality_specialist', 'date_encoded',
                     'situs_address', 'quality_check_status')
     list_filter = ('quality_specialist', 'date_encoded',
-                   'quality_check_status')
+                   'quality_check_status', 'date_requested',
+                   'order_name', 'researcher_name', 'quality_check_status',
+                   ('date_requested', DateRangeFilter))
+    list_per_page = 30
     readonly_fields = ['date_encoded']
     search_fields = ('situs_address', 'quality_specialist')
     fieldsets = (

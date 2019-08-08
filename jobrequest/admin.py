@@ -1,13 +1,18 @@
 from django.contrib import admin
+from jet.filters import DateRangeFilter
 from .models import JobRequest, JobRequestTimeSheet
 
 
 class JobRequestProfile(admin.ModelAdmin):
     list_display = ['date_requested', 'category', 'company_name', 'job_request_title',
                     'assigned_project_managers', 'project_status']
-    list_filter = ['project_status']
-    list_per_page = 15
-    # change_list_template = 'jobrequest/change_list_graph.html'
+    list_filter = ['project_status', 'due_date', 'month',
+                   'category', 'requestors_name', 'company_name',
+                   'assigned_project_managers', 'assigned_va',
+                   'company_tagging',
+                   ('due_date', DateRangeFilter),
+                   ('date_requested', DateRangeFilter)]
+    list_per_page = 30
     search_fields = (
         'requestors_name', 'company_name', 'assigned_project_managers__project_manager', 'project_status',
         'url_training_videos', 'assigned_va')

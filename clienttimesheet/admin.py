@@ -75,8 +75,10 @@ class TimeSheetProfile(ModelAdminTotals):
 class PaymentMadeProfile(ModelAdminTotals):
     list_display = ('date', 'client_name', 'transaction_number',
                     'payment_channel', 'amount',)
-    list_filter = (('date', DateRangeFilter), 'date', 'payment_channel')
+    list_filter = (('date', DateRangeFilter), 'date', 'payment_channel',
+                    'client_name')
     list_totals = [('amount', Sum)]
+    list_per_page = 30
     search_fields = ('transaction_number', 'payment_channel',
                      'client_name__full_name')
     fieldsets = (
@@ -97,7 +99,8 @@ class CashoutProfile(ModelAdminTotals):
     list_display = ('cash_date_release', 'name', 'reference',
                     'payment_channel', 'approved_by', 'purpose', 'amount',)
     list_filter = (('cash_date_release', DateRangeFilter),
-                   'cash_date_release', 'payment_channel')
+                   'cash_date_release', 'payment_channel',
+                   'name')
     list_totals = [('amount', Sum)]
     search_fields = ('reference', 'payment_channel',
                      'name__full_name')
