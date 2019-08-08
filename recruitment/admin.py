@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import Resume, Reference
+from import_export.admin import ImportExportModelAdmin, ExportMixin
 
 
 class ReferenceInline(admin.TabularInline):
@@ -8,7 +9,7 @@ class ReferenceInline(admin.TabularInline):
     extra = 1
 
 
-class ResumeProfile(admin.ModelAdmin):
+class ResumeProfile(ImportExportModelAdmin):
     inlines = [ReferenceInline]
     list_display = ('name', 'phone_number', 'email', 
                     'educational_attainment', 'date_created')

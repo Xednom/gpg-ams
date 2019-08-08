@@ -2,9 +2,12 @@ from django.contrib import admin
 
 from .models import DueDiligence, DueDiligencesCleared
 from jet.filters import DateRangeFilter
+from import_export.admin import ImportExportModelAdmin, ExportMixin
+
+from .resources import DueDiligenceResource, CallOutResource
 
 
-class DueDiligenceProfile(admin.ModelAdmin):
+class DueDiligenceProfile(ImportExportModelAdmin):
     list_display = ('date_requested', 'due_date', 'company_owner_or_requestor', 
                     'company_name', 'parcel_number', 'project_manager', 'dd_va_assigned_initial_data',
                     'dd_va_assigned_call_outs_tax_data', 'dd_va_assigned_call_outs_zoning_data', 
@@ -26,6 +29,7 @@ class DueDiligenceProfile(admin.ModelAdmin):
     list_per_page = 30
     search_fields = ('company_name__name', 'company_owner')
     readonly_fields = ['total_time_allocation']
+    resource_class = DueDiligenceResource
     fieldsets = (
         ('Due Diligence client Information', {
             'fields': (
@@ -168,13 +172,14 @@ class DueDiligenceProfile(admin.ModelAdmin):
     )
 
 
-class DueDiligenceClearedProfile(admin.ModelAdmin):
+class DueDiligenceClearedProfile(ImportExportModelAdmin):
     list_display = ('date_of_call', 'client_full_name', 'apn',
                     'reason_of_the_call', 'total_minutes', 'customer_service_representative')
     list_filter = ['client_full_name', 'customer_service_representative',
                    ('date_of_call', DateRangeFilter)]
     list_per_page = 30
     search_fields = ('client_full_name__full_name', 'customer_service_representative__full_name')
+    resource_class = CallOutResource
     fieldsets = (
         ('Due Diligence Cleared Information', {
             'fields': (

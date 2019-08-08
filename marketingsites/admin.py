@@ -1,13 +1,16 @@
 from django.contrib import admin
 
 from .models import Inventory
+from import_export.admin import ImportExportModelAdmin, ExportMixin
 
-class InventoryProfile(admin.ModelAdmin):
+
+class InventoryProfile(ImportExportModelAdmin):
     list_display = ('date_requested', 'date_completed', 'apn',
                     'type_of_marketing_sites', 'client_full_name',
                     'client_company_name', 'status')
     list_filter = ('client_full_name', 'client_company_name', 'status',
                    'post_for_approval', 'marketing_associate')
+    list_per_page = 30
     search_fields = ('client_full_name', 'client_company_name', 'apn')
     fieldsets = (
         ('Date Informations', {
