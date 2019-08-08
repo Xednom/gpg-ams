@@ -20,6 +20,9 @@ from .models import (
         ChannelOfCommunications,
         Notes,
     )
+from .resources import StaffsResource, ClientResource
+
+from import_export.admin import ImportExportModelAdmin, ExportMixin
 
 
 class CustomUserAdmin(UserAdmin):
@@ -38,7 +41,7 @@ class CustomUserAdmin(UserAdmin):
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),)
 
 
-class StaffProfile(admin.ModelAdmin):
+class StaffProfile(ImportExportModelAdmin):
     list_display = ('username', 'full_name', 'middle_name', 'email',
                     'phone_number', 'SSS_number',
                     'TIN_number', 'pag_ibig_number',
@@ -50,6 +53,7 @@ class StaffProfile(admin.ModelAdmin):
     search_fields = ('full_name', 'position', 'SSS_number',
                      'TIN_number', 'pag_ibig_number')
     readonly_fields = ('total_employer', 'total_employee')
+    resource_class = StaffsResource
     fieldsets = (
         ('Staff Information', {
             'fields': (
@@ -134,7 +138,7 @@ class StaffProfile(admin.ModelAdmin):
     )
 
 
-class ClientProfile(admin.ModelAdmin):
+class ClientProfile(ImportExportModelAdmin):
     list_display = ('company_category', 'status', 'client_control_number', 'username', 'full_name', 'company_name',
                     'assigned_va', 'assigned_pm', 'phone_number', 'internal_folder_link_1',
                     'internal_folder_link_2', 'internal_folder_link_3')
@@ -142,6 +146,7 @@ class ClientProfile(admin.ModelAdmin):
                    'referred_by', 'assigned_va', 'assigned_pm']
     list_per_page = 20
     search_fields = ('username__username', 'full_name', 'company_name')
+    resource_class = ClientResource
     fieldsets = (
         ('Client Information', {
             'fields': (

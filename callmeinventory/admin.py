@@ -1,12 +1,15 @@
 from django.contrib import admin
 from jet.filters import DateRangeFilter
 from django.db.models import Sum, Avg
+
 from admin_totals.admin import ModelAdminTotals
+from import_export.admin import ImportExportModelAdmin, ExportMixin
+
 
 from .models import inventory
 
 
-class InventoryProfile(ModelAdminTotals):
+class InventoryProfile(ImportExportModelAdmin):
     list_display = ('date_lead_received', 'type_of_form',
                     'client_full_name', 'full_name_of_lead', 
                     'phone_number', 'status', 'lead_conversion', 'financial_status',

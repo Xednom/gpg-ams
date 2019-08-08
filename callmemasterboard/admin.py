@@ -1,9 +1,11 @@
 from django.contrib import admin
 
 from .models import MasterBoard
+from import_export.admin import ImportExportModelAdmin, ExportMixin
+
 
 # Register your models here.
-class MasterBoardProfile(admin.ModelAdmin):
+class MasterBoardProfile(ImportExportModelAdmin):
     list_display = ('status', 'date_started', 'due_date', 'type_of_plan', 'client_name',   
                     'email', 'phone', 'type_of_crm', 'type_of_voip')
     list_filter = ('type_of_plan', 'type_of_crm', 'type_of_voip', 'client_name')
