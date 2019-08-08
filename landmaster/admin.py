@@ -14,7 +14,16 @@ class DueDiligenceProfile(admin.ModelAdmin):
                     'other_requests_completion', 'date_of_completion')
     list_filter = ('date_requested', 'due_date',
                    'company_owner_or_requestor', 'owner_name',
+                   'status_initial_data', 'status_tax_data',
+                   'status_zoning_data', 'status_utilities_data',
+                   'status_other_requests', 'status_of_dd',
+                   'dd_va_assigned_initial_data',
+                   'dd_va_assigned_call_outs_tax_data',
+                   'dd_va_assigned_call_outs_zoning_data',
+                   'dd_va_assigned_call_outs_utilities_data',
+                   'dd_va_assigned_call_outs_other_requests',
                    ('date_requested', DateRangeFilter))
+    list_per_page = 30
     search_fields = ('company_name__name', 'company_owner')
     readonly_fields = ['total_time_allocation']
     fieldsets = (
@@ -163,6 +172,7 @@ class DueDiligenceClearedProfile(admin.ModelAdmin):
     list_display = ('date_of_call', 'client_full_name', 'apn',
                     'reason_of_the_call', 'total_minutes', 'customer_service_representative')
     list_filter = ['client_full_name', 'customer_service_representative']
+    list_per_page = 30
     search_fields = ('client_full_name__full_name', 'customer_service_representative__full_name')
     fieldsets = (
         ('Due Diligence Cleared Information', {

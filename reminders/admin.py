@@ -1,11 +1,13 @@
 from django.contrib import admin
-
+from jet.filters import DateRangeFilter
 from .models import ManagerReminders
 
 
 class ManagerRemindersProfile(admin.ModelAdmin):
     list_display = ('date', 'due_date', 'requestor', 'requestee', 'status')
-    list_filter = ['date', 'status']
+    list_filter = ['date', 'status', 'requestor', 'requestee',
+                   ('date', DateRangeFilter)]
+    list_per_page = 30
     search_fields = ('manager_under', 'status')
     readonly_fields = ['date']
     fieldsets = (
