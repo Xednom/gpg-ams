@@ -171,7 +171,8 @@ class DueDiligenceProfile(admin.ModelAdmin):
 class DueDiligenceClearedProfile(admin.ModelAdmin):
     list_display = ('date_of_call', 'client_full_name', 'apn',
                     'reason_of_the_call', 'total_minutes', 'customer_service_representative')
-    list_filter = ['client_full_name', 'customer_service_representative']
+    list_filter = ['client_full_name', 'customer_service_representative',
+                   ('date_of_call', DateRangeFilter)]
     list_per_page = 30
     search_fields = ('client_full_name__full_name', 'customer_service_representative__full_name')
     fieldsets = (
