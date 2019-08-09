@@ -210,6 +210,12 @@ GPG System | View Marketing Sites Inventory records
                             </div>
                             <div class="panel-footer">
                                 Total count: [[ inventory.length ]]
+                                <div class="pull-right" v-if="inventory.length">
+                                    <a href="#" class="btn btn-primary btn-xs" v-on:click.prevent="generateExcelFile"
+                                        data-placement="top" title="Extract"><i class="fa fa-file-excel-o"></i>
+                                        Export to
+                                        excel</a>
+                                </div>
                             </div>
                         </div>
                     </div>
