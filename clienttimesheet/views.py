@@ -49,11 +49,11 @@ class AddVaTimeSheetView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         return reverse_lazy('timesheet:add_timesheet')
 
 
-class VaTimeSheetView(TemplateView):
+class VaTimeSheetView(TemplateView, LoginRequiredMixin):
     template_name = 'timesheet/va_timesheet.html'
 
 
-class TimeSheetView(TemplateView):
+class TimeSheetView(TemplateView, LoginRequiredMixin):
     template_name = 'timesheet/view_timesheet.html'
 
 
