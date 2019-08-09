@@ -142,6 +142,16 @@ GPG System | View Timesheet
                                 </nav>
                                 <!-- end of pagination -->
                             </div>
+                            <!-- panel-footer -->
+                            <div class="panel-footer">
+                                Total Count: [[ timesheets.length ]]
+                                <div class="pull-right" v-if="timesheets.length">
+                                    <a href="#" class="btn btn-primary btn-xs" v-on:click.prevent="generateExcelFile"
+                                        data-placement="top" title="Extract"><i class="fa fa-file-excel-o"></i>
+                                        Export to
+                                        excel</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12">

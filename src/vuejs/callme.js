@@ -93,7 +93,7 @@ new Vue({
         search_url_seller: '',
         search_url_property_management: '',
         search_general_calls: '',
-        search_voicemail: '',        
+        search_voicemail: '',
 
         // for pagination
         currentInventoryPage: 1,
@@ -281,7 +281,7 @@ new Vue({
         },
         addInventory: function () {
             this.saving = true;
-            axios.post('/api/v1/callme-inventory/', this.newInventory, )
+            axios.post('/api/v1/callme-inventory/', this.newInventory)
                 .then((response) => {
                     this.saving = false;
                     swal({
@@ -291,7 +291,7 @@ new Vue({
                         buttons: false,
                         timer: 3000
                     })
-                this.resetInventory();
+                    this.resetInventory();
                 })
                 .catch((err) => {
                     swal({
@@ -502,6 +502,187 @@ new Vue({
                 }
             }
         },
+        generateExcelFile: function () {
+            let uri = 'data:application/vnd.ms-excel;base64,';
+
+            let context = {
+                worksheet: 'Worksheet1',
+                header: this.htmlConverter(this.generateExcelHeader()),
+                table: this.generateRows()
+            }
+            let htmlXML = this.generateXMLNS();
+            let formattedTemplate = this.formatTemplate(htmlXML, context);
+            let a = document.createElement('A');
+            a.href = uri + this.base64(formattedTemplate);
+            a.download = 'call-me-inventory-report-' + Date.now() + '.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        },
+        htmlConverter: function (data) {
+            temporaryContainer = document.createElement('div');
+            temporaryContainer.appendChild(data);
+
+            return temporaryContainer.innerHTML
+        },
+        generateRows: function () {
+            let inventory = this.inventory;
+            let tableRows = '';
+
+            for (let i = 0; i < inventory.length; i++) {
+                tableRows += this.htmlConverter(
+                    this.generateData(inventory[i])
+                );
+            }
+
+            return tableRows
+
+        },
+        generateData: function (inventory) {
+            let tr = document.createElement('tr');
+
+            let transferredDate = document.createElement('td');
+            let dateLeadReceived = document.createElement('td');
+            let typeOfForm = document.createElement('td');
+            let clientFullName = document.createElement('td');
+            let fullNameOfLead = document.createElement('td');
+            let phoneNumber = document.createElement('td');
+            let email = document.createElement('td');
+            let customerRepresentative = document.createElement('td');
+            let status = document.createElement('td');
+            let leadTransferredBy = document.createElement('td');
+            let financialStatus = document.createElement('td');
+            let callDuration = document.createElement('td');
+            let totalTimeTransferringLeads = document.createElement('td');
+            let totalMins = document.createElement('td');
+            let notes = document.createElement('td');
+            let leadConversion = document.createElement('td');
+
+            transferredDate.textContent = inventory['transferred_date'];
+            dateLeadReceived.textContent = inventory['date_lead_received'];
+            typeOfForm.textContent = inventory['type_of_form'];
+            clientFullName.textContent = inventory['client_full_name'];
+            fullNameOfLead.textContent = inventory['full_name_of_lead'];
+            phoneNumber.textContent = inventory['phone_number'];
+            email.textContent = inventory['email'];
+            customerRepresentative.textContent = inventory['customer_representative'];
+            status.textContent = inventory['status'];
+            leadTransferredBy.textContent = inventory['lead_transferred_by'];
+            financialStatus.textContent = inventory['financial_status'];
+            callDuration.textContent = inventory['call_duration'];
+            totalTimeTransferringLeads.textContent = inventory['total_time_transferring_leads'];
+            totalMins.textContent = inventory['total_mins'];
+            notes.textContent = inventory['notes'];
+            leadConversion.textContent = inventory['lead_conversion'];
+
+            tr.appendChild(transferredDate);
+            tr.appendChild(dateLeadReceived);
+            tr.appendChild(typeOfForm);
+            tr.appendChild(clientFullName);
+            tr.appendChild(fullNameOfLead);
+            tr.appendChild(phoneNumber);
+            tr.appendChild(email);
+            tr.appendChild(customerRepresentative);
+            tr.appendChild(status);
+            tr.appendChild(leadTransferredBy);
+            tr.appendChild(financialStatus);
+            tr.appendChild(callDuration);
+            tr.appendChild(totalTimeTransferringLeads);
+            tr.appendChild(totalMins);
+            tr.appendChild(notes);
+            tr.appendChild(leadConversion);
+
+            return tr
+        },
+        generateExcelHeader: function (inventory) {
+            let tr = document.createElement('tr');
+
+            let transferredDate = document.createElement('th');
+            let dateLeadReceived = document.createElement('th');
+            let typeOfForm = document.createElement('th');
+            let clientFullName = document.createElement('th');
+            let fullNameOfLead = document.createElement('th');
+            let phoneNumber = document.createElement('th');
+            let email = document.createElement('th');
+            let customerRepresentative = document.createElement('th');
+            let status = document.createElement('th');
+            let leadTransferredBy = document.createElement('th');
+            let financialStatus = document.createElement('th');
+            let callDuration = document.createElement('th');
+            let totalTimeTransferringLeads = document.createElement('th');
+            let totalMins = document.createElement('th');
+            let notes = document.createElement('th');
+            let leadConversion = document.createElement('th');
+
+            transferredDate.textContent = 'Transferred Date';
+            dateLeadReceived.textContent = 'Date Lead Received';
+            typeOfForm.textContent = 'Type of Form';
+            clientFullName.textContent = 'Client name';
+            fullNameOfLead.textContent = 'Full name of the Lead';
+            phoneNumber.textContent = 'Phone Number';
+            email.textContent = 'Email';
+            customerRepresentative.textContent = 'Customer Representative';
+            status.textContent = 'Status';
+            leadTransferredBy.textContent = 'Lead Transferred By';
+            financialStatus.textContent = 'Financial Status';
+            callDuration.textContent = 'Call Duration';
+            totalTimeTransferringLeads.textContent = 'Total Time Transferring Leads';
+            totalMins.textContent = 'Total Mins';
+            notes.textContent = 'Notes';
+            leadConversion.textContent = 'Lead Conversion';
+
+            tr.appendChild(transferredDate);
+            tr.appendChild(dateLeadReceived);
+            tr.appendChild(typeOfForm);
+            tr.appendChild(clientFullName);
+            tr.appendChild(fullNameOfLead);
+            tr.appendChild(phoneNumber);
+            tr.appendChild(email);
+            tr.appendChild(customerRepresentative);
+            tr.appendChild(status);
+            tr.appendChild(leadTransferredBy);
+            tr.appendChild(financialStatus);
+            tr.appendChild(callDuration);
+            tr.appendChild(totalTimeTransferringLeads);
+            tr.appendChild(totalMins);
+            tr.appendChild(notes);
+            tr.appendChild(leadConversion);
+
+            return tr
+        },
+        generateXMLNS: function () {
+            let htmlOpenTag = '<html xmlns:o="urn:schemas-microsoft.com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+            let htmlHead = '<head><!-- [if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"></head>';
+            let htmlBody = '<body><table>{header}{table}</table></body>';
+            let htmlCloseTag = '</html>';
+
+            return htmlOpenTag + htmlHead + htmlBody + htmlCloseTag;
+        },
+        base64: function (template) {
+            return window.btoa(unescape(encodeURIComponent(template)))
+        },
+        formatTemplate: function (template, context) {
+            return template.replace(/{(\w+)}/g, function (m, p) { return context[p] })
+        },
+        generatePDF: function (id, buttonNumber) {
+            this.loadButton(buttonNumber);
+
+            let link = document.createElement('a');
+            link.href = `/land-master/${id}/inventory-report.pdf`;
+            link.download = 'inventory-Report-' + Date.now();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        },
+        loadButton: function (buttonNumber) {
+            Vue.set(this.buttonsLoading, buttonNumber, 1);
+
+            let self = this;
+
+            setTimeout(function () {
+                Vue.set(self.buttonsLoading, buttonNumber, 0);
+            }, 8000);
+        }
     },
     watch: {
         masterboard: function (newMasterBoardRecords, oldMasterBoardRecords) {

@@ -403,6 +403,205 @@ new Vue({
           this.endTimeSheetPage = this.currentTimeSheetPage + maxPagesAfterCurrentPage;
         }
       }
+    },
+    generateExcelFile: function () {
+      let uri = 'data:application/vnd.ms-excel;base64,';
+
+      let context = {
+        worksheet: 'Worksheet1',
+        header: this.htmlConverter(this.generateExcelHeader()),
+        table: this.generateRows()
+      }
+      let htmlXML = this.generateXMLNS();
+      let formattedTemplate = this.formatTemplate(htmlXML, context);
+      let a = document.createElement('A');
+      a.href = uri + this.base64(formattedTemplate);
+      a.download = 'jobRequests-report-' + Date.now() + '.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    },
+    htmlConverter: function (data) {
+      temporaryContainer = document.createElement('div');
+      temporaryContainer.appendChild(data);
+
+      return temporaryContainer.innerHTML
+    },
+    generateRows: function () {
+      let jobRequests = this.jobRequests;
+      let tableRows = '';
+
+      for (let i = 0; i < jobRequests.length; i++) {
+        tableRows += this.htmlConverter(
+          this.generateData(jobRequests[i])
+        );
+      }
+
+      return tableRows
+
+    },
+    generateData: function (jobRequests) {
+      let tr = document.createElement('tr');
+
+      let companyToRequest = document.createElement('td');
+      let category = document.createElement('td');
+      let dateRequested = document.createElement('td');
+      let dueDate = document.createElement('td');
+      let month = document.createElement('td');
+      let requestorsName = document.createElement('td');
+      let companyName = document.createElement('td');
+      let jobRequestTitle = document.createElement('td');
+      let jobRequestInstruction = document.createElement('td');
+      let additionalCommentsOrFeedbacks = document.createElement('td');
+      let assignedProjectManagers = document.createElement('td');
+      let projectStatus = document.createElement('td');
+      let urlTrainingVideos = document.createElement('td');
+      let assignedVa = document.createElement('td');
+      let managerNotes = document.createElement('td');
+      let clientNotes = document.createElement('td');
+      let vaNotes = document.createElement('td');
+      let companyTagging = document.createElement('td');
+      let authorizedMinutesHoursAllocation = document.createElement('td');
+
+      companyToRequest.textContent = jobRequests['company_to_request'];
+      category.textContent = jobRequests['category'];
+      dateRequested.textContent = jobRequests['date_requested'];
+      dueDate.textContent = jobRequests['due_date'];
+      month.textContent = jobRequests['month'];
+      requestorsName.textContent = jobRequests['requestors_name'];
+      companyName.textContent = jobRequests['company_name'];
+      jobRequestTitle.textContent = jobRequests['job_request_title'];
+      jobRequestInstruction.textContent = jobRequests['job_request_instruction'];
+      additionalCommentsOrFeedbacks.textContent = jobRequests['additional_comments_or_feedbacks'];
+      assignedProjectManagers.textContent = jobRequests['assigned_project_managers'];
+      projectStatus.textContent = jobRequests['project_status'];
+      urlTrainingVideos.textContent = jobRequests['url_training_videos'];
+      assignedVa.textContent = jobRequests['assigned_va'];
+      managerNotes.textContent = jobRequests['manager_notes'];
+      clientNotes.textContent = jobRequests['client_notes'];
+      vaNotes.textContent = jobRequests['va_notes'];
+      companyTagging.textContent = jobRequests['company_tagging'];
+      authorizedMinutesHoursAllocation.textContent = jobRequests['authorized_minutes_hours_allocation'];
+
+      tr.appendChild(companyToRequest);
+      tr.appendChild(category);
+      tr.appendChild(dateRequested);
+      tr.appendChild(dueDate);
+      tr.appendChild(month);
+      tr.appendChild(requestorsName);
+      tr.appendChild(companyName);
+      tr.appendChild(jobRequestTitle);
+      tr.appendChild(jobRequestInstruction);
+      tr.appendChild(additionalCommentsOrFeedbacks);
+      tr.appendChild(assignedProjectManagers);
+      tr.appendChild(projectStatus);
+      tr.appendChild(urlTrainingVideos);
+      tr.appendChild(assignedVa);
+      tr.appendChild(managerNotes);
+      tr.appendChild(clientNotes);
+      tr.appendChild(vaNotes);
+      tr.appendChild(companyTagging);
+      tr.appendChild(authorizedMinutesHoursAllocation);
+
+      return tr
+    },
+    generateExcelHeader: function (jobRequests) {
+      let tr = document.createElement('tr');
+
+      let companyToRequest = document.createElement('th');
+      let category = document.createElement('th');
+      let dateRequested = document.createElement('th');
+      let dueDate = document.createElement('th');
+      let month = document.createElement('th');
+      let requestorsName = document.createElement('th');
+      let companyName = document.createElement('th');
+      let jobRequestTitle = document.createElement('th');
+      let jobRequestInstruction = document.createElement('th');
+      let additionalCommentsOrFeedbacks = document.createElement('th');
+      let assignedProjectManagers = document.createElement('th');
+      let projectStatus = document.createElement('th');
+      let urlTrainingVideos = document.createElement('th');
+      let assignedVa = document.createElement('th');
+      let managerNotes = document.createElement('th');
+      let clientNotes = document.createElement('th');
+      let vaNotes = document.createElement('th');
+      let companyTagging = document.createElement('th');
+      let authorizedMinutesHoursAllocation = document.createElement('th');
+
+      companyToRequest.textContent = 'Company to Request';
+      category.textContent = 'Category';
+      dateRequested.textContent = 'Date Requested';
+      dueDate.textContent = 'Due Date';
+      month.textContent = 'Month';
+      requestorsName.textContent = "Requestor's Name";
+      companyName.textContent = 'Company name';
+      jobRequestTitle.textContent = 'Job Request title';
+      jobRequestInstruction.textContent = 'Job request Instruction';
+      additionalCommentsOrFeedbacks.textContent = 'Additional Commnets or Feedbacks';
+      assignedProjectManagers.textContent = 'Assigned Project Manager';
+      projectStatus.textContent = 'Project Status';
+      urlTrainingVideos.textContent = 'URL Training Videos';
+      assignedVa.textContent = 'Assigned Va';
+      managerNotes.textContent = 'Manager Notes';
+      clientNotes.textContent = 'Client Notes';
+      vaNotes.textContent = 'VA Notes';
+      companyTagging.textContent = 'Company Tagging';
+      authorizedMinutesHoursAllocation.textContent = 'Authorized Minues/Hours Allocation';
+
+      tr.appendChild(companyToRequest);
+      tr.appendChild(category);
+      tr.appendChild(dateRequested);
+      tr.appendChild(dueDate);
+      tr.appendChild(month);
+      tr.appendChild(requestorsName);
+      tr.appendChild(companyName);
+      tr.appendChild(jobRequestTitle);
+      tr.appendChild(jobRequestInstruction);
+      tr.appendChild(additionalCommentsOrFeedbacks);
+      tr.appendChild(assignedProjectManagers);
+      tr.appendChild(projectStatus);
+      tr.appendChild(urlTrainingVideos);
+      tr.appendChild(assignedVa);
+      tr.appendChild(managerNotes);
+      tr.appendChild(clientNotes);
+      tr.appendChild(vaNotes);
+      tr.appendChild(companyTagging);
+      tr.appendChild(authorizedMinutesHoursAllocation);
+
+      return tr
+    },
+    generateXMLNS: function () {
+      let htmlOpenTag = '<html xmlns:o="urn:schemas-microsoft.com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+      let htmlHead = '<head><!-- [if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"></head>';
+      let htmlBody = '<body><table>{header}{table}</table></body>';
+      let htmlCloseTag = '</html>';
+
+      return htmlOpenTag + htmlHead + htmlBody + htmlCloseTag;
+    },
+    base64: function (template) {
+      return window.btoa(unescape(encodeURIComponent(template)))
+    },
+    formatTemplate: function (template, context) {
+      return template.replace(/{(\w+)}/g, function (m, p) { return context[p] })
+    },
+    generatePDF: function (id, buttonNumber) {
+      this.loadButton(buttonNumber);
+
+      let link = document.createElement('a');
+      link.href = `/land-master/${id}/jobRequests-report.pdf`;
+      link.download = 'marketing-sites-jobRequests-Report-' + Date.now();
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    loadButton: function (buttonNumber) {
+      Vue.set(this.buttonsLoading, buttonNumber, 1);
+
+      let self = this;
+
+      setTimeout(function () {
+        Vue.set(self.buttonsLoading, buttonNumber, 0);
+      }, 8000);
     }
   },
   watch: {

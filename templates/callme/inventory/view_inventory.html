@@ -128,6 +128,7 @@ GPG System | CallMe Inventory
                             Table of CallMe Inventory
                         </div>
                         <div class="panel-body">
+                            <table class="table table-striped table-bordered table-hover">
                             <div class="table-responsive">
                                 <div class="col-md-2 col-sm-12" v-if="!loading">
                                     <!-- <form action="GET"> -->
@@ -235,6 +236,13 @@ GPG System | CallMe Inventory
                         </div>
                         <div class="panel-footer">
                             Total count: [[ inventory.length ]]
+                            <div class="pull-right" v-if="inventory.length">
+                                <a href="#" class="btn btn-primary btn-xs"
+                                    v-on:click.prevent="generateExcelFile" data-placement="top"
+                                    title="Extract"><i class="fa fa-file-excel-o"></i>
+                                    Export to
+                                    excel</a>
+                            </div>
                         </div>
                     </div>
                     <!-- /.col-lg-4 -->

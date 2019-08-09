@@ -81,7 +81,7 @@ GPG System | View Job Request
                   </tbody>
                 </table>
               </div>
-              
+
               <!-- pagination -->
               <nav class="pagination-wrapper pull-right" v-if="endJobRequestPage > 1">
                 <ul class="pagination justify-content-end">
@@ -105,6 +105,15 @@ GPG System | View Job Request
               </nav>
               <!-- end of pagination -->
               <!-- /.table-responsive -->
+            </div>
+            <div class="panel-footer">
+              Total Count: [[ jobRequests.length ]]
+              <div class="pull-right" v-if="jobRequests.length">
+                <a href="#" class="btn btn-primary btn-xs" v-on:click.prevent="generateExcelFile"
+                  data-placement="top" title="Extract"><i class="fa fa-file-excel-o"></i>
+                  Export to
+                  excel</a>
+              </div>
             </div>
             <!-- show a specific info based on view -->
           </div>

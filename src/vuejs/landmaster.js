@@ -3,7 +3,7 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 new Vue({
     el: '#gpg-land-master',
-    delimiters: ['[[',']]'],
+    delimiters: ['[[', ']]'],
     data: {
         loading: false,
         viewing: false,
@@ -121,7 +121,7 @@ new Vue({
         this.getVas();
         this.getProjectManagers();
         $('#datetimepickerinitialtimein').datetimepicker({
-            format: "YYYY-MM-DD HH:mm"   
+            format: "YYYY-MM-DD HH:mm"
         });
         $('#datetimepickerinitialtimeout').datetimepicker({
             format: "YYYY-MM-DD HH:mm"
@@ -162,11 +162,11 @@ new Vue({
         getVas: function () {
             this.loading = true;
             axios.get(`/api/v1/virtual-assistant`)
-                .then((response) =>{
+                .then((response) => {
                     this.virtualAssistants = response.data;
                     this.loading = false;
                 })
-                .catch((err) =>{
+                .catch((err) => {
                     this.loading = false;
                     console.log(err.response.data);
                 })
@@ -194,8 +194,8 @@ new Vue({
                         icon: "success",
                         buttons: false,
                         timer: 3000
-                    }).then(function() {
-                    window.location.reload()
+                    }).then(function () {
+                        window.location.reload()
                     });
                     this.resetDueDiligenceFields();
                 })
@@ -266,41 +266,41 @@ new Vue({
                 })
         },
         getPaginatedRecords: function () {
-                const startIndex = this.startIndex;
-                this.paginatedRecords = this.dueDiligences.slice().splice(startIndex, this.pageSize);
-            },
-            goToPage: function (page) {
-                if (page < 1) {
-                    return this.currentPage = 1;
-                }
-                if (page > this.totalPages) {
-                    return this.currentPage = this.totalPages;
-                }
-                this.currentPage = page;
-            },
-            setPageGroup: function () {
-                if (this.totalPages <= this.maxPages) {
+            const startIndex = this.startIndex;
+            this.paginatedRecords = this.dueDiligences.slice().splice(startIndex, this.pageSize);
+        },
+        goToPage: function (page) {
+            if (page < 1) {
+                return this.currentPage = 1;
+            }
+            if (page > this.totalPages) {
+                return this.currentPage = this.totalPages;
+            }
+            this.currentPage = page;
+        },
+        setPageGroup: function () {
+            if (this.totalPages <= this.maxPages) {
+                this.startPage = 1;
+                this.endPage = Math.min(this.totalPages, this.maxPages);
+            } else {
+                let maxPagesBeforeCurrentPage = Math.floor(this.maxPages / 2);
+                let maxPagesAfterCurrentPage = Math.ceil(this.maxPages / 2) - 1;
+                if (this.currentPage <= maxPagesBeforeCurrentPage) {
+                    // current page near the start
                     this.startPage = 1;
-                    this.endPage = Math.min(this.totalPages, this.maxPages);
+                    this.endPage = this.maxPages;
+                } else if (this.currentPage + maxPagesAfterCurrentPage >= this.totalPages) {
+                    // current page near the end
+                    this.startPage = this.totalPages - this.maxPages + 1;
+                    this.endPage = this.totalPages;
                 } else {
-                    let maxPagesBeforeCurrentPage = Math.floor(this.maxPages / 2);
-                    let maxPagesAfterCurrentPage = Math.ceil(this.maxPages / 2) - 1;
-                    if (this.currentPage <= maxPagesBeforeCurrentPage) {
-                        // current page near the start
-                        this.startPage = 1;
-                        this.endPage = this.maxPages;
-                    } else if (this.currentPage + maxPagesAfterCurrentPage >= this.totalPages) {
-                        // current page near the end
-                        this.startPage = this.totalPages - this.maxPages + 1;
-                        this.endPage = this.totalPages;
-                    } else {
-                        // current page somewhere in the middle
-                        this.startPage = this.currentPage - maxPagesBeforeCurrentPage;
-                        this.endPage = this.currentPage + maxPagesAfterCurrentPage;
-                    }
+                    // current page somewhere in the middle
+                    this.startPage = this.currentPage - maxPagesBeforeCurrentPage;
+                    this.endPage = this.currentPage + maxPagesAfterCurrentPage;
                 }
-            },
-            generateExcelFile: function () {
+            }
+        },
+        generateExcelFile: function () {
             let uri = 'data:application/vnd.ms-excel;base64,';
 
             let context = {
@@ -899,32 +899,32 @@ new Vue({
         }
     },
     watch: {
-            dueDiligences: function (newDueDiligencesRecords, oldDueDiligencesRecords) {
-                this.setPageGroup();
-                this.getPaginatedRecords();
-            },
-            currentPage: function (newCurrentPage, oldCurrentPage) {
-                this.setPageGroup();
-                this.getPaginatedRecords()
-            },
+        dueDiligences: function (newDueDiligencesRecords, oldDueDiligencesRecords) {
+            this.setPageGroup();
+            this.getPaginatedRecords();
         },
-        computed: {
-            totalItems: function () {
-                return this.dueDiligences.length;
-            },
-            totalPages: function () {
-                return Math.ceil(this.totalItems / this.pageSize);
-            },
-            startIndex: function () {
-                return (this.currentPage - 1) * this.pageSize;
-            },
-            endIndex: function () {
-                return Math.min(this.startIndex + this.pageSize - 1, this.totalItems - 1);
-            },
-            pages: function () {
-                let pages = [];
-                for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
-                return pages;
-            },
+        currentPage: function (newCurrentPage, oldCurrentPage) {
+            this.setPageGroup();
+            this.getPaginatedRecords()
         },
+    },
+    computed: {
+        totalItems: function () {
+            return this.dueDiligences.length;
+        },
+        totalPages: function () {
+            return Math.ceil(this.totalItems / this.pageSize);
+        },
+        startIndex: function () {
+            return (this.currentPage - 1) * this.pageSize;
+        },
+        endIndex: function () {
+            return Math.min(this.startIndex + this.pageSize - 1, this.totalItems - 1);
+        },
+        pages: function () {
+            let pages = [];
+            for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
+            return pages;
+        },
+    },
 })

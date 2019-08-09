@@ -254,6 +254,199 @@ new Vue({
                     this.endPage = this.currentPage + maxPagesAfterCurrentPage;
                 }
             }
+        },
+        generateExcelFile: function () {
+            let uri = 'data:application/vnd.ms-excel;base64,';
+
+            let context = {
+                worksheet: 'Worksheet1',
+                header: this.htmlConverter(this.generateExcelHeader()),
+                table: this.generateRows()
+            }
+            let htmlXML = this.generateXMLNS();
+            let formattedTemplate = this.formatTemplate(htmlXML, context);
+            let a = document.createElement('A');
+            a.href = uri + this.base64(formattedTemplate);
+            a.download = 'call-me-inventory-report-' + Date.now() + '.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        },
+        htmlConverter: function (data) {
+            temporaryContainer = document.createElement('div');
+            temporaryContainer.appendChild(data);
+
+            return temporaryContainer.innerHTML
+        },
+        generateRows: function () {
+            let inventory = this.inventory;
+            let tableRows = '';
+
+            for (let i = 0; i < inventory.length; i++) {
+                tableRows += this.htmlConverter(
+                    this.generateData(inventory[i])
+                );
+            }
+
+            return tableRows
+
+        },
+        generateData: function (inventory) {
+            let tr = document.createElement('tr');
+
+            let dateRequested = document.createElement('td');
+            let dateCompleted = document.createElement('td');
+            let typeOfMarketingSites = document.createElement('td');
+            let indicateOthers = document.createElement('td');
+            let clientFullName = document.createElement('td');
+            let clientCompanyName = document.createElement('td');
+            let apn = document.createElement('td');
+            let titleOfThePost = document.createElement('td');
+            let description = document.createElement('td');
+            let price = document.createElement('td');
+            let location = document.createElement('td');
+            let urlLink = document.createElement('td');
+            let marketingAssociate = document.createElement('td');
+            let duration = document.createElement('td');
+            let postForApproval = document.createElement('td');
+            let status = document.createElement('td');
+            let additionalNotes = document.createElement('td');
+            let notesFromTheClient = document.createElement('td');
+
+            dateRequested.textContent = inventory['date_requested'];
+            dateCompleted.textContent = inventory['date_completed'];
+            typeOfMarketingSites.textContent = inventory['type_of_marketing_sites'];
+            indicateOthers.textContent = inventory['indicate_others'];
+            clientFullName.textContent = inventory['client_full_name'];
+            clientCompanyName.textContent = inventory['client_company_name'];
+            apn.textContent = inventory['apn'];
+            titleOfThePost.textContent = inventory['title_of_the_post'];
+            description.textContent = inventory['description'];
+            price.textContent = inventory['price'];
+            location.textContent = inventory['location'];
+            urlLink.textContent = inventory['url_link'];
+            marketingAssociate.textContent = inventory['marketing_associate'];
+            duration.textContent = inventory['duration'];
+            postForApproval.textContent = inventory['post_for_approval'];
+            status.textContent = inventory['status'];
+            additionalNotes.textContent = inventory['additional_notes'];
+            notesFromTheClient.textContent = inventory['notes_from_the_client'];
+
+            tr.appendChild(dateRequested);
+            tr.appendChild(dateCompleted);
+            tr.appendChild(typeOfMarketingSites);
+            tr.appendChild(indicateOthers);
+            tr.appendChild(clientFullName);
+            tr.appendChild(clientCompanyName);
+            tr.appendChild(apn);
+            tr.appendChild(titleOfThePost);
+            tr.appendChild(description);
+            tr.appendChild(price);
+            tr.appendChild(location);
+            tr.appendChild(urlLink);
+            tr.appendChild(marketingAssociate);
+            tr.appendChild(duration);
+            tr.appendChild(postForApproval);
+            tr.appendChild(status);
+            tr.appendChild(additionalNotes);
+            tr.appendChild(notesFromTheClient);
+
+            return tr
+        },
+        generateExcelHeader: function (inventory) {
+            let tr = document.createElement('tr');
+
+            let dateRequested = document.createElement('th');
+            let dateCompleted = document.createElement('th');
+            let typeOfMarketingSites = document.createElement('th');
+            let indicateOthers = document.createElement('th');
+            let clientFullName = document.createElement('th');
+            let clientCompanyName = document.createElement('th');
+            let apn = document.createElement('th');
+            let titleOfThePost = document.createElement('th');
+            let description = document.createElement('th');
+            let price = document.createElement('th');
+            let location = document.createElement('th');
+            let urlLink = document.createElement('th');
+            let marketingAssociate = document.createElement('th');
+            let duration = document.createElement('th');
+            let postForApproval = document.createElement('th');
+            let status = document.createElement('th');
+            let additionalNotes = document.createElement('th');
+            let notesFromTheClient = document.createElement('th');
+
+            dateRequested.textContent = 'Date Requested';
+            dateCompleted.textContent = 'Date Completed';
+            typeOfMarketingSites.textContent = 'Type of Marketing Sites';
+            indicateOthers.textContent = 'Indicate Others';
+            clientFullName.textContent = 'Client full name';
+            clientCompanyName.textContent = 'Client Company name';
+            apn.textContent = 'APN';
+            titleOfThePost.textContent = 'Title of the Post';
+            description.textContent = 'Description';
+            price.textContent = 'Price';
+            location.textContent = 'Location';
+            urlLink.textContent = 'URL Link';
+            marketingAssociate.textContent = 'Marketing Associate';
+            duration.textContent = 'Duration';
+            postForApproval.textContent = 'Post for Approval';
+            status.textContent = 'Status';
+            additionalNotes.textContent = 'Additional Notes';
+            notesFromTheClient.textContent = 'Notes from the Client';
+
+            tr.appendChild(dateRequested);
+            tr.appendChild(dateCompleted);
+            tr.appendChild(typeOfMarketingSites);
+            tr.appendChild(indicateOthers);
+            tr.appendChild(clientFullName);
+            tr.appendChild(clientCompanyName);
+            tr.appendChild(apn);
+            tr.appendChild(titleOfThePost);
+            tr.appendChild(description);
+            tr.appendChild(price);
+            tr.appendChild(location);
+            tr.appendChild(urlLink);
+            tr.appendChild(marketingAssociate);
+            tr.appendChild(duration);
+            tr.appendChild(postForApproval);
+            tr.appendChild(status);
+            tr.appendChild(additionalNotes);
+            tr.appendChild(notesFromTheClient);
+
+            return tr
+        },
+        generateXMLNS: function () {
+            let htmlOpenTag = '<html xmlns:o="urn:schemas-microsoft.com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+            let htmlHead = '<head><!-- [if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"></head>';
+            let htmlBody = '<body><table>{header}{table}</table></body>';
+            let htmlCloseTag = '</html>';
+
+            return htmlOpenTag + htmlHead + htmlBody + htmlCloseTag;
+        },
+        base64: function (template) {
+            return window.btoa(unescape(encodeURIComponent(template)))
+        },
+        formatTemplate: function (template, context) {
+            return template.replace(/{(\w+)}/g, function (m, p) { return context[p] })
+        },
+        generatePDF: function (id, buttonNumber) {
+            this.loadButton(buttonNumber);
+
+            let link = document.createElement('a');
+            link.href = `/land-master/${id}/inventory-report.pdf`;
+            link.download = 'marketing-sites-inventory-Report-' + Date.now();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        },
+        loadButton: function (buttonNumber) {
+            Vue.set(this.buttonsLoading, buttonNumber, 1);
+
+            let self = this;
+
+            setTimeout(function () {
+                Vue.set(self.buttonsLoading, buttonNumber, 0);
+            }, 8000);
         }
     },
     watch: {
