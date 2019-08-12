@@ -329,6 +329,21 @@
                         </li>
                         {% endif %}
                         <!-- ./Callme -->
+                        <!-- Craigslist -->
+                        <li>
+                          <a href="#"><i class="fa fa-bullhorn"></i> Craigslist <span class="fa arrow"></span></a>
+                          <ul class="nav nav-third-level">
+                            <li>
+                              <a href="{% url 'craigslist_inventory:craigslist-add' %}"> <i class="fa fa-plus"></i> Add
+                                Inventory</a>
+                            </li>
+                            <li>
+                              <a href="{% url 'craigslist_inventory:craigslist-view' %}"> <i class="fa fa-eye"></i> View
+                                Inventory</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <!-- ./Craigslist -->
                         {% if request.user.staffs.category == 'Home Based' %}
                         <!-- don't show marketing sites to home based VAs -->
                         {% else %}
