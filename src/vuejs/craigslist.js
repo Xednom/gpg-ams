@@ -133,7 +133,7 @@ new Vue({
                     console.log(err.response.data);
                 })
         },
-        addInventory: function () {
+        addInventory() {
             this.saving = true;
             axios.post('/api/v1/craigslist/', this.newCraigList)
                 .then((response) => {
@@ -159,7 +159,7 @@ new Vue({
                     console.log(err.response.data);
                 })
         },
-        updateInventory: function () {
+        updateInventory() {
             this.saving = true;
             axios.put(`/api/v1/craigslist/${this.currentCraigList.id}/`, this.currentCraigList)
                 .then((response) => {
@@ -184,7 +184,7 @@ new Vue({
             const startIndex = this.startIndex;
             this.paginatedRecords = this.craigslist.slice().splice(startIndex, this.pageSize);
         },
-        goToPage: function (page) {
+        goToPage(page) {
             if (page < 1) {
                 return this.currentPage = 1;
             }
@@ -193,7 +193,7 @@ new Vue({
             }
             this.currentPage = page;
         },
-        setPageGroup: function () {
+        setPageGroup() {
             if (this.totalPages <= this.maxPages) {
                 this.startPage = 1;
                 this.endPage = Math.min(this.totalPages, this.maxPages);
@@ -215,7 +215,7 @@ new Vue({
                 }
             }
         },
-        generatePDF: function (id, buttonNumber) {
+        generatePDF(id, buttonNumber) {
             this.loadButton(buttonNumber);
 
             let link = document.createElement('a');
@@ -225,7 +225,7 @@ new Vue({
             link.click();
             document.body.removeChild(link);
         },
-        loadButton: function (buttonNumber) {
+        loadButton(buttonNumber) {
             Vue.set(this.buttonsLoading, buttonNumber, 1);
 
             let self = this;
@@ -236,29 +236,29 @@ new Vue({
         }
     },
     watch: {
-        craigslist: function (newCraigsListRecords, oldCraigsListRecords) {
+        craigslist(newCraigsListRecords, oldCraigsListRecords) {
             this.setPageGroup();
             this.getPaginatedRecords();
         },
-        currentPage: function (newCurrenPage, oldCurrentPage) {
+        currentPage(newCurrenPage, oldCurrentPage) {
             this.setPageGroup();
             this.getPaginatedRecords();
         },
     },
     computed: {
-        totalItems: function () {
+        totalItems() {
             return this.craigslist.length;
         },
-        totalPages: function () {
+        totalPages() {
             return Math.ceil(this.totalItems / this.pageSize);
         },
-        startIndex: function () {
+        startIndex() {
             return (this.currentPage - 1) * this.pageSize;
         },
-        endIndex: function () {
+        endIndex() {
             return Math.min(this.startIndex + this.pageSize - 1, this.totalItems - 1);
         },
-        pages: function () {
+        pages() {
             let pages = [];
             for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
             return pages;
