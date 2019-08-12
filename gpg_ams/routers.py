@@ -28,6 +28,7 @@ from callmemasterboard.views import MasterBoardViewSets
 from callmefinancialreport.views import FinancialViewSet
 from marketingsites.views import InventoryViewSet
 from landacademy.views import LandAcademyViewSet, SmartPricingViewSet
+from craigslist.views import CraigListViewSet
 
 router = routers.DefaultRouter()
 
@@ -60,3 +61,4 @@ router.register(r'callme-financial-report', FinancialViewSet, base_name='financi
 router.register(r'marketing-sites', InventoryViewSet, base_name='marketing')
 router.register(r'landacademy-inventory', LandAcademyViewSet, base_name='landacademy')
 router.register(r'o2o-smart-pricing', SmartPricingViewSet, base_name='smartpricing')
+router.register(r'craigslist', CraigListViewSet, base_name='craiglist')

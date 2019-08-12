@@ -7,8 +7,10 @@ from django.conf import settings
 
 class CraiglistInventory(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    client_company_name = models.CharField(max_length=150, null=True, blank=True)
-    cl_admin_support = models.CharField(max_length=150, null=True, blank=True)
+    client_name_company_name = models.ForeignKey(settings.CLIENTS, null=True, 
+                                            blank=True, on_delete=models.PROTECT)
+    cl_admin_support = models.ForeignKey(settings.STAFFS, null=True, 
+                                         blank=True, on_delete=models.PROTECT)
     date = models.DateField(null=True, blank=True)
     posted_ads = models.CharField(max_length=150, null=True, blank=True)
     flagged_ads = models.CharField(max_length=150, null=True, blank=True)

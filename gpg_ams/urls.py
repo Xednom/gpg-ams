@@ -43,6 +43,7 @@ urlpatterns = [
     path('callme-financial-report/', include('callmefinancialreport.urls')),
     path('marketing-sites/', include('marketingsites.urls')),
     path('landacademy-inventory/', include('landacademy.urls')),
+    path('craigslist/', include('craigslist.urls')),
     path('inbox/notifications', include(notifications.urls, namespace='notifications'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

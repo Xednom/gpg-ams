@@ -14,14 +14,6 @@ body {
   min-height: 568px;
   background-color: white;
 }
-@media (min-width: 768px) {
-  #page-wrapper {
-    position: inherit;
-    margin: 35px 0 0 250px;
-    padding: 0 30px;
-    border-left: 1px solid #e7e7e7;
-  }
-}
 .salary{
   color: #5cb85c;
 }
@@ -159,6 +151,13 @@ label, th {
   padding-left: 52px;
 }
 @media (min-width: 768px) {
+  #page-wrapper {
+    position: inherit;
+    margin: 35px 0 0 250px;
+    padding: 0 30px;
+    border-left: 1px solid #e7e7e7;
+  }
+
   .sidebar {
     z-index: 1;
     position: fixed;
@@ -171,6 +170,13 @@ label, th {
     margin-left: auto;
   }
 }
+
+@media (min-width: 992px) and (max-width: 1315.98px) {
+  .advanced-search {
+    width: 33%;
+  }
+}
+
 .btn-outline {
   color: inherit;
   background-color: transparent;
