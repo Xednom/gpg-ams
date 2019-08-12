@@ -24,4 +24,4 @@ class CraiglistInventory(models.Model):
         ordering = ['-date']
 
     def __str__(self):
-        return self.client_company_name
+        return str(self.client_name_company_name)

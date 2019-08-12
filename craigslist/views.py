@@ -40,19 +40,17 @@ class CraigListViewSet(viewsets.ModelViewSet):
     filter_class = (CraigslistFilter)
 
     def get_queryset(self):
+        craigslist = CraiglistInventory.objects.all()
         if self.request.user.is_client:
-            qs = CraiglistInventory.objects.filter(client_name_company_name__full_name=self.request.user.clients.full_name)
+            qs = craigslist.filter(Q(client_name_company_name__full_name=self.request.user.clients.full_name))
             return qs
         elif self.request.user.is_staffs:
-            qs = CraiglistInventory.objects.filter(cl_admin_support__full_name=self.request.user.staffs.full_name)
+            qs = craigslist.filter(Q(cl_admin_support__full_name=self.request.user.staffs.full_name))
             return qs
     
     def perform_create(self, serializer):
-        is_client = self.request.user.is_client
-        is_staff = self.request.user.is_staffs
-
-        if is_staff:
-            return serializer.save(cl_admin_support=self.request.user.staffs.full_name)
-        elif is_client: 
+        if self.request.user.is_staffs:
+            return serializer.save(cl_admin_support=self.request.user.staffs)
+        elif self.request.user.is_client:
             return serializer.save(client_name_company_name=self.request.user.clients)
 
