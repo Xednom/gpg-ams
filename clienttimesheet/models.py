@@ -28,7 +28,8 @@ class TimeSheet(models.Model):
     )
     STATUS = (
         ('Approved', 'Approved'),
-        ('For Review', 'For Review'),
+        ('Submitted', 'Submitted'),
+        ('Pre-Approved by the Manager', 'Pre-Approved by the Manager'),
         ('Dispute', 'Dispute'),
         ('Waived', 'Waived'),
     )
