@@ -63,14 +63,8 @@ class TimeSheet(models.Model):
     duration = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     total_items = models.CharField(max_length=150, null=True, blank=True)
     additional_comments = models.TextField(null=True, blank=True)
-    assigned_va = models.ForeignKey(Staffs, null=True, blank=True, 
-                                    on_delete=models.PROTECT,
-                                    verbose_name='Assigned VA',
-                                    related_name='vas')
-    assigned_pm = models.ForeignKey(Staffs, null=True, blank=True, 
-                                    on_delete=models.PROTECT,
-                                    verbose_name='Assigned Project Manager',
-                                    related_name='pms')
+    assigned_approval = models.ForeignKey(Staffs, null=True, blank=True, 
+                                    on_delete=models.PROTECT)
     hourly_rate_peso = models.DecimalField(max_digits=7, decimal_places=2,
                                            default=0.00, null=True, blank=True)
     hourly_rate_usd = models.DecimalField(max_digits=14, decimal_places=2, 
