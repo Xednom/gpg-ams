@@ -10,7 +10,7 @@
             <label>Company Tagging</label>
             <select class="form-control"
              v-model="currentTimeSheet.company_tagging"
-             :disabled="currentTimeSheet.status =='Approved'">
+             :disabled="currentTimeSheet.status =='Approved' && currentTimeSheet.admin_approval =='Approved'">
              <option>landmaster.us</option>
              <option>gpgcorporation.com</option>
              <option>callme.com.ph</option>
@@ -22,12 +22,12 @@
         <div class="form-group col-md-3 col-sm-12">
             <label>Shift Date</label>
             <input type="date" class="form-control form-control-sm" v-model="currentTimeSheet.shift_date"
-            :disabled="currentTimeSheet.status =='Approved'">
+            :disabled="currentTimeSheet.status =='Approved' && currentTimeSheet.admin_approval =='Approved'">
         </div>
         <div class="form-group col-md-2 col-sm-12">
             <label>Month to Date</label>
             <select class="form-control" v-model="currentTimeSheet.month_to_date"
-            :disabled="currentTimeSheet.status =='Approved'">
+            :disabled="currentTimeSheet.status =='Approved' && currentTimeSheet.admin_approval =='Approved'">
                 <option>January</option>
                 <option>February</option>
                 <option>March</option>
@@ -46,7 +46,7 @@
             <label>Client & company name</label>
             <select class="form-control"
             v-model="currentTimeSheet.clients_full_name"
-            :disabled="currentTimeSheet.status =='Approved'">
+            disabled>
                 <option v-for="client in clients">
                     [[ client.full_name ]] - [[ client.company_name ]]
                 </option>
@@ -56,26 +56,26 @@
             <label>Job request title</label>
             <input type="text" class="form-control form-control-sm" 
             v-model="currentTimeSheet.title_job_request"
-            :disabled="currentTimeSheet.status =='Approved'">
+            :disabled="currentTimeSheet.status =='Approved' && currentTimeSheet.admin_approval =='Approved'">
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Channel job was request</label>
             <input type="text" class="form-control form-control-sm" 
             v-model="currentTimeSheet.channel_job_requested"
-            :disabled="currentTimeSheet.status =='Approved'">
+            :disabled="currentTimeSheet.status =='Approved' && currentTimeSheet.admin_approval =='Approved'">
         </div>
         <div class="form-group col-md-12 col-sm-12">
             <label>Job request description</label>
             <textarea class="form-control"
             cols="30" rows="10"
             v-model="currentTimeSheet.job_request_description"
-            :disabled="currentTimeSheet.status =='Approved'">
+            :disabled="currentTimeSheet.status =='Approved' && currentTimeSheet.admin_approval =='Approved'">
             </textarea>
         </div>
         <div class="form-group col-md-12 col-sm-12">
             <label>Additional Comments</label>
             <textarea class="form-control" cols="30" rows="10" 
-            v-model="currentTimeSheet.job_request_description"
+            v-model="currentTimeSheet.additional_comments"
             disabled>
             </textarea>
         </div>
@@ -87,13 +87,13 @@
             <label>Time in</label>
             <input type="datetime" class="form-control form-control-sm" 
             v-model="currentTimeSheet.time_in"
-            :disabled="currentTimeSheet.status =='Approved'">
+            :disabled="currentTimeSheet.status =='Approved' && currentTimeSheet.admin_approval =='Approved'">
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Time out</label>
             <input type="datetime" class="form-control form-control-sm" 
             v-model="currentTimeSheet.time_out"
-            :disabled="currentTimeSheet.status =='Approved'">
+            :disabled="currentTimeSheet.status =='Approved' && currentTimeSheet.admin_approval =='Approved'">
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Duration</label>
@@ -115,7 +115,7 @@
                 <input type="text" 
                 class="form-control" 
                 v-model="currentTimeSheet.hourly_rate_peso"
-                :disabled="currentTimeSheet.status == 'Approved'">
+                :disabled="currentTimeSheet.status == 'Approved' && currentTimeSheet.admin_approval =='Approved'">
             </div>
         </div>
         <div class="form-group col-md-2 col-sm-12">
@@ -163,7 +163,7 @@
             <label>Status</label>
             <select class="form-control"
             v-model="currentTimeSheet.status"
-            :disabled="currentTimeSheet.status == 'Approved'">
+            :disabled="currentTimeSheet.status == 'Approved' && currentTimeSheet.admin_approval =='Approved'">
                 <option>Approved</option>
                 <option>Submitted</option>
                 <option>Pre-Approved by the Manager</option>

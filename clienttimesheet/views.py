@@ -97,10 +97,14 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
                                                 Q(admin_approval="Approved"))
             return queryset
         elif self.request.user.is_staffs:
-            queryset = TimeSheet.objects.filter(Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name) |
-                                                Q(assigned_pm__full_name__icontains=self.request.user.staffs.full_name),
-                                                Q(shift_date__year=current_year))
-            return queryset
+            if self.request.user.staffs.position == 'General Administrative Support':
+                queryset = TimeSheet.objects.filter(Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name) |
+                                                    Q(shift_date__year=current_year))
+                return queryset
+            elif self.request.user.staffs.position == 'Project Manager':
+                queryset = TimeSheet.objects.filter(Q(assigned_pm__full_name__icontains=self.request.user.staffs.full_name) | 
+                                                    Q(shift_date__year=current_year))
+                return queryset
 
 
 class PaymentMadeViewSet(viewsets.ModelViewSet):
