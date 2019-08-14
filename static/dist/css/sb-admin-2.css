@@ -171,9 +171,23 @@ label, th {
   }
 }
 
-@media (min-width: 992px) and (max-width: 1315.98px) {
+@media (min-width: 1400px) {
   .advanced-search {
     width: 33%;
+  }
+
+  .timesheet-box {
+    width: 20%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1400px) {
+  .advanced-search {
+    width: 33%;
+  }
+
+  .timesheet-box {
+    width: 28%;
   }
 }
 

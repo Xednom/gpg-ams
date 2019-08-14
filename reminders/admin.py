@@ -4,7 +4,8 @@ from .models import ManagerReminders
 
 
 class ManagerRemindersProfile(admin.ModelAdmin):
-    list_display = ('date', 'due_date', 'requestor', 'requestee', 'status')
+    list_display = ('date', 'due_date', 'requestor', 'requestee', 'comment_from_admin',
+                    'memo_from_requestor', 'memo_from_requestee', 'status')
     list_filter = ['date', 'status', 'requestor', 'requestee',
                    ('date', DateRangeFilter)]
     list_per_page = 30

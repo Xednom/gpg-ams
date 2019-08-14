@@ -87,13 +87,13 @@
             <label>Time in</label>
             <input type="datetime" class="form-control form-control-sm" 
             v-model="currentTimeSheet.time_in"
-            disabled>
+            :disabled="currentTimeSheet.status =='Approved'">
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Time out</label>
             <input type="datetime" class="form-control form-control-sm" 
             v-model="currentTimeSheet.time_out"
-            disabled>
+            :disabled="currentTimeSheet.status =='Approved'">
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Duration</label>
@@ -161,9 +161,15 @@
     <div class="row">
         <div class="form-group col-md-3 col-sm-12">
             <label>Status</label>
-            <input type="text" class="form-control" 
+            <select class="form-control"
             v-model="currentTimeSheet.status"
-            disabled>
+            :disabled="currentTimeSheet.status == 'Approved'">
+                <option>Approved</option>
+                <option>Submitted</option>
+                <option>Pre-Approved by the Manager</option>
+                <option>Dispute</option>
+                <option>Waived</option>
+            </select>
         </div>
         <div class="form-group col-md-3 col-sm-12">
             <label>Admin approval</label>
