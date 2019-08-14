@@ -99,9 +99,7 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
         elif self.request.user.is_staffs:
             queryset = TimeSheet.objects.filter(Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name) |
                                                 Q(assigned_pm__full_name__icontains=self.request.user.staffs.full_name),
-                                                Q(shift_date__year=current_year),
-                                                Q(status="Approved"),
-                                                Q(admin_approval="Approved"))
+                                                Q(shift_date__year=current_year))
             return queryset
 
 

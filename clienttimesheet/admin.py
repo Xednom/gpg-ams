@@ -10,7 +10,7 @@ from . models import TimeSheet, PaymentMade, CashOut
 
 class TimeSheetProfile(ModelAdminTotals):
     list_display = ('shift_date', 'clients_full_name', 'duration',
-                    'title_job_request', 'assigned_va', 'assigned_pm', 
+                    'title_job_request', 'assigned_va', 'assigned_pm', 'status',
                     'admin_approval', 'hourly_rate_peso', 'total_charge_peso', 
                     'hourly_rate_usd', 'total_amount_due')
     list_filter = ('company_tagging', 'shift_date', 'assigned_va',
