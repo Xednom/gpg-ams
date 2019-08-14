@@ -92,7 +92,7 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         current_year = datetime.date.today().year
         if self.request.user.is_client:
-            queryset = TimeSheet.objects.filter(Q(clients_full_name__full_name__icontains=self.request.user.clients.full_name) |
+            queryset = TimeSheet.objects.filter(Q(clients_full_name__full_name__icontains=self.request.user.clients.full_name),
                                                 Q(shift_date__year=current_year),
                                                 Q(admin_approval="Approved"))
             return queryset
