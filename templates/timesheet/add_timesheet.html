@@ -79,19 +79,6 @@ GPG System | Add Timesheet
                                 </div>
                             </div>
                             <hr>
-                            <h4>GPG Employee assigned</h4>
-                            <div class="row">
-                                {% if request.user.staffs.position == 'Project Manager' %}
-                                <div class="form-group col-md-2 col-sm-12 col-xs-12 timesheet-box">
-                                    {{ form.assigned_va|as_crispy_field }}
-                                </div>
-                                {% elif request.user.staffs.position == 'General Administrative Support' %}
-                                <div class="form-group col-md-2 col-sm-12 col-xs-12 timesheet-box">
-                                    {{ form.assigned_pm|as_crispy_field }}
-                                </div>
-                                {% endif %}
-                            </div> 
-                            <hr>
                             <h4>Amount Information</h4>
                             <div class="row">
                                 <div class="form-group col-md-2 col-sm-12 col-xs-12">

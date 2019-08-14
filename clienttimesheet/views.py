@@ -33,17 +33,13 @@ class AddVaTimeSheetView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         'company_tagging', 'shift_date', 'month_to_date', 'clients_full_name',
         'title_job_request', 'channel_job_requested', 'job_request_description',
         'time_in', 'time_out', 'total_items', 'additional_comments', 'hourly_rate_peso',
-        'status', 'assigned_va', 'assigned_pm'
+        'status', 'assigned_approval'
     ]
     success_message = "Successfully added a timesheet!"
     
     def form_valid(self, form):
-        if self.request.user.staffs.position == 'Project Manager':
-            form.instance.assigned_pm = self.request.user.staffs
-            return super().form_valid(form)
-        elif self.request.user.staffs.position == 'General Administrative Support':
-            form.instance.assigned_va = self.request.user.staffs
-            return super().form_valid(form)
+        form.instance.assigned_approval = self.request.user.staffs
+        return super().form_valid(form)
     
     def get_success_url(self):
         return reverse_lazy('timesheet:add_timesheet')
@@ -90,20 +86,21 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
     filter_class = (TimeSheetFilter)
 
     def get_queryset(self):
-        current_year = datetime.date.today().year
         timesheet = TimeSheet.objects.all()
-        pm = Q(assigned_pm__full_name__contains=self.request.user.staffs.full_name)
-        va = Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name)
-        current_date = Q(shift_date__year=current_year)
-        if self.request.user.is_client:
-            queryset = timesheet.filter(Q(clients_full_name__full_name__icontains=self.request.user.clients.full_name),
-                                                Q(shift_date__year=current_year),
-                                                Q(admin_approval="Approved"),
-                                                Q(status="Approved"))
+        is_staff = self.request.user.is_staffs
+        is_client = self.request.user.is_client
+        current_year = datetime.date.today().year
+        year = Q(shift_date__year=current_year)
+
+        if is_client:
+            client = Q(clients_full_name__full_name__icontains=self.request.user.clients)
+
+            queryset = timesheet.filter(client | Q(admin_approval="Approved") | Q(status="Approved"))
             return queryset
-        elif self.request.user.is_staffs:
-            queryset = timesheet.filter(pm & va | current_date)
-            return queryset
+        elif is_staff:
+            staff = Q(assigned_approval__full_name__icontains=self.request.user.staffs)
+            qs = timesheet.filter(staff & year)
+            return qs
 
 
 class PaymentMadeViewSet(viewsets.ModelViewSet):

@@ -10,18 +10,17 @@ from . models import TimeSheet, PaymentMade, CashOut
 
 class TimeSheetProfile(ModelAdminTotals):
     list_display = ('shift_date', 'clients_full_name', 'duration',
-                    'title_job_request', 'assigned_va', 'assigned_pm', 'status',
+                    'title_job_request', 'assigned_approval', 'status',
                     'admin_approval', 'hourly_rate_peso', 'total_charge_peso', 
                     'hourly_rate_usd', 'total_amount_due')
-    list_filter = ('company_tagging', 'shift_date', 'assigned_va',
-                   'assigned_pm', ('shift_date', DateRangeFilter), 
+    list_filter = ('company_tagging', 'shift_date',
+                   'assigned_approval', ('shift_date', DateRangeFilter),
                    'clients_full_name', 'month_to_date', 
                    'status', 'admin_approval')
     list_totals = [('duration', Sum), ('total_charge_peso', Sum), 
                    ('total_charge_usd', Sum), ('total_amount_due', Sum)]
     search_fields = ('company_tagging', 'clients_full_name__full_name', 
-                     'channel_job_requested', 'title_job_request',
-                     'assigned_va__full_name', 'assigned_pm__full_name')
+                     'channel_job_requested', 'title_job_request', 'assigned_approval__full_name')
     readonly_fields = ('total_amount_due', 'total_charge_peso', 
                        'total_charge_usd', 'total_charge_with_paypal', 'duration',
                        'paypal_charge')
@@ -48,10 +47,9 @@ class TimeSheetProfile(ModelAdminTotals):
                 'duration'
             )
         }),
-        ("GPG Employee assigned", {
+        ("GPG Employee assigned approval", {
             'fields': (
-                'assigned_va',
-                'assigned_pm'
+                'assigned_approval',
             )
         }),
         ("Amount Information", {
