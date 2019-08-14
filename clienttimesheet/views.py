@@ -91,20 +91,19 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         current_year = datetime.date.today().year
+        timesheet = TimeSheet.objects.all()
+        pm = Q(assigned_pm__full_name__contains=self.request.user.staffs.full_name)
+        va = Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name)
+        current_date = Q(shift_date__year=current_year)
         if self.request.user.is_client:
-            queryset = TimeSheet.objects.filter(Q(clients_full_name__full_name__icontains=self.request.user.clients.full_name),
+            queryset = timesheet.filter(Q(clients_full_name__full_name__icontains=self.request.user.clients.full_name),
                                                 Q(shift_date__year=current_year),
-                                                Q(admin_approval="Approved"))
+                                                Q(admin_approval="Approved"),
+                                                Q(status="Approved"))
             return queryset
         elif self.request.user.is_staffs:
-            if self.request.user.staffs.position == 'General Administrative Support':
-                queryset = TimeSheet.objects.filter(Q(assigned_va__full_name__icontains=self.request.user.staffs.full_name) |
-                                                    Q(shift_date__year=current_year))
-                return queryset
-            elif self.request.user.staffs.position == 'Project Manager':
-                queryset = TimeSheet.objects.filter(Q(assigned_pm__full_name__icontains=self.request.user.staffs.full_name) | 
-                                                    Q(shift_date__year=current_year))
-                return queryset
+            queryset = timesheet.filter(pm & va | current_date)
+            return queryset
 
 
 class PaymentMadeViewSet(viewsets.ModelViewSet):
