@@ -55,6 +55,8 @@ class TimeSheetView(TemplateView, LoginRequiredMixin):
 
 class TimeSheetFilter(FilterSet):
     shift_date__month = NumberFilter(field_name='shift_date', lookup_expr='month')
+    # shift_date__gte = DateFilter(field_name='shift_date', lookup_expr='gte')
+    # shift_date__lte = DateFilter(field_name='shift_date', lookup_expr='lte')
     company_tagging = CharFilter(field_name='company_tagging', lookup_expr='icontains')
 
     class Meta:
@@ -89,13 +91,14 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
         timesheet = TimeSheet.objects.all()
         is_staff = self.request.user.is_staffs
         is_client = self.request.user.is_client
+        is_superuser = self.request.user.is_superuser
         current_year = datetime.date.today().year
         year = Q(shift_date__year=current_year)
 
         if is_client:
             client = Q(clients_full_name__full_name__icontains=self.request.user.clients)
 
-            queryset = timesheet.filter(client, Q(admin_approval="Approved"), Q(status="Approved"))
+            queryset = timesheet.filter(client | Q(admin_approval="Approved") & Q(status="Approved"))
             return queryset
         elif is_staff:
             staff = Q(assigned_approval__full_name__icontains=self.request.user.staffs)

@@ -184,7 +184,7 @@ GPG System | View Due Diligence
                                                         <h4 class="panel-title">
                                                             <a data-toggle="collapse" data-parent="#accordion"
                                                                 href="#collapseOne">Due Diligence work Information for [[
-                                                                currentDueDiligence.company_name ]]</a>
+                                                                currentDueDiligence.company_owner_or_requestor ]]</a>
                                                         </h4>
                                                     </div>
                                                     <div id="collapseOne" class="panel-collapse collapse in">
@@ -275,7 +275,13 @@ GPG System | View Due Diligence
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-info"
                                                     data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                <template v-if="saving">
+                                                    <button type="submit" class="btn btn-primary" disabled>
+                                                        <i class="fa fa-spinner fa-spin"></i> Save changes</button>
+                                                </template>
+                                                <template v-else>
+                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </template>
                                             </div>
                                         </form>
                                     </template>

@@ -76,12 +76,12 @@
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>GPS Coordinates 4 corners</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.gpgs_coordinates_4_corners"
+        <input type="text" class="form-control" v-model="currentDueDiligence.gps_coordinates_4_corners"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Google Map Link</label>
-        <input type="url" class="form-control" v-model="currentDueDiligence.google_map_link"
+        <input type="text" class="form-control" v-model="currentDueDiligence.google_map_link"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
@@ -112,7 +112,7 @@
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Closest minor town</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.closest_minor_town"
+        <input type="text" class="form-control" v-model="currentDueDiligence.closest_small_town"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
@@ -128,37 +128,37 @@
 <div class="row">
     <div class="form-group col-md-4 col-sm-12">
         <label>Assessor Website</label>
-        <input type="url" class="form-control" v-model="currentDueDiligence.assessor_website"
+        <input type="text" class="form-control" v-model="currentDueDiligence.assessor_website"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Treasurer Website</label>
-        <input type="url" class="form-control" v-model="currentDueDiligence.treasurer_website"
+        <input type="text" class="form-control" v-model="currentDueDiligence.treasurer_website"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Reorder/Clerk Website</label>
-        <input type="url" class="form-control form-control-sm" v-model="currentDueDiligence.reorder_clerk_website"
+        <input type="text" class="form-control form-control-sm" v-model="currentDueDiligence.recorder_clerk_website"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Zoning Department Website</label>
-        <input type="url" class="form-control" v-model="currentDueDiligence.zoning_department_website"
+        <input type="text" class="form-control" v-model="currentDueDiligence.zoning_department_website"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>GIS Website</label>
-        <input type="url" class="form-control" v-model="currentDueDiligence.gis_website"
+        <input type="text" class="form-control" v-model="currentDueDiligence.gis_website"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>CAD Website</label>
-        <input type="url" class="form-control" v-model="currentDueDiligence.cad_website"
+        <input type="text" class="form-control" v-model="currentDueDiligence.cad_website"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Planning Department Website</label>
-        <input type="url" class="form-control" v-model="currentDueDiligence.planning_department_contact"
+        <input type="text" class="form-control" v-model="currentDueDiligence.planning_department_contact"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
@@ -206,7 +206,7 @@
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Terrain Type</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.terrain_type"
+        <input type="text" class="form-control" v-model="currentDueDiligence.terrian_type"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
@@ -305,7 +305,7 @@
 <div class="row">
     <div class="form-group col-md-8 col-sm-12">
         <label>URL to Images or Docs related to the DD Requested</label>
-        <input type="url" class="form-control" v-model="currentDueDiligence.attachments"
+        <input type="text" class="form-control" v-model="currentDueDiligence.attachments"
             {% if request.user.is_client %}disabled{% elif request.user.is_staffs %}{% endif %}>
     </div>
 </div>
