@@ -173,7 +173,7 @@ new Vue({
         },
         getProjectManagers: function () {
             this.loading = true;
-            axios.get(`/api/v1/project-manager`)
+            axios.get(`/api/v1/pms`)
                 .then((response) => {
                     this.projectManagers = response.data;
                     this.loading = false;
