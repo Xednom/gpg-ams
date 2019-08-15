@@ -69,6 +69,18 @@
         <input type="text" class="form-control" v-model="currentDueDiligence.parcel_size"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>SubDivision</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.subdivision"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                        </textarea>
+    </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Parcel Dimensions</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.parcel_dimensions"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                            </textarea>
+    </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>GPS Coordinates</label>
         <input type="text" class="form-control" v-model="currentDueDiligence.gps_coordinates"
@@ -99,6 +111,12 @@
         <input type="text" class="form-control" v-model="currentDueDiligence.access_to_property"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>Structure</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.structure"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                </textarea>
+    </div>
 </div>
 <hr>
 <h4>
@@ -110,13 +128,19 @@
         <input type="text" class="form-control" v-model="currentDueDiligence.closest_major_city"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>No Address</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.no_address"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                    </textarea>
+    </div>
     <div class="form-group col-md-4 col-sm-12">
-        <label>Closest minor town</label>
+        <label>Closest small town</label>
         <input type="text" class="form-control" v-model="currentDueDiligence.closest_small_town"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
-        <label>Nearby attractions</label>
+        <label>Nearby attractions and amenities</label>
         <input type="text" class="form-control" v-model="currentDueDiligence.nearby_attractions"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
@@ -166,6 +190,16 @@
         <input type="text" class="form-control" v-model="currentDueDiligence.recorder_clerk_contact"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Tax Office Contact</label>
+        <input type="text" class="form-control" v-model="currentDueDiligence.tax_office_contact"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+    </div>
+    <div class="form-group col-md-4 col-sm-12">
+        <label>Assessor's Office Contact</label>
+        <input type="text" class="form-control" v-model="currentDueDiligence.assessors_office_contact"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+    </div>
 </div>
 <hr>
 <h4>Tax Data Information</h4>
@@ -174,6 +208,18 @@
         <label>Back Taxes owed? If so, amount owed.</label>
         <input type="text" class="form-control" v-model="currentDueDiligence.back_taxes"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>Liens on the property</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.liens_on_property"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                        </textarea>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>Most recent year's tax amount</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.tax_amount"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                            </textarea>
     </div>
     <div class="form-group col-md-7 col-sm-12">
         <label>Tax Liens? If so, amount owed.</label>
@@ -214,6 +260,20 @@
         <input type="text" class="form-control" v-model="currentDueDiligence.property_use_code"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Land Cleared</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.land_cleared"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                            </textarea>
+        <small class="form-text text-muted">Is the Land Cleared?</small>
+    </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Property Buildable</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.property_buildable"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                                </textarea>
+        <small class="form-text text-muted">Is the property buildable? Yes or No?</small>
+    </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>What can be built on the property?</label>
         <input type="text" class="form-control" v-model="currentDueDiligence.what_can_be_built"
@@ -223,6 +283,13 @@
         <label>Time limit to build</label>
         <input type="text" class="form-control" v-model="currentDueDiligence.time_limit_to_build"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>HOA</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.hoa"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                                    </textarea>
+        <small class="form-text text-muted">Is There an HOA? If Yes: Restrictions</small>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Can you camp on the property?</label>
@@ -244,13 +311,13 @@
         <input type="text" class="form-control" v-model="currentDueDiligence.is_property_flood_zone_area"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
-    <div class="form-group col-md-6 col-sm-12">
+    <div class="form-group col-md-12 col-sm-12">
         <label>Notes on mobile homes?</label>
         <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.notes_on_mobile_homes"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
                                                     </textarea>
     </div>
-    <div class="form-group col-md-6 col-sm-12">
+    <div class="form-group col-md-12 col-sm-12">
         <label>Notes on Camping?</label>
         <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.notes_on_camping"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
@@ -275,6 +342,47 @@
         <label>Water?</label>
         <input type="text" class="form-control" v-model="currentDueDiligence.water"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>Property in the city or MUD district</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.city_or_mud_district"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                                        </textarea>
+        <small class="form-text text-muted">Is the property in the city or MUD district? Is there water to the
+            property. If no, do we have to dig a well or there
+            are city water?</small>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>Does property have water connected?</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.water_connected"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                                            </textarea>
+        <small class="form-text text-muted">Does the property have water connected? If Yes: City Water,
+            Well.</small>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>Water to the property?</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.water_to_property"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                                                </textarea>
+        <small class="form-text text-muted">If No: Water?Is there water to the property. If no, do we have to dig a
+            well or there are city water?</small>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>Electricity Connected</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.electricity_connected"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                                                    </textarea>
+        <small class="form-text text-muted">Does property Currently Have Electricty connected?</small>
+    </div>
+    <div class="form-group col-md-12 col-sm-12">
+        <label>No Power</label>
+        <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.no_power"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+                                                                                                        </textarea>
+        <small class="form-text text-muted">If No Power (electricity)? Is there power to the lot? If no, how far
+            away is the nearest power line? If they know, how
+            much it cost to connect to the power line?</small>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Sewer or Septic?</label>
