@@ -79,6 +79,18 @@ new Vue({
                     console.log(err.response.data);
                 })
         },
+        refreshTimeSheet: function () {
+            this.searching = true;
+            axios.get(`/api/v1/timesheet/`)
+                .then((response) => {
+                    this.searching = false;
+                    this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
+        },
         getCashOut: function () {
             this.loading = true;
             axios.get(`/api/v1/cashout/`)
@@ -161,7 +173,7 @@ new Vue({
                         timer: 1500
                     })
                     $("#viewModal").modal('hide')
-                    this.getTimeSheet();
+                    this.refreshTimeSheet();
                 })
                 .catch((err) => {
                     this.loading = false;
