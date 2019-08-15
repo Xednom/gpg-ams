@@ -131,7 +131,7 @@ class PmViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = StaffSerializer
 
     def get_queryset(self):
-        pms = Staffs.objects.filter(position__icontains='Project Managers')
+        pms = Staffs.objects.filter(position__icontains='Project Manager')
         return pms
 
 
