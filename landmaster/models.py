@@ -152,6 +152,24 @@ class DueDiligence(TimeStampedModel):
                                                         default=0.00, null=True, blank=True)
     total_time_allocation = models.DecimalField(max_digits=7, decimal_places=2,
                                                 default=0.00, null=True, blank=True)
+    subdivision = models.TextField(null=True, blank=True)
+    parcel_dimensions = models.TextField(null=True, blank=True)
+    structure = models.TextField(null=True, blank=True)
+    no_address = models.TextField(null=True, blank=True)
+    liens_on_property = models.TextField(null=True, blank=True)
+    tax_amount = models.TextField(null=True, blank=True)
+    land_cleared = models.TextField(null=True, blank=True)
+    property_buildable = models.TextField(null=True, blank=True)
+    hoa = models.TextField(null=True, blank=True)
+    city_or_mud_district = models.TextField(null=True, blank=True,
+                                            help_text='Is the property in the city or MUD district? Is there water to the property. If no, do we have to dig a well or there are city water?')
+    water_connected = models.TextField(null=True, blank=True, 
+                                       help_text='Does the property have water connected? If Yes: City Water, Well')
+    water_to_property = models.TextField(null=True, blank=True, 
+                                         help_text='If No: Water?Is there water to the property. If no, do we have to dig a well or there are city water?')
+    electricity_connected = models.TextField(null=True, blank=True, help_text='Does property Currently Have Electricty connected')
+    no_power = models.TextField(null=True, blank=True, 
+                                help_text='If No Power (electricity)? Is there power to the lot? If no, how far away is the nearest power line? If they know, how much it cost to connect to the power line?')
 
     class Meta:
         ordering = ('date_requested',)

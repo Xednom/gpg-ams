@@ -49,16 +49,21 @@ class DueDiligenceProfile(ImportExportModelAdmin):
                 'lot_number',
                 'legal_description',
                 'parcel_size',
+                'subdivision',
+                'parcel_dimensions',
                 'gps_coordinates',
                 'gps_coordinates_4_corners',
                 'google_map_link',
                 'elevation',
                 'assessed_value',
+                'access_to_property',
+                'structure',
             )
         }),
         ("Additional Land Info", {
             'fields': (
                 'closest_major_city',
+                'no_address',
                 'closest_small_town',
                 'nearby_attractions',
             )
@@ -80,6 +85,8 @@ class DueDiligenceProfile(ImportExportModelAdmin):
         ("Tax Data", {
             'fields': (
                 'back_taxes',
+                'liens_on_property',
+                'tax_amount',
                 'tax_liens',
                 'annual_property_taxes',
                 'is_property_part_of_an_hoa',
@@ -91,8 +98,11 @@ class DueDiligenceProfile(ImportExportModelAdmin):
                 'zoning',
                 'terrian_type',
                 'property_use_code',
+                'land_cleared',
+                'property_buildable',
                 'what_can_be_built',
                 'time_limit_to_build',
+                'hoa',
                 'can_camp',
                 'notes_on_camping',
                 'rv_allowed',
@@ -105,6 +115,11 @@ class DueDiligenceProfile(ImportExportModelAdmin):
         ("Data on Utilities", {
             'fields': (
                 'water',
+                'city_or_mud_district',
+                'water_connected',
+                'water_to_property',
+                'electricity_connected',
+                'no_power',
                 'sewer_or_septic',
                 'power',
                 'gas',
