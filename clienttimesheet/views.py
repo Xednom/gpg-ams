@@ -98,7 +98,7 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
         if is_client:
             client = Q(clients_full_name__full_name__icontains=self.request.user.clients)
 
-            queryset = timesheet.filter(client & Q(admin_approval="Approved") | Q(status="Approved"))
+            queryset = timesheet.filter(client | Q(admin_approval="Approved"), Q(status="Approved"))
             return queryset
         elif is_staff:
             staff = Q(assigned_approval__full_name__icontains=self.request.user.staffs)
