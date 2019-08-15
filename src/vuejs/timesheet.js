@@ -55,12 +55,12 @@ new Vue({
     },
     mounted: function () {
         this.setCurrentMonth();
-        this.searchMonthPaymentMade();
         this.searchMonthVaTimeSheet();
-        this.searchMonthClientTimeSheet();
         this.loadClient();
         this.searchMonthCashOut();
         this.getCashOut();
+        this.getTimeSheet();
+        this.getPaymentMade();
     },
     methods: {
         setCurrentMonth: function () {
