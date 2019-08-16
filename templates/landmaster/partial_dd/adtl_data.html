@@ -26,9 +26,11 @@
     </div>
     <div class="form-group row">
         <label class="col-sm-2 col-form-label">Nearby attractions and amenities</label>
-        <div class="col-md-4 col-sm-12">
-            <input type="text" class="form-control form-control-sm" v-model="newDueDiligence.nearby_attractions"
-                :disabled="loading == true">
+        <div class="col-md-8 col-sm-12">
+            <textarea class="form-control" 
+            v-model="newDueDiligence.nearby_attractions"
+            :disabled="loading == true"
+            cols="30" rows="10"></textarea>
         </div>
     </div>
     <a class="btn btn-primary btn-next" href="#county-data" data-toggle="tab" type="button" style="float: right;">

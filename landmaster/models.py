@@ -59,7 +59,7 @@ class DueDiligence(TimeStampedModel):
     assessed_value = models.CharField(max_length=250, null=True, blank=True)
     closest_major_city = models.CharField(max_length=250, null=True, blank=True)
     closest_small_town = models.CharField(max_length=250, null=True, blank=True)
-    nearby_attractions = models.CharField(max_length=250, null=True, blank=True, verbose_name="Nearby Attractions and Amenities")
+    nearby_attractions = models.TextField(null=True, blank=True, verbose_name="Nearby Attractions and Amenities")
     assessor_website = models.CharField(max_length=250, null=True, blank=True)
     treasurer_website = models.CharField(max_length=250, null=True, blank=True)
     recorder_clerk_website = models.CharField(max_length=250, null=True, blank=True, verbose_name="Recorder/Clerk Website")
