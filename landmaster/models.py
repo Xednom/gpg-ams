@@ -140,7 +140,7 @@ class DueDiligence(TimeStampedModel):
     status_zoning_data = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Due Diligence Status for Zoning Data")
     status_utilities_data = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Due Diligence Status for Utilities Data")
     status_other_requests = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Due Diligence Status for Other Requests")
-    status_of_dd = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Due Diligence Status")
+    status_of_dd = models.CharField(max_length=150, choices=STATUS, default=STATUS[0][0], null=True, blank=True, verbose_name="Due Diligence Status")
     level_of_urgency = models.CharField(max_length=150, choices=URGENCY, null=True, blank=True)
     additional_client_request_question = models.TextField(null=True, blank=True,
                                                           verbose_name='Additional Client Request Question/s')
