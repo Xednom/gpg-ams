@@ -57,6 +57,14 @@ class JobRequest(models.Model):
         ('Due Diligence', 'Due Diligence'),
         ('Craigslist Support', 'Craigslist Support'),
     )
+    COMPANY_TAGGING = (
+        ('landmaster.us', 'landmaster.us'),
+        ('gpgcorporation.com', 'gpgcorporation.com'),
+        ('callme.com.ph', 'callme.com.ph'),
+        ('virtualExpressServices.com', 'virtualExpressServices.com'),
+        ('creatif-designs.com', 'creatif-designs.com'),
+        ('vacantpropertiesglobal.com', 'vacantpropertiesglobal.com')
+    )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     company_to_request = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
     category = models.CharField(max_length=150, choices=CATEGORY, null=True, blank=True)
@@ -75,7 +83,7 @@ class JobRequest(models.Model):
     manager_notes = models.TextField(null=True, blank=True)
     client_notes = models.TextField(null=True, blank=True)
     va_notes = models.TextField(null=True, blank=True)
-    company_tagging = models.ForeignKey(InternalCompanyName, null=True, blank=True, on_delete=models.PROTECT)
+    company_tagging = models.CharField(max_length=150, choices=COMPANY_TAGGING, null=True, blank=True)
     authorized_minutes_hours_allocation = models.TextField(null=True, blank=True)
 
     class Meta:

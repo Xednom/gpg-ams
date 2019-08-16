@@ -33,6 +33,7 @@ class FinancialReport(models.Model):
     status = models.CharField(max_length=150, choices=STATUS, null=True, blank=True)
     notes_inventory = models.TextField(null=True, blank=True, verbose_name="Notes")
     notes_payment_made = models.TextField(null=True, blank=True, verbose_name="Notes")
+    monthly_plan_cost = models.CharField(max_length=150, null=True, blank=True)
 
     class Meta:
         ordering = ['-date_signed_up']
