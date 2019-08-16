@@ -329,6 +329,7 @@
                         </li>
                         {% endif %}
                         <!-- ./Callme -->
+                        {% if request.user.staffs.category == 'Home Based' %}
                         <!-- Craigslist -->
                         <li>
                           <a href="#"><i class="fa fa-bullhorn"></i> Craigslist <span class="fa arrow"></span></a>
@@ -344,6 +345,7 @@
                           </ul>
                         </li>
                         <!-- ./Craigslist -->
+                        {% endif %}
                         {% if request.user.staffs.category == 'Home Based' %}
                         <!-- don't show marketing sites to home based VAs -->
                         {% else %}
