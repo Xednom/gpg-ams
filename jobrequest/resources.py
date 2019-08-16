@@ -15,7 +15,7 @@ class JobRequestResource(resources.ModelResource):
             'company_name', 'job_request_title', 'job_request_instruction',
             'additional_comments_or_feedbacks', 'assigned_project_managers__full_name',
             'project_status', 'url_training_videos', 'assigned_va__full_name', 'manager_notes',
-            'client_notes', 'va_notes', 'company_tagging__company_name', 'authorized_minutes_hours_allocation'
+            'client_notes', 'va_notes', 'company_tagging', 'authorized_minutes_hours_allocation'
         )
         export_order = (
             'date_requested', 'due_date',
@@ -24,5 +24,5 @@ class JobRequestResource(resources.ModelResource):
             'company_name', 'job_request_title', 'job_request_instruction',
             'additional_comments_or_feedbacks', 'assigned_project_managers__full_name',
             'project_status', 'url_training_videos', 'assigned_va__full_name', 'manager_notes',
-            'client_notes', 'va_notes', 'company_tagging__company_name', 'authorized_minutes_hours_allocation'
+            'client_notes', 'va_notes', 'company_tagging', 'authorized_minutes_hours_allocation'
         )

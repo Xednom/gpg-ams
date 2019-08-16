@@ -72,7 +72,7 @@ class TimeSheetProfile(ModelAdminTotals):
 
 class PaymentMadeProfile(ModelAdminTotals):
     list_display = ('date', 'client_name', 'transaction_number',
-                    'payment_channel', 'amount',)
+                    'payment_channel', 'amount', 'notes')
     list_filter = (('date', DateRangeFilter), 'date', 'payment_channel',
                     'client_name')
     list_totals = [('amount', Sum)]

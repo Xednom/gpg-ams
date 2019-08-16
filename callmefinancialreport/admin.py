@@ -11,7 +11,7 @@ class FinancialReportProfile(ImportExportModelAdmin):
     list_display = ('date_signed_up', 'client_full_name',
                     'client_company_name', 
                     'first_day_of_call', 'first_billing_cycle', 
-                    'last_billing_cycle', 'status', 'type_of_plan',
+                    'last_billing_cycle', 'status', 'type_of_plan', 'monthly_plan_cost',
                     'total_minutes_used', 'excess_minutes', 'payment_made',
                     'date_paid')
     list_filter = ('date_signed_up', 'client_full_name__full_name',

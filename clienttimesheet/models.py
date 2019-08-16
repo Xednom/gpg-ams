@@ -149,8 +149,8 @@ class PaymentMade(models.Model):
     notes = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "Payment Made for the Client"
-        verbose_name_plural = "Payment Made for the Clients"
+        verbose_name = "Client's Credit Purchase"
+        verbose_name_plural = "Client's Credit Purchases"
         ordering = ['-date']
 
     def __str__(self):
