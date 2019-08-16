@@ -139,10 +139,13 @@
         <input type="text" class="form-control" v-model="currentDueDiligence.closest_small_town"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-12 col-sm-12">
         <label>Nearby attractions and amenities</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.nearby_attractions"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control" 
+        v-model="currentDueDiligence.nearby_attractions" 
+        :disabled="loading == true" 
+        cols="30" rows="10"  
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}></textarea>
     </div>
 </div>
 <hr>
