@@ -44,7 +44,7 @@ class CraigListViewSet(viewsets.ModelViewSet):
         is_client = self.request.user.is_client
         craigslist = CraiglistInventory.objects.all()
         if is_client:
-            qs = craigslist.filter(Q(client_name_company_name__full_name=self.request.user.clients.full_name))
+            qs = craigslist.filter(Q(client_name_company_name__full_name=self.request.user.clients))
             return qs
         elif is_staff:
             qs = craigslist.filter(Q(cl_admin_support__full_name=self.request.user.staffs.full_name))
