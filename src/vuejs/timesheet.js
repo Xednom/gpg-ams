@@ -17,6 +17,8 @@ new Vue({
         errored: false,
         currentTimeSheet: {},
         message: null,
+        currentSort: '',
+        currentSortDir: 'desc',
         newTimeSheet: {
             'company_tagging': null,
             'shift_date': null,
@@ -66,6 +68,13 @@ new Vue({
         setCurrentMonth: function () {
             let currentMonth = moment(new Date()).format("MM");
             this.search_month = currentMonth;
+        },
+        sort: function (s) {
+            //if s == current sort, reverse
+            if (s === this.currentSort) {
+                this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+            }
+            this.currentSort = s;
         },
         getTimeSheet: function () {
             this.loading = true;
@@ -512,6 +521,19 @@ new Vue({
         totalDueStaffs() {
             let sum = this.totalSalaryVa - this.totalCashOut;
             return sum.toFixed(2);
+        },
+        sortedTimesheet: function () {
+            return this.timesheets.sort((a, b) => {
+                let modifier = 1;
+                if (this.currentSortDir === 'desc') modifier = -1;
+                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            }).filter((row, index) => {
+                let start = (this.currentPage - 1) * this.pageSize;
+                let end = this.currentPage * this.pageSize;
+                if (index >= start && index < end) return true;
+            });
         }
     }
 });

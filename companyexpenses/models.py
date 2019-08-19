@@ -37,8 +37,8 @@ class Expenses(models.Model):
     notes = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "Company Expense"
-        verbose_name_plural = "Company Expenses"
+        verbose_name = "General Expense Inventory"
+        verbose_name_plural = "General Expense Inventories"
         ordering = ['-date']
     
     def __str__(self):

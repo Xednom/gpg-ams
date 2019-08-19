@@ -50,7 +50,7 @@ new Vue({
             'notes_from_researcher': null,
             'notes_from_qa': null,
         },
-        
+
         // for normal search
         search_client_name: '',
 
@@ -88,18 +88,18 @@ new Vue({
     },
     methods: {
         nextPage: function () {
-                if ((this.currentPage * this.pageSize) < this.landacademy.length) this.currentMasterBoardPage++;
-            },
-            prevPage: function () {
-                if (this.currentPage > 1) this.currentPage--;
-            },
-            sort: function (s) {
-                //if s == current sort, reverse
-                if (s === this.currentSort) {
-                    this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
-                }
-                this.currentSort = s;
-            },
+            if ((this.currentPage * this.pageSize) < this.landacademy.length) this.currentMasterBoardPage++;
+        },
+        prevPage: function () {
+            if (this.currentPage > 1) this.currentPage--;
+        },
+        sort: function (s) {
+            //if s == current sort, reverse
+            if (s === this.currentSort) {
+                this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+            }
+            this.currentSort = s;
+        },
         filterKey(e) {
             const key = e.key;
 
@@ -385,7 +385,7 @@ new Vue({
                 }
             }
         },
-    generateLandAcademyExcelFile: function () {
+        generateLandAcademyExcelFile: function () {
             let uri = 'data:application/vnd.ms-excel;base64,';
 
             let context = {

@@ -45,21 +45,21 @@ GPG System | View Due Diligence
                                 <thead>
                                     <tr>
                                         {% if request.user.is_staffs %}
-                                        <th>Date Requested</th>
-                                        <th>Due Date</th>
-                                        <th>Company Owner's name or Requestor</th>
-                                        <th>Assessors Parcel Number</th>
-                                        <th>Project Manager</th>
-                                        <th>Status</th>
-                                        <th>Date of Completion</th>
+                                        <th @click="sort('date_requested')">Date Requested</th>
+                                        <th @click="sort('due_date')">Due Date</th>
+                                        <th @click="sort('company_owner_or_requestor')">Company Owner's name or Requestor</th>
+                                        <th @click="sort('parcel_number')">Assessors Parcel Number</th>
+                                        <th @click="sort('project_manager')">Project Manager</th>
+                                        <th @click="sort('status_of_dd')">Status</th>
+                                        <th @click="sort('date_of_completion')">Date of Completion</th>
                                         {% elif request.user.is_client %}
-                                        <th>Date Requested</th>
-                                        <th>Due Date</th>
-                                        <th>Company Owner's name or Requestor</th>
-                                        <th>Assessors Parcel Number</th>
-                                        <th>Project Manager</th>
-                                        <th>Due Diligence Status</th>
-                                        <th>Date Of Completion</th>
+                                        <th @click="sort('date_requested')">Date Requested</th>
+                                        <th @click="sort('due_date')">Due Date</th>
+                                        <th @click="sort('company_owner_or_requestor')">Company Owner's name or Requestor</th>
+                                        <th @click="sort('parcel_number')">Assessors Parcel Number</th>
+                                        <th @click="sort('project_manager')">Project Manager</th>
+                                        <th @click="sort('status_of_dd')">Due Diligence Status</th>
+                                        <th @click="sort('date_of_completion')">Date Of Completion</th>
                                         {% endif %}
                                         <th>Action</th>
                                         <th>PDF</th>
@@ -82,7 +82,7 @@ GPG System | View Due Diligence
                                             </td>
                                         </template>
                                     </tr>
-                                    <tr class="odd gradeX" v-for="(dueDiligences, i) in paginatedRecords">
+                                    <tr class="odd gradeX" v-for="(dueDiligences, i) in sortedDueDiligence">
                                         {% if request.user.is_staffs %}
                                             <td>[[ dueDiligences.date_requested ]]</td>
                                             <td>[[ dueDiligences.due_date ]]</td>

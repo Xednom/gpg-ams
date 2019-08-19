@@ -76,13 +76,13 @@ GPG System | View Timesheet
                                 <div style="overflow-x:auto;">
                                     <table class="table table-bordered table-hover table-responsive">
                                         <thead>
-                                            <th>Shift Date</th>
-                                            <th>Job Request Title</th>
-                                            <th>Time In</th>
-                                            <th>Time Out</th>
-                                            <th>Total Duration(Hours)</th>
-                                            <th>Hourly Rate Charge</th>
-                                            <th>Total charge</th>
+                                            <th @click="sort('shift_date')">Shift Date</th>
+                                            <th @click="sort('title_job_request')">Job Request Title</th>
+                                            <th @click="sort('time_in')">Time In</th>
+                                            <th @click="sort('time_out')">Time Out</th>
+                                            <th @click="sort('duration')">Total Duration(Hours)</th>
+                                            <th @click="sort('hourly_rate_peso')">Hourly Rate Charge</th>
+                                            <th @click="sort('total_charge_peso')">Total charge</th>
                                             <th>Action</th>
                                         </thead>
                                         <tbody>
@@ -100,7 +100,7 @@ GPG System | View Timesheet
                                                         as of now. The Admin must be working on it.</td>
                                                 </template>
                                             </tr>
-                                            <tr v-for="(timesheets, i) in paginatedRecords">
+                                            <tr v-for="timesheets in sortedTimesheet">
                                                 <td>[[ timesheets.shift_date ]]</td>
                                                 <td>[[ timesheets.title_job_request ]]</td>
                                                 <td>[[ timesheets.time_in ]]</td>

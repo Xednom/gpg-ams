@@ -18,7 +18,9 @@ class TimeSheetProfile(ModelAdminTotals):
                    'clients_full_name', 'month_to_date', 
                    'status', 'admin_approval')
     list_totals = [('duration', Sum), ('total_charge_peso', Sum), 
-                   ('total_charge_usd', Sum), ('total_amount_due', Sum)]
+                   ('total_charge_usd', Sum), ('total_amount_due', Sum),
+                   ('hourly_rate_usd', Sum), ('hourly_rate_usd', Sum),
+                   ('hourly_rate_peso', Sum), ('hourly_rate_peso', Sum), ]
     search_fields = ('company_tagging', 'clients_full_name__full_name', 
                      'channel_job_requested', 'title_job_request', 'assigned_approval__full_name')
     readonly_fields = ('total_amount_due', 'total_charge_peso', 
