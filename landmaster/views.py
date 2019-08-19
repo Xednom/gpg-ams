@@ -97,7 +97,7 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         if self.request.user.is_client:
-            return serializer.save(company_owner_or_requestor=self.request.user.clients)
+            return serializer.save(company_owner_or_requestor=self.request.user.clients, status_of_dd="Sent to Project Manager")
         elif self.request.user.is_staffs:
             if self.request.user.staffs.position == 'Project Manager':
                 return serializer.save(project_manager=self.request.user.staffs)
