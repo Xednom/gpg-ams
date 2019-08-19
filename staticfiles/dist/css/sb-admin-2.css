@@ -8,10 +8,12 @@ body {
 }
 #wrapper {
   width: 100%;
+  min-height: 1024px !important;
 }
 #page-wrapper {
   padding: 0 15px;
-  min-height: 568px;
+  /* min-height: 568px; */
+  min-height: 1024px;
   background-color: white;
 }
 .salary{
