@@ -33,6 +33,7 @@ class FinancialReportProfile(ImportExportModelAdmin):
                 'client_full_name',
                 'client_company_name',
                 'date_signed_up',
+                'monthly_plan_cost',
                 'first_day_of_call',
                 'first_billing_cycle',
                 'last_billing_cycle',
