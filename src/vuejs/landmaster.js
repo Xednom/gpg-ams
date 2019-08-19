@@ -16,6 +16,8 @@ new Vue({
         currentDueDiligence: [],
         buttonsLoading: [],
         errorduediligence: [],
+        currentSort: '',
+        currentSortDir: 'desc',
         newDueDiligence: {
             'date_requested': null,
             'company_name': "",
@@ -155,6 +157,13 @@ new Vue({
             if (this.price != null && this.price.indexOf(".") > -1 && (this.price.split('.')[1].length > 1)) {
                 $event.preventDefault();
             }
+        },
+        sort: function (s) {
+            //if s == current sort, reverse
+            if (s === this.currentSort) {
+                this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+            }
+            this.currentSort = s;
         },
         resetDueDiligenceFields: function () {
             Object.keys(this.newDueDiligence).forEach(key => {
@@ -940,5 +949,18 @@ new Vue({
             for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
             return pages;
         },
+        sortedDueDiligence: function () {
+            return this.dueDiligences.sort((a, b) => {
+                let modifier = 1;
+                if (this.currentSortDir === 'desc') modifier = -1;
+                if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                return 0;
+            }).filter((row, index) => {
+                let start = (this.currentPage - 1) * this.pageSize;
+                let end = this.currentPage * this.pageSize;
+                if (index >= start && index < end) return true;
+            });
+        }
     },
 })
