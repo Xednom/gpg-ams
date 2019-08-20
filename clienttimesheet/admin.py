@@ -15,8 +15,8 @@ class TimeSheetProfile(ModelAdminTotals):
                     'hourly_rate_usd', 'total_amount_due')
     list_filter = ('company_tagging', 'shift_date',
                    'assigned_approval', ('shift_date', DateRangeFilter),
-                   'clients_full_name', 'month_to_date', 
-                   'status', 'admin_approval')
+                   'clients_full_name', 'month_to_date', 'hourly_rate_usd',
+                   'status', 'admin_approval', 'total_charge_peso')
     list_totals = [('duration', Sum), ('total_charge_peso', Sum), 
                    ('total_charge_usd', Sum), ('total_amount_due', Sum),
                    ('hourly_rate_usd', Sum), ('hourly_rate_usd', Sum),
