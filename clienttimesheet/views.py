@@ -55,8 +55,8 @@ class TimeSheetView(TemplateView, LoginRequiredMixin):
 
 class TimeSheetFilter(FilterSet):
     shift_date__month = NumberFilter(field_name='shift_date', lookup_expr='month')
-    # shift_date__gte = DateFilter(field_name='shift_date', lookup_expr='gte')
-    # shift_date__lte = DateFilter(field_name='shift_date', lookup_expr='lte')
+    shift_date__gte = DateFilter(field_name='shift_date', lookup_expr='gte')
+    shift_date__lte = DateFilter(field_name='shift_date', lookup_expr='lte')
     company_tagging = CharFilter(field_name='company_tagging', lookup_expr='icontains')
 
     class Meta:

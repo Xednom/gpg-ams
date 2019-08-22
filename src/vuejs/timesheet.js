@@ -47,6 +47,11 @@ new Vue({
         search_term: '',
         search_month: '',
 
+        // advance search
+        shift_date_lte: null,
+        shift_date_gte: null,
+        company_tagging: null,
+
         // for pagination
         currentPage: 1,
         pageSize: RECORDS_PER_PAGE,
@@ -145,6 +150,18 @@ new Vue({
         searchMonthClientTimeSheet: function () {
             this.searching = true;
             axios.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
+        },
+        advanceSearchClientTimeSheet: function () {
+            this.searching = true;
+            axios.get(`/api/v1/timesheet/?shift_date__gte=${this.shift_date_gte}&shift_date__lte=${this.shift_date_lte}`)
                 .then((response) => {
                     this.searching = false;
                     this.timesheets = response.data;
