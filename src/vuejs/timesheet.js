@@ -8,6 +8,7 @@ new Vue({
         timesheets: [],
         cashouts: [],
         clients: [],
+        staffs: [],
         paymentmade: [],
         errortimesheet: [],
         loading: false,
@@ -51,6 +52,7 @@ new Vue({
         shift_date_lte: null,
         shift_date_gte: null,
         company_tagging: null,
+        virtual_assistant: null,
 
         // for pagination
         currentPage: 1,
@@ -64,6 +66,7 @@ new Vue({
         this.setCurrentMonth();
         this.searchMonthVaTimeSheet();
         this.loadClient();
+        this.loadStaff();
         this.searchMonthCashOut();
         this.getCashOut();
         this.getTimeSheet();
@@ -144,7 +147,6 @@ new Vue({
         searchAll: function () {
             this.searchMonthClientTimeSheet();
             this.searchMonthVaTimeSheet();
-            this.searchMonthPaymentMade();
             this.searchMonthCashOut();
         },
         searchMonthClientTimeSheet: function () {
@@ -161,7 +163,7 @@ new Vue({
         },
         advanceSearchClientTimeSheet: function () {
             this.searching = true;
-            axios.get(`/api/v1/timesheet/?shift_date__gte=${this.shift_date_gte}&shift_date__lte=${this.shift_date_lte}`)
+            axios.get(`/api/v1/timesheet/?shift_date__gte=${this.shift_date_gte}&shift_date__lte=${this.shift_date_lte}&assigned_approval__full_name=${this.virtual_assistant}`)
                 .then((response) => {
                     this.searching = false;
                     this.timesheets = response.data;
@@ -212,6 +214,19 @@ new Vue({
                 .then((response) => {
                     this.loading = false;
                     this.clients = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    this.errored = true;
+                    console.log(err.response.data);
+                })
+        },
+        loadStaff() {
+            this.loading = true;
+            axios.get(`/api/v1/staffs`)
+                .then((response) => {
+                    this.loading = false;
+                    this.staffs = response.data;
                 })
                 .catch((err) => {
                     this.loading = false;
