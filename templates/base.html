@@ -6,46 +6,53 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>{% block title %}GPG Admin{% endblock %}</title>
+  <title>{% block title %}GPG Admin{% endblock %}</title>
 
-    <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
-    <!-- bootstrap datepicker -->
-    <script src="{% static '/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'moment-with-locales.js' %}"></script>
-    <script src="{% static '/vendor/bootstrap/js/bootstrap.min.js'%}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    <link href=" {% static '/vendor/bootstrap/css/bootstrap.min.css' %} " rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
-    
-    <!-- MetisMenu CSS -->
-    <link href=" {% static '/vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
+  <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+  <!-- bootstrap datepicker -->
+  <script src="{% static '/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'moment-with-locales.js' %}"></script>
+  <script src="{% static '/vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+  <link href=" {% static '/vendor/bootstrap/css/bootstrap.min.css' %} " rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 
-    <!-- Custom CSS -->
-    <link href="{% static '/dist/css/sb-admin-2.css' %}" rel="stylesheet">
+  <!-- MetisMenu CSS -->
+  <link href=" {% static '/vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="{% static '/vendor/morrisjs/morris.css' %}" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="{% static '/dist/css/sb-admin-2.css' %}" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="{% static '/vendor/font-awesome/css/font-awesome.min.cs' %}s" rel="stylesheet" type="text/css">
+  <!-- Morris Charts CSS -->
+  <link href="{% static '/vendor/morrisjs/morris.css' %}" rel="stylesheet">
 
-    <!-- XDSoft DateTimePicker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+  <!-- Custom Fonts -->
+  <link href="{% static '/vendor/font-awesome/css/font-awesome.min.cs' %}s" rel="stylesheet" type="text/css">
 
-    <!-- Fengyuan Chen's Datepicker -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+  <!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+    integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+    integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+  <!-- Fengyuan Chen's Datepicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css"
+    integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"
+    integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
@@ -54,577 +61,575 @@
 
 <body>
 
-    <div id="wrapper">
-      {% block navbar %}
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{% url 'users:home' %}">GPG Admin</a>
-            </div>
-            <!-- /.navbar-header -->
+  <div id="wrapper">
+    {% block navbar %}
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'users:home' %}">GPG Admin v3.0</a>
+      </div>
+      <!-- /.navbar-header -->
 
-            <ul class="nav navbar-top-links navbar-right">
+      <ul class="nav navbar-top-links navbar-right">
+        <li>
+          <label>Welcome, {% if request.user.is_client %} {{ request.user.clients.full_name }}
+            {% elif request.user.is_staffs %}{{ request.user.staffs.full_name }} {% endif %}</label>
+
+        </li>
+        <!-- /.dropdown -->
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            {% if request.user.is_client %}
+            <li><a href="{% url 'users:clients_profile' %}"><i class="fa fa-user fa-fw"></i> Profile</a>
+              {% elif request.user.is_staffs %}
+            <li><a href="{% url 'users:staffs_profile' %}"><i class="fa fa-user fa-fw"></i> Profile</a>
+            <li><a href="{% url 'logins:login' %}"><i class="fa fa-list fa-fw"></i> Assigned logins</a>
+              {% endif %}
+            <li><a href="{% url 'users:logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+            </li>
+          </ul>
+          <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+      </ul>
+      {% endblock %}
+      <!-- /.navbar-top-links -->
+      {% block sidebar %}
+      <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+          <ul class="nav" id="side-menu">
+            <li>
+              <a href="{% url 'users:home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-tasks fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level">
+                <li>
+                <li>
+                  <a href="#"><i class="fa fa-list"></i> Job Request <span class="fa arrow"></span></a>
+                  <ul class="nav nav-third-level">
+                    {% if request.user.is_client %}
+                    <li>
+                      <a href="{% url 'jobrequest:add_job_request' %}"><i class="fa fa-plus"></i> Add Job Request</a>
+                      <a href="{% url 'jobrequest:update_job_request' %}"><i class="fa fa-pencil"></i> Update Job
+                        Request</a>
+                    </li>
+                    {% elif request.user.is_staffs %}
+                    <li>
+                      <a href="{% url 'jobrequest:update_job_request' %}"><i class="fa fa-pencil"></i> Update Job
+                        Request</a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                  <!-- /.nav-third-level -->
+                </li>
+            </li>
+          </ul>
+          <!-- /.nav-second-level -->
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-tasks fa-fw"></i> Timesheet:<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
               <li>
-                <label>Welcome, {% if request.user.is_client %} {{ request.user.clients.full_name }} {% elif request.user.is_staffs %}{{ request.user.staffs.full_name }} {% endif %}</label>
+                {% if request.user.is_client %}
+                <a href="{% url 'timesheet:view_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
+                {% elif request.user.is_staffs %}
+                <a href="{% url 'timesheet:va_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
+                {% if request.user.staffs.category == 'Home Based' %}
+                <!-- don't show add timesheet -->
+                {% else %}
+                <a href="{% url 'timesheet:add_timesheet' %}"><i class="fa fa-plus"></i> Add Timesheet</a>
+                {% endif %}
+                {% endif %}
+              <li>
+              </li>
+          </li>
+          </ul>
+          <!-- /.nav-second-level -->
+          </li>
+          {% if perms.landacademy.view_landacademyinventory or request.user.staffs.category == 'Office Based' %}
+          <li>
+            <a href="#"><i class="fa fa-tasks fa-fw"></i> Land Academy Apps:<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+              {% if perms.landacademy.view_landacademyinventory %}
+              <li>
+                <a href="#"><i class="fa fa-folder-o"></i> Inventory <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                  <li>
+                    {% if perms.landacademy.add_landacademyinventory %}
+                    <a href="{% url 'landacademy:add_landacademy' %}"> <i class="fa fa-plus"></i> Add
+                      Inventory </a>
+                    {% endif %}
+                    {% if perms.landacademy.view_landacademyinventory %}
+                    <a href="{% url 'landacademy:view_landacademy' %}"> <i class="fa fa-eye"></i> View
+                      Inventory
+                    </a>
+                    {% endif %}
+                  </li>
+                </ul>
+              </li>
+              {% endif %}
+              {% if perms.landacademy.view_o20smartpricing %}
+              <li>
+                <a href="#"><i class="fa fa-folder-o"></i> O2O Smart Pricing <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                  <li>
+                    {% if perms.landacademy.add_o20smartpricing %}
+                    <a href="{% url 'landacademy:add_o2o' %}"> <i class="fa fa-plus"></i> Add
+                      Inventory </a>
+                    {% endif %}
+                    {% if perms.landacademy.view_o20smartpricing %}
+                    <a href="{% url 'landacademy:view_o2o' %}"> <i class="fa fa-eye"></i> View
+                      Inventory
+                    </a>
+                    {% endif %}
+                  </li>
+                </ul>
+              </li>
+              {% elif request.user.staffs.category == 'Office Based' %}
+              <li>
+                <a href="#"><i class="fa fa-folder-o"></i> O2O Smart Pricing <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                  <li>
+                    <a href="{% url 'landacademy:add_o2o' %}"> <i class="fa fa-plus"></i> Add
+                      Inventory </a>
+                    <a href="{% url 'landacademy:view_o2o' %}"> <i class="fa fa-eye"></i> View
+                      Inventory
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {% endif %}
+            </ul>
+            <!-- /.nav-second-level -->
+          </li>
+          {% endif %}
+          <!-- landmaster -->
+          {% if request.user.staffs.category == 'Home Based' %}
+          <!-- don't show land master to home based -->
+          {% elif request.user.is_client %}
+          <li>
+            <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+              <li>
+                <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due Diligence work</a>
+              </li>
+              <li>
+                <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due Diligence
+                  work</a>
+                <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i class="fa fa-eye"></i> View Call Out
+                  Report Requests</a>
+              </li>
+            </ul>
+          </li>
+          {% elif request.user.staffs.category == 'Office Based' %}
+          <li>
+            {% if perms.landmaster.view_duediligence %}
+            <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+              <li>
+
+                {%if perms.landmaster.add_duediligence %}
+                <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due
+                  Diligence work</a>
+                {% endif %}
+
+                {% if perms.landmaster.add_duediligencescleared %}
+                <a href="{% url 'landmaster:add_due_diligence_tracker' %}"> <i class="fa fa-plus"></i>
+                  Add General Call Out Request</a>
+                {% endif %}
 
               </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                      {% if request.user.is_client %}
-                        <li><a href="{% url 'users:clients_profile' %}"><i class="fa fa-user fa-fw"></i> Profile</a>
-                      {% elif request.user.is_staffs %}
-                        <li><a href="{% url 'users:staffs_profile' %}"><i class="fa fa-user fa-fw"></i> Profile</a>
-                        <li><a href="{% url 'logins:login' %}"><i class="fa fa-list fa-fw"></i> Assigned logins</a>
-                          {% endif %}
-                        <li><a href="{% url 'users:logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
+              <li>
+
+                {% if perms.landmaster.view_duediligence %}
+                <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due
+                  Diligence work</a>
+                {% endif %}
+
+                {% if perms.landmaster.view_duediligencescleared %}
+                <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i class="fa fa-eye"></i>
+                  View Due Diligence Call Out Reports</a>
+                {% endif %}
+
+              </li>
             </ul>
-            {% endblock %}
-            <!-- /.navbar-top-links -->
-            {% block sidebar %}
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="{% url 'users:home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-tasks fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <li>
-                                      <a href="#"><i class="fa fa-list"></i> Job Request <span
-                                          class="fa arrow"></span></a>
-                                        <ul class="nav nav-third-level">
-                                          {% if request.user.is_client %}
-                                            <li>
-                                                <a href="{% url 'jobrequest:add_job_request' %}"><i
-                                                    class="fa fa-plus"></i> Add Job Request</a>
-                                                <a href="{% url 'jobrequest:update_job_request' %}"><i
-                                                    class="fa fa-pencil"></i> Update Job Request</a>
-                                            </li>
-                                            {% elif request.user.is_staffs %}
-                                              <li>
-                                                  <a href="{% url 'jobrequest:update_job_request' %}"><i
-                                                      class="fa fa-pencil"></i> Update Job Request</a>
-                                              </li>
-                                            {% endif %}
-                                        </ul>
-                                        <!-- /.nav-third-level -->
-                                    </li>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                          <a href="#"><i class="fa fa-tasks fa-fw"></i> Timesheet:<span class="fa arrow"></span></a>
-                          <ul class="nav nav-second-level">
-                            <li>
-                              {% if request.user.is_client %}
-                              <a href="{% url 'timesheet:view_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
-                              {% elif request.user.is_staffs %}
-                              <a href="{% url 'timesheet:va_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
-                              {% if request.user.staffs.category == 'Home Based' %}
-                              <!-- don't show add timesheet -->
-                              {% else %}
-                              <a href="{% url 'timesheet:add_timesheet' %}"><i class="fa fa-plus"></i> Add Timesheet</a>
-                              {% endif %}
-                              {% endif %}
-                            <li>
-                            </li>
-                        </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                        </li>
-                        {% if perms.landacademy.view_landacademyinventory or request.user.staffs.category == 'Office Based' %}
-                        <li>
-                          <a href="#"><i class="fa fa-tasks fa-fw"></i> Land Academy Apps:<span class="fa arrow"></span></a>
-                          <ul class="nav nav-second-level">
-                            {% if perms.landacademy.view_landacademyinventory %}
-                            <li>
-                              <a href="#"><i class="fa fa-folder-o"></i> Inventory <span
-                                  class="fa arrow"></span></a>
-                              <ul class="nav nav-third-level">
-                                <li>
-                                  {% if perms.landacademy.add_landacademyinventory %}
-                                  <a href="{% url 'landacademy:add_landacademy' %}"> <i class="fa fa-plus"></i> Add
-                                    Inventory </a>
-                                  {% endif %}
-                                  {% if perms.landacademy.view_landacademyinventory %}
-                                  <a href="{% url 'landacademy:view_landacademy' %}"> <i class="fa fa-eye"></i> View
-                                    Inventory
-                                  </a>
-                                  {% endif %}
-                                </li>
-                              </ul>
-                            </li>
-                            {% endif %}
-                            {% if perms.landacademy.view_o20smartpricing %}
-                              <li>
-                                <a href="#"><i class="fa fa-folder-o"></i> O2O Smart Pricing <span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                  <li>
-                                    {% if perms.landacademy.add_o20smartpricing %}
-                                    <a href="{% url 'landacademy:add_o2o' %}"> <i class="fa fa-plus"></i> Add
-                                      Inventory </a>
-                                    {% endif %}
-                                    {% if perms.landacademy.view_o20smartpricing %}
-                                    <a href="{% url 'landacademy:view_o2o' %}"> <i class="fa fa-eye"></i> View
-                                      Inventory
-                                    </a>
-                                    {% endif %}
-                                  </li>
-                                </ul>
-                              </li>
-                            {% elif request.user.staffs.category == 'Office Based' %}
-                            <li>
-                              <a href="#"><i class="fa fa-folder-o"></i> O2O Smart Pricing <span class="fa arrow"></span></a>
-                              <ul class="nav nav-third-level">
-                                <li>
-                                  <a href="{% url 'landacademy:add_o2o' %}"> <i class="fa fa-plus"></i> Add
-                                    Inventory </a>
-                                  <a href="{% url 'landacademy:view_o2o' %}"> <i class="fa fa-eye"></i> View
-                                    Inventory
-                                  </a>
-                                </li>
-                              </ul>
-                            </li>
-                            {% endif %}
-                          </ul>
-                          <!-- /.nav-second-level -->
-                        </li>
-                        {% endif %}
-                        <!-- landmaster -->
-                          {% if request.user.staffs.category == 'Home Based' %}
-                          <!-- don't show land master to home based -->
-                          {% elif request.user.is_client %}
-                          <li>
-                            <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
-                              <ul class="nav nav-third-level">
-                                <li>
-                                  <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due Diligence work</a>
-                                </li>
-                                <li>
-                                  <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due Diligence work</a>
-                                  <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i
-                                      class="fa fa-eye"></i> View Call Out Report Requests</a>
-                                </li>
-                              </ul>
-                          </li>
-                          {% elif request.user.staffs.category == 'Office Based' %}
-                          <li>
-                            {% if perms.landmaster.view_duediligence %}
-                            <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                              <li>
+            {% endif %}
+          </li>
+          {% endif %}
+          <!-- /.landmaster -->
+          <!-- CallMe -->
+          {% if perms.callmeinventory.view_inventory or perms.callmemasterboard.view_masterboard or perms.callmefinancialreport.view_financialreport %}
+          <li>
+            <a href="#"><i class="fa fa-tasks fa-fw"></i> CallMe Apps:<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+              {% if perms.callmeinventory.view_inventory %}
+              <li>
+                <a href="#"><i class="fa fa-folder-o"></i> CallMe Inventory <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                  <li>
+                    {% if perms.callmeinventory.add_inventory %}
+                    <a href="{% url 'callmeinventory:add_inventory' %}"> <i class="fa fa-plus"></i> Add
+                      Inventory </a>
+                    {% endif %}
+                    {% if perms.callmeinventory.view_inventory %}
+                    <a href="{% url 'callmeinventory:view_inventory' %}"> <i class="fa fa-eye"></i> View
+                      Inventory
+                    </a>
 
-                                {%if perms.landmaster.add_duediligence %}
-                                <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due
-                                  Diligence work</a>
-                                {% endif %}
-
-                                {% if perms.landmaster.add_duediligencescleared %}
-                                <a href="{% url 'landmaster:add_due_diligence_tracker' %}"> <i class="fa fa-plus"></i>
-                                  Add General Call Out Request</a>
-                                {% endif %}
-
-                              </li>
-                              <li>
-
-                                {% if perms.landmaster.view_duediligence %}
-                                <a href="{% url 'landmaster:view_due_diligence' %}"><i class="fa fa-eye"></i> View Due
-                                  Diligence work</a>
-                                {% endif %}
-
-                                {% if perms.landmaster.view_duediligencescleared %}
-                                <a href="{% url 'landmaster:view_due_diligence_tracker' %}"><i class="fa fa-eye"></i>
-                                  View Due Diligence Call Out Reports</a>
-                                {% endif %}
-
-                              </li>
-                            </ul>
-                            {% endif %}
-                          </li>
-                          {% endif %}
-                          <!-- /.landmaster -->
-                        <!-- CallMe -->
-                        {% if perms.callmeinventory.view_inventory or perms.callmemasterboard.view_masterboard or perms.callmefinancialreport.view_financialreport %}
-                        <li>
-                          <a href="#"><i class="fa fa-tasks fa-fw"></i> CallMe Apps:<span class="fa arrow"></span></a>
-                          <ul class="nav nav-second-level">
-                            {% if perms.callmeinventory.view_inventory %}
-                            <li>
-                              <a href="#"><i class="fa fa-folder-o"></i> CallMe Inventory <span
-                                  class="fa arrow"></span></a>
-                              <ul class="nav nav-third-level">
-                                <li>
-                                  {% if perms.callmeinventory.add_inventory %}
-                                  <a href="{% url 'callmeinventory:add_inventory' %}"> <i class="fa fa-plus"></i> Add
-                                    Inventory </a>
-                                  {% endif %}
-                                  {% if perms.callmeinventory.view_inventory %}
-                                  <a href="{% url 'callmeinventory:view_inventory' %}"> <i class="fa fa-eye"></i> View
-                                    Inventory
-                                  </a>
-
-                                  {% endif %}
-                                </li>
-                              </ul>
-                            </li>
-                            {% endif %}
-                            {% if perms.callmemasterboard.view_masterboard %}
-                            <li>
-                              <a href="#"><i class="fa fa-clipboard"></i> CallMe Master Board <span
-                                  class="fa arrow"></span></a>
-                              <ul class="nav nav-third-level">
-                                <li>
-                                  {% if request.user.is_staffs %}
-                                  {% if perms.callmemasterboard.add_masterboard %}
-                                  <a href="{% url 'masterboard:add_masterboard' %}"> <i class="fa fa-plus"></i> Add
-                                    Record
-                                  </a>
-                                  {% endif %}
-                                  {% endif %}
-                                  {% if perms.callmemasterboard.view_masterboard %}
-                                  <a href="{% url 'masterboard:view_masterboard' %}"> <i class="fa fa-eye"></i> View
-                                    Board
-                                    {% endif %}
-                                  </a>
-                                </li>
-                              </ul>
-                            </li>
-                            {% endif %}
-                            {% if perms.callmefinancialreport.view_financialreport %}
-                            <li>
-                              <a href="#"><i class="fa fa-clipboard"></i> CallMe Financial Report <span
-                                  class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                  <li>
-                                    <a href="{% url 'callmefinancialreport:view_financial' %}"><i class="fa fa-eye"></i>
-                                      View Payment Made</a>
-                                  </li>
-                                  <li>
-                                    <a href="{% url 'callmefinancialreport:view_minutes' %}"><i class="fa fa-eye"></i>
-                                      View Minutes Inventory</a>
-                                  </li>
-                                </ul>
-                            </li>
-                            {% endif %}
-                        </ul>
-                        <!-- /.nav-second-level -->
-                        </li>
-                        {% endif %}
-                        <!-- ./Callme -->
-                        {% if request.user.staffs.category == 'Home Based' %}
-                        <!-- don't show CL -->
-                        {% else %}
-                        <!-- Craigslist -->
-                        <li>
-                          <a href="#"><i class="fa fa-bullhorn"></i> Craigslist <span class="fa arrow"></span></a>
-                          <ul class="nav nav-third-level">
-                            {% if request.user.is_client %}
-                            {% else %}
-                            <li>
-                              <a href="{% url 'craigslist_inventory:craigslist-add' %}"> <i class="fa fa-plus"></i> Add
-                                Inventory</a>
-                            </li>
-                            {% endif %}
-                            <li>
-                              <a href="{% url 'craigslist_inventory:craigslist-view' %}"> <i class="fa fa-eye"></i> View
-                                Inventory</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <!-- ./Craigslist -->
-                        {% endif %}
-                        {% if request.user.staffs.category == 'Home Based' %}
-                        <!-- don't show marketing sites to home based VAs -->
-                        {% else %}
-                        <li>
-                          <a href="#"><i class="fa fa-bullhorn"></i> Marketing Sites Inventory <span class="fa arrow"></span></a>
-                          <ul class="nav nav-third-level">
-                            <li>
-                              <a href="{% url 'marketing_inventory:add_inventory' %}"> <i class="fa fa-plus"></i> Add
-                                Inventory</a>
-                            </li>
-                            <li>
-                              <a href="{% url 'marketing_inventory:view_inventory' %}"> <i class="fa fa-eye"></i> View
-                                Inventory</a>
-                            </li>
-                          </ul>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
-            {% endblock %}
-        </nav>
-        <div id="page-wrapper">
-          {% block dashboard_notif %}
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            {% endblock %}
-            {% block content %}
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-md-6 col-sm-12">
-                  <div id="gpg-job-request" v-cloak>
+                    {% endif %}
+                  </li>
+                </ul>
+              </li>
+              {% endif %}
+              {% if perms.callmemasterboard.view_masterboard %}
+              <li>
+                <a href="#"><i class="fa fa-clipboard"></i> CallMe Master Board <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                  <li>
                     {% if request.user.is_staffs %}
-                    <!-- panel for notif on VAs -->
-                    <div class="col-md-6 col-sm-12">
-                      <div class="panel panel-green">
-                        <div class="panel-heading">
-                          <div class="row">
-                            <div class="col-xs-3">
-                              <i class="fa fa-tasks fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                              <div class="huge">[[ jobRequests.length ]]</div>
-                              <div>Job requests assigned to you</div>
-                            </div>
-                          </div>
-                        </div>
-                        <a href="{% url 'jobrequest:update_job_request' %}">
-                          <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            
-                            <div class="clearfix"></div>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-
-                    <!-- ./panel notif -->
-                    {% elif request.user.is_client %}
-                    <!-- panel notif for client -->
-                    <div class="col-md-6 col-sm-12">
-                      <div class="panel panel-green">
-                        <div class="panel-heading">
-                          <div class="row">
-                            <div class="col-xs-3">
-                              <i class="fa fa-tasks fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                              <div class="huge">[[ jobRequests.length ]]</div>
-                              <div>Job requests you assigned</div>
-                            </div>
-                          </div>
-                        </div>
-                        <a href="{% url 'jobrequest:update_job_request' %}">
-                          <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    
-                            <div class="clearfix"></div>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                    
-                    <!-- ./panel -->
+                    {% if perms.callmemasterboard.add_masterboard %}
+                    <a href="{% url 'masterboard:add_masterboard' %}"> <i class="fa fa-plus"></i> Add
+                      Record
+                    </a>
                     {% endif %}
-                    <!-- below is the chart, disabled for simplicity sake -->
-                    <!-- <div id="container-client" class="col-sm-6 " data-url="{% url 'users:client_status_data' %}"></div>
-                    <div id="container-jobrequest" class="col-sm-6 " data-url="{% url 'users:job_request_status_data' %}"></div> -->
-                  </div>
-                  {% if request.user.staffs.category == 'Office Based' or request.user.is_client %}
-                    <div id="gpg-reminders" v-cloak>
-                      <!-- reminder -->
-                      <div class="col-md-6 col-sm-12">
-                        <div class="panel panel-red">
-                          <div class="panel-heading">
-                            <div class="row">
-                              <div class="col-xs-3">
-                                <i class="fa fa-support fa-5x"></i>
-                              </div>
-                              <div class="col-xs-9 text-right">
-                                <div class="huge">[[ reminders.length ]]</div>
-                                <div>Check out your reminders!</div>
-                              </div>
-                            </div>
-                          </div>
-                          <a href="{% url 'reminders:view-reminders' %}">
-                            <div class="panel-footer">
-                              <span class="pull-left">View Details</span>
-                              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    
-                              <div class="clearfix"></div>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                      <div class="modal fade" id="reminderModal" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                              <h4 class="modal-title" id="exampleModalLongTitle">Reminder pop up</h4>
-                            </div>
-
-                            <div class="modal-body">
-                                <div class="panel-body">
-                                  <!-- ./reminder -->
-                                  <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                      Your Reminders
-                                    </div>
-                                    <div class="panel-body">
-                                      <div style="overflow-x: auto;">
-                                        <table class="table table-stripped table-bordered table-hover table-responsive">
-                                          <thead>
-                                            <tr>
-                                              <th>Date</th>
-                                              <th>Due Date</th>
-                                              <th>Status</th>
-                                              <th>Description</th>
-                                              <th>Notes from the Company</th>
-                                              <th>Notes from the Manager</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            <tr>
-                                              <td colspan="14" class="text-center bg-warning" v-if="!reminders.length">You
-                                                have no
-                                                reminders for this month.</td>
-                                            </tr>
-                                            <tr v-for="(reminders, i) in paginatedRecords">
-                                              <td>[[ reminders.date ]]</td>
-                                              <td>[[ reminders.due_date ]]</td>
-                                              <td>[[ reminders.status ]]</td>
-                                              <td>[[ reminders.description ]]</td>
-                                              <td>[[ reminders.notes_from_company ]]</td>
-                                              <td>[[ reminders.notes_from_manager ]]</td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <!-- panelbody ends here -->
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {% elif request.user.staffs.category == 'Home Based' %}
-                    <!-- don't show reminders to home based -->
                     {% endif %}
-                  </div>
-                    {% if request.user.staffs.category == 'Office Based' %}
-
-                  <div class="col-md-6 col-sm-12">
-                    <div id="gpg-land-master" v-cloak>
-                      <div class="col-md-6 col-sm-12">
-                        <div class="panel panel-primary">
-                          <div class="panel-heading">
-                            <div class="row">
-                              <div class="col-xs-3">
-                                <i class="fa fa-comments fa-5x"></i>
-                              </div>
-                              <div class="col-xs-9 text-right">
-                                <div class="huge">[[ dueDiligences.length ]]</div>
-                                <div>Due Diligence work assigned to you</div>
-                              </div>
-                            </div>
-                          </div>
-                          <a href="{% url 'landmaster:view_due_diligence' %}">
-                            <div class="panel-footer">
-                              <span class="pull-left">View Details</span>
-                              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                              <div class="clearfix"></div>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {% elif request.user.is_client %}
-                  <div class="col-md-6 col-sm-12">
-                    <div id="gpg-land-master" v-cloak>
-                      <div class="col-md-6 col-sm-12">
-                        <div class="panel panel-primary">
-                          <div class="panel-heading">
-                            <div class="row">
-                              <div class="col-xs-3">
-                                <i class="fa fa-comments fa-5x"></i>
-                              </div>
-                              <div class="col-xs-9 text-right">
-                                <div class="huge">[[ dueDiligences.length ]]</div>
-                                <div>Due Diligence work you assigned</div>
-                              </div>
-                            </div>
-                          </div>
-                          <a href="{% url 'landmaster:view_due_diligence' %}">
-                            <div class="panel-footer">
-                              <span class="pull-left">View Details</span>
-                              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                              <div class="clearfix"></div>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {% elif request.user.staffs.category == 'Home Based' %}
-                  <!-- don't show dd cards -->
-                  {% endif %}
-                </div>
-                <!-- /.col-lg-4 -->
-            </div>
-            <!-- /.row -->
+                    {% if perms.callmemasterboard.view_masterboard %}
+                    <a href="{% url 'masterboard:view_masterboard' %}"> <i class="fa fa-eye"></i> View
+                      Board
+                      {% endif %}
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              {% endif %}
+              {% if perms.callmefinancialreport.view_financialreport %}
+              <li>
+                <a href="#"><i class="fa fa-clipboard"></i> CallMe Financial Report <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                  <li>
+                    <a href="{% url 'callmefinancialreport:view_financial' %}"><i class="fa fa-eye"></i>
+                      View Payment Made</a>
+                  </li>
+                  <li>
+                    <a href="{% url 'callmefinancialreport:view_minutes' %}"><i class="fa fa-eye"></i>
+                      View Minutes Inventory</a>
+                  </li>
+                </ul>
+              </li>
+              {% endif %}
+            </ul>
+            <!-- /.nav-second-level -->
+          </li>
+          {% endif %}
+          <!-- ./Callme -->
+          {% if request.user.staffs.category == 'Home Based' %}
+          <!-- don't show CL -->
+          {% else %}
+          <!-- Craigslist -->
+          <li>
+            <a href="#"><i class="fa fa-bullhorn"></i> Craigslist <span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+              {% if request.user.is_client %}
+              {% else %}
+              <li>
+                <a href="{% url 'craigslist_inventory:craigslist-add' %}"> <i class="fa fa-plus"></i> Add
+                  Inventory</a>
+              </li>
+              {% endif %}
+              <li>
+                <a href="{% url 'craigslist_inventory:craigslist-view' %}"> <i class="fa fa-eye"></i> View
+                  Inventory</a>
+              </li>
+            </ul>
+          </li>
+          <!-- ./Craigslist -->
+          {% endif %}
+          {% if request.user.staffs.category == 'Home Based' %}
+          <!-- don't show marketing sites to home based VAs -->
+          {% else %}
+          <li>
+            <a href="#"><i class="fa fa-bullhorn"></i> Marketing Sites Inventory <span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+              <li>
+                <a href="{% url 'marketing_inventory:add_inventory' %}"> <i class="fa fa-plus"></i> Add
+                  Inventory</a>
+              </li>
+              <li>
+                <a href="{% url 'marketing_inventory:view_inventory' %}"> <i class="fa fa-eye"></i> View
+                  Inventory</a>
+              </li>
+            </ul>
+          </li>
+          {% endif %}
+          </ul>
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /.sidebar-collapse -->
+      </div>
+      <!-- /.navbar-static-side -->
+      {% endblock %}
+    </nav>
+    {% block page-wrapper %}
+    <div id="page-wrapper">
+      {% block dashboard_notif %}
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">Dashboard</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+      </div>
+      <!-- /.row -->
+      {% endblock %}
+      {% block content %}
+      <!-- /.row -->
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <div id="gpg-job-request" v-cloak>
+            {% if request.user.is_staffs %}
+            <!-- panel for notif on VAs -->
+            <div class="col-md-6 col-sm-12">
+              <div class="panel panel-green">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">[[ jobRequests.length ]]</div>
+                      <div>Job requests assigned to you</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="{% url 'jobrequest:update_job_request' %}">
+                  <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- ./panel notif -->
+            {% elif request.user.is_client %}
+            <!-- panel notif for client -->
+            <div class="col-md-6 col-sm-12">
+              <div class="panel panel-green">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">[[ jobRequests.length ]]</div>
+                      <div>Job requests you assigned</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="{% url 'jobrequest:update_job_request' %}">
+                  <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- ./panel -->
+            {% endif %}
+            <!-- below is the chart, disabled for simplicity sake -->
+            <!-- <div id="container-client" class="col-sm-6 " data-url="{% url 'users:client_status_data' %}"></div>
+                    <div id="container-jobrequest" class="col-sm-6 " data-url="{% url 'users:job_request_status_data' %}"></div> -->
+          </div>
+          {% if request.user.staffs.category == 'Office Based' or request.user.is_client %}
+          <div id="gpg-reminders" v-cloak>
+            <!-- reminder -->
+            <div class="col-md-6 col-sm-12">
+              <div class="panel panel-red">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-support fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">[[ reminders.length ]]</div>
+                      <div>Check out your reminders!</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="{% url 'reminders:view-reminders' %}">
+                  <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="modal fade" id="reminderModal" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLongTitle">Reminder pop up</h4>
+                  </div>
+
+                  <div class="modal-body">
+                    <div class="panel-body">
+                      <!-- ./reminder -->
+                      <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          Your Reminders
+                        </div>
+                        <div class="panel-body">
+                          <div style="overflow-x: auto;">
+                            <table class="table table-stripped table-bordered table-hover table-responsive">
+                              <thead>
+                                <tr>
+                                  <th>Date</th>
+                                  <th>Due Date</th>
+                                  <th>Status</th>
+                                  <th>Description</th>
+                                  <th>Notes from the Company</th>
+                                  <th>Notes from the Manager</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td colspan="14" class="text-center bg-warning" v-if="!reminders.length">You
+                                    have no
+                                    reminders for this month.</td>
+                                </tr>
+                                <tr v-for="(reminders, i) in paginatedRecords">
+                                  <td>[[ reminders.date ]]</td>
+                                  <td>[[ reminders.due_date ]]</td>
+                                  <td>[[ reminders.status ]]</td>
+                                  <td>[[ reminders.description ]]</td>
+                                  <td>[[ reminders.notes_from_company ]]</td>
+                                  <td>[[ reminders.notes_from_manager ]]</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- panelbody ends here -->
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% elif request.user.staffs.category == 'Home Based' %}
+          <!-- don't show reminders to home based -->
+          {% endif %}
+        </div>
+        {% if request.user.staffs.category == 'Office Based' %}
+
+        <div class="col-md-6 col-sm-12">
+          <div id="gpg-land-master" v-cloak>
+            <div class="col-md-6 col-sm-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">[[ dueDiligences.length ]]</div>
+                      <div>Due Diligence work assigned to you</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="{% url 'landmaster:view_due_diligence' %}">
+                  <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% elif request.user.is_client %}
+        <div class="col-md-6 col-sm-12">
+          <div id="gpg-land-master" v-cloak>
+            <div class="col-md-6 col-sm-12">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <i class="fa fa-comments fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                      <div class="huge">[[ dueDiligences.length ]]</div>
+                      <div>Due Diligence work you assigned</div>
+                    </div>
+                  </div>
+                </div>
+                <a href="{% url 'landmaster:view_due_diligence' %}">
+                  <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+
+                    <div class="clearfix"></div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% elif request.user.staffs.category == 'Home Based' %}
+        <!-- don't show dd cards -->
+        {% endif %}
+      </div>
+      <!-- /.col-lg-4 -->
     </div>
-    <!-- /#wrapper -->
-  </div>
+    <!-- /.row -->
     {% endblock %}
+  </div>
+  <!-- /#page-wrapper -->
 
-    <script>
-      // constants
-      const RECORDS_PER_PAGE = 15;
-    </script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src=" {% static '/vendor/metisMenu/metisMenu.min.js' %} "></script>
+  </div>
+  <!-- /#wrapper -->
+  </div>
+  {% endblock %}
 
-    <!-- Morris Charts JavaScript -->
-    <script src=" {% static '/vendor/raphael/raphael.min.js' %} "></script>
-    <script src=" {% static '/vendor/morrisjs/morris.min.js' %} "></script>
-    <script src="{% static '/data/morris-data.js' %}"></script>
+  <script>
+    // constants
+    const RECORDS_PER_PAGE = 15;
+  </script>
+  <!-- Metis Menu Plugin JavaScript -->
+  <script src=" {% static '/vendor/metisMenu/metisMenu.min.js' %} "></script>
 
-    <!-- charts -->
-    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <!-- Morris Charts JavaScript -->
+  <script src=" {% static '/vendor/raphael/raphael.min.js' %} "></script>
+  <script src=" {% static '/vendor/morrisjs/morris.min.js' %} "></script>
+  <script src="{% static '/data/morris-data.js' %}"></script>
+
+  <!-- charts -->
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
 
   <script type="text/javascript">
@@ -650,21 +655,22 @@
     });
     $(function () {
       $("#id_date_of_call").datepicker({
-        format:'yyyy-mm-dd',
+        format: 'yyyy-mm-dd',
       });
     });
     $(function () {
       $("#id_due_date").datepicker({
-          format:'yyyy-mm-dd',
-        });
+        format: 'yyyy-mm-dd',
+      });
     });
     $(function () {
       $("#id_shift_date").datepicker({
-      format:'yyyy-mm-dd',
+        format: 'yyyy-mm-dd',
       });
     });
   </script>
 
+<<<<<<< HEAD
     <!-- Custom Theme JavaScript -->
     <script src="{% static '/dist/js/sb-admin-2.js' %}"></script>
 
@@ -684,6 +690,27 @@
           <script src="{% static 'vuejs/payroll.js' %}" type="text/javascript"></script>
           <script src="{% static 'vuejs/reminders.js' %}" type="text/javascript"></script>
           {% endblock %}
+=======
+  <!-- Custom Theme JavaScript -->
+  <script src="{% static '/dist/js/sb-admin-2.js' %}"></script>
+
+  <!-- vue.js files -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-router@3.0.2/dist/vue-router.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  {% block api %}
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+  <script src="{% static 'vuejs/client.js' %}" type="text/javascript"></script>
+  <script src="{% static 'vuejs/jobRequest.js' %}" type="text/javascript"></script>
+  <script src="{% static 'vuejs/landmaster.js' %}" type="text/javascript"></script>
+  <script src="{% static 'vuejs/logins.js' %}" type="text/javascript"></script>
+  <script src="{% static 'vuejs/payroll.js' %}" type="text/javascript"></script>
+  <script src="{% static 'vuejs/reminders.js' %}" type="text/javascript"></script>
+  {% endblock %}
+>>>>>>> f5fb669977dfb3d09175fa37b870af606f10d505
 </body>
 
 </html>

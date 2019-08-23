@@ -1,0 +1,144 @@
+<template v-if="viewing">
+    <div class="text-center">
+        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+    </div>
+</template>
+<template v-else-if="!viewing">
+    <h4>Job Requests Information</h4>
+    <div class="row">
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Shift Date</label>
+            <input type="date" class="form-control form-control-sm" v-model="currentTimeSheet.shift_date"
+                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+        </div>
+        <div class="form-group col-md-2 col-sm-12">
+            <label>Month to date</label>
+            <input type="text" class="form-control form-control-sm" v-model="currentTimeSheet.month_to_date"
+                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+        </div>
+        <div class="form-group col-md-6 col-sm-12 ">
+            <label>Title of the Job Request</label>
+            <input type="text" class="form-control form-control-sm" v-model="currentTimeSheet.title_job_request"
+                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+        </div>
+        <div class="form-group col-md-4 col-sm-12 ">
+            <label>Channel job was Requested</label>
+            <input type="text" class="form-control form-control-sm" v-model="currentTimeSheet.channel_job_requested"
+                disabled>
+        </div>
+        <div class="form-group col-md-12 col-sm-12 ">
+            <label>Job request description</label>
+            <textarea class="form-control" v-model="currentTimeSheet.job_request_description" cols="30" rows="10"
+                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                :disabled="currentTimeSheet.status =='Approved'" {% endif %}></textarea>
+        </div>
+    </div>
+    <hr>
+    <h4>VA and Client Information</h4>
+    <div class="row">
+        <div class="form-group col-md-3 col-sm-12">
+            <label>Assigned Approval</label>
+            <input type="text" class="form-control" v-model="currentTimeSheet.assigned_approval" disabled>
+        </div>
+        <div class="form-group col-md-4 col-sm-12">
+            <label>Client name</label>
+            <input type="text" class="form-control" v-model="currentTimeSheet.clients_full_name" disabled>
+        </div>
+    </div>
+    <hr>
+    <h4>Time Information</h4>
+    <div class="row">
+        <div class="form-group col-md-4 col-sm-12 ">
+            <label>Time In</label>
+            <input type="text" class="form-control form-control-sm" v-model="currentTimeSheet.time_in"
+                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+        </div>
+        <div class="form-group col-md-4 col-sm-12 ">
+            <label>Time Out</label>
+            <input type="text" class="form-control form-control-sm" v-model="currentTimeSheet.time_out"
+                {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+        </div>
+        <div class="form-group col-md-2 col-sm-12 ">
+            <label>Duration</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">Hours</span>
+                <input type="text" class="form-control" v-model="currentTimeSheet.duration" disabled>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h4>Amount Information</h4>
+    <div class="row">
+        <div class="form-group col-md-3 col-sm-12 ">
+            <label>Hourly rate charge(USD)</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" v-model="currentTimeSheet.hourly_rate_usd"
+                    {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                    :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+            </div>
+        </div>
+        <div class="form-group col-md-3 col-sm-12 ">
+            <label>Hourly rate charge(PESO)</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">&#8369;</span>
+                <input type="text" class="form-control" v-model="currentTimeSheet.hourly_rate_peso"
+                    {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                    :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+            </div>
+        </div>
+        <div class="form-group col-md-2 col-sm-12">
+            <label>Bonus</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" v-model="currentTimeSheet.bonus_given_to_company" disabled>
+            </div>
+        </div>
+        <div class="form-group col-md-2 col-sm-12">
+            <label>Others</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" v-model="currentTimeSheet.others_dollars" disabled>
+            </div>
+        </div>
+        <div class="form-group col-md-3 col-sm-12 ">
+            <label>Total charge(USD)</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" v-model="currentTimeSheet.total_charge_usd"
+                    {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                    :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+            </div>
+        </div>
+        <div class="form-group col-md-3 col-sm-12 ">
+            <label>Total charge(PESO)</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">&#8369;</span>
+                <input type="text" class="form-control" v-model="currentTimeSheet.total_charge_peso"
+                    {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                    :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+            </div>
+        </div>
+        <div class="form-group col-md-3 col-sm-12 ">
+            <label>Amount due w/ PP charge</label>
+            <div class="form-group input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" v-model="currentTimeSheet.total_amount_due"
+                    {% if request.user.is_client %} disabled {% elif request.user.is_staffs %}
+                    :disabled="currentTimeSheet.status =='Approved'" {% endif %}>
+            </div>
+        </div>
+        <div class="form-group col-md-12 col-sm-12 ">
+            <label>Additional comments</label>
+            <textarea class="form-control" cols="30" rows="10" v-model="currentTimeSheet.additional_comments"
+                :disabled="currentTimeSheet.admin_approval == 'Approved'"></textarea>
+            <small class="help-block">In case you have dispute
+                you can put a comment here or if not leave it blank.</small>
+        </div>
+    </div>
+</template>

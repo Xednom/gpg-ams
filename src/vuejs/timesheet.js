@@ -8,6 +8,7 @@ new Vue({
         timesheets: [],
         cashouts: [],
         clients: [],
+        staffs: [],
         paymentmade: [],
         errortimesheet: [],
         loading: false,
@@ -47,6 +48,13 @@ new Vue({
         search_term: '',
         search_month: '',
 
+        // advance search
+        shift_date_lte: '',
+        shift_date_gte: '',
+        company_tagging: null,
+        virtual_assistant: null,
+        search_client: null,
+
         // for pagination
         currentPage: 1,
         pageSize: RECORDS_PER_PAGE,
@@ -59,6 +67,7 @@ new Vue({
         this.setCurrentMonth();
         this.searchMonthVaTimeSheet();
         this.loadClient();
+        this.loadStaff();
         this.searchMonthCashOut();
         this.getCashOut();
         this.getTimeSheet();
@@ -136,15 +145,51 @@ new Vue({
                     console.log(err.response.data);
                 })
         },
-        searchAll: function () {
-            this.searchMonthClientTimeSheet();
-            this.searchMonthVaTimeSheet();
-            this.searchMonthPaymentMade();
-            this.searchMonthCashOut();
+        searchVACashOut: function () {
+            this.searching = true;
+            axios.get(`/api/v1/cashout/?name=${this.virtual_assistant}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.cashouts = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
         },
         searchMonthClientTimeSheet: function () {
             this.searching = true;
             axios.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
+        },
+        searchAll() {
+            this.advanceSearchClientTimeSheet();
+            this.advanceSearchAssignedVAClientTimeSheet();
+            this.searchClientPaymentMade();
+            this.searchVACashOut();
+        },
+        advanceSearchClientTimeSheet: function () {
+            this.searching = true;
+            axios.get(`/api/v1/timesheet/?clients_full_name=${this.search_client}&shift_date__gte=${this.shift_date_gte}&shift_date__lte=${this.shift_date_lte}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
+        },
+        advanceSearchAssignedVAClientTimeSheet: function () {
+            this.searching = true;
+            axios.get(`/api/v1/timesheet/?assigned_approval__full_name=${this.virtual_assistant}&shift_date__gte=${this.shift_date_gte}&shift_date__lte=${this.shift_date_lte}`)
                 .then((response) => {
                     this.searching = false;
                     this.timesheets = response.data;
@@ -191,7 +236,7 @@ new Vue({
         },
         loadClient() {
             this.loading = true;
-            axios.get(`/api/v1/clients`)
+            axios.get(`/api/v1/client/`)
                 .then((response) => {
                     this.loading = false;
                     this.clients = response.data;
@@ -202,9 +247,34 @@ new Vue({
                     console.log(err.response.data);
                 })
         },
+        loadStaff() {
+            this.loading = true;
+            axios.get(`/api/v1/staffs`)
+                .then((response) => {
+                    this.loading = false;
+                    this.staffs = response.data;
+                })
+                .catch((err) => {
+                    this.loading = false;
+                    this.errored = true;
+                    console.log(err.response.data);
+                })
+        },
         searchMonthPaymentMade() {
             this.searching = true;
-            axios.get(`/api/v1/paymentmade/?date__month=${this.search_month}`)
+            axios.get(`/api/v1/paymentmade/?date__month=${this.search_client}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.paymentmade = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
+        },
+        searchClientPaymentMade() {
+            this.searching = true;
+            axios.get(`/api/v1/paymentmade/?name=${this.search_client}`)
                 .then((response) => {
                     this.searching = false;
                     this.paymentmade = response.data;
