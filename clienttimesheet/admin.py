@@ -26,6 +26,7 @@ class TimeSheetProfile(ModelAdminTotals):
     readonly_fields = ('total_amount_due', 'total_charge_peso', 
                        'total_charge_usd', 'total_charge_with_paypal', 'duration',
                        'paypal_charge')
+    change_list_template = 'timesheet/change_list.html'
     fieldsets = (
         ("TimeSheet General Information", {
             'fields': (

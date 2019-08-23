@@ -53,30 +53,34 @@ class TimeSheetView(TemplateView, LoginRequiredMixin):
     template_name = 'timesheet/view_timesheet.html'
 
 
+class TimeSheetMasterView(TemplateView, LoginRequiredMixin):
+    template_name = 'timesheet/masterboard.html'
+
+
 class TimeSheetFilter(FilterSet):
     shift_date__month = NumberFilter(
         field_name='shift_date', lookup_expr='month')
     shift_date__gte = DateFilter(field_name='shift_date', lookup_expr='gte')
     shift_date__lte = DateFilter(field_name='shift_date', lookup_expr='lte')
-    company_tagging = CharFilter(
-        field_name='company_tagging', lookup_expr='icontains')
     assigned_approval__full_name = CharFilter(
         field_name='assigned_approval__full_name', lookup_expr='icontains')
+    clients_full_name = CharFilter(
+        field_name='clients_full_name__full_name', lookup_expr='icontains')
 
     class Meta:
         model = TimeSheet
         fields = (
             'shift_date__month',
-            'company_tagging',
             'assigned_approval__full_name',
+            'clients_full_name',
             'shift_date__gte',
             'shift_date__lte',
-            )
+        )
 
 
 class PaymentMadeFilter(FilterSet):
     date__month = NumberFilter(field_name='date', lookup_expr='month')
-    name = CharFilter(field_name='client_name', lookup_expr='icontains')
+    name = CharFilter(field_name='client_name__full_name', lookup_expr='icontains')
 
     class Meta:
         model = PaymentMade
@@ -86,7 +90,7 @@ class PaymentMadeFilter(FilterSet):
 class CashOutFilter(FilterSet):
     cash_date_release__month = NumberFilter(
         field_name='cash_date_release', lookup_expr='month')
-    name = CharFilter(field_name='name', lookup_expr='icontains')
+    name = CharFilter(field_name='name__full_name', lookup_expr='icontains')
 
     class Meta:
         model = CashOut
@@ -117,6 +121,9 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
                 assigned_approval__full_name__icontains=self.request.user.staffs)
             qs = timesheet.filter(staff & year)
             return qs
+        elif is_superuser:
+            qs = timesheet
+            return qs
 
 
 class PaymentMadeViewSet(viewsets.ModelViewSet):
@@ -130,6 +137,9 @@ class PaymentMadeViewSet(viewsets.ModelViewSet):
             queryset = PaymentMade.objects.filter(Q(client_name__full_name=self.request.user.clients.full_name),
                                                   Q(date__year=current_year))
             return queryset
+        elif self.request.user.is_superuser:
+            qs = PaymentMade.objects.all()
+            return qs
 
 
 class CashOutViewSet(viewsets.ModelViewSet):
@@ -143,3 +153,6 @@ class CashOutViewSet(viewsets.ModelViewSet):
             queryset = CashOut.objects.filter(Q(name__full_name=self.request.user.staffs.full_name),
                                               Q(cash_date_release__year=current_year))
             return queryset
+        elif self.request.user.is_superuser:
+            qs = CashOut.objects.all()
+            return qs

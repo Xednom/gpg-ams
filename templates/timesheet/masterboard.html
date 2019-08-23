@@ -1,26 +1,33 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}
 GPG System | View Timesheet
 {% endblock %}
+
 {% block dashboard_notif %}
 {% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block page-wrapper %}
 {% block content %}
-<div id="content-wrapper">
-    <div class="container-fluid">
+<div id="content-wrapper" style="margin: 20px 0 0 0;">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <h2 class="page-header">
-                    Timesheet for {{ request.user.staffs.full_name }}
+                    Timesheet Masterboard
                 </h2>
             </div>
         </div>
         <!-- Breadcrumbs-->
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url 'users:home' %}">Dashboard</a>
+                <a href="{% url 'admin:index' %}">Return to the Admin</a>
             </li>
-            <li class="breadcrumb-item active">List of your Time Sheets</li>
+            <li class="breadcrumb-item active">List of Timesheet Masterboard</li>
         </ol>
         <div id="gpg-timesheet" v-cloak>
             <template v-if="loading">
@@ -29,78 +36,77 @@ GPG System | View Timesheet
                 </div>
             </template>
             <template v-else-if="!loading">
-                <form method="GET" class="form-inline">
-                    <div class="form-group mx-sm-3 mb-2" style="margin-bottom:20px;">
-                        <label>Choose a month:</label>
-                        <select name="search" class="form-control" v-model="search_month">
-                            <option value="01">January</option>
-                            <option value="02">February</option>
-                            <option value="03">March</option>
-                            <option value="04">April</option>
-                            <option value="05">May</option>
-                            <option value="06">June</option>
-                            <option value="07">July</option>
-                            <option value="08">August</option>
-                            <option value="09">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
-                        <button type="submit" class="btn btn-primary" v-on:click.prevent="searchAll">Search</button>
-                    </div>
-                </form>
                 <div class="col-md-12 col-sm-12">
-                    <!-- advance search -->
                     <div class="col-md-12 col-sm-12">
-                        <div class="collapse multi-collapse" id="CollapseSearchCarrier">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    Advanced search
-                                </div>
-                                <div class="panel-body">
-                                    <form method="GET">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                            style="margin-bottom: 15px;">
-                                            <div class="container-fluid">
-                                                <div class="row">
-                                                    <div class="col-md-4 col-sm-12 advanced-search">
-                                                        <label>Shift date from:</label>
-                                                        <input class="form-control form-control-sm" type="date"
-                                                            v-model="shift_date_gte">
+                        <!-- advance search -->
+                        <div class="col-md-12 col-sm-12">
+                            <div class="collapse multi-collapse" id="CollapseSearchCarrier">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        Advanced search
+                                    </div>
+                                    <div class="panel-body">
+                                        <form method="GET">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                                style="margin-bottom: 15px;">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-4 col-sm-12 advanced-search">
+                                                            <label>Shift date from:</label>
+                                                            <input class="form-control form-control-sm" type="date"
+                                                                v-model="shift_date_gte">
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-12 advanced-search">
+                                                            <label>Shift date to:</label>
+                                                            <input class="form-control form-control-sm" type="date"
+                                                                v-model="shift_date_lte">
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-12 advanced-search">
+                                                            <label>Virtual Assistant</label>
+                                                            <select class="form-control" v-model="virtual_assistant">
+                                                                <option v-for="va in staffs">[[ va.full_name ]]</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-4 col-sm-12 advanced-search">
+                                                            <label>Clients</label>
+                                                            <select class="form-control" v-model="search_client">
+                                                                <option v-for="c in clients">[[ c.full_name ]]</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-4 col-sm-12 advanced-search">
-                                                        <label>Shift date to:</label>
-                                                        <input class="form-control form-control-sm" type="date"
-                                                            v-model="shift_date_lte">
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12 pull-right">
-                                            <button class="btn btn-primary" type="submit"
-                                                v-on:click.prevent="advanceSearchClientTimeSheet"><i
-                                                    class="fa fa-search"></i>
-                                                Search</button>
-                                        </div>
-                                    </form>
+                                            <div class="col-md-12 col-sm-12 pull-right">
+                                                <button class="btn btn-primary" type="submit"
+                                                    v-on:click.prevent="searchAll"><i
+                                                        class="fa fa-search"></i>
+                                                    Search</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- /.advance search -->
                     </div>
-                    <!-- /.advance search -->
                     <div class="col-md-12 col-sm-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                Overall Summary Calculation
+                                Complete computations
                             </div>
                             <div class="panel-body">
-                                <h5 class="col-md-3 col-sm-12">Total due to the Staff/Contractor:
-                                    <strong class="charge">&#8369;[[ totalDueStaffs ]]</strong></h5>
-                                <h5 class="col-md-3 col-sm-12">Total Cash Outs/Deductions made:
+                                <h5 class="col-md-3 col-sm-12">Total Charge: &#36;<strong class="charge">[[
+                                        totalTimeSheet
+                                        ]]</strong></h5>
+                                <h5 class="col-md-3 col-sm-12">Total Payment Made: &#36;<strong class="payment">[[
+                                        totalpaymentmade
+                                        ]]</strong></h5>
+                                <h5 class="col-md-3 col-sm-12">Total Credits left: &#36;<strong class="due">[[
+                                        totalCreditsLeft ]]</strong></h5>
+                                <h5 class="col-md-3 col-sm-12">Total Cash Outs made:
                                     &#8369;<strong class="payment">[[ totalCashOut ]]</strong></h5>
-                                <h5 class="col-md-3 col-sm-12">Total Salary/Renumeration Due:
-                                    &#8369;<strong class="due">[[ totalSalaryVa ]]</strong></h5>
+                                <h5 class="col-md-3 col-sm-12">Total Renumeration Due:
+                                    &#8369;<strong class="salary">[[ totalSalaryVa ]]</strong></h5>
                                 <h5 class="col-md-3 col-sm-12">Total work hours: <strong class="work-hours">[[
                                         totalWorkHrs ]]</strong></h5>
                             </div>
@@ -115,6 +121,7 @@ GPG System | View Timesheet
                             </div>
                             <div class="panel-body">
                                 <div style="overflow-x:auto;">
+
                                     <div class="pull-right">
                                         <a href="#CollapseSearchCarrier" data-toggle="collapse" role="button"
                                             aria-expanded="false" aria-controls="CollapseSearchCarrier"
@@ -124,12 +131,13 @@ GPG System | View Timesheet
                                     <table class="table table-bordered table-hover table-responsive">
                                         <thead>
                                             <th @click="sort('shift_date')">Shift Date</th>
+                                            <th @click="sort('clients_full_name')">Client's Full name</th>
                                             <th @click="sort('title_job_request')">Job Request Title</th>
-                                            <th @click="sort('time_in')">Time In</th>
-                                            <th @click="sort('time_out')">Time Out</th>
                                             <th @click="sort('duration')">Total Duration(Hours)</th>
-                                            <th @click="sort('hourly_rate_peso')">Hourly Rate Charge</th>
-                                            <th @click="sort('total_charge_peso')">Total charge</th>
+                                            <th @click="sort('status')">Status</th>
+                                            <th @click="sort('hourly_rate_usd')">Hourly Rate Charge(USD)</th>
+                                            <th @click="sort('hourly_rate_peso')">Hourly Rate Charge(PESO)</th>
+                                            <th @click="sort('total_amount_due')">Total amount due</th>
                                             <th>Action</th>
                                         </thead>
                                         <tbody>
@@ -149,12 +157,13 @@ GPG System | View Timesheet
                                             </tr>
                                             <tr v-for="timesheets in sortedTimesheet">
                                                 <td>[[ timesheets.shift_date ]]</td>
+                                                <td>[[ timesheets.clients_full_name ]]</td>
                                                 <td>[[ timesheets.title_job_request ]]</td>
-                                                <td>[[ timesheets.time_in ]]</td>
-                                                <td>[[ timesheets.time_out ]]</td>
                                                 <td>[[ timesheets.duration ]]hrs</td>
+                                                <td>[[ timesheets.status ]]</td>
+                                                <td>&#36;[[ timesheets.hourly_rate_usd ]]</td>
                                                 <td>&#8369;[[ timesheets.hourly_rate_peso ]]</td>
-                                                <td>&#8369;[[ timesheets.total_charge_peso ]]</td>
+                                                <td>&#36;[[ timesheets.total_amount_due ]]</td>
                                                 <td><button class="btn btn-primary btn-xs" type="button"
                                                         data-toggle="modal" data-target="#viewModal"
                                                         data-placement="top" title="View Information for this work"
@@ -187,6 +196,59 @@ GPG System | View Timesheet
                                     </ul>
                                 </nav>
                                 <!-- end of pagination -->
+                            </div>
+                            <!-- panel-footer -->
+                            <div class="panel-footer">
+                                Total Count: [[ timesheets.length ]]
+                                <div class="pull-right" v-if="timesheets.length">
+                                    <a href="#" class="btn btn-primary btn-xs" v-on:click.prevent="generateExcelFile"
+                                        data-placement="top" title="Extract"><i class="fa fa-file-excel-o"></i>
+                                        Export to
+                                        excel</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                Client's Credit Purchases
+                            </div>
+                            <div class="panel-body">
+                                <div style="overflow-x:auto;">
+                                    <h4 class="pull-right">Total: &#36;[[ totalpaymentmade ]]</h4>
+                                    <table class="table table-bordered table-hover table-responsive">
+                                        <thead>
+                                            <th>Date</th>
+                                            <th>Payment Channel</th>
+                                            <th>Transaction number</th>
+                                            <th>Amount</th>
+                                            <th>Notes</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <template v-if="loading || searching">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="!paymentmade.length">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        You
+                                                        don't
+                                                        have any payments made as of now.</td>
+                                                </template>
+                                            </tr>
+                                            <tr v-for="payments in paymentmade">
+                                                <td>[[ payments.date ]]</td>
+                                                <td>[[ payments.payment_channel ]]</td>
+                                                <td>[[ payments.transaction_number ]]</td>
+                                                <td>&#36;[[ payments.amount ]]</td>
+                                                <td>[[ payments.notes ]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -239,15 +301,14 @@ GPG System | View Timesheet
                 <!-- Modal -->
                 <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                     aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-dialog modal-lg">
                         <form v-on:submit.prevent="updateTimeSheet">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel">Timesheet information for
-                                        [[ currentTimeSheet.title_job_request ]]
-                                    </h4>
+                                    <h4 class="modal-title" id="myModalLabel">Time sheet information for [[
+                                        currentTimeSheet.title_job_request ]]</h4>
                                 </div>
                                 <div class="modal-body">
                                     <template v-if="viewing">
@@ -256,21 +317,21 @@ GPG System | View Timesheet
                                         </div>
                                     </template>
                                     <template v-else-if="!viewing">
-                                        {% include 'timesheet/va_timesheet_info.html' %}
+                                        {% include 'timesheet/master_timesheet_info.html' %}
                                     </template>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-info" data-dismiss="modal">Close</button>
-                                    <template v-if="!saving">
-                                        <button type="submit" class="btn btn-primary"
-                                            :disabled="currentTimeSheet.admin_approval == 'Approved'">Save
-                                            changes</button>
-                                    </template>
-                                    <template v-else-if="saving">
-                                        <button type="button" class="btn btn-primary">
-                                            <i class="fa fa-spinner fa-spin"></i> Save changes
-                                        </button>
-                                    </template>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-info" data-dismiss="modal">Close</button>
+                                        <template v-if="!saving">
+                                            <button type="submit" class="btn btn-primary"
+                                                :disabled="currentTimeSheet.admin_approval == 'Approved'">Save
+                                                changes</button>
+                                        </template>
+                                        <template v-else-if="saving">
+                                            <button type="button" class="btn btn-primary">
+                                                <i class="fa fa-spinner fa-spin"></i> Save changes
+                                            </button>
+                                        </template>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -287,6 +348,7 @@ GPG System | View Timesheet
 
     </div>
 </div>
+{% endblock %}
 {% endblock %}
 
 {% block api %}
