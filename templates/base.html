@@ -103,8 +103,8 @@
       </ul>
       {% endblock %}
       <!-- /.navbar-top-links -->
-      {% block sidebar %}
       <div class="navbar-default sidebar" role="navigation">
+        {% block sidebar %}
         <div class="sidebar-nav navbar-collapse">
           <ul class="nav" id="side-menu">
             <li>
@@ -373,11 +373,12 @@
           {% endif %}
           </ul>
         </div>
+        {% endblock %}
         <!-- /.sidebar-collapse -->
       </div>
       <!-- /.navbar-static-side -->
-      {% endblock %}
     </nav>
+    {% block page-wrapper %}
     <div id="page-wrapper">
       {% block dashboard_notif %}
       <div class="row">
@@ -605,6 +606,7 @@
       </div>
       <!-- /.col-lg-4 -->
     </div>
+    {% endblock %}
     <!-- /.row -->
     {% endblock %}
   </div>
