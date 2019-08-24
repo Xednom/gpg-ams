@@ -114,10 +114,10 @@
               <a href="#"><i class="fa fa-tasks fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
                 <li>
+                {% if request.user.is_client and request.user.staffs.position == 'Project Manager' %}
                 <li>
                   <a href="#"><i class="fa fa-list"></i> Job Request <span class="fa arrow"></span></a>
                   <ul class="nav nav-third-level">
-                    {% if request.user.is_client %}
                     <li>
                       <a href="{% url 'jobrequest:add_job_request' %}"><i class="fa fa-plus"></i> Add Job Request</a>
                       <a href="{% url 'jobrequest:update_job_request' %}"><i class="fa fa-pencil"></i> Update Job
@@ -128,10 +128,12 @@
                       <a href="{% url 'jobrequest:update_job_request' %}"><i class="fa fa-pencil"></i> Update Job
                         Request</a>
                     </li>
-                    {% endif %}
                   </ul>
                   <!-- /.nav-third-level -->
                 </li>
+                {% elif request.user.staffs.category == 'Home Based' %}
+                <!-- don't show to home based -->
+                {% endif %}
             </li>
           </ul>
           <!-- /.nav-second-level -->

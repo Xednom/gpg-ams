@@ -23,7 +23,29 @@ class Expenses(models.Model):
         ('Paid', 'Paid'),
         ('Unpaid', 'Unpaid')
     )
-    month = models.CharField(max_length=100, null=True, blank=True)
+    MONTH = (
+        ('January', 'January'),
+        ('February', 'February'),
+        ('March', 'March'),
+        ('April', 'April'),
+        ('May', 'May'),
+        ('June', 'June'),
+        ('July', 'July'),
+        ('August', 'August'),
+        ('September', 'September'),
+        ('October', 'October'),
+        ('November', 'November'),
+        ('December', 'December')
+    )
+    COMPANY_TAGGING = (
+        ('landmaster.us', 'landmaster.us'),
+        ('gpgcorporation.com', 'gpgcorporation.com'),
+        ('callme.com.ph', 'callme.com.ph'),
+        ('virtualExpressServices.com', 'virtualExpressServices.com'),
+        ('creatif-designs.com', 'creatif-designs.com'),
+        ('vacantpropertiesglobal.com', 'vacantpropertiesglobal.com')
+    )
+    month = models.CharField(max_length=100, choices=MONTH, null=True, blank=True)
     date = models.DateField(default=now, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     amount = models.CharField(max_length=150)
@@ -35,6 +57,7 @@ class Expenses(models.Model):
     payment_channel = models.CharField(max_length=150, null=True, blank=True)
     referrence = models.CharField(max_length=150, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
+    company_tagging = models.CharField(max_length=150, choices=COMPANY_TAGGING, null=True, blank=True)
 
     class Meta:
         verbose_name = "General Expense Inventory"
