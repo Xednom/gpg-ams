@@ -80,7 +80,8 @@ class TimeSheetFilter(FilterSet):
 
 class PaymentMadeFilter(FilterSet):
     date__month = NumberFilter(field_name='date', lookup_expr='month')
-    name = CharFilter(field_name='client_name__full_name', lookup_expr='icontains')
+    name = CharFilter(field_name='client_name__full_name',
+                      lookup_expr='icontains')
 
     class Meta:
         model = PaymentMade
@@ -104,24 +105,21 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         timesheet = TimeSheet.objects.all()
-        is_staff = self.request.user.is_staffs
-        is_client = self.request.user.is_client
-        is_superuser = self.request.user.is_superuser
         current_year = datetime.date.today().year
         year = Q(shift_date__year=current_year)
 
-        if is_client:
+        if self.request.user.is_client:
             client = Q(
                 clients_full_name__full_name__icontains=self.request.user.clients.full_name)
             queryset = timesheet.filter(client & Q(
                 admin_approval="Approved") & Q(status="Approved"))
             return queryset
-        elif is_staff:
+        elif self.request.user.is_staffs:
             staff = Q(
                 assigned_approval__full_name__icontains=self.request.user.staffs)
             qs = timesheet.filter(staff & year)
             return qs
-        elif is_superuser and is_client:
+        elif self.request.user.is_superuser:
             qs = TimeSheet.objects.all()
             return qs
 
