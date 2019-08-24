@@ -15,6 +15,7 @@ class ExpensesProfile(ImportExportModelAdmin):
     fieldsets = (
         ("Company Expenses Informations", {
             'fields': (
+                'company_tagging',
                 'month',
                 'date',
                 'description',
