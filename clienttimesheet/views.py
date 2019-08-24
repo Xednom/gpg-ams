@@ -121,8 +121,8 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
                 assigned_approval__full_name__icontains=self.request.user.staffs)
             qs = timesheet.filter(staff & year)
             return qs
-        elif is_superuser:
-            qs = timesheet
+        elif is_superuser and is_client:
+            qs = TimeSheet.objects.all()
             return qs
 
 
