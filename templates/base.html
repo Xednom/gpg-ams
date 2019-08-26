@@ -110,7 +110,7 @@
             <li>
               <a href="{% url 'users:home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
-            {% if request.user.is_client and request.user.is_staffs %}
+            {% if request.user.is_client or request.user.is_staffs %}
             <li>
               <a href="#"><i class="fa fa-tasks fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
