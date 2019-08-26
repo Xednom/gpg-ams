@@ -110,7 +110,7 @@
             <li>
               <a href="{% url 'users:home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
-            {% if request.user.is_client and request.user.is_staffs %}
+            {% if request.user.is_client or request.user.staffs.category == 'Office Based' %}
             <li>
               <a href="#"><i class="fa fa-tasks fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
@@ -118,7 +118,7 @@
                 <li>
                   <a href="#"><i class="fa fa-list"></i> Job Request <span class="fa arrow"></span></a>
                   <ul class="nav nav-third-level">
-                  {%if request.user.is_client %}
+                  {% if request.user.is_client or request.user.staffs.position == 'Project Manager' %}
                     <li>
                       <a href="{% url 'jobrequest:add_job_request' %}"><i class="fa fa-plus"></i> Add Job Request</a>
                       <a href="{% url 'jobrequest:update_job_request' %}"><i class="fa fa-pencil"></i> Update Job
@@ -129,18 +129,16 @@
                       <a href="{% url 'jobrequest:update_job_request' %}"><i class="fa fa-pencil"></i> Update Job
                         Request</a>
                     </li>
+                  {% endif %}
                   </ul>
                   <!-- /.nav-third-level -->
                 </li>
-                {% elif request.user.staffs.category == 'Home Based' %}
-                <!-- don't show to home based -->
-                {% endif %}
             </li>
           </ul>
           <!-- /.nav-second-level -->
           </li>
           {% elif request.user.staffs.category == 'Home Based' %}
-          <!-- don't show job request to home based -->
+          <!-- don't show job request -->
           {% endif %}
           <li>
             <a href="#"><i class="fa fa-tasks fa-fw"></i> Timesheet:<span class="fa arrow"></span></a>
