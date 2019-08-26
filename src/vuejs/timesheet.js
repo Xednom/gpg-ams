@@ -175,12 +175,41 @@ new Vue({
             this.searchClientPaymentMade();
             this.searchVACashOut();
         },
+        searchAllClientInfo() {
+            this.advanceSearchTimeSheet();
+            this.advanceDateSearch();
+        },
         filterMonths() {
             this.searchMonthCashOut();
+            this.advanceDateSearch();
         },
         advanceSearchClientTimeSheet: function () {
             this.searching = true;
             axios.get(`/api/v1/timesheet/?clients_full_name=${this.search_client}&shift_date__gte=${this.shift_date_gte}&shift_date__lte=${this.shift_date_lte}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
+        },
+        advanceSearchTimeSheet() {
+            this.searching = true;
+            axios.get(`/api/v1/timesheet/?assigned_approval__full_name=${this.virtual_assistant}&shift_date__gte=${this.shift_date_gte}&shift_date__lte=${this.shift_date_lte}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.timesheets = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
+        },
+        advanceDateSearch: function () {
+            this.searching = true;
+            axios.get(`/api/v1/timesheet/?shift_date__gte=${this.shift_date_gte}&shift_date__lte=${this.shift_date_lte}`)
                 .then((response) => {
                     this.searching = false;
                     this.timesheets = response.data;
