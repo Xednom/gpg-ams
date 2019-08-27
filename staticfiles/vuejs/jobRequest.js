@@ -18,6 +18,7 @@ new Vue({
     loading: false,
     viewing: false,
     saving: false,
+    fetching: false,
     currentJobRequest: {},
     currentTimeSheet: {},
     message: null,
@@ -64,11 +65,9 @@ new Vue({
   mounted: function() {
     this.getJobRequests();
     this.getTimeSheets();
-    //this.getStatusOfJobRequest();
     this.setDefaultDates();
     this.getProjectManagers();
     this.getJobRequestTitles();
-    // this.setDefaultTimeInAndOut();
     this.getVAs();
     this.getClients();
     this.getJobTitle();
@@ -207,14 +206,14 @@ new Vue({
         })
     },
     getClients: function () {
-      this.loading = true;
+      this.fetching = true;
       axios.get(`/api/v1/clients/`)
         .then((response) => {
           this.clients = response.data;
-          this.loading = false;
+          this.fetching = false;
         })
         .catch((err) => {
-          this.loading = false;
+          this.fetching = false;
           console.log(err.response.data);
         })
     },

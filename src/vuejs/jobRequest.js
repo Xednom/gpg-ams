@@ -18,6 +18,7 @@ new Vue({
     loading: false,
     viewing: false,
     saving: false,
+    fetching: false,
     currentJobRequest: {},
     currentTimeSheet: {},
     message: null,
@@ -205,14 +206,14 @@ new Vue({
         })
     },
     getClients: function () {
-      this.loading = true;
+      this.fetching = true;
       axios.get(`/api/v1/clients/`)
         .then((response) => {
           this.clients = response.data;
-          this.loading = false;
+          this.fetching = false;
         })
         .catch((err) => {
-          this.loading = false;
+          this.fetching = false;
           console.log(err.response.data);
         })
     },
