@@ -120,8 +120,7 @@ GPG Sytem | Job Request
                         <div class="form-group row">
                           <label for="inputJobRequest" class="col-sm-2 col-form-label">Assigned VA</label>
                           <div class="col-md-8 col-sm-12">
-                            <select class="form-control" v-model="newJobRequest.assigned_va"
-                            v-on:click="getVAs">
+                            <select class="form-control" v-model="newJobRequest.assigned_va">
                               <template v-if="fetching">
                                 <option><i class="fa fa-spinner fa-spin"></i> Fetching data...</option>
                               </template>
@@ -135,8 +134,7 @@ GPG Sytem | Job Request
                         <div class="form-group row">
                           <label for="inputJobRequest" class="col-sm-2 col-form-label">Assigned Project Manager</label>
                           <div class="col-md-8 col-sm-12">
-                            <select class="form-control" v-model="newJobRequest.assigned_project_managers"
-                            v-on:click="getProjectManagers">
+                            <select class="form-control" v-model="newJobRequest.assigned_project_managers">
                               <template v-if="fetching">
                                 <option><i class="fa fa-spinner fa-spin"></i> Fetching data...</option>
                               </template>
