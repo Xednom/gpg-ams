@@ -69,8 +69,6 @@ new Vue({
     this.getProjectManagers();
     this.getJobRequestTitles();
     this.getJobTitle();
-  },
-  created() {
     this.getVAs();
     this.getClients();
     this.getProjectManagers();
