@@ -66,11 +66,8 @@ new Vue({
     this.getJobRequests();
     this.getTimeSheets();
     this.setDefaultDates();
-    this.getProjectManagers();
     this.getJobRequestTitles();
     this.getJobTitle();
-    this.getVAs();
-    this.getClients();
   },
   methods: {
     setDefaultDates: function () {
