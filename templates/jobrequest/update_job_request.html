@@ -197,7 +197,7 @@ GPG System | View Job Request
                           <div class="form-group col-md-4 col-sm-12">
                             <label>Assigned Project Manager </label>
                             <select class="form-control" v-model="currentJobRequest.assigned_project_managers" disabled>
-                              <option v-for="pm in projectManagers">[[pm.project_manager]]</option>
+                              <option v-for="pm in projectManagers">[[pm.full_name]]</option>
                             </select>
                             <small class="form-text text-muted">For Our Client(s): If there's any changes regarding the
                               assigned Project
