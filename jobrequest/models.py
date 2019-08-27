@@ -19,7 +19,7 @@ class JobRequest(models.Model):
     JOB_STATUS_CHOICES = (
         ('----', '------'),
         ('Complete', 'Complete'),
-        ('in Progress', 'In Progress'),
+        ('In Progress', 'In Progress'),
         ('For Final Review', 'For Final Review'),
         ('Job Request Sent to VA', 'Job Request Sent to VA'),
     )
@@ -40,11 +40,11 @@ class JobRequest(models.Model):
     PROJECT_STATUS_CHOICES = (
         ('Sent to Project Manager', 'Sent to Project Manager'),
         ('Sent to Virtual Assistant', 'Sent to Virtual Assistant'),
-        ('In Progress / PROCESSING', 'In Progress / PROCESSING'),
-        ('Job Request Completed - VA Side', 'Job Request Completed - VA Side'),
+        ('VA Processing', 'VA Processing'),
+        ('VA Completed Job Request', 'VA Completed Job Request'),
         ('Submit to Project Manager for Quality Purposes', 'Submit to Project Manager for Quality Purposes'),
-        ('Submit to Client', 'Submit to Client'),
-        ('Job Request Completed', 'Job Request Completed'),
+        ('Job Request submitted to Client', 'Job Request submitted to Client'),
+        ('Job Request Closed', 'Job Request Closed'),
     )
     CATEGORY = (
         ('General Administrative Task', 'General Administrative Task'),
@@ -85,6 +85,7 @@ class JobRequest(models.Model):
     va_notes = models.TextField(null=True, blank=True)
     company_tagging = models.CharField(max_length=150, choices=COMPANY_TAGGING, null=True, blank=True)
     authorized_minutes_hours_allocation = models.TextField(null=True, blank=True)
+    additional_memo = models.TextField(null=True, blank=True)
 
     class Meta:
         ordering = ['-date_requested']

@@ -53,6 +53,5 @@ class MasterBoardViewSets(viewsets.ModelViewSet):
         if self.request.user.is_staffs:
             queryset = MasterBoard.objects.all()
         elif self.request.user.is_client:
-            queryset = MasterBoard.objects.filter(
-                client_name__icontains=self.request.user.clients.full_name)
+            queryset = MasterBoard.objects.filter(client_name__full_name=self.request.user.clients.full_name)
         return queryset

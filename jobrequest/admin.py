@@ -48,6 +48,7 @@ class JobRequestProfile(ImportExportModelAdmin):
                 'client_notes',
                 'manager_notes',
                 'va_notes',
+                'additional_memo',
             )
         })
     )

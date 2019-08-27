@@ -64,11 +64,9 @@ new Vue({
   mounted: function() {
     this.getJobRequests();
     this.getTimeSheets();
-    //this.getStatusOfJobRequest();
     this.setDefaultDates();
     this.getProjectManagers();
     this.getJobRequestTitles();
-    // this.setDefaultTimeInAndOut();
     this.getVAs();
     this.getClients();
     this.getJobTitle();
