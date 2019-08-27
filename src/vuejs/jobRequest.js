@@ -70,6 +70,7 @@ new Vue({
     this.getJobRequestTitles();
     this.getVAs();
     this.getClients();
+    this.getProjectManagers();
     this.getJobTitle();
   },
   methods: {

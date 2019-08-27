@@ -105,8 +105,7 @@ GPG Sytem | Job Request
                       <div class="form-group row">
                         <label for="inputJobRequest" class="col-sm-2 col-form-label">Client name(Requestor's name)</label>
                         <div class="col-md-8 col-sm-12">
-                          <select class="form-control" v-model="newJobRequest.requestors_name"
-                          v-on:click="getClients">
+                          <select class="form-control" v-model="newJobRequest.requestors_name">
                             <template v-if="fetching">
                               <option><i class="fa fa-spinner fa-spin"></i> Fetching data...</option>
                             </template>
