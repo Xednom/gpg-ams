@@ -70,6 +70,7 @@ new Vue({
     this.getJobRequestTitles();
     this.getVAs();
     this.getClients();
+    this.getProjectManagers();
     this.getJobTitle();
   },
   methods: {
@@ -182,26 +183,26 @@ new Vue({
           })
     },
     getProjectManagers: function() {
-      this.loading = true;
+      this.fetching = true;
       axios.get(`/api/v1/pms/`)
           .then((response) => {
             this.projectManagers = response.data;
-            this.loading = false;
+            this.fetching = false;
           })
           .catch((err) => {
-            this.loading = false;
+            this.fetching = false;
             console.log(err.response.data);
           })
     },
     getVAs: function () {
-      this.loading = true;
+      this.fetching = true;
       axios.get(`/api/v1/vas/`)
         .then((response) => {
           this.virtualAssistants = response.data;
-          this.loading = false;
+          this.fetching = false;
         })
         .catch((err) => {
-          this.loading = false;
+          this.fetching = false;
           console.log(err.response.data);
         })
     },
