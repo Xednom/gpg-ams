@@ -28,7 +28,7 @@ GPG Sytem | Job Request
                 <i class="fa fa-spinner fa-spin"></i> Fetching data...
               </div>
             </template>
-            <template v-else-if="!loading">
+            <option v-else-if="!loading">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   Job Request Tab
@@ -107,10 +107,8 @@ GPG Sytem | Job Request
                         <div class="col-md-8 col-sm-12">
                           <select class="form-control" v-model="newJobRequest.requestors_name"
                           v-on:click="getClients">
-                            <template v-if="loading">
-                              <option><div class="text-center">
-                                <i class="fa fa-spinner fa-spin"></i> Fetching data...
-                              </div></option>
+                            <template v-if="fetching">
+                              <option><i class="fa fa-spinner fa-spin"></i> Fetching data...</option>
                             </template>
                             <template v-else>
                               <option v-for="client in clients">[[ client.full_name ]]</option>
@@ -122,8 +120,14 @@ GPG Sytem | Job Request
                         <div class="form-group row">
                           <label for="inputJobRequest" class="col-sm-2 col-form-label">Assigned VA</label>
                           <div class="col-md-8 col-sm-12">
-                            <select class="form-control" v-model="newJobRequest.assigned_va">
-                              <option v-for="va in virtualAssistants">[[ va.full_name ]]</option>
+                            <select class="form-control" v-model="newJobRequest.assigned_va"
+                            v-on:click="getVAs">
+                              <template v-if="fetching">
+                                <option><i class="fa fa-spinner fa-spin"></i> Fetching data...</option>
+                              </template>
+                              <template v-else>
+                              <option v-for="va in virtualAssistants">[[ va.full_name ]]</option>                                
+                              </template>
                             </select>
                           </div>
                         </div>
@@ -131,8 +135,14 @@ GPG Sytem | Job Request
                         <div class="form-group row">
                           <label for="inputJobRequest" class="col-sm-2 col-form-label">Assigned Project Manager</label>
                           <div class="col-md-8 col-sm-12">
-                            <select class="form-control" v-model="newJobRequest.assigned_va">
-                              <option v-for="pm in projectManagers">[[ pm.full_name ]]</option>
+                            <select class="form-control" v-model="newJobRequest.assigned_project_managers"
+                            v-on:click="getProjectManagers">
+                              <template v-if="fetching">
+                                <option><i class="fa fa-spinner fa-spin"></i> Fetching data...</option>
+                              </template>
+                              <option v-else>
+                                <option v-for="pm in projectManagers">[[ pm.full_name ]]</option>                                
+                              </option>
                             </select>
                           </div>
                         </div>
