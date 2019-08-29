@@ -13,6 +13,7 @@ new Vue({
         viewing: false,
         errored: false,
         saving: false,
+        fetching: false,
         currentCraigList: {},
         message: null,
         newCraigList: {
@@ -41,8 +42,6 @@ new Vue({
     mounted: function () {
         this.setCurrentMonth();
         this.getCraigsList();
-        this.getClients();
-        this.getStaffs();
     },
     methods: {
         reset: function () {
@@ -75,6 +74,7 @@ new Vue({
         },
         viewCraigslist(id) {
             this.viewing = true;
+            this.getClients();
             axios.get(`/api/v1/craigslist/${id}`)
                 .then((response) => {
                     this.viewing = false;
@@ -86,26 +86,26 @@ new Vue({
                 })
         },
         getStaffs: function () {
-            this.loading = true;
+            this.fetching = true;
             axios.get(`/api/v1/staffs/`)
                 .then((response) => {
                     this.staffs = response.data;
-                    this.loading = false;
+                    this.fetching = false;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.fetching = false;
                     console.log(err.response.data);
                 })
         },
         getClients: function () {
-            this.loading = true;
+            this.fetching = true;
             axios.get(`/api/v1/clients/`)
                 .then((response) => {
                     this.clients = response.data;
-                    this.loading = false;
+                    this.fetching = false;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.fetching = false;
                     console.log(err.response.data);
                 })
         },

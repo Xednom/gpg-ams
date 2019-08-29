@@ -109,8 +109,8 @@ GPG System | View Job Request
             <div class="panel-footer">
               Total Count: [[ jobRequests.length ]]
               <div class="pull-right" v-if="jobRequests.length">
-                <a href="#" class="btn btn-primary btn-xs" v-on:click.prevent="generateExcelFile"
-                  data-placement="top" title="Extract"><i class="fa fa-file-excel-o"></i>
+                <a href="#" class="btn btn-primary btn-xs" v-on:click.prevent="generateExcelFile" data-placement="top"
+                  title="Extract"><i class="fa fa-file-excel-o"></i>
                   Export to
                   excel</a>
               </div>
@@ -196,8 +196,14 @@ GPG System | View Job Request
                           </div>
                           <div class="form-group col-md-4 col-sm-12">
                             <label>Assigned Project Manager </label>
-                            <select class="form-control" v-model="currentJobRequest.assigned_project_managers" disabled>
+                            <select class="form-control" v-model="currentJobRequest.assigned_project_managers"
+                            v-on:click.once="getProjectManagers" disabled>
+                            <template v-if="fetching">
+                              <option>Fetching data...</option>
+                            </template>
+                            <template v-else>
                               <option v-for="pm in projectManagers">[[pm.full_name]]</option>
+                            </template>
                             </select>
                             <small class="form-text text-muted">For Our Client(s): If there's any changes regarding the
                               assigned Project
@@ -208,8 +214,14 @@ GPG System | View Job Request
                           <div class="form-group col-md-4 col-sm-12">
                             <label>VA admin support</label>
                             <select class="form-control" v-model="currentJobRequest.assigned_va"
+                              v-on:click:once="getVAs"
                               {% if request.user.staffs.position == 'General Administrative Support' or request.user.is_client %}disabled{% else %}{% endif %}>
-                              <option v-for="va in virtualAssistants">[[ va.full_name ]]</option>
+                              <template v-if="fetching">
+                                <option>Fetching data...</option>
+                              </template>
+                              <option v-else>
+                                <option v-for="va in virtualAssistants">[[ va.full_name ]]</option>                                
+                              </option>
                             </select>
                           </div>
                           <div class="form-group row">

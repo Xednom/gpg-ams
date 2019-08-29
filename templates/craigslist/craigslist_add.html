@@ -42,16 +42,21 @@ GPG System | Add Craiglist Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Date</label>
-                                    <input type="date" class="form-control" v-model="newCraigList.date"
-                                        required>
+                                    <input type="date" class="form-control" v-model="newCraigList.date" required>
                                 </div>
                             </div>
                             {% if request.user.is_staffs %}
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Client name and company name</label>
-                                    <select class="form-control" v-model="newCraigList.client_name_company_name">
-                                        <option v-for="client in clients">[[ client.full_name ]]</option>
+                                    <select class="form-control" v-model="newCraigList.client_name_company_name"
+                                        v-on:click.once="getClients">
+                                        <template v-if="fetching">
+                                            <option>Fetching data...</option>
+                                        </template>
+                                        <template v-else>
+                                            <option v-for="client in clients">[[ client.full_name ]]</option>
+                                        </template>
                                     </select>
                                 </div>
                             </div>
@@ -59,8 +64,14 @@ GPG System | Add Craiglist Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Craigslist Admin Support</label>
-                                    <select class="form-control" v-model="newCraigList.cl_admin_support">
-                                        <option v-for="staff in staffs">[[ staff.full_name ]]</option>
+                                    <select class="form-control" v-model="newCraigList.cl_admin_support"
+                                        v-on:click.once="getStaffs">
+                                        <template v-if="fetching">
+                                            <option>Fetching data...</option>
+                                        </template>
+                                        <template v-else>
+                                            <option v-for="staff in staffs">[[ staff.full_name ]]</option>
+                                        </template>
                                     </select>
                                 </div>
                             </div>
@@ -92,8 +103,7 @@ GPG System | Add Craiglist Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Notes</label>
-                                    <textarea cols="30" rows="10" class="form-control"
-                                        v-model="newCraigList.notes">
+                                    <textarea cols="30" rows="10" class="form-control" v-model="newCraigList.notes">
                                     </textarea>
                                 </div>
                             </div>
