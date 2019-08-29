@@ -12,6 +12,7 @@ new Vue({
         viewing: false,
         saving: false,
         searching: false,
+        fetching: false,
         message: null,
         currentInventories: [],
         currentSort: '',
@@ -61,8 +62,6 @@ new Vue({
     },
     mounted: function () {
         this.getInventory();
-        this.getStaffs();
-        this.getClients();
     },
     methods: {
         nextPage: function () {
@@ -115,6 +114,8 @@ new Vue({
         },
         viewInventory: function (id) {
             this.viewing = true;
+            this.getClients();
+            this.getStaffs();
             axios.get(`/api/v1/marketing-sites/${id}/`)
                 .then((response) => {
                     this.viewing = false;
@@ -126,26 +127,26 @@ new Vue({
                 })
         },
         getStaffs: function () {
-            this.loading = true;
+            this.fetching = true;
             axios.get(`/api/v1/staffs/`)
                 .then((response) => {
                     this.staffs = response.data;
-                    this.loading = false;
+                    this.fetching = false;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.fetching = false;
                     console.log(err.response.data);
                 })
         },
         getClients: function () {
-            this.loading = true;
+            this.fetching = true;
             axios.get(`/api/v1/clients/`)
                 .then((response) => {
                     this.clients = response.data;
-                    this.loading = false;
+                    this.fetching = false;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.fetching = false;
                     console.log(err.response.data);
                 })
         },

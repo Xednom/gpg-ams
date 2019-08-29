@@ -18,6 +18,9 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Clients
         fields = '__all__'
+    
+    def get_client_name_company_name(self, obj):
+        return '%s - %s' % (obj.Clients.full_name, obj.Clients.company_name)
 
 
 class StaffSerializer(serializers.ModelSerializer):

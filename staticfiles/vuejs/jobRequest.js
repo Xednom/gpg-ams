@@ -66,12 +66,12 @@ new Vue({
     this.getJobRequests();
     this.getTimeSheets();
     this.setDefaultDates();
-    this.getProjectManagers();
     this.getJobRequestTitles();
-    this.getVAs();
-    this.getClients();
-    this.getProjectManagers();
     this.getJobTitle();
+  },
+  created() {
+    this.getVAs();
+    this.getProjectManagers();
   },
   methods: {
     setDefaultDates: function () {
@@ -414,7 +414,7 @@ new Vue({
       }
       let htmlXML = this.generateXMLNS();
       let formattedTemplate = this.formatTemplate(htmlXML, context);
-      let a = document.createElement('A');
+      let a = document.createElement('a');
       a.href = uri + this.base64(formattedTemplate);
       a.download = 'jobRequests-report-' + Date.now() + '.xlsx';
       document.body.appendChild(a);
@@ -571,7 +571,7 @@ new Vue({
       return tr
     },
     generateXMLNS: function () {
-      let htmlOpenTag = '<html xmlns:o="urn:schemas-microsoft.com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+      let htmlOpenTag = '<html xmlns:o="urn:schemas-microsoft.com:office:excel" xmlns="http://www.w3.org/TR/REC-html4">';
       let htmlHead = '<head><!-- [if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"></head>';
       let htmlBody = '<body><table>{header}{table}</table></body>';
       let htmlCloseTag = '</html>';

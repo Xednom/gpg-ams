@@ -87,8 +87,14 @@ GPG System | Add Land Academy O2O Smart Pricing Records
                         <div class="form-group row">
                             <div class="form-group col-md-12 col-sm-12">
                                 <label>Researcher name</label>
-                                <select class="form-control" v-model="newSmartPricing.researcher_name">
-                                    <option v-for="staff in staffs">[[ staff.full_name ]]</option>
+                                <select class="form-control" v-model="newSmartPricing.researcher_name"
+                                v-on:click.once="getStaffs">
+                                    <template v-if="fetching">
+                                        <option>Fetching data...</option>
+                                    </template>
+                                    <template v-else>
+                                        <option v-for="staff in staffs">[[ staff.full_name ]]</option>                                    
+                                    </template>
                                 </select>
                             </div>
                         </div>

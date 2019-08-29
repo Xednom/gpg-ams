@@ -9,6 +9,7 @@ new Vue({
         viewing: false,
         saving: false,
         errored: false,
+        fetching: false,
         dueDiligences: [],
         clients: [],
         virtualAssistants: [],

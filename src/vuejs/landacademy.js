@@ -13,6 +13,7 @@ new Vue({
         viewing: false,
         saving: false,
         searching: false,
+        fetching: false,
         message: null,
         currentLands: [],
         currentPricings: [],
@@ -80,8 +81,6 @@ new Vue({
         paginatedRecords: [],
     },
     mounted: function () {
-        this.getStaffs();
-        this.getClients();
         this.getLandAcademy();
         this.getSmartPricing();
         this.setCurrentDate();
@@ -185,26 +184,26 @@ new Vue({
                 })
         },
         getStaffs: function () {
-            this.loading = true;
+            this.fetching = true;
             axios.get(`/api/v1/staffs/`)
                 .then((response) => {
                     this.staffs = response.data;
-                    this.loading = false;
+                    this.fetching = false;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.fetching = false;
                     console.log(err.response.data);
                 })
         },
         getClients: function () {
-            this.loading = true;
+            this.fetching = true;
             axios.get(`/api/v1/client/`)
                 .then((response) => {
                     this.clients = response.data;
-                    this.loading = false;
+                    this.fetching = false;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.fetching = false;
                     console.log(err.response.data);
                 })
         },

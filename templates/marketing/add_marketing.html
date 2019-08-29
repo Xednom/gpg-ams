@@ -84,8 +84,14 @@ GPG System | Add CallMe Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Client Name</label>
-                                    <select class="form-control" v-model="newInventory.client_full_name">
-                                        <option v-for="client in clients">[[ client.full_name ]]</option>
+                                    <select class="form-control" v-model="newInventory.client_full_name"
+                                    v-on:click.once="getClients">
+                                        <template v-if="fetching">
+                                            <option>Fetching data...</option>
+                                        </template>
+                                        <template v-else>
+                                            <option v-for="client in clients">[[ client.full_name ]]</option>                                            
+                                        </template>
                                     </select>
                                 </div>
                             </div>
@@ -148,8 +154,14 @@ GPG System | Add CallMe Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Marketing Associate</label>
-                                    <select class="form-control" v-model="newInventory.marketing_associate" required>
-                                        <option v-for="associate in staffs">[[ associate.full_name ]]</option>
+                                    <select class="form-control" v-model="newInventory.marketing_associate"
+                                    v-on:click.once="getStaffs" required>
+                                        <template v-if="fetching">
+                                            <option>Fetching data...</option>
+                                        </template>
+                                        <template v-else>
+                                            <option v-for="associate in staffs">[[ associate.full_name ]]</option>                                            
+                                        </template>
                                     </select>
                                 </div>
                             </div>

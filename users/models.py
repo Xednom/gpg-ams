@@ -269,8 +269,12 @@ class Clients(models.Model):
         verbose_name_plural = 'List of Clients'
         ordering = ['full_name']
 
+    @property
+    def client_and_company_name(self):
+        return '%s - %s' % (self.full_name, self.company_name)
+
     def __str__(self):
-        return self.full_name + " - " + self.company_name
+        return '%s - %s' % (self.full_name, self.company_name)
 
 
 @receiver(post_save, sender=CustomUser)
