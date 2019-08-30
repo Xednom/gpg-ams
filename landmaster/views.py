@@ -83,10 +83,10 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
                     Q(status_of_dd="Sent to Quality Specialist"))
                 return queryset
             elif self.request.user.staffs.position == "General Administrative Support":
-                queryset = due_diligence.filter(Q(dd_va_assigned_initial_data__full_name__icontains=self.request.user.staffs.full_name),
-                    Q(dd_va_assigned_call_outs_tax_data__full_name__icontains=self.request.user.staffs.full_name), 
-                    Q(dd_va_assigned_call_outs_zoning_data__full_name__icontains=self.request.user.staffs.full_name), 
-                    Q(dd_va_assigned_call_outs_utilities_data__full_name__icontains=self.request.user.staffs.full_name), 
+                queryset = due_diligence.filter(Q(dd_va_assigned_initial_data__full_name__icontains=self.request.user.staffs.full_name) |
+                    Q(dd_va_assigned_call_outs_tax_data__full_name__icontains=self.request.user.staffs.full_name) |
+                    Q(dd_va_assigned_call_outs_zoning_data__full_name__icontains=self.request.user.staffs.full_name) | 
+                    Q(dd_va_assigned_call_outs_utilities_data__full_name__icontains=self.request.user.staffs.full_name) | 
                     Q(dd_va_assigned_call_outs_other_requests__full_name__icontains=self.request.user.staffs.full_name), 
                     Q(status_of_dd="Sent to Project Manager") | 
                     Q(status_of_dd="Project Managers Review") | 
