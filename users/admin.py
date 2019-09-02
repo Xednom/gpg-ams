@@ -205,6 +205,11 @@ class ClientProfile(ImportExportModelAdmin):
                 'date_signed_up',
             )
         }),
+        ('Notes', {
+            'fields': (
+                'notes',
+            )
+        }),
     )
 
 # def get_queryset(self, request):
