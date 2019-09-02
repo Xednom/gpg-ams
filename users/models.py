@@ -245,6 +245,7 @@ class Clients(models.Model):
     phone_number = models.CharField(max_length=150, null=True, blank=True)
     company_category = models.CharField(max_length=150, choices=COMPANY_CATEGORY, null=True, blank=True)
     status = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, default='New')
+    notes = models.TextField(null=True, blank=True)
     email = models.ManyToManyField(Email,
                               blank=True,
                               related_name='emails')
