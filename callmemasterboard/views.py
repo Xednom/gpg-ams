@@ -52,6 +52,7 @@ class MasterBoardViewSets(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_staffs:
             queryset = MasterBoard.objects.all()
+            return queryset
         elif self.request.user.is_client:
             queryset = MasterBoard.objects.filter(client_name__full_name=self.request.user.clients.full_name)
-        return queryset
+            return queryset
