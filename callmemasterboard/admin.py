@@ -10,7 +10,7 @@ class MasterBoardProfile(ImportExportModelAdmin):
                     'email', 'phone', 'type_of_crm', 'type_of_voip')
     list_filter = ('type_of_plan', 'type_of_crm', 'type_of_voip', 'client_name',
                    'status', 'due_date', 'monthly_plan_cost')
-    search_fields = ('client_name', 'url_buyer', 'monthly_plan_cost',
+    search_fields = ('client_name__full_name', 'url_buyer', 'monthly_plan_cost',
                      'url_seller', 'url_property_management', 
                      'general_calls', 'type_of_crm', 'type_of_voip')
     fieldsets = (
