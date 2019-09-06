@@ -56,12 +56,12 @@ class CallMeInventoryViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_staffs:
-            queryset = inventory.objects.filter(customer_representative__icontains=self.request.user.staffs.full_name)
+            queryset = inventory.objects.filter(customer_representative__icontains=self.request.user.staffs)
         elif self.request.user.is_client:
-            queryset = inventory.objects.filter(client_full_name__icontains=self.request.user.clients.full_name)
+            queryset = inventory.objects.filter(client_full_name__icontains=self.request.user.clients)
         return queryset
     
     def perform_create(self, serializer):
         if self.request.user.is_staffs:
-            return serializer.save(customer_representative=self.request.user.staffs.full_name)
+            return serializer.save(customer_representative=self.request.user.staffs)
             
