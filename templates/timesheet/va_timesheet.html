@@ -46,7 +46,7 @@ GPG System | View Timesheet
                             <option value="11">November</option>
                             <option value="12">December</option>
                         </select>
-                        <button type="submit" class="btn btn-primary" v-on:click.prevent="searchMonthVaTimeSheet">Search</button>
+                        <button type="submit" class="btn btn-primary" v-on:click.prevent="filterMonthsCashOutTime">Search</button>
                     </div>
                 </form>
                 <div class="col-md-12 col-sm-12">
@@ -79,7 +79,7 @@ GPG System | View Timesheet
                                         </div>
                                         <div class="col-md-12 col-sm-12 pull-right">
                                             <button class="btn btn-primary" type="submit"
-                                                v-on:click.prevent="advanceSearchVATimeSheet"><i
+                                                v-on:click.prevent="searchallVaInfo"><i
                                                     class="fa fa-search"></i>
                                                 Search</button>
                                         </div>
