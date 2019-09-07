@@ -157,6 +157,18 @@ new Vue({
                     console.log(err.response.data);
                 })
         },
+        advancedSearchVaCashOut() {
+            this.searching = true;
+            axios.get(`/api/v1/cashout/?cash_date__gte=${this.shift_date_gte}&cash_date__lte=${this.shift_date_lte}`)
+                .then((response) => {
+                    this.searching = false;
+                    this.cashouts = response.data;
+                })
+                .catch((err) => {
+                    this.searching = false;
+                    console.log(err.response.data);
+                })
+        },
         searchMonthClientTimeSheet: function () {
             this.searching = true;
             axios.get(`/api/v1/timesheet/?shift_date__month=${this.search_month}`)
@@ -179,9 +191,17 @@ new Vue({
             this.advanceSearchTimeSheet();
             this.advanceDateSearch();
         },
+        searchallVaInfo() {
+            this.advancedSearchVaCashOut();
+            this.advanceSearchVATimeSheet();
+        },
         filterMonths() {
             this.searchMonthCashOut();
             this.advanceDateSearch();
+        },
+        filterMonthsCashOutTime(){
+            this.searchMonthCashOut();
+            this.searchMonthVaTimeSheet();
         },
         advanceSearchClientTimeSheet: function () {
             this.searching = true;

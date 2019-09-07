@@ -91,11 +91,14 @@ class PaymentMadeFilter(FilterSet):
 class CashOutFilter(FilterSet):
     cash_date_release__month = NumberFilter(
         field_name='cash_date_release', lookup_expr='month')
+    cash_date__gte = DateFilter(field_name='cash_date_release', lookup_expr='gte')
+    cash_date__lte = DateFilter(field_name='cash_date_release', lookup_expr='lte')
     name = CharFilter(field_name='name__full_name', lookup_expr='icontains')
 
     class Meta:
         model = CashOut
-        fields = ('cash_date_release__month', 'name')
+        fields = ('cash_date_release__month', 'cash_date__gte',
+                  'cash_date__lte', 'name')
 
 
 class TimeSheetViewSet(viewsets.ModelViewSet):
