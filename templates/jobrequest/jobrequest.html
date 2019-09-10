@@ -28,7 +28,7 @@ GPG Sytem | Job Request
                 <i class="fa fa-spinner fa-spin"></i> Fetching data...
               </div>
             </template>
-            <option v-else-if="!loading">
+            <template v-else-if="!loading">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   Job Request Tab
@@ -43,10 +43,7 @@ GPG Sytem | Job Request
                     </li> -->
                     <li class="active"><a href="#job-req" data-toggle="tab">Job Request Information</a>
                     </li>
-                    <li><a href="#notes" data-toggle="tab">Notes</a>
-                    </li>
                   </ul>
-            
                   <!-- Tab panes -->
                   <div class="tab-content">
                     <div class="tab-pane fade in active" id="job-req">
@@ -184,6 +181,9 @@ GPG Sytem | Job Request
                             v-model="newJobRequest.authorized_minutes_hours_allocation"></textarea>
                         </div>
                       </div>
+                      <a class="btn btn-primary btn-next" href="#notes" data-toggle="tab" type="button" style="float: right;">
+                        <span>Next</span> <i class="fa fa-angle-double-right"></i>
+                      </a>
                     </div>
                     <div class="tab-pane fade" id="notes">
                       
@@ -255,6 +255,9 @@ GPG Sytem | Job Request
                         <button class="btn btn-info btn-save btn-outline pull-right" type="submit">Submit</button>
                       </template>
                       <button class="btn btn-warning btn-cancel btn-outline pull-right" type="button" v-on:click="reset">Cancel</button>
+                      <a class="btn btn-warning btn-next" href="#job-req" data-toggle="tab" type="button" style="float: right;">
+                        <i class="fa fa-angle-double-left"></i> <span>Back</span>
+                      </a>
                     </div>
                   </div>
                   </form>
