@@ -25,7 +25,7 @@ class LandAcademyInventory(models.Model):
     status_of_order = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Status of the Order")
     payment_status = models.CharField(max_length=150, choices=PAYMENT, null=True, blank=True)
     invoice = models.CharField(max_length=150, null=True, blank=True, verbose_name="Invoice # Towards LA")
-    total_items_charge = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, verbose_name="Total Charge", help_text="Total Items Requested x $.10")
+    total_items_charge = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, verbose_name="Total Charge", help_text="Total Items Requested x $.06")
     total_pp_fee = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, verbose_name="Total PP Fee", help_text="Total Charge *.05")
     total_charge = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, help_text="Total Charge + Total PP Fee")
     total_items_requested = models.PositiveIntegerField(default=0, null=True, blank=True)
@@ -40,7 +40,7 @@ class LandAcademyInventory(models.Model):
         return self.invoice
 
     def calculation_total_items_charged(self):
-        percent = .10
+        percent = .06
         items = self.total_items_requested*Decimal(percent)
         total_items = Decimal(items)
         return total_items
