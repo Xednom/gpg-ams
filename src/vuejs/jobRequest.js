@@ -210,8 +210,8 @@ new Vue({
       this.fetching = true;
       axios.get(`/api/v1/clients/`)
         .then((response) => {
-          this.clients = response.data;
           this.fetching = false;
+          this.clients = response.data;
         })
         .catch((err) => {
           this.fetching = false;
