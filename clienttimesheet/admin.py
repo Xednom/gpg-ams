@@ -6,6 +6,7 @@ from admin_totals.admin import ModelAdminTotals
 from django.db.models import Sum
 
 from . models import TimeSheet, PaymentMade, CashOut
+from .resources import TimeSheetResource, PaymentMadeResource, CashOutResource
 
 
 class TimeSheetProfile(ImportExportModelAdmin):
@@ -26,6 +27,8 @@ class TimeSheetProfile(ImportExportModelAdmin):
     readonly_fields = ('total_amount_due', 'total_charge_peso', 
                        'total_charge_usd', 'total_charge_with_paypal', 'duration',
                        'paypal_charge')
+    list_per_page = 50
+    resource_class = TimeSheetResource
     #change_list_template = 'timesheet/change_list.html'
     fieldsets = (
         ("TimeSheet General Information", {
@@ -73,13 +76,14 @@ class TimeSheetProfile(ImportExportModelAdmin):
     )
 
 
-class PaymentMadeProfile(ModelAdminTotals):
+class PaymentMadeProfile(ImportExportModelAdmin):
     list_display = ('date', 'client_name', 'transaction_number',
                     'payment_channel', 'amount', 'notes')
     list_filter = (('date', DateRangeFilter), 'date', 'payment_channel',
                     'client_name')
     list_totals = [('amount', Sum)]
     list_per_page = 30
+    resource_class = PaymentMadeResource
     search_fields = ('transaction_number', 'payment_channel',
                      'client_name__full_name')
     fieldsets = (
@@ -96,13 +100,14 @@ class PaymentMadeProfile(ModelAdminTotals):
     )
 
 
-class CashoutProfile(ModelAdminTotals):
+class CashoutProfile(ImportExportModelAdmin):
     list_display = ('cash_date_release', 'name', 'reference',
                     'payment_channel', 'approved_by', 'purpose', 'amount',)
     list_filter = (('cash_date_release', DateRangeFilter),
                    'cash_date_release', 'payment_channel',
                    'name')
     list_totals = [('amount', Sum)]
+    resource_class = CashOutResource
     search_fields = ('reference', 'payment_channel',
                      'name__full_name')
     fieldsets = (
