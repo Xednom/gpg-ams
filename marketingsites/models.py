@@ -18,11 +18,13 @@ class Inventory(models.Model):
         ('Landpin', 'Landpin'),
         ('Landwatch', 'Landwatch'),
         ('Landflip', 'Landflip'),
+        ('Multiple Sites', 'Multiple Sites'),
         ('Others', 'Others'),
     )
     APPROVAL = (
         ('Approved', 'Approved'),
         ('Pending for Approval', 'Pending for Approval'),
+        ('Waived by the Client', 'Waived by the Client'),
     )
     STATUS = (
         ('In progress', 'In progress'),
@@ -32,7 +34,7 @@ class Inventory(models.Model):
     date_requested = models.DateField(default=now, null=True, blank=True)
     date_completed = models.DateField(default=now, null=True, blank=True)
     type_of_marketing_sites = models.CharField(max_length=150, choices=SITES, null=True, blank=True)
-    indicate_others = models.CharField(max_length=150, null=True, blank=True)
+    indicate_others = models.TextField(null=True, blank=True)
     client_full_name = models.CharField(max_length=150, null=True, blank=True)
     client_company_name = models.CharField(max_length=150, null=True, blank=True)
     apn = models.TextField(null=True, blank=True)
