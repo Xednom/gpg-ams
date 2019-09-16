@@ -68,6 +68,7 @@ GPG System | Add CallMe Inventory
                                         <option>Landpin</option>
                                         <option>Landwatch</option>
                                         <option>Landflip</option>
+                                        <option>Multiple Sites</option>
                                         <option>Others</option>
                                     </select>
                                 </div>
@@ -76,7 +77,8 @@ GPG System | Add CallMe Inventory
                                 <div class="form-group row">
                                     <div class="form-group col-md-12 col-sm-12">
                                         <label>Please indicate if others</label>
-                                        <input type="text" class="form-control" v-model="newInventory.indicate_others">
+                                        <textarea class="form-control" v-model="newInventory.indicate_others" cols="30"
+                                            rows="10"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -85,12 +87,12 @@ GPG System | Add CallMe Inventory
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Client Name</label>
                                     <select class="form-control" v-model="newInventory.client_full_name"
-                                    v-on:click.once="getClients">
+                                        v-on:click.once="getClients">
                                         <template v-if="fetching">
                                             <option>Fetching data...</option>
                                         </template>
                                         <template v-else>
-                                            <option v-for="client in clients">[[ client.full_name ]]</option>                                            
+                                            <option v-for="client in clients">[[ client.full_name ]]</option>
                                         </template>
                                     </select>
                                 </div>
@@ -106,9 +108,8 @@ GPG System | Add CallMe Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>APN</label>
-                                    <textarea class="form-control"
-                                    cols="30" rows="10"
-                                    v-model="newInventory.apn"></textarea>
+                                    <textarea class="form-control" cols="30" rows="10"
+                                        v-model="newInventory.apn"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -121,19 +122,15 @@ GPG System | Add CallMe Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Description</label>
-                                    <textarea class="form-control"
-                                    v-model="newInventory.description"
-                                    cols="30" rows="10"></textarea>
+                                    <textarea class="form-control" v-model="newInventory.description" cols="30"
+                                        rows="10"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Price</label>
-                                    <input type="text" class="form-control" 
-                                    @input="filterInput"
-                                    @keypress="duration"
-                                    v-model="newInventory.price"
-                                    required>
+                                    <input type="text" class="form-control" @input="filterInput" @keypress="duration"
+                                        v-model="newInventory.price" required>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -155,12 +152,12 @@ GPG System | Add CallMe Inventory
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Marketing Associate</label>
                                     <select class="form-control" v-model="newInventory.marketing_associate"
-                                    v-on:click.once="getStaffs" required>
+                                        v-on:click.once="getStaffs" required>
                                         <template v-if="fetching">
                                             <option>Fetching data...</option>
                                         </template>
                                         <template v-else>
-                                            <option v-for="associate in staffs">[[ associate.full_name ]]</option>                                            
+                                            <option v-for="associate in staffs">[[ associate.full_name ]]</option>
                                         </template>
                                     </select>
                                 </div>
@@ -169,9 +166,8 @@ GPG System | Add CallMe Inventory
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Duration</label>
-                                    <input type="text" class="form-control" 
-                                    @input="filterInput" @keypress="duration"
-                                    v-model="newInventory.duration">
+                                    <input type="text" class="form-control" @input="filterInput" @keypress="duration"
+                                        v-model="newInventory.duration">
                                 </div>
                             </div>
                             <div class="form-group row">
