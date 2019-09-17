@@ -45,11 +45,6 @@
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
     <div class="form-group col-md-4 col-sm-12">
-        <label>Property Address</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.property_address"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
-    </div>
-    <div class="form-group col-md-4 col-sm-12">
         <label>County</label>
         <input type="text" class="form-control" v-model="currentDueDiligence.county"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
@@ -83,18 +78,24 @@
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>GPS Coordinates</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.gps_coordinates"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control"
+        v-model="currentDueDiligence.gps_coordinates"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>GPS Coordinates 4 corners</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.gps_coordinates_4_corners"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control"
+        v-model="currentDueDiligence.gps_coordinates_4_corners"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Google Map Link</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.google_map_link"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control" 
+        v-model="currentDueDiligence.google_map_link"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Elevation</label>
@@ -111,11 +112,16 @@
         <input type="text" class="form-control" v-model="currentDueDiligence.access_to_property"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
     </div>
-    <div class="form-group col-md-12 col-sm-12">
+    <div class="form-group col-md-6 col-sm-12">
         <label>Structure</label>
         <textarea cols="80" rows="10" class="form-control" v-model="currentDueDiligence.structure"
             {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
                                                                 </textarea>
+    </div>
+    <div class="form-group col-md-6 col-sm-12">
+        <label>Property Address</label>
+        <textarea class="form-control" v-model="currentDueDiligence.property_address" cols="30" rows="10"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}></textarea>
     </div>
 </div>
 <hr>
@@ -141,11 +147,9 @@
     </div>
     <div class="form-group col-md-12 col-sm-12">
         <label>Nearby attractions and amenities</label>
-        <textarea class="form-control" 
-        v-model="currentDueDiligence.nearby_attractions" 
-        :disabled="loading == true" 
-        cols="30" rows="10"  
-        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}></textarea>
+        <textarea class="form-control" v-model="currentDueDiligence.nearby_attractions" :disabled="loading == true"
+            cols="30" rows="10"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}></textarea>
     </div>
 </div>
 <hr>
@@ -155,33 +159,42 @@
 <div class="row">
     <div class="form-group col-md-4 col-sm-12">
         <label>Assessor Website</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.assessor_website"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control"
+        v-model="currentDueDiligence.assessor_website"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Treasurer Website</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.treasurer_website"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control"
+        v-model="currentDueDiligence.treasurer_website"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Reorder/Clerk Website</label>
-        <input type="text" class="form-control form-control-sm" v-model="currentDueDiligence.recorder_clerk_website"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control" 
+        v-model="currentDueDiligence.recorder_clerk_website"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %} 
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Zoning Department Website</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.zoning_department_website"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control" v-model="currentDueDiligence.zoning_department_website"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>GIS Website</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.gis_website"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control" v-model="currentDueDiligence.gis_website"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>CAD Website</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.cad_website"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control" v-model="currentDueDiligence.cad_website"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-4 col-sm-12">
         <label>Planning Department Website</label>
@@ -277,15 +290,19 @@
                                                                                 </textarea>
         <small class="form-text text-muted">Is the property buildable? Yes or No?</small>
     </div>
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-6 col-sm-12">
         <label>What can be built on the property?</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.what_can_be_built"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control" 
+        v-model="currentDueDiligence.what_can_be_built"
+            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-6 col-sm-12">
         <label>Time limit to build</label>
-        <input type="text" class="form-control" v-model="currentDueDiligence.time_limit_to_build"
-            {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}>
+        <textarea class="form-control" 
+        v-model="currentDueDiligence.time_limit_to_build"
+        {% if request.user.is_staffs %}{% elif request.user.is_client %}disabled{% endif %}
+        cols="30" rows="10"></textarea>
     </div>
     <div class="form-group col-md-12 col-sm-12">
         <label>HOA</label>
