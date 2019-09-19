@@ -623,22 +623,22 @@ new Vue({
             for (let i = this.startPage; i <= this.endPage; i++) pages.push(i);
             return pages;
         },
-        totalTimeSheet: function () {
+        totalTimeSheet () {
             return this.timesheets.reduce(function (sum, timesheets) {
                 return sum + parseFloat(timesheets.total_amount_due);
             }, 0);
         },
-        totalpaymentmade: function () {
+        totalpaymentmade () {
             return this.paymentmade.reduce(function (sum, paymentmade) {
                 return sum + parseFloat(paymentmade.amount);
             }, 0);
         },
-        totalCashOut: function () {
+        totalCashOut () {
             return this.cashouts.reduce(function (sum, cashouts) {
                 return sum + parseFloat(cashouts.amount);
             }, 0);
         },
-        totalCreditsLeft: function () {
+        totalCreditsLeft () {
             let sum = this.totalpaymentmade - this.totalTimeSheet;
             return sum.toFixed(2);
         },

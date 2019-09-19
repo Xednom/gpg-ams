@@ -103,10 +103,10 @@ GPG System | View Timesheet
                             </div>
                             <div class="panel-body">
                                 <h5 class="col-md-3 col-sm-12">Total Charge: &#36;<strong class="charge">[[
-                                        totalTimeSheet
+                                        totalTimeSheet.toFixed(2)
                                         ]]</strong></h5>
                                 <h5 class="col-md-3 col-sm-12">Total Payment Made: &#36;<strong class="payment">[[
-                                        totalpaymentmade
+                                        totalpaymentmade.toFixed(2)
                                         ]]</strong></h5>
                                 <template v-if="totalCreditsLeft <= 0">
                                     <h5 class="col-md-3 col-sm-12">Total Credits left: &#36;<strong class="negative-credits">[[
@@ -117,7 +117,7 @@ GPG System | View Timesheet
                                             totalCreditsLeft ]]</strong></h5>
                                 </template>
                                 <h5 class="col-md-3 col-sm-12">Total work hours: <strong class="client-work-hours">[[
-                                        totalWorkHrs ]]</strong></h5>
+                                        totalWorkHrs.toFixed(2) ]]</strong></h5>
                             </div>
                         </div>
                     </div>
@@ -132,7 +132,7 @@ GPG System | View Timesheet
                                 <div style="overflow-x:auto;">
 
                                     <div class="pull-right">
-                                        <h4>Total Amount: &#36;[[ totalTimeSheet ]]</h4>
+                                        <h4>Total Amount: &#36;[[ totalTimeSheet.toFixed(2) ]]</h4>
                                         <a href="#CollapseSearchCarrier" data-toggle="collapse" role="button"
                                             aria-expanded="false" aria-controls="CollapseSearchCarrier"
                                             v-if="!loading">advanced
