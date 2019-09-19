@@ -31,8 +31,17 @@ body {
 .due{
   color: red;
 }
+.negative-credits {
+  color: red;
+}
+.positive-credits {
+  color: #2e6da4;
+}
 .work-hours{
   color: #2e6da4;
+}
+.client-work-hours {
+  color: #fcba03;
 }
 a.first::after {
   content: '...'
