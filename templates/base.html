@@ -295,6 +295,18 @@
                 </ul>
               </li>
               {% endif %}
+              {% if perms.callmeinventory.view_vaform %}
+              <li>
+                <a href="#"><i class="fa fa-wpforms"></i> CallMe VA Forms List <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                  <li>
+                    {% if perms.callmeinventory.view_vaform %}
+                    <a href="{% url 'callmeinventory:view_forms' %}"><i class="fa fa-th-list"></i> View Forms</a>
+                    {% endif %}
+                  </li>
+                </ul>
+              </li>
+              {% endif %}
               {% if perms.callmemasterboard.view_masterboard %}
               <li>
                 <a href="#"><i class="fa fa-clipboard"></i> CallMe Master Board <span class="fa arrow"></span></a>

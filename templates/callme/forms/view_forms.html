@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+GPG System | View VA's CallMe Forms List
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+{% if perms.callmeinventory.view_vaform %}
+<div id="gpg-callme-vaforms" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2 class="page-header">
+                        View CallMe Forms List
+                    </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">View VA's CallMe Forms List</li>
+            </ol>
+            <div class="row">
+                <template v-if="loading">
+                    <div class="text-center">
+                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                    </div>
+                </template>
+                <template v-else-if="!loading">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                Table of CallMe Forms List
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="col-md-2 col-sm-12" v-if="!loading">
+                                    </div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th @click="sort('client_full_name')">Client name & company name</th>
+                                                <th @click="sort('type_of_script')">Type of Script</th>
+                                                <th @click="sort('script_link')">Script Link</th>
+                                                <th @click="sort('gs_integration')">GS Integration</th>
+                                                <th @click="sort('client_call_forwarding_number')">Client Call forwarding #</th>
+                                                <th @click="sort('company_call_forwarding_number')">Company Call forwarding #</th>
+                                                <th @click="sort('notes')">Notes</th>
+                                                <th @click="sort('created_at')">Date Created</th>
+                                                <th @click="sort('updated_at')">Date Updated</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <template v-if="loading">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="searching">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Searching
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="!loading">
+                                                    <td colspan="15" class="text-center bg-warning"
+                                                        v-if="!forms.length">
+                                                        No records found.
+                                                    </td>
+                                                </template>
+                                            </tr>
+                                            <tr v-for="form in sortedForms" v-if="!loading">
+                                                <td>[[ form.client_full_name ]]</td>
+                                                <td>[[ form.type_of_script ]]</td>
+                                                <td>[[ form.script_link ]]</td>
+                                                <td>[[ form.gs_integration ]]</td>
+                                                <td>[[ form.client_call_forwarding_number ]]</td>
+                                                <td>[[ form.company_call_forwarding_number ]]</td>
+                                                <td>[[ form.notes ]]</td>
+                                                <td>[[ form.created_at ]]</td>
+                                                <td>[[ form.updated_at ]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="prevPage">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in totalPages"
+                                            v-bind:class="[{active: pageNumber === currentPage}, 'page-item']"
+                                            v-if="Math.abs(pageNumber - currentPage) < 3 || pageNumber == totalPages - 1 || pageNumber == 0">
+                                            <a v-on:click="goToPage(pageNumber)"
+                                                :class="{current: pageNumber === currentPage, last:(pageNumber == totalPages - 1 && Math.abs(pageNumber - currentPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentPage) > 3)}">
+                                                [[ pageNumber ]]</a>
+                                        </li>
+                                        <li
+                                            v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                            <a class="page-link" v-on:click="nextBoardPage">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
+                            </div>
+                            <div class="panel-footer">
+                                Total count: [[ forms.length ]]
+                            </div>
+                        </div>
+                        <!-- /.col-lg-4 -->
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h2 class="page-header">
+                View VA's CallMe Forms List
+            </h2>
+        </div>
+    </div>
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'users:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">View VA's CallMe Forms List</li>
+    </ol>
+    <div>
+        <p>
+            You don't have any permissions to view this part of the system. Contact your admin regarding this issue.
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/callmevaforms.js' %}" type="text/javascript"></script>
+{% endblock %}

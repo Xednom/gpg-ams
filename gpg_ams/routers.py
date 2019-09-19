@@ -23,7 +23,7 @@ from logins.views import LoginsViewSet
 from payroll.views import PayrollViewSet, PayrollCashOutViewSet
 from clienttimesheet.views import TimeSheetViewSet, PaymentMadeViewSet, CashOutViewSet
 from reminders.views import ReminderViewSet
-from callmeinventory.views import CallMeInventoryViewSet
+from callmeinventory.views import CallMeInventoryViewSet, CallMeVaFormViewSet
 from callmemasterboard.views import MasterBoardViewSets
 from callmefinancialreport.views import FinancialViewSet
 from marketingsites.views import InventoryViewSet
@@ -56,6 +56,7 @@ router.register(r'staffs', StaffViewSet)
 router.register(r'vas', VaViewSet, base_name="vas")
 router.register(r'pms', PmViewSet, base_name="pms")
 router.register(r'callme-inventory', CallMeInventoryViewSet, base_name='inventory')
+router.register(r'callme-vaform', CallMeVaFormViewSet)
 router.register(r'callme-masterboard', MasterBoardViewSets, base_name='masterboard')
 router.register(r'callme-financial-report', FinancialViewSet, base_name='financial')
 router.register(r'marketing-sites', InventoryViewSet, base_name='marketing')
