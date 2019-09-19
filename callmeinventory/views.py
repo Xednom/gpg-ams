@@ -9,8 +9,8 @@ from rest_framework import viewsets, filters
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from .models import inventory
-from .serializers import InventorySerializer
+from .models import inventory, VaForm
+from .serializers import InventorySerializer, VaFormSerializer
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
@@ -21,6 +21,10 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 
 class InventoryView(LoginRequiredMixin, TemplateView):
     template_name = 'callme/inventory/view_inventory.html'
+
+
+class VaFormView(LoginRequiredMixin, TemplateView):
+    template_name = 'callme/forms/view_forms.html'
 
 
 class AddInventoryView(LoginRequiredMixin, TemplateView):
@@ -65,3 +69,8 @@ class CallMeInventoryViewSet(viewsets.ModelViewSet):
         if self.request.user.is_staffs:
             return serializer.save(customer_representative=self.request.user.staffs)
             
+
+class CallMeVaFormViewSet(viewsets.ModelViewSet):
+    queryset = VaForm.objects.all()
+    serializer_class = VaFormSerializer
+    permission_classes = [IsAuthenticated]
