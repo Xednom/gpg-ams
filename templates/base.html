@@ -271,6 +271,22 @@
           </li>
           {% endif %}
           <!-- /.landmaster -->
+          <!-- leadsource -->
+          {% if request.user.staffs.category == 'Office Based' %}
+          <li>
+            <a href="#"><i class="fa fa-list"></i> Lead Source:<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+              {% if perms.client.view_clientleadsource %}
+              <li>
+                <a href="{% url 'client:view_lead' %}"><i class="fa fa-book"></i> List of source</a>
+              </li>
+              {% endif %}
+            </ul>
+          </li>
+          {% elif request.user.staffs.category == 'Home Based' %}
+          <!-- don't show lead source -->
+          {% endif %}
+          <!-- /.leadsource -->
           <!-- CallMe -->
           {% if perms.callmeinventory.view_inventory or perms.callmemasterboard.view_masterboard or perms.callmefinancialreport.view_financialreport %}
           <li>

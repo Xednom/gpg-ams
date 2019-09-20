@@ -185,7 +185,7 @@ new Vue({
         },
         getVas: function () {
             this.loading = true;
-            axios.get(`/api/v1/virtual-assistant`)
+            axios.get(`/api/v1/vas/`)
                 .then((response) => {
                     this.virtualAssistants = response.data;
                     this.loading = false;

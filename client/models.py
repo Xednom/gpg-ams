@@ -1,6 +1,7 @@
 import uuid
 from django.conf import settings
 from django.db import models
+from django.utils.timezone import now
 
 from fillables.models import (
                             InternalCompanyName, CompanyName, LeadSource,
@@ -43,3 +44,59 @@ class Client(models.Model):
 
     def __str__(self):
         return str(self.company_name)
+
+
+class ClientLeadSource(models.Model):
+    LEAD = (
+        ('Craiglists', 'Craiglists'),
+        ('Facebook', 'Facebook'),
+        ('KSL.Com', 'KSL.Com'),
+        ('Website', 'Website'),
+        ('LandPin', 'LandPin'),
+        ('Zillow', 'Zillow'),
+        ('LandandFarm', 'LandandFarm'),
+        ('Lands of America', 'Lands of America'),
+        ('Facebook', 'Facebook'),
+        ('Facebook Marketplace', 'Facebook Marketplace'),
+        ('Property Control Center', 'Property Control Center'),
+        ('Neighbor Letters', 'Neighbor Letters'),
+        ('Mailchimp', 'Mailchimp'),
+        ('Landstay', 'Landstay'),
+        ('Instagram', 'Instagram'),
+        ('Twitter', 'Twitter'),
+        ('Others', 'Others')
+    )
+    STATUS = (
+        ('Dead Lead', 'Dead Lead'),
+        ('Hot Leads', 'Hot Leads'),
+        ('Requires Follow up', 'Requires Follow up'),
+        ('Interested', 'Interested'),
+        ('Not Interested', 'Not Interested'),
+        ('Inquires Only', 'Inquires Only'),
+        ('Others', 'Others'),
+        ('Closed Sale', 'Closed Sale'),
+
+    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date_lead_received = models.DateField(null=True, blank=True, default=now)
+    client = models.ForeignKey(settings.CLIENTS, on_delete=models.PROTECT)
+    lead_source = models.CharField(max_length=150, choices=LEAD, null=True, blank=True)
+    full_name_of_lead = models.CharField(max_length=150, null=True, blank=True)
+    phone_number = models.CharField(max_length=150, null=True, blank=True)
+    email = models.CharField(max_length=150, null=True, blank=True)
+    type_of_lead = models.CharField(max_length=150, null=True, blank=True)
+    lead_profile_url = models.CharField(max_length=150, null=True, blank=True)
+    lead_profile_under = models.CharField(max_length=150, null=True, blank=True)
+    lead_status = models.CharField(max_length=150, choices=STATUS, null=True, blank=True)
+    virtual_assistant = models.ForeignKey(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT)
+    notes_from_client = models.TextField(null=True, blank=True)
+    additional_notes = models.TextField(null=True, blank=True)
+    others = models.CharField(max_length=150, null=True, blank=True, help_text="If Lead source is 'Others' please fill this.")
+
+    class Meta:
+        verbose_name = 'Clients Lead Source Inventory'
+        verbose_name_plural = 'Clients Lead Source Inventories'
+        ordering = ['-date_lead_received']
+    
+    def __str__(self):
+        return '%s' % (self.client)

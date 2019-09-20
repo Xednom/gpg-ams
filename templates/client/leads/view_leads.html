@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+GPG System | View Client Lead Source
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+{% if perms.client.view_clientleadsource %}
+<div id="gpg-client-lead" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2 class="page-header">
+                        View Client Lead Source
+                    </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">View Client Lead Source</li>
+            </ol>
+            <div class="row">
+                <template v-if="loading">
+                    <div class="text-center">
+                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                    </div>
+                </template>
+                <template v-else-if="!loading">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                Table of Lead Source
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="col-md-2 col-sm-12" v-if="!loading">
+                                    </div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th @click="sort('date_lead_received')">Date lead received</th>
+                                                <th @click="sort('lead_source')">Lead Source</th>
+                                                <th @click="sort('full_name_of_lead')">Full name of lead</th>
+                                                <th @click="sort('phone_number')">Phone number</th>
+                                                <th @click="sort('email')">Email</th>
+                                                <th @click="sort('type_of_lead')">Type of lead</th>
+                                                <th @click="sort('lead_profile_url')">Lead profile URL</th>
+                                                <th @click="sort('lead_profile_under')">Lead profile under</th>
+                                                <th @click="sort('lead_status')">Status</th>
+                                                <th @click="sort('virtual_assistant')">Virtual Assistant</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <template v-if="loading">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="searching">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Searching
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="!loading">
+                                                    <td colspan="15" class="text-center bg-warning"
+                                                        v-if="!leads.length">
+                                                        No records found.
+                                                    </td>
+                                                </template>
+                                            </tr>
+                                            <tr v-for="lead in sortedLeads" v-if="!loading">
+                                                <td>[[ lead.date_lead_received ]]</td>
+                                                <td>[[ lead.lead_source ]]</td>
+                                                <td>[[ lead.full_name_of_lead ]]</td>
+                                                <td>[[ lead.phone_number ]]</td>
+                                                <td>[[ lead.email ]]</td>
+                                                <td>[[ lead.type_of_lead ]]</td>
+                                                <td>[[ lead.lead_profile_url ]]</td>
+                                                <td>[[ lead.lead_profile_under ]]</td>
+                                                <td>[[ lead.lead_status ]]</td>
+                                                <td>[[ lead.virtual_assistant ]]</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal"
+                                                        v-on:click="viewLeads(lead.id)">View
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentleadPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="prevPage">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in totalPages"
+                                            v-bind:class="[{active: pageNumber === currentPage}, 'page-item']"
+                                            v-if="Math.abs(pageNumber - currentPage) < 3 || pageNumber == totalPages - 1 || pageNumber == 0">
+                                            <a v-on:click="goToPage(pageNumber)"
+                                                :class="{current: pageNumber === currentPage, last:(pageNumber == totalPages - 1 && Math.abs(pageNumber - currentPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentPage) > 3)}">
+                                                [[ pageNumber ]]</a>
+                                        </li>
+                                        <li
+                                            v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                            <a class="page-link" v-on:click="nextPage">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
+                            </div>
+                            <div class="panel-footer">
+                                Total count: [[ leads.length ]]
+                            </div>
+                        </div>
+                        <!-- /.col-lg-4 -->
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form v-on:submit.prevent="updateLeads">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Inventory Informations for [[
+                            currentLeads.client ]]</h4>
+                    </div>
+                    <template v-if="viewing">
+                        <div class="text-center">
+                            <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                        </div>
+                    </template>
+                    <template v-else-if="!viewing">
+                        {% include 'client/leads/_partial_view_leads.html' %}
+                    </template>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        {% if perms.client.change_clientleadsource %}
+                        <template v-if="saving">
+                            <button type="submit" class="btn btn-primary" disabled>Save changes</button>
+                        </template>
+                        <template v-else>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </template>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+{% else %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h2 class="page-header">
+                View CallMe lead Reports
+            </h2>
+        </div>
+    </div>
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'users:home' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">View CallMe Payment Made Reports</li>
+    </ol>
+    <div>
+        <p>
+            You don't have any permissions to view this part of the system. Contact your admin regarding this issue.
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/leadsource.js' %}" type="text/javascript"></script>
+{% endblock %}
