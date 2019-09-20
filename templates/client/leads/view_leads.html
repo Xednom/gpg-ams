@@ -10,7 +10,6 @@ GPG System | View Client Lead Source
 {% endblock %}
 
 {% block content %}
-{% if perms.client.view_clientleadsource %}
 <div id="gpg-client-lead" v-cloak>
     <div id="content-wrapper">
         <div class="container-fluid">
@@ -169,29 +168,7 @@ GPG System | View Client Lead Source
         <!-- /.modal-dialog -->
     </div>
 </div>
-{% else %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <h2 class="page-header">
-                View CallMe lead Reports
-            </h2>
-        </div>
-    </div>
-    <!-- Breadcrumbs-->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url 'users:home' %}">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">View CallMe Payment Made Reports</li>
-    </ol>
-    <div>
-        <p>
-            You don't have any permissions to view this part of the system. Contact your admin regarding this issue.
-        </p>
-    </div>
-</div>
-{% endif %}
+
 {% endblock %}
 
 {% block api %}
