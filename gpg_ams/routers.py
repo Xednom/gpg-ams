@@ -1,12 +1,6 @@
 from rest_framework import routers
-from client.views import (
-            ClientViewSet,
-            ClientNameViewSet,
-            ProjectManagerViewSet,
-            TypeOfTaskViewSet,
-            SeniorManagerViewSet,
-            VirtualAssistantViewSet
-        )
+from client.views import LeadViewSet
+        
 from users.views import (
     ClientViewSet, ClientCallMeViewSet, 
     StaffViewSet, VaViewSet, PmViewSet
@@ -33,11 +27,7 @@ from craigslist.views import CraigListViewSet
 router = routers.DefaultRouter()
 
 router.register(r'client', ClientViewSet, base_name="Client")
-router.register(r'client-name', ClientNameViewSet)
-router.register(r'project-manager', ProjectManagerViewSet)
-router.register(r'type-of-task', TypeOfTaskViewSet)
-router.register(r'senior-manager', SeniorManagerViewSet)
-router.register(r'virtual-assistant', VirtualAssistantViewSet)
+router.register(r'lead-source', LeadViewSet, base_name='ClientLeadSource')
 router.register(r'jobrequest', JobRequestViewSet, base_name="JobRequest")
 router.register(r'job-request-title', JobRequestTitleViewSet)
 router.register(r'job-request-timesheet', JobRequestTimeSheetViewSet, base_name="JobRequestTimeSheet")
