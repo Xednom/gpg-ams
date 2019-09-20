@@ -276,11 +276,9 @@
           <li>
             <a href="#"><i class="fa fa-list"></i> Lead Source:<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
-              {% if perms.client.view_clientleadsource %}
               <li>
                 <a href="{% url 'client:view_lead' %}"><i class="fa fa-book"></i> List of source</a>
               </li>
-              {% endif %}
             </ul>
           </li>
           {% elif request.user.staffs.category == 'Home Based' %}
