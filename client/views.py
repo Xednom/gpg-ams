@@ -35,6 +35,10 @@ class LeadView(LoginRequiredMixin, ListView):
     template_name = 'client/leads/view_leads.html'
 
 
+class AddLeadView(LoginRequiredMixin, ListView):
+    model = ClientLeadSource
+    template_name = 'client/leads/add_leads.html'
+
 class ProjectManagerView(LoginRequiredMixin, ListView):
     model=Client
     template_name='client/project_manager.html'

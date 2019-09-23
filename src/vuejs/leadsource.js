@@ -17,6 +17,22 @@ new Vue({
         currentLeads: [],
         currentSort: [],
         currentSortDir: 'desc',
+        newLeadSource: {
+            'date_lead_received': null,
+            'client': "",
+            'lead_source': "",
+            'full_name_of_lead': "",
+            'phone_number': "",
+            'email': "",
+            'type_of_lead': "",
+            'lead_profile_url': "",
+            'lead_profile_under': "",
+            'lead_status': "",
+            'virtual_assistant': "",
+            'notes_from_client': "",
+            'additional_notes': "",
+            'others': ""
+        },
 
         // pagination
         currentPage: 1,
@@ -28,8 +44,6 @@ new Vue({
     },
     mounted() {
         this.getLeads();
-        this.getClients();
-        this.getStaffs();
     },
     methods: {
         nextPage() {
@@ -48,6 +62,11 @@ new Vue({
             }
             this.currentSort = s;
         },
+        resetLeadSourceFields: function () {
+            Object.keys(this.newLeadSource).forEach(key => {
+                this.newLeadSource[key] = ""
+            })
+        },
         getLeads() {
             this.loading = true;
             axios.get(`/api/v1/lead-source/`)
@@ -61,26 +80,26 @@ new Vue({
                 })
         },
         getStaffs: function () {
-            this.loading = true;
+            this.fetching = true;
             axios.get(`/api/v1/staffs/`)
                 .then((response) => {
                     this.staffs = response.data;
-                    this.loading = false;
+                    this.fetching = false;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.fetching = false;
                     console.log(err.response.data);
                 })
         },
         getClients: function () {
-            this.loading = true;
+            this.fetching = true;
             axios.get(`/api/v1/clients/`)
                 .then((response) => {
                     this.clients = response.data;
-                    this.loading = false;
+                    this.fetching = false;
                 })
                 .catch((err) => {
-                    this.loading = false;
+                    this.fetching = false;
                     console.log(err.response.data);
                 })
         },
@@ -88,11 +107,38 @@ new Vue({
             this.viewing = true;
             axios.get(`/api/v1/lead-source/${id}/`)
                 .then((response) => {
+                    this.getClients();
+                    this.getStaffs();
                     this.viewing = false;
                     this.currentLeads = response.data;
                 })
                 .catch((err) => {
                     this.viewing = false;
+                    console.log(err.response.data);
+                })
+        },
+        addLeadSource() {
+            this.saving = true;
+            axios.post('/api/v1/lead-source/', this.newLeadSource)
+                .then((response) => {
+                    this.saving = false;
+                    this.resetLeadSourceFields();
+                    swal({
+                        title: "GPG System",
+                        text: "Lead source has been added successfully!",
+                        icon: "success",
+                        buttons: false,
+                        timer: 3000
+                    })
+                })
+                .catch((err) => {
+                    this.saving = false;
+                    swal({
+                        title: "GPG System",
+                        text: "Please check the summaries of your request. If the problem persist, please contact the admin.",
+                        icon: "error",
+                        buttons: "Ok",
+                    })
                     console.log(err.response.data);
                 })
         },
