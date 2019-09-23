@@ -6,8 +6,8 @@
                 {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
         </div>
         <div class="form-group col-md-6 col-sm-12">
-            <label>Type of Lead</label>
-            <select class="form-control" v-model="currentLeads.type_of_lead" {% if request.user.is_client %} disabled
+            <label>Lead Source</label>
+            <select class="form-control" v-model="currentLeads.lead_source" {% if request.user.is_client %} disabled
                 {% elif request.user.is_staffs %} {% endif %}>
                 <option>Craiglists</option>
                 <option>Facebook</option>
@@ -28,11 +28,12 @@
                 <option>Others</option>
             </select>
         </div>
-        <div class="form-group col-md-6 col-sm-12" v-if="currentLeads.type_of_lead == 'Others'">
+        <div class="form-group col-md-6 col-sm-12" v-if="currentLeads.lead_source == 'Others'">
             <label>If Type of Lead is "Others"</label>
             <input type="text" class="form-control form-control-sm" v-model="currentLeads.others"
                 {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
         </div>
+
         <div class="form-group col-md-6 col-sm-12">
             <label>Client</label>
             <select class="form-control" v-model="currentLeads.client" disabled>
@@ -47,8 +48,8 @@
             </select>
         </div>
         <div class="form-group col-md-6 col-sm-12">
-            <label>Lead Source</label>
-            <input type="text" class="form-control form-control-sm" v-model="currentLeads.lead_source"
+            <label>Type of Lead</label>
+            <input type="text" class="form-control form-control-sm" v-model="currentLeads.type_of_lead"
                 {% if request.user.is_client %} disabled {% elif request.user.is_staffs %} {% endif %}>
         </div>
         <div class="form-group col-md-6 col-sm-12">

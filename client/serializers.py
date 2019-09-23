@@ -7,7 +7,8 @@ User = get_user_model()
 
 
 class LeadSerializer(serializers.ModelSerializer):
-    client = serializers.SerializerMethodField()
+    client = serializers.SlugRelatedField(
+        slug_field='full_name', queryset=Clients.objects.all())
     virtual_assistant = serializers.SlugRelatedField(
         slug_field='full_name', queryset=Staffs.objects.all())
 

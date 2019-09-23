@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+GPG System | Add Client Lead Source
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div id="gpg-client-lead" v-cloak>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2 class="page-header">
+                    Add Client Lead Source
+                </h2>
+            </div>
+        </div>
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'users:home' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Add Client Lead Source</li>
+        </ol>
+        <template v-if="loading">
+            <div class="text-center">
+                <i class="fa fa-spinner fa-spin"></i> Fetching data...
+            </div>
+        </template>
+        <template v-else-if="!loading">
+            <div class="col-md-6 col-md-offset-3">
+                <form v-on:submit.prevent="addLeadSource">
+                    {% csrf_token %}
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Please fill up the informations below
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Date Lead Received</label>
+                                    <input type="date" class="form-control" v-model="newLeadSource.date_lead_received">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Lead Source</label>
+                                    <select class="form-control" v-model="newLeadSource.lead_source">
+                                        <option>Craiglists</option>
+                                        <option>Facebook</option>
+                                        <option>KSL.Com</option>
+                                        <option>Website</option>
+                                        <option>LandPin</option>
+                                        <option>Zillow</option>
+                                        <option>LandandFarm</option>
+                                        <option>Lands of America</option>
+                                        <option>Facebook</option>
+                                        <option>Facebook Marketplace</option>
+                                        <option>Property Control Center</option>
+                                        <option>Neighbor Letters</option>
+                                        <option>Mailchimp</option>
+                                        <option>Landstay</option>
+                                        <option>Instagram</option>
+                                        <option>Twitter</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row" v-if="newLeadSource.lead_source == 'Others'">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>If Type of Lead is "Others"</label>
+                                    <input type="text" class="form-control form-control-sm" v-model="newLeadSource.others">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Lead Status</label>
+                                    <select class="form-control" v-model="newLeadSource.lead_status">
+                                        <option>Dead Lead</option>
+                                        <option>Hot Leads</option>
+                                        <option>Requires Follow up</option>
+                                        <option>Interested</option>
+                                        <option>Not Interested</option>
+                                        <option>Inquires Only</option>
+                                        <option>Others</option>
+                                        <option>Closed Sale</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Lead profile URL</label>
+                                    <input type="text" class="form-control" v-model="newLeadSource.lead_profile_url">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Lead profile under</label>
+                                    <input type="text" class="form-control" v-model="newLeadSource.lead_profile_under">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Client name</label>
+                                    <select class="form-control" v-model="newLeadSource.client"
+                                        v-on:click.once="getClients">
+                                        <template v-if="fetching">
+                                            <option>Fetching data...</option>
+                                        </template>
+                                        <template v-else>
+                                            <option v-for="client in clients">[[ client.full_name ]]</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Virtual Assistant</label>
+                                    <select class="form-control" v-model="newLeadSource.virtual_assistant"
+                                        v-on:click.once="getStaffs">
+                                        <template v-if="fetching">
+                                            <option>Fetching data...</option>
+                                        </template>
+                                        <template v-else>
+                                            <option v-for="staff in staffs">[[ staff.full_name ]]</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Type of Lead</label>
+                                    <input type="text" class="form-control" v-model="newLeadSource.type_of_lead">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Full name of Lead</label>
+                                    <input type="text" class="form-control" v-model="newLeadSource.full_name_of_lead">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Phone Number</label>
+                                    <input type="text" class="form-control"
+                                        v-model="newLeadSource.phone_number">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" v-model="newLeadSource.email">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Notes from the Client</label>
+                                    <textarea cols="30" rows="10" class="form-control"
+                                        v-model="newLeadSource.notes_from_client">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="form-group col-md-12 col-sm-12">
+                                    <label>Additional notes</label>
+                                    <textarea cols="30" rows="10" v-model="newLeadSource.additional_notes"
+                                        class="form-control"></textarea>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <template v-if="saving">
+                                <button type="submit" class="btn btn-primary" disabled>Saving...</button>
+                            </template>
+                            <template v-else>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </template>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </template>
+    </div>
+</div>
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/leadsource.js' %}" type="text/javascript"></script>
+{% endblock %}

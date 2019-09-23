@@ -279,6 +279,11 @@
               <li>
                 <a href="{% url 'client:view_lead' %}"><i class="fa fa-book"></i> List of source</a>
               </li>
+              {% if request.user.is_staffs %}
+              <li>
+                <a href="{% url 'client:add_lead' %}"><i class="fa fa-plus"></i> Add Lead Source</a>
+              </li>
+              {% endif %}
             </ul>
           </li>
           {% elif request.user.staffs.category == 'Home Based' %}
