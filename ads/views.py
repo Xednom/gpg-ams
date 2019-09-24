@@ -9,6 +9,16 @@ from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
+class AdsView(LoginRequiredMixin, ListView):
+    model = AdsContent
+    template_name = 'ads/content/view_ads.html'
+
+
+class AddAdsView(LoginRequiredMixin, ListView):
+    model = AdsContent
+    template_name = 'ads/content/add_ads.html'
+
+
 class AdsViewSet(viewsets.ModelViewSet):
     serializer_class = AdsSerializer
     permission_classes = [IsAuthenticated]

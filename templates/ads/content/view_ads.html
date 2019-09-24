@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+GPG System | View Ads list
+{% endblock %}
+
+{% block dashboard_notif %}
+{% endblock %}
+
+{% block content %}
+<div id="gpg-ads" v-cloak>
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2 class="page-header">
+                        View Ads List
+                    </h2>
+                </div>
+            </div>
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users:home' %}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">View Ads List</li>
+            </ol>
+            <div class="row">
+                <template v-if="loading">
+                    <div class="text-center">
+                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                    </div>
+                </template>
+                <template v-else-if="!loading">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                Table of Ad(s) List
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <div class="col-md-2 col-sm-12" v-if="!loading">
+                                    </div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th @click="sort('date_requested')">Date Requested</th>
+                                                <th @click="sort('due_date')">Due Date</th>
+                                                <th @click="sort('date_completed')">Date Completed</th>
+                                                <th @click="sort('client')">Client name</th>
+                                                <th @click="sort('apn_or_items_needs_ad_content')">Client's Recommendation of Ad Content Title</th>
+                                                <th @click="sort('final_title')">Final Title</th>
+                                                <th @click="sort('content_status')">Ads Content Status</th>
+                                                <th @click="sort('ads_writer')">Ads writer</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <template v-if="loading">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="searching">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Searching
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="!loading">
+                                                    <td colspan="15" class="text-center bg-warning"
+                                                        v-if="!ads.length">
+                                                        No records found.
+                                                    </td>
+                                                </template>
+                                            </tr>
+                                            <tr v-for="ad in sortedAds" v-if="!loading">
+                                                <td>[[ ad.date_requested ]]</td>
+                                                <td>[[ ad.due_date ]]</td>
+                                                <td>[[ ad.date_completed ]]</td>
+                                                <td>[[ ad.client ]]</td>
+                                                <td>[[ ad.apn_or_items_needs_ad_content ]]</td>
+                                                <td>[[ ad.final_title ]]</td>
+                                                <td>[[ ad.content_status ]]</td>
+                                                <td>[[ ad.ads_writer ]]</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal"
+                                                        v-on:click="viewAds(ad.id)">View
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="prevPage">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in totalPages"
+                                            v-bind:class="[{active: pageNumber === currentPage}, 'page-item']"
+                                            v-if="Math.abs(pageNumber - currentPage) < 3 || pageNumber == totalPages - 1 || pageNumber == 0">
+                                            <a v-on:click="goToPage(pageNumber)"
+                                                :class="{current: pageNumber === currentPage, last:(pageNumber == totalPages - 1 && Math.abs(pageNumber - currentPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentPage) > 3)}">
+                                                [[ pageNumber ]]</a>
+                                        </li>
+                                        <li v-bind:class="[{disabled: (currentPage * 1) === totalPages}, 'page-item']">
+                                            <a class="page-link" v-on:click="nextBoardPage">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
+                            </div>
+                            <div class="panel-footer">
+                                Total count: [[ ads.length ]]
+                            </div>
+                        </div>
+                        <!-- /.col-lg-4 -->
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form v-on:submit.prevent="updateAds">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Ad(s) Informations for [[
+                            currentAds.client ]]</h4>
+                    </div>
+                    <template v-if="viewing">
+                        <div class="text-center">
+                            <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                        </div>
+                    </template>
+                    <template v-else-if="!viewing">
+                        {% include 'ads/content/_partial_view_ads.html' %}
+                    </template>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <template v-if="saving">
+                            <button type="submit" class="btn btn-primary" disabled>Saving...</button>
+                        </template>
+                        <template v-else>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </template>
+                    </div>
+                </div>
+            </form>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+{% endblock %}
+
+{% block api %}
+<script src="{% static 'vuejs/ads-content.js' %}" type="text/javascript"></script>
+{% endblock %}

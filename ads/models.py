@@ -7,9 +7,9 @@ from django.utils.timezone import now
 
 class AdsContent(models.Model):
     STATUS = (
-        ('Client Submitted to the Ad/s Writer', 'Client Submitted to the Ad/s Writer '),
-        ('Ad/s Writer Processing ', 'Ad/s Writer Processing '),
-        ('Ad/s Content Completed ', 'Ad/s Content Completed '),
+        ('Client Submitted to the Ad/s Writer', 'Client Submitted to the Ad/s Writer'),
+        ('Ad/s Writer Processing', 'Ad/s Writer Processing'),
+        ('Ad/s Content Completed', 'Ad/s Content Completed'),
         ('Ad/s Content Submitted to the Client', 'Ad/s Content Submitted to the Client'),
         ('Ad/s Content Closed', 'Ad/s Content Closed')
     )
