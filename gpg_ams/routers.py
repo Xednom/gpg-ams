@@ -1,5 +1,7 @@
 from rest_framework import routers
 from client.views import LeadViewSet
+
+from ads.views import AdsViewSet
         
 from users.views import (
     ClientViewSet, ClientCallMeViewSet, 
@@ -26,6 +28,7 @@ from craigslist.views import CraigListViewSet
 
 router = routers.DefaultRouter()
 
+router.register(r'ads', AdsViewSet, base_name="Ads")
 router.register(r'client', ClientViewSet, base_name="Client")
 router.register(r'lead-source', LeadViewSet, base_name='ClientLeadSource')
 router.register(r'jobrequest', JobRequestViewSet, base_name="JobRequest")
