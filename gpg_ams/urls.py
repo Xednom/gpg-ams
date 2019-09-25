@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('', include('users.urls')),
     path('client/', include('client.urls')),
+    path('ads/', include('ads.urls')),
     path('logins/', include('logins.urls')),
     path('land-master/', include('landmaster.urls')),
     path('jobrequest/', include('jobrequest.urls')),

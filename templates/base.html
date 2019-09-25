@@ -388,6 +388,21 @@
             </ul>
           </li>
           <!-- ./Craigslist -->
+          <!-- Ads content -->
+          <li>
+            <a href="#"><i class="fa fa-bullhorn"></i> Ads Content <span class="fa arrow"></span></a>
+            <ul class="nav nav-third-level">
+              <li>
+                <a href="{% url 'ads:view-ads' %}"> <i class="fa fa-eye"></i> View
+                  Ads</a>
+              </li>
+              <li>
+                <a href="{% url 'ads:add-ads' %}"> <i class="fa fa-plus"></i> Add
+                  Ads</a>
+              </li>
+            </ul>
+          </li>
+          <!-- ./Ads content -->
           {% endif %}
           {% if request.user.staffs.category == 'Home Based' %}
           <!-- don't show marketing sites to home based VAs -->
