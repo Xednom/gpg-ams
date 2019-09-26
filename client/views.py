@@ -73,3 +73,11 @@ class LeadViewSet(viewsets.ModelViewSet):
         elif self.request.user.is_staffs:
             qs = lead_list.filter(virtual_assistant=self.request.user.staffs)
             return qs
+
+    def perform_create(self, serializer):
+        is_staff = self.request.user.is_staffs
+        is_client= self.request.user.is_client
+        if is_client: 
+            serializer.save(client=self.request.user.clients)
+        elif is_staff:
+            serializer.save(virtual_assistant=self.request.user.staffs)

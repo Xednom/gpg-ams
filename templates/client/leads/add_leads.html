@@ -102,6 +102,7 @@ GPG System | Add Client Lead Source
                                     <input type="text" class="form-control" v-model="newLeadSource.lead_profile_under">
                                 </div>
                             </div>
+                            {% if request.user.is_staffs %}
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Client name</label>
@@ -116,6 +117,7 @@ GPG System | Add Client Lead Source
                                     </select>
                                 </div>
                             </div>
+                            {% elif request.user.is_client %}
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Virtual Assistant</label>
@@ -130,6 +132,7 @@ GPG System | Add Client Lead Source
                                     </select>
                                 </div>
                             </div>
+                            {% endif %}
                             <div class="form-group row">
                                 <div class="form-group col-md-12 col-sm-12">
                                     <label>Type of Lead</label>

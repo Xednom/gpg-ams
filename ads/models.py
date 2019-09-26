@@ -17,7 +17,7 @@ class AdsContent(models.Model):
     date_requested = models.DateField(auto_now_add=True)
     due_date = models.DateField(null=True, blank=True, default=now)
     date_completed = models.DateField(null=True, blank=True, default=now)
-    client = models.ForeignKey(settings.CLIENTS, on_delete=models.PROTECT)
+    client = models.ForeignKey(settings.CLIENTS, null=True, blank=True, on_delete=models.PROTECT)
     apn_or_items_needs_ad_content = models.TextField(null=True, blank=True)
     client_recommendation = models.TextField(null=True, blank=True,
                                              help_text="Client's Recommendation of Ad Content Title(If the client wish to give)")
@@ -30,7 +30,7 @@ class AdsContent(models.Model):
     modification = models.TextField(null=True, blank=True,
                                     help_text="Any Modification requested by the Client")
     content_status = models.CharField(max_length=150, choices=STATUS)
-    ads_writer = models.ForeignKey(settings.STAFFS, on_delete=models.PROTECT)
+    ads_writer = models.ForeignKey(settings.STAFFS, null=True, blank=True, on_delete=models.PROTECT)
     additional_notes = models.TextField(null=True, blank=True, help_text="Additional notes from the Ad/s writer")
 
     class Meta:
