@@ -20,7 +20,7 @@ new Vue({
         newAds: {
             'due_date': null,
             'date_completed': null,
-            'client': "",
+            'client': null,
             'apn_or_items_needs_ad_content': "",
             'client_recommendation': "",
             'content_instruction': "",
@@ -28,7 +28,7 @@ new Vue({
             'final_title': "",
             'modification': "",
             'content_status': "",
-            'ads_writer': "",
+            'ads_writer':null,
             'additional_notes': "",
         },
 
@@ -137,7 +137,7 @@ new Vue({
                         icon: "error",
                         buttons: "Ok",
                     })
-                    console.log(error);
+                    console.log(error.response.data);
                 })
         },
         updateAds() {
