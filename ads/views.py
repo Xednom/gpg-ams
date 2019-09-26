@@ -31,3 +31,9 @@ class AdsViewSet(viewsets.ModelViewSet):
         elif self.request.user.is_staffs:
             qs = ads_list.filter(ads_writer=self.request.user.staffs)
             return qs
+
+    def perform_create(self, serializer):
+        if self.request.user.is_client:
+            return serializer.save(client=self.request.user.clients)
+        elif self.request.user.is_staffs:
+            return serializer.save(ads_writer=self.request.user.staffs)
