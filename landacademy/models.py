@@ -20,11 +20,11 @@ class LandAcademyInventory(models.Model):
     date_completed = models.DateField(default=now, null=True, blank=True)
     date_payment_made = models.DateField(default=now, null=True, blank=True)
     order_name = models.CharField(max_length=150, null=True, blank=True, verbose_name="Order Name/Number")
-    client_la_requestor = models.CharField(max_length=250, null=True, blank=True, verbose_name="Client LA Requestor")
+    client = models.ForeignKey(settings.CLIENTS, null=True, blank=True, verbose_name="Client", on_delete=models.PROTECT)
     complete_order = models.CharField(max_length=150, null=True, blank=True, verbose_name="Complete Order - URL Link")
     status_of_order = models.CharField(max_length=150, choices=STATUS, null=True, blank=True, verbose_name="Status of the Order")
     payment_status = models.CharField(max_length=150, choices=PAYMENT, null=True, blank=True)
-    invoice = models.CharField(max_length=150, null=True, blank=True, verbose_name="Invoice # Towards LA")
+    invoice = models.CharField(max_length=150, null=True, blank=True, verbose_name="Invoice Number")
     total_items_charge = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, verbose_name="Total Charge", help_text="Total Items Requested x $.06")
     total_pp_fee = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, verbose_name="Total PP Fee", help_text="Total Charge *.05")
     total_charge = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True, help_text="Total Charge + Total PP Fee")
@@ -32,8 +32,8 @@ class LandAcademyInventory(models.Model):
     notes = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = 'Land Academy Inventory Record'
-        verbose_name_plural = 'Land Academy Inventory Records'
+        verbose_name = 'Smart Pricing Inventory'
+        verbose_name_plural = 'Smart Pricing Inventories'
         ordering = ['-date_completed']
 
     def __str__(self):
@@ -70,29 +70,23 @@ class O20SmartPricing(models.Model):
         ('Others', 'Others')
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    client = models.ForeignKey(settings.CLIENTS, null=True, blank=True, on_delete=models.PROTECT)
+    job_order = models.CharField(max_length=150, null=True, blank=True)
+    virtual_assistant = models.ForeignKey(settings.STAFFS, null=True, blank=True,
+                                          on_delete=models.PROTECT, related_name='va')
     situs_address = models.TextField(null=True, blank=True)
     trulia = models.CharField(max_length=150, null=True, blank=True)
     zillow = models.CharField(max_length=150, null=True, blank=True)
     redfin = models.CharField(max_length=150, null=True, blank=True)
     realfor = models.CharField(max_length=150, null=True, blank=True)
     realtytrac = models.CharField(max_length=150, null=True, blank=True)
-    order_name = models.CharField(max_length=150, null=True, blank=True)
-    requestor_full_name = models.CharField(max_length=150, default="Jack Butala")
-    researcher_name = models.ForeignKey(settings.STAFFS, null=True, blank=True, \
-                                        on_delete=models.PROTECT, related_name='researcher')
-    date_requested = models.DateField(default=now, null=True, blank=True)
-    date_research = models.DateField(default=now, null=True, blank=True)
-    date_encoded = models.DateField(default=now, null=True, blank=True)
-    quality_check_status = models.CharField(max_length=50, choices=STATUS, null=True, blank=True)
-    quality_specialist = models.ForeignKey(settings.STAFFS, null=True, blank=True, \
-                                           on_delete=models.PROTECT, related_name='QA')
-    notes_from_researcher = models.TextField(null=True, blank=True, verbose_name="Notes From the Researcher")
-    notes_from_qa = models.TextField(null=True, blank=True, verbose_name="Notes From the QA Specialist")
+    date_completed = models.DateField(default=now, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = 'Land Academy O20 Smart Pricing'
-        verbose_name_plural = 'Land Academy O20 Smart Pricings'
-        ordering = ['-date_encoded']
+        verbose_name = 'Smart Pricing Job Request'
+        verbose_name_plural = 'Smart Pricing Job Requests'
+        ordering = ['-date_completed']
     
     def __str__(self):
-        return str(self.quality_specialist)
+        return '%s - %s' % (self.client, self.job_order)

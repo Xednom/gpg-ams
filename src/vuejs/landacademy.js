@@ -34,22 +34,17 @@ new Vue({
         },
 
         newSmartPricing: {
+            'client': null,
+            'job_order': null,
+            'virtual_assistant': null,
             'situs_address': null,
             'trulia': null,
             'zillow': null,
             'redfin': null,
             'realfor': null,
             'realtytrac': null,
-            'order_name': null,
-            'requestor_full_name': null,
-            'date_requested': null,
-            'date_research': null,
-            'date_encoded': null,
-            'quality_check_status': null,
-            'researcher_name': null,
-            'quality_specialist': null,
-            'notes_from_researcher': null,
-            'notes_from_qa': null,
+            'date_completed': null,
+            'notes': null,
         },
 
         // for normal search
@@ -66,11 +61,9 @@ new Vue({
         advance_search_payment_status: '',
 
         //for advanced search smart pricing
-        search_date_requested: '',
-        search_date_research: '',
-        search_date_encoded: '',
-        search_requestor: '',
-        search_quality_check: '',
+        search_date_completed: '',
+        search_client: '',
+        search_va: '',
 
         // for pagination
         currentPage: 1,
@@ -173,6 +166,8 @@ new Vue({
         },
         viewSmartPricing: function (id) {
             this.viewing = true;
+            this.getClients();
+            this.getStaffs();
             axios.get(`/api/v1/o2o-smart-pricing/${id}/`)
                 .then((response) => {
                     this.viewing = false;
@@ -315,7 +310,7 @@ new Vue({
         },
         normalSearchSmartPricing: function () {
             this.searching = true;
-            axios.get(`/api/v1/o2o-smart-pricing/?requestor_full_name=${this.search_requestor}`)
+            axios.get(`/api/v1/o2o-smart-pricing/?client=${this.search_client_name}`)
                 .then((response) => {
                     this.searching = false;
                     this.smartpricing = response.data;
@@ -339,7 +334,7 @@ new Vue({
         },
         advanceSearchSmartPricing: function () {
             this.searching = true;
-            axios.get(`/api/v1/o2o-smart-pricing/?date_requested=${this.search_date_requested}&date_research=${this.search_date_research}&date_encoded=${this.search_date_encoded}&requestor_full_name=${this.search_requestor}&quality_check_status=${this.search_quality_check}`)
+            axios.get(`/api/v1/o2o-smart-pricing/?date_completed=${this.search_date_completed}&client=${this.search_client}&virtual_assistant=${this.search_va}`)
                 .then((response) => {
                     this.searching = false;
                     this.smartpricing = response.data;

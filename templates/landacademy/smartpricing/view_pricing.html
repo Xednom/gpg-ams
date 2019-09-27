@@ -36,165 +36,163 @@ GPG System | View Land Academy Inventory Records
                 </div>
             </template>
             <template v-else-if="!loading">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="collapse multi-collapse" id="CollapseSearchCarrier">
-                        <div class="panel panel-primary">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="collapse multi-collapse" id="CollapseSearchCarrier">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    Advanced search
+                                </div>
+                                <div class="panel-body">
+                                    <form method="GET">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="form-group col-md-2 col-sm-12">
+                                                <label>Date Completed:</label>
+                                                <input class="form-control form-control-sm" type="date"
+                                                    v-model="search_date_completed">
+                                            </div>
+                                            {% if request.user.is_staffs %}
+                                            <div class="form-group col-md-2 col-sm-12">
+                                                <label>Client:</label>
+                                                <select class="form-control" v-model="search_client"
+                                                    v-on:click.once="getClients">
+                                                    <template v-if="fetching">
+                                                        <option>Fetching data...</option>
+                                                    </template>
+                                                    <template v-else>
+                                                        <option v-for="client in clients">[[ client.full_name ]]
+                                                        </option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                            {% elif request.user.is_client %}
+                                            <div class="form-group col-md-2 col-sm-12">
+                                                <label>Virtual Assistant:</label>
+                                                <input class="form-control form-control-sm" type="text"
+                                                    v-model="search_va">
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-md-12 col-sm-12 pull-right">
+                                                <button class="btn btn-primary" type="submit"
+                                                    v-on:click.prevent="advanceSearchSmartPricing"><i
+                                                        class="fa fa-search"></i>
+                                                    Search</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
                             <div class="panel-heading">
-                                Advanced search
+                                Table of Land Academy O2O Smart Pricing
                             </div>
                             <div class="panel-body">
-                                <form method="GET">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="form-group col-md-2 col-sm-12">
-                                            <label>Date Requested:</label>
-                                            <input class="form-control form-control-sm" type="date"
-                                                v-model="search_date_requested">
-                                        </div>
-                                        <div class="form-group col-md-2 col-sm-12">
-                                            <label>Date Research:</label>
-                                            <input class="form-control form-control-sm" type="date"
-                                                v-model="search_date_research">
-                                        </div>
-                                        <div class="form-group col-md-2 col-sm-12">
-                                            <label>Date Encoded:</label>
-                                            <input class="form-control form-control-sm" type="date"
-                                                v-model="search_date_encoded">
-                                        </div>
-                                        <div class="form-group col-md-2 col-sm-12">
-                                            <label>Requestor:</label>
-                                            <input class="form-control form-control-sm" type="text"
-                                                v-model="search_requestor">
-                                        </div>
-                                        <div class="form-group col-md-2 col-sm-12">
-                                            <label>Quality check status:</label>
-                                            <select class="form-control" v-model="search_quality_check">
-                                                <option>Complete</option>
-                                                <option>Complete Incorrect Data Input</option>
-                                                <option>Others</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12 pull-right">
-                                            <button class="btn btn-primary" type="submit"
-                                                v-on:click.prevent="advanceSearchSmartPricing"><i
-                                                    class="fa fa-search"></i>
-                                                Search</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            Table of Land Academy O2O Smart Pricing
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <div class="col-md-2 col-sm-12" v-if="!loading">
-                                    <!-- <form action="GET"> -->
-                                    <div class="form-group input-group">
-                                        <input type="text" class="form-control" placeholder="Search..."
-                                            v-model="search_requestor" @keyup.enter="normalSearchSmartPricing">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button"
-                                                v-on:click.prevent="normalSearchSmartPricing"><i
-                                                    class="fa fa-search"></i>
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <!-- </form> -->
-                                </div>
-                                <div class="pull-right">
-                                    <a href="#CollapseSearchCarrier" data-toggle="collapse" role="button"
-                                        aria-expanded="false" aria-controls="CollapseSearchCarrier"
-                                        v-if="!loading">advanced
-                                        search</a>
-                                </div>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th @click="sort('date_requested')">Date Requested</th>
-                                            <th @click="sort('quality_specialist')">Quality Specialist</th>
-                                            <th @click="sort('date_encoded')">Date Encoded</th>
-                                            <th @click="sort('situs_address')">Situs Address</th>
-                                            <th @click="sort('quality_check_status')">Quality Check Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <template v-if="loading">
-                                                <td colspan="15" class="text-center bg-warning">
-                                                    <i class="fa fa-spinner fa-spin"></i> Fetching data...
-                                                </td>
-                                            </template>
-                                            <template v-else-if="searching">
-                                                <td colspan="15" class="text-center bg-warning">
-                                                    <i class="fa fa-spinner fa-spin"></i> Searching
-                                                </td>
-                                            </template>
-                                            <template v-else-if="!smartpricing.length">
-                                                <td colspan="15" class="text-center bg-warning">
-                                                    No records found.
-                                                </td>
-                                            </template>
-                                        </tr>
-                                        <tr v-for="smartpricing in sortedSmartPricing">
-                                            <td>[[ smartpricing.date_requested ]]</td>
-                                            <td>[[ smartpricing.quality_specialist ]]</td>
-                                            <td>[[ smartpricing.date_encoded ]]</td>
-                                            <td>[[ smartpricing.situs_address ]]</td>
-                                            <td>[[ smartpricing.quality_check_status ]]</td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#editModal"
-                                                    v-on:click="viewSmartPricing(smartpricing.id)">View
+                                <div class="table-responsive">
+                                    <div class="col-md-2 col-sm-12" v-if="!loading">
+                                        <!-- <form action="GET"> -->
+                                        <div class="form-group input-group">
+                                            <input type="text" class="form-control" placeholder="Search..."
+                                                v-model="search_client_name" @keyup.enter="normalSearchSmartPricing">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button"
+                                                    v-on:click.prevent="normalSearchSmartPricing"><i
+                                                        class="fa fa-search"></i>
                                                 </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- pagination -->
-                            <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
-                                <ul class="pagination justify-content-end">
-                                    <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
-                                        <a class="page-link" tabindex="-1" v-on:click="prevPage">
-                                            Previous
-                                        </a>
-                                    </li>
-                                    <li v-for="pageNumber in totalPages"
-                                        v-bind:class="[{active: pageNumber === currentPage}, 'page-item']"
-                                        v-if="Math.abs(pageNumber - currentPage) < 3 || pageNumber == totalPages - 1 || pageNumber == 0">
-                                        <a v-on:click="goToPage(pageNumber)"
-                                            :class="{current: currentPage === pageNumber, last:(pageNumber == totalPages - 1 && Math.abs(pageNumber - currentPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentPage) > 3)}">
-                                            [[ pageNumber ]]</a>
-                                    </li>
-                                    <li v-bind:class="[{disabled: (currentPage * 1) === totalPages},
+                                            </span>
+                                        </div>
+                                        <!-- </form> -->
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#CollapseSearchCarrier" data-toggle="collapse" role="button"
+                                            aria-expanded="false" aria-controls="CollapseSearchCarrier"
+                                            v-if="!loading">advanced
+                                            search</a>
+                                    </div>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th @click="sort('date_completed')">Date Completed</th>
+                                                <th @click="sort('client')">Client name</th>
+                                                <th @click="sort('virtual_assistant')">Virtual Assistant</th>
+                                                <th @click="sort('job_order')">Job order</th>
+                                                <th @click="sort('situs_address')">Situs Address</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <template v-if="loading">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Fetching data...
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="searching">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        <i class="fa fa-spinner fa-spin"></i> Searching
+                                                    </td>
+                                                </template>
+                                                <template v-else-if="!smartpricing.length">
+                                                    <td colspan="15" class="text-center bg-warning">
+                                                        No records found.
+                                                    </td>
+                                                </template>
+                                            </tr>
+                                            <tr v-for="smartpricing in sortedSmartPricing">
+                                                <td>[[ smartpricing.date_completed ]]</td>
+                                                <td>[[ smartpricing.client ]]</td>
+                                                <td>[[ smartpricing.virtual_assistant ]]</td>
+                                                <td>[[ smartpricing.job_order ]]</td>
+                                                <td>[[ smartpricing.situs_address ]]</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                        data-toggle="modal" data-target="#editModal"
+                                                        v-on:click="viewSmartPricing(smartpricing.id)">View
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- pagination -->
+                                <nav class="pagination-wrapper pull-right" v-if="endPage > 1">
+                                    <ul class="pagination justify-content-end">
+                                        <li v-bind:class="[{disabled: currentPage === 1}, 'page-item']">
+                                            <a class="page-link" tabindex="-1" v-on:click="prevPage">
+                                                Previous
+                                            </a>
+                                        </li>
+                                        <li v-for="pageNumber in totalPages"
+                                            v-bind:class="[{active: pageNumber === currentPage}, 'page-item']"
+                                            v-if="Math.abs(pageNumber - currentPage) < 3 || pageNumber == totalPages - 1 || pageNumber == 0">
+                                            <a v-on:click="goToPage(pageNumber)"
+                                                :class="{current: currentPage === pageNumber, last:(pageNumber == totalPages - 1 && Math.abs(pageNumber - currentPage) > 3), first:(pageNumber == 0 && Math.abs(pageNumber - currentPage) > 3)}">
+                                                [[ pageNumber ]]</a>
+                                        </li>
+                                        <li v-bind:class="[{disabled: (currentPage * 1) === totalPages},
                                         'page-item']">
-                                        <a class="page-link" v-on:click="nextPage">
-                                            Next
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <!-- end of pagination -->
-                        </div>
-                        <div class="panel-footer">
-                            Total count: [[ smartpricing.length ]]
-                            <div class="pull-right" v-if="smartpricing.length">
+                                            <a class="page-link" v-on:click="nextPage">
+                                                Next
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- end of pagination -->
+                            </div>
+                            <div class="panel-footer">
+                                Total count: [[ smartpricing.length ]]
+                                <!-- <div class="pull-right" v-if="smartpricing.length">
                                 <a href="#" class="btn btn-primary btn-xs"
                                     v-on:click.prevent="generateO2OExcelFile" data-placement="top"
                                     title="Extract" style="margin-bottom:15px;"><i class="fa fa-file-excel-o"></i>
                                     Export to
                                     excel</a>
+                            </div> -->
                             </div>
                         </div>
+                        <!-- /.col-lg-4 -->
                     </div>
-                    <!-- /.col-lg-4 -->
                 </div>
-            </div>
             </template>
             <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true">
@@ -217,54 +215,31 @@ GPG System | View Land Academy Inventory Records
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label>Date Requested</label>
+                                            <label>Date Completed</label>
                                             <input type="date" class="form-control form-control-sm"
-                                                v-model="currentPricings.date_requested"
-                                                {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
+                                                v-model="currentPricings.date_completed"
+                                                {% if perms.landacademy.change_o20smartpricing %} {% else %} disabled
+                                                {% endif %}>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label>Date Research</label>
-                                            <input type="date" class="form-control form-control-sm"
-                                                v-model="currentPricings.date_research"
-                                                {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label>Date Encoded</label>
-                                            <input type="text" class="form-control"
-                                                v-model="currentPricings.date_encoded"
-                                                {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label>Requestor Full Name</label>
-                                            <input type="text" class="form-control form-control-sm"
-                                                v-model="currentPricings.requestor_full_name"
-                                                {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label>Quality Check Status</label>
-                                            <select class="form-control" v-model="currentPricings.quality_check_status"
-                                                {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
-                                                <option>Complete</option>
-                                                <option>Complete Incorrect Data Input</option>
-                                                <option>Others</option>
+                                            <label>Client</label>
+                                            <select class="form-control" v-model="currentPricings.client" disabled>
+                                                <option v-for="client in clients">[[ client.full_name ]]
+                                                </option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label>Quality Specialist</label>
-                                            <input type="text" class="form-control form-control-sm"
-                                                v-model="currentPricings.quality_specialist"
-                                                {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
+                                            <label>Virtual Assistant</label>
+                                            <select class="form-control" v-model="currentPricings.virtual_assistant"
+                                                disabled>
+                                                <option v-for="staff in staffs">[[ staff.full_name ]]
+                                                </option>
+                                            </select>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
-                                            <label>Researcher name</label>
+                                            <label>Job order name</label>
                                             <input type="text" class="form-control form-control-sm"
-                                                v-model="currentPricings.researcher_name"
+                                                v-model="currentPricings.job_order"
                                                 {% if perms.landacademy.change_o20smartpricing %} {% else %} disabled
                                                 {% endif %}>
                                         </div>
@@ -272,77 +247,66 @@ GPG System | View Land Academy Inventory Records
                                             <label>Situs Address</label>
                                             <input type="text" class="form-control form-control-sm"
                                                 v-model="currentPricings.situs_address"
-                                                {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
+                                                {% if perms.landacademy.change_o20smartpricing %} {% else %} disabled
+                                                {% endif %}>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label>Trulia</label>
                                             <input type="text" class="form-control form-control-sm"
-                                                v-model="currentPricings.trulia" {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
+                                                v-model="currentPricings.trulia"
+                                                {% if perms.landacademy.change_o20smartpricing %} {% else %} disabled
+                                                {% endif %}>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label>Zillow</label>
                                             <input type="text" class="form-control form-control-sm"
-                                                v-model="currentPricings.zillow"  {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
+                                                v-model="currentPricings.zillow"
+                                                {% if perms.landacademy.change_o20smartpricing %} {% else %} disabled
+                                                {% endif %}>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label>Redfin</label>
                                             <input type="text" class="form-control form-control-sm"
-                                                v-model="currentPricings.redfin" {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
+                                                v-model="currentPricings.redfin"
+                                                {% if perms.landacademy.change_o20smartpricing %} {% else %} disabled
+                                                {% endif %}>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label>RealFor</label>
                                             <input type="text" class="form-control form-control-sm"
-                                                v-model="currentPricings.realfor" {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
+                                                v-model="currentPricings.realfor"
+                                                {% if perms.landacademy.change_o20smartpricing %} {% else %} disabled
+                                                {% endif %}>
                                         </div>
                                         <div class="form-group col-md-6 col-sm-12">
                                             <label>RealtyTrac</label>
                                             <input type="text" class="form-control form-control-sm"
-                                                v-model="currentPricings.realtytrac" {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
-                                        </div>
-                                        <div class="form-group col-md-6 col-sm-12">
-                                            <label>Order Name</label>
-                                            <input type="text" class="form-control form-control-sm"
-                                                v-model="currentPricings.order_name"
+                                                v-model="currentPricings.realtytrac"
                                                 {% if perms.landacademy.change_o20smartpricing %} {% else %} disabled
                                                 {% endif %}>
                                         </div>
                                         <div class="form-group col-md-12 col-sm-12">
-                                            <label>Notes from Researcher</label>
-                                            <textarea cols="30" rows="10"
-                                                v-model="currentPricings.notes_from_researcher"
-                                                class="form-control"
-                                                {% if perms.landacademy.change_o20smartpricing %} {% else %}
-                                                disabled {% endif %}>
-                                            </textarea>
-                                        </div>
-                                        <div class="form-group col-md-12 col-sm-12">
-                                            <label>Notes from QA</label>
-                                            <textarea cols="30" rows="10" v-model="currentPricings.notes_from_qa"
+                                            <label>Notes</label>
+                                            <textarea cols="30" rows="10" v-model="currentPricings.notes"
                                                 class="form-control" {% if perms.landacademy.change_o20smartpricing %}
                                                 {% else %} disabled {% endif %}>
                                             </textarea>
                                         </div>
                                     </div>
                                 </div>
+                            </template>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                {% if perms.landacademy.change_o20smartpricing %}
+                                <template v-if="saving">
+                                    <button type="submit" class="btn btn-primary" disabled>
+                                        <i class="fa fa-spinner fa-spin"></i> Saving changes</button>
                                 </template>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    {% if perms.landacademy.change_o20smartpricing %}
-                                    <template v-if="saving">
-                                        <button type="submit" class="btn btn-primary" disabled>
-                                            <i class="fa fa-spinner fa-spin"></i> Saving changes</button>
-                                    </template>
-                                    <template v-else>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </template>
-                                    {% endif %}
-                                </div>
+                                <template v-else>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </template>
+                                {% endif %}
+                            </div>
                         </div>
                     </form>
                     <!-- /.modal-content -->

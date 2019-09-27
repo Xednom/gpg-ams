@@ -40,7 +40,7 @@ class InventoryFilterSet(FilterSet):
     date_requested = DateFilter(field_name='date_requested', lookup_expr='contains')
     date_completed = DateFilter(field_name='date_completed', lookup_expr='contains')
     date_payment_made = DateFilter(field_name='date_payment_made', lookup_expr='contains')
-    client_la_requestor = CharFilter(field_name='client_la_requestor', lookup_expr='icontains')
+    client = CharFilter(field_name='client', lookup_expr='icontains')
     status_of_order = CharFilter(field_name='status_of_order', lookup_expr='contains')
     payment_status = CharFilter(field_name='payment_status', lookup_expr='contains')
     order_name = CharFilter(field_name='order_name', lookup_expr='icontains')
@@ -48,20 +48,17 @@ class InventoryFilterSet(FilterSet):
     class Meta:
         model = LandAcademyInventory
         fields = ('date_requested', 'date_completed',
-                  'date_payment_made', 'client_la_requestor', 'status_of_order', 'payment_status', 'order_name')
+                  'date_payment_made', 'client', 'status_of_order', 'payment_status', 'order_name')
 
 
 class SmartPricingFilterSet(FilterSet):
-    date_requested = DateFilter(field_name='date_requested', lookup_expr='icontains')
-    date_research = DateFilter(field_name='date_research', lookup_expr='icontains')
-    date_encoded = DateFilter(field_name='date_encoded', lookup_expr='icontains')
-    requestor_full_name = CharFilter(field_name='requestor_full_name', lookup_expr='icontains')
-    quality_check_status = CharFilter(field_name='quality_check_status', lookup_expr='icontains')
+    date_completed = DateFilter(field_name='date_completed', lookup_expr='icontains')
+    client = CharFilter(field_name='client__full_name', lookup_expr='icontains')
+    virtual_assistant = CharFilter(field_name='virtual_assistant__full_name', lookup_expr='icontains')
 
     class Meta:
         model = O20SmartPricing
-        fields = ('date_requested', 'date_research',
-                  'date_encoded', 'requestor_full_name', 'quality_check_status')
+        fields = ('date_completed', 'client', 'virtual_assistant')
 
 
 class LandAcademyViewSet(viewsets.ModelViewSet):
