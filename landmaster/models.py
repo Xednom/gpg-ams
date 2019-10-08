@@ -175,7 +175,7 @@ class DueDiligence(TimeStampedModel):
         ordering = ('date_requested',)
 
     def __str__(self):
-        return str(self.company_name)
+        return str(self.company_owner_or_requestor)
 
     def time_calculation(self):
         total = self.total_hrs_for_initial_dd + self.total_hrs_overall_dd_callouts
