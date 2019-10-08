@@ -223,7 +223,7 @@
           <!-- don't show land master to home based -->
           {% elif request.user.is_client %}
           <li>
-            <a href="#"><i class="fa fa-mountain"></i> Land Master <span class="fa arrow"></span></a>
+            <a href="#"><i class="fa fa-mountain"></i> Due Diligence/Call Out Request <span class="fa arrow"></span></a>
             <ul class="nav nav-third-level">
               <li>
                 <a href="{% url 'landmaster:due_diligence' %}"> <i class="fa fa-plus"></i> Add Due Diligence work</a>
