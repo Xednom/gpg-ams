@@ -7,7 +7,7 @@ from import_export.admin import ImportExportModelAdmin, ExportMixin
 class InventoryProfile(ImportExportModelAdmin):
     list_display = ('date_requested', 'date_completed', 'apn',
                     'type_of_marketing_sites', 'client_full_name',
-                    'client_company_name', 'status')
+                    'client_company_name', 'marketing_associate', 'status')
     list_filter = ('client_full_name', 'client_company_name', 'status',
                    'post_for_approval', 'marketing_associate')
     list_per_page = 30
