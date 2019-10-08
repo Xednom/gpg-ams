@@ -185,7 +185,7 @@
               {% endif %}
               {% if perms.landacademy.view_o20smartpricing %}
               <li>
-                <a href="#"><i class="fa fa-folder-o"></i> O2O Smart Pricing <span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-folder-o"></i> Smart Pricing Job Request <span class="fa arrow"></span></a>
                 <ul class="nav nav-third-level">
                   <li>
                     {% if perms.landacademy.add_o20smartpricing %}
@@ -202,7 +202,7 @@
               </li>
               {% elif request.user.staffs.category == 'Office Based' %}
               <li>
-                <a href="#"><i class="fa fa-folder-o"></i> O2O Smart Pricing <span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-folder-o"></i> Smart Pricing Job Request<span class="fa arrow"></span></a>
                 <ul class="nav nav-third-level">
                   <li>
                     <a href="{% url 'landacademy:add_o2o' %}"> <i class="fa fa-plus"></i> Add
