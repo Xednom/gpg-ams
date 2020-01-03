@@ -57,16 +57,14 @@ class PayrollView(LoginRequiredMixin, TemplateView):
                                            Q(status='APPROVED-BY-THE-MANAGER'))
         total_salary = VaPayroll.objects.filter(Q(virtual_assistant=user), 
                                                 Q(date__month=current_month),
-                                                Q(status='APPROVED-BY-THE-MANAGER'),
-                                                Q(date__year=current_year)).aggregate(Sum('salary'))
+                                                Q(status='APPROVED-BY-THE-MANAGER')).aggregate(Sum('salary'))
         if search:
             payroll_data = payroll_list.filter(Q(virtual_assistant=user),
                                                Q(status='APPROVED-BY-THE-MANAGER'),
                                                Q(date__icontains=search))
             total_salary = VaPayroll.objects.filter(Q(virtual_assistant=user),
                                                     Q(status='APPROVED-BY-THE-MANAGER'),
-                                                    Q(date__month=search),
-                                                    Q(date__year=current_year)).aggregate(Sum('salary'))
+                                                    Q(date__month=search)).aggregate(Sum('salary'))
         context = {
             'total_salary': total_salary,
             'payroll_data': payroll_data
@@ -118,8 +116,7 @@ class PayrollViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         current_month = datetime.date.today().month
         current_year = datetime.date.today().year
-        queryset = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name), 
-                                            Q(date__year=current_year),
+        queryset = VaPayroll.objects.filter(Q(virtual_assistant=self.request.user.staffs.full_name),
                                             Q(status='APPROVED-BY-THE-MANAGER'))
         return queryset
 
@@ -134,8 +131,7 @@ class PayrollCashOutViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         current_month = datetime.date.today().month
         current_year = datetime.date.today().year
-        queryset = VaCashOut.objects.filter(Q(name__name=self.request.user.staffs.full_name),
-                                            Q(date_release__year=current_year))
+        queryset = VaCashOut.objects.filter(Q(name__name=self.request.user.staffs.full_name))
         return queryset
 
 

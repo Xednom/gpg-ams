@@ -120,7 +120,7 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
         elif self.request.user.is_staffs:
             staff = Q(
                 assigned_approval__full_name__icontains=self.request.user.staffs)
-            qs = timesheet.filter(staff & year)
+            qs = timesheet.filter(staff)
             return qs
         elif self.request.user.is_superuser:
             qs = TimeSheet.objects.all()
@@ -133,10 +133,8 @@ class PaymentMadeViewSet(viewsets.ModelViewSet):
     filter_class = (PaymentMadeFilter)
 
     def get_queryset(self):
-        current_year = datetime.date.today().year
         if self.request.user.is_client:
-            queryset = PaymentMade.objects.filter(Q(client_name__full_name=self.request.user.clients.full_name),
-                                                  Q(date__year=current_year))
+            queryset = PaymentMade.objects.filter(Q(client_name__full_name=self.request.user.clients.full_name))
             return queryset
         elif self.request.user.is_superuser:
             qs = PaymentMade.objects.all()
@@ -149,10 +147,8 @@ class CashOutViewSet(viewsets.ModelViewSet):
     filter_class = (CashOutFilter)
 
     def get_queryset(self):
-        current_year = datetime.date.today().year
         if self.request.user.is_staffs:
-            queryset = CashOut.objects.filter(Q(name__full_name=self.request.user.staffs.full_name),
-                                              Q(cash_date_release__year=current_year))
+            queryset = CashOut.objects.filter(Q(name__full_name=self.request.user.staffs.full_name))
             return queryset
         elif self.request.user.is_superuser:
             qs = CashOut.objects.all()

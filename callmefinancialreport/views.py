@@ -50,6 +50,5 @@ class FinancialViewSet(viewsets.ModelViewSet):
         current_year = datetime.date.today().year
         user_client = self.request.user.is_client
         if user_client:
-            qs = FinancialReport.objects.filter(Q(client_full_name__full_name=self.request.user.clients.full_name), 
-            Q(date_created__year=current_year))
+            qs = FinancialReport.objects.filter(Q(client_full_name__full_name=self.request.user.clients.full_name))
             return qs
