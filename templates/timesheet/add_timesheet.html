@@ -42,7 +42,15 @@ GPG System | Add Timesheet
                                     {{ form.month_to_date|as_crispy_field }}
                                 </div>
                                 <div class="form-group col-md-2 col-sm-12 col-xs-12 timesheet-box">
-                                    {{ form.clients_full_name|as_crispy_field }}
+                                    <!-- {{ form.clients_full_name|as_crispy_field }} -->
+                                    <label>Clients full name</label>
+                                    <input id="id_clients_full_name" name="clients_full_name" class="form-control" 
+                                        list="client_names" autocomplete="off" />
+                                    <datalist id="client_names">
+                                        {% for client_names in full_names %}
+                                        <option value="{{ client_names }}"></option>
+                                        {% endfor %}
+                                    </datalist>
                                 </div>
                                 <div class="form-group col-md-2 col-sm-12 col-xs-12 timesheet-box">
                                     {{ form.title_job_request|as_crispy_field }}

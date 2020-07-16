@@ -14,10 +14,17 @@ class TimeSheetSerializer(serializers.ModelSerializer):
                                                      allow_null=True, required=False)
     time_in = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     time_out = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    client_control_number = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = TimeSheet
         fields = '__all__'
+
+    def get_client_control_number(self, obj):
+        client_name = obj.client_full_name
+        control_number = Clients.objects.filter(full_name=client_name).all()
+        client_control_number = [client.client_control_number for client in control_number]
+        return client_control_number
 
 
 class PaymentMadeSerializer(serializers.ModelSerializer):

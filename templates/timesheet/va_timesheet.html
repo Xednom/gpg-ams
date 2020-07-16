@@ -125,7 +125,7 @@ GPG System | View Timesheet
                                         <thead>
                                             <th @click="sort('shift_date')">Shift Date</th>
                                             <th @click="sort('title_job_request')">Job Request Title</th>
-                                            <th @click="sort('clients_full_name')">Client name</th>
+                                            <th @click="sort('client_control_number')">Client control number</th>
                                             <th @click="sort('time_in')">Time In</th>
                                             <th @click="sort('time_out')">Time Out</th>
                                             <th @click="sort('duration')">Total Duration(Hours)</th>
@@ -151,7 +151,7 @@ GPG System | View Timesheet
                                             <tr v-for="timesheets in sortedTimesheet">
                                                 <td>[[ timesheets.shift_date ]]</td>
                                                 <td>[[ timesheets.title_job_request ]]</td>
-                                                <td>[[ timesheets.clients_full_name ]]</td>
+                                                <td>[[ timesheets.client_control_number.toString() ]]</td>
                                                 <td>[[ timesheets.time_in ]]</td>
                                                 <td>[[ timesheets.time_out ]]</td>
                                                 <td>[[ timesheets.duration ]]hrs</td>

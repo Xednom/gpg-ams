@@ -10,7 +10,7 @@ from .resources import TimeSheetResource, PaymentMadeResource, CashOutResource
 
 
 class TimeSheetProfile(ImportExportModelAdmin):
-    list_display = ('shift_date', 'clients_full_name', 'duration',
+    list_display = ('shift_date', 'client_full_name', 'duration',
                     'title_job_request', 'assigned_approval', 'status',
                     'admin_approval', 'hourly_rate_peso', 'total_charge_peso', 
                     'hourly_rate_usd', 'total_amount_due')
@@ -37,6 +37,7 @@ class TimeSheetProfile(ImportExportModelAdmin):
                 'shift_date',
                 'month_to_date',
                 'clients_full_name',
+                'client_full_name',
                 'title_job_request',
                 'channel_job_requested',
                 'job_request_description',

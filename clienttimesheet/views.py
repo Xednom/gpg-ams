@@ -23,6 +23,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 
 from .models import TimeSheet, PaymentMade, CashOut
+from users.models import Clients
 from .serializers import TimeSheetSerializer, PaymentMadeSerializer, CashOutSerializer
 
 
@@ -30,7 +31,7 @@ class AddVaTimeSheetView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     template_name = 'timesheet/add_timesheet.html'
     model = TimeSheet
     fields = [
-        'company_tagging', 'shift_date', 'month_to_date', 'clients_full_name',
+        'company_tagging', 'shift_date', 'month_to_date', 'clients_full_name', 'client_full_name',
         'title_job_request', 'channel_job_requested', 'job_request_description',
         'time_in', 'time_out', 'total_items', 'additional_comments', 'hourly_rate_peso',
         'status', 'assigned_approval'
@@ -43,6 +44,22 @@ class AddVaTimeSheetView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy('timesheet:add_timesheet')
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+
+        # make the 'client_name' field use a datalist to autocomplete
+        form.fields['clients_full_name'].widget.attrs.update({'list':'full_names'})
+        
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # add 'clients_full_name' to the context to populate the datalist
+        context['full_names'] = Clients.objects.values_list('full_name', flat=True)
+
+        return context
 
 
 class VaTimeSheetView(TemplateView, LoginRequiredMixin):
@@ -114,7 +131,8 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
         if self.request.user.is_client:
             client = Q(
                 clients_full_name__full_name__icontains=self.request.user.clients.full_name)
-            queryset = timesheet.filter(client & Q(
+            client_name = Q(client_full_name=self.request.user.clients.full_name)
+            queryset = timesheet.filter(client | client_name & Q(
                 admin_approval="Approved") & Q(status="Approved"))
             return queryset
         elif self.request.user.is_staffs:
