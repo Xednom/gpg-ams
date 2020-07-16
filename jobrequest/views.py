@@ -75,7 +75,7 @@ class JobRequestViewSet(viewsets.ModelViewSet):
             elif self.request.user.staffs.position == 'General Administrative Support':
                 if is_staff:
                     queryset = job_request.filter(Q(assigned_va__full_name__icontains=self.request.user.staffs) |
-                                                  Q(assigned_project_managers__full_name__icontains=self.request.user.staffs.full_name))
+                                                  Q(assigned_project_managers__full_name__icontains=self.request.user.staffs.full_name)).exclude(project_status="VA Completed Job Request")
                     return queryset
 
     def perform_create(self, serializer):
