@@ -111,7 +111,7 @@
             <li>
               <a href="{% url 'users:home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
-            {% if request.user.is_client or request.user.staffs.category == 'Office Based' %}
+            {% if request.user.is_client or request.user.staffs.category == 'Office Based' or request.user.staffs.category == 'Home Based' %}
             <li>
               <a href="#"><i class="fa fa-tasks fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">

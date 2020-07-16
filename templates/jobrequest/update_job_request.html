@@ -108,12 +108,16 @@ GPG System | View Job Request
             </div>
             <div class="panel-footer">
               Total Count: [[ jobRequests.length ]]
+              {% if request.user.staffs.category == 'Home Based' %}
+              <!-- don't show export excel -->
+              {% elif %}
               <div class="pull-right" v-if="jobRequests.length">
                 <a href="#" class="btn btn-primary btn-xs" v-on:click.prevent="generateExcelFile" data-placement="top"
                   title="Extract"><i class="fa fa-file-excel-o"></i>
                   Export to
                   excel</a>
               </div>
+              {% endif %}
             </div>
             <!-- show a specific info based on view -->
           </div>
@@ -211,6 +215,7 @@ GPG System | View Job Request
                               <strong> Please</strong> coordinate it with the System Admin
                             </small>
                           </div>
+                          {% if request.user.staffs.position == "Project Manager" %}
                           <div class="form-group col-md-4 col-sm-12">
                             <label>VA admin support</label>
                             <select class="form-control" v-model="currentJobRequest.assigned_va"
@@ -224,6 +229,7 @@ GPG System | View Job Request
                               </option>
                             </select>
                           </div>
+                          {% endif %}
                           <div class="form-group row">
                             <label for="inputVASupport" class="col-sm-2 col-form-label">Project Status</label>
                             <div class="col-md-4 col-sm-12">
