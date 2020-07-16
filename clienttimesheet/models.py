@@ -93,6 +93,7 @@ class TimeSheet(models.Model):
                               default=STATUS[1][1])
     admin_approval = models.CharField(max_length=50, choices=APPROVAL, null=True, blank=True,
                                       default=APPROVAL[1][1])
+    client_full_name = models.CharField(max_length=250, null=True, blank=True)
 
     class Meta:
         verbose_name = "General Timesheet"
