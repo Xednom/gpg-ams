@@ -92,7 +92,7 @@ class DueDiligenceViewSet(viewsets.ModelViewSet):
                     Q(status_of_dd="Project Managers Review") | 
                     Q(status_of_dd="Sent to VA") | 
                     Q(status_of_dd="VA Processing") | 
-                    Q(status_of_dd="Sent to Quality Specialist"))
+                    Q(status_of_dd="Sent to Quality Specialist")).exclude(status_of_dd="Submitted to the Client")
                 return queryset
 
     def perform_create(self, serializer):
