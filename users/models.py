@@ -275,7 +275,7 @@ class Clients(models.Model):
         return '%s - %s' % (self.full_name, self.company_name)
 
     def __str__(self):
-        return '%s' % (self.full_name)
+        return '%s - %s' % (self.full_name, self.company_name)
 
 
 @receiver(post_save, sender=CustomUser)
