@@ -110,7 +110,7 @@ GPG System | View Job Request
               Total Count: [[ jobRequests.length ]]
               {% if request.user.staffs.category == 'Home Based' %}
               <!-- don't show export excel -->
-              {% elif %}
+              {% else %}
               <div class="pull-right" v-if="jobRequests.length">
                 <a href="#" class="btn btn-primary btn-xs" v-on:click.prevent="generateExcelFile" data-placement="top"
                   title="Extract"><i class="fa fa-file-excel-o"></i>
