@@ -57,7 +57,7 @@ class AddVaTimeSheetView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
 
         # add 'clients_full_name' to the context to populate the datalist
-        context['full_names'] = Clients.objects.values_list('full_name', flat=True)
+        context['full_names'] = Clients.objects.all()
 
         return context
 
@@ -171,3 +171,8 @@ class CashOutViewSet(viewsets.ModelViewSet):
         elif self.request.user.is_superuser:
             qs = CashOut.objects.all()
             return qs
+
+
+def client_company_name(request):
+    client_name = Clients.objects.all()
+    return render(request, 'timesheet/add_timesheet.html',  {"client_names": client_name})
