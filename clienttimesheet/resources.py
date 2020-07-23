@@ -9,7 +9,7 @@ class TimeSheetResource(resources.ModelResource):
     class Meta:
         model = TimeSheet
         fields = (
-            'company_tagging', 'shift_date', 'month_to_date',
+            'company_tagging', 'shift_date', 'month_to_date', 'clients_full_name__full_name',
             'client_full_name', 'title_job_request',
             'channel_job_requested', 'job_request_description',
             'time_in', 'time_out', 'duration', 'total_items', 'additional_comments',
@@ -19,7 +19,7 @@ class TimeSheetResource(resources.ModelResource):
             'others_dollars', 'status', 'admin_approval'
         )
         export_order = (
-            'company_tagging', 'shift_date', 'month_to_date',
+            'company_tagging', 'shift_date', 'month_to_date', 'clients_full_name__full_name',
             'client_full_name', 'title_job_request',
             'channel_job_requested', 'job_request_description',
             'time_in', 'time_out', 'duration', 'total_items', 'additional_comments',
