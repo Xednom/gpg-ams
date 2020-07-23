@@ -10,7 +10,7 @@ class TimeSheetResource(resources.ModelResource):
         model = TimeSheet
         fields = (
             'company_tagging', 'shift_date', 'month_to_date',
-            'clients_full_name__full_name', 'title_job_request',
+            'client_full_name', 'title_job_request',
             'channel_job_requested', 'job_request_description',
             'time_in', 'time_out', 'duration', 'total_items', 'additional_comments',
             'assigned_approval__full_name', 'hourly_rate_peso', 'hourly_rate_usd',
@@ -20,7 +20,7 @@ class TimeSheetResource(resources.ModelResource):
         )
         export_order = (
             'company_tagging', 'shift_date', 'month_to_date',
-            'clients_full_name__full_name', 'title_job_request',
+            'client_full_name', 'title_job_request',
             'channel_job_requested', 'job_request_description',
             'time_in', 'time_out', 'duration', 'total_items', 'additional_comments',
             'assigned_approval__full_name', 'hourly_rate_peso', 'hourly_rate_usd',
@@ -36,11 +36,11 @@ class PaymentMadeResource(resources.ModelResource):
     class Meta:
         model = PaymentMade
         fields = (
-            'client_name__full_name', 'date', 'amount',
+            'client_name__full_name', 'client_full_name', 'date', 'amount',
             'transaction_number', 'payment_channel', 'notes'
         )
         export_order = (
-            'client_name__full_name', 'date', 'amount',
+            'client_name__full_name', 'client_full_name', 'date', 'amount',
             'transaction_number', 'payment_channel', 'notes'
         )
     
