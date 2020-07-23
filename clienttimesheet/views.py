@@ -57,7 +57,7 @@ class AddVaTimeSheetView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
 
         # add 'clients_full_name' to the context to populate the datalist
-        context['full_names'] = Clients.objects.values_list('full_name', flat=True)
+        context['full_names'] = Clients.objects.all()
 
         return context
 
