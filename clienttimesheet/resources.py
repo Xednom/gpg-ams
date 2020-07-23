@@ -36,11 +36,11 @@ class PaymentMadeResource(resources.ModelResource):
     class Meta:
         model = PaymentMade
         fields = (
-            'client_name__full_name', 'client_full_name', 'date', 'amount',
+            'client_name__full_name', 'date', 'amount',
             'transaction_number', 'payment_channel', 'notes'
         )
         export_order = (
-            'client_name__full_name', 'client_full_name', 'date', 'amount',
+            'client_name__full_name', 'date', 'amount',
             'transaction_number', 'payment_channel', 'notes'
         )
     
