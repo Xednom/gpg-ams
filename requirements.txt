@@ -39,3 +39,4 @@ admin-totals==1.0.1
 # pdf generation
 WeasyPrint>=0.34
 xhtml2pdf==0.2.3
+pillow>=7.1.0 # not directly required, pinned by Snyk to avoid a vulnerability
