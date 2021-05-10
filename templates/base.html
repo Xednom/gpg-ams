@@ -113,7 +113,7 @@
             </li>
             {% if request.user.is_client or request.user.staffs.category == 'Office Based' or request.user.staffs.category == 'Home Based' %}
             <li>
-              <a href="#"><i class="fa fa-tasks fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
+              <!-- <a href="#"><i class="fa fa-tasks fa-fw"></i> Your Tasks:<span class="fa arrow"></span></a>
               <ul class="nav nav-second-level">
                 <li>
                 <li>
@@ -132,10 +132,9 @@
                     </li>
                   {% endif %}
                   </ul>
-                  <!-- /.nav-third-level -->
                 </li>
             </li>
-          </ul>
+          </ul> -->
           <!-- /.nav-second-level -->
           </li>
           {% elif request.user.staffs.category == 'Home Based' %}
@@ -222,7 +221,7 @@
           {% if request.user.staffs.category == 'Home Based' %}
           <!-- don't show land master to home based -->
           {% elif request.user.is_client %}
-          <li>
+          <!-- <li>
             <a href="#"><i class="fa fa-mountain"></i> Due Diligence/Call Out Request <span class="fa arrow"></span></a>
             <ul class="nav nav-third-level">
               <li>
@@ -235,7 +234,7 @@
                   Report Requests</a>
               </li>
             </ul>
-          </li>
+          </li> -->
           {% elif request.user.staffs.category == 'Office Based' %}
           <li>
             {% if perms.landmaster.view_duediligence %}
@@ -274,7 +273,7 @@
           <!-- /.landmaster -->
           <!-- leadsource -->
           {% if request.user.staffs.category == 'Office Based' or request.user.is_client %}
-          <li>
+          <!-- <li>
             <a href="#"><i class="fa fa-list"></i> Lead Source:<span class="fa arrow"></span></a>
             <ul class="nav nav-second-level">
               <li>
@@ -286,7 +285,7 @@
               </li>
               {% endif %}
             </ul>
-          </li>
+          </li> -->
           {% elif request.user.staffs.category == 'Home Based' %}
           <!-- don't show lead source -->
           {% endif %}
@@ -372,7 +371,7 @@
           <!-- don't show CL -->
           {% else %}
           <!-- Craigslist -->
-          <li>
+          <!-- <li>
             <a href="#"><i class="fa fa-bullhorn"></i> Craigslist <span class="fa arrow"></span></a>
             <ul class="nav nav-third-level">
               {% if request.user.is_client %}
@@ -387,10 +386,10 @@
                   Inventory</a>
               </li>
             </ul>
-          </li>
+          </li> -->
           <!-- ./Craigslist -->
           <!-- Ads content -->
-          <li>
+          <!-- <li>
             <a href="#"><i class="fa fa-bullhorn"></i> Ads Content <span class="fa arrow"></span></a>
             <ul class="nav nav-third-level">
               <li>
@@ -402,13 +401,13 @@
                   Ads</a>
               </li>
             </ul>
-          </li>
+          </li> -->
           <!-- ./Ads content -->
           {% endif %}
           {% if request.user.staffs.category == 'Home Based' %}
           <!-- don't show marketing sites to home based VAs -->
           {% else %}
-          <li>
+          <!-- <li>
             <a href="#"><i class="fa fa-bullhorn"></i> Marketing Sites Inventory <span class="fa arrow"></span></a>
             <ul class="nav nav-third-level">
               <li>
@@ -420,7 +419,7 @@
                   Inventory</a>
               </li>
             </ul>
-          </li>
+          </li> -->
           {% endif %}
           </ul>
         </div>
