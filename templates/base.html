@@ -148,11 +148,6 @@
                 <a href="{% url 'timesheet:view_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
                 {% elif request.user.is_staffs %}
                 <a href="{% url 'timesheet:va_timesheet' %}"><i class="fa fa-clock-o"></i> View Timesheet</a>
-                <!-- {% if request.user.staffs.category == 'Home Based' %}
-                  <a href="{% url 'timesheet:add_timesheet' %}"><i class="fa fa-plus"></i> Add Timesheet</a>
-                {% else %}
-                <a href="{% url 'timesheet:add_timesheet' %}"><i class="fa fa-plus"></i> Add Timesheet</a>  
-                {% endif %} -->
                 {% endif %}
               <li>
               </li>
