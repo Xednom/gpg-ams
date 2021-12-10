@@ -1,4 +1,4 @@
-Django==2.2.13
+Django==2.2.25
 django-cors-headers==2.4.0
 django-admin-rangefilter==0.3.12
 django-filter==2.0.0
