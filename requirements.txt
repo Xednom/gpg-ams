@@ -1,4 +1,4 @@
-Django==2.2.13
+Django==3.2.15
 django-cors-headers==2.4.0
 django-admin-rangefilter==0.3.12
 django-filter==2.0.0
@@ -39,3 +39,4 @@ admin-totals==1.0.1
 # pdf generation
 WeasyPrint>=0.34
 xhtml2pdf==0.2.3
+pypdf2>=1.27.5 # not directly required, pinned by Snyk to avoid a vulnerability
